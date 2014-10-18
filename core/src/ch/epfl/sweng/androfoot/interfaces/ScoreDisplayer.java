@@ -1,7 +1,7 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
 /**
- * Represent an object able to display the score a versus game
+ * Represents an object able to display the score of a versus game
  * @author Guillame Leclerc
  *
  */
