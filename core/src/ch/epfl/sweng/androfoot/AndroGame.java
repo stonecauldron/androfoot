@@ -5,7 +5,6 @@ import ch.epfl.sweng.androfoot.screens.GameScreen;
 import ch.epfl.sweng.androfoot.screens.MenuScreen;
 import ch.epfl.sweng.androfoot.screens.SplashScreen;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
