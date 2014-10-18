@@ -1,0 +1,10 @@
+local.properties
+*.metadata/
+*.project
+*.settings
+android/bin/
+android/gen/
+*~
+.checkstyle
+.DS_Store
+/build/
