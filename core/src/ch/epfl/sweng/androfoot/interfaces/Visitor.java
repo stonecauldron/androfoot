@@ -4,7 +4,7 @@ public interface Visitor {
 	
 	public void visit(Visitable visitable);
 	
-	public static class NotCompatibleVisitableException extends Exception {
+	public static class NotCompatibleVisitableException extends RuntimeException {
 		/**
 		 * the serial UID for serialization
 		 */
