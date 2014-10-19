@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class AndroGame extends Game {
 	SpriteBatch batch;
-	Texture img;
 	
 	SplashScreen splashScreen;
 	GameScreen gameScreen;
@@ -22,17 +21,8 @@ public class AndroGame extends Game {
 	
 	@Override
 	public void create () {
-		splashScreen = new SplashScreen();
-		setScreen(splashScreen);
-		img = new Texture("badlogic.jpg");
-	}
-
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+		//splashScreen = new SplashScreen();
+		gameScreen = new GameScreen();
+		setScreen(gameScreen);
 	}
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -28,6 +29,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	private DrawableWorld world = null;
 	private int currentScorePlayer1 = 0;
 	private int currentScorePlayer2 = 0;
+	private Stage stage = new Stage();
 	private Rectangle worldRegion = null;
 	private OrthographicCamera camera = null;
 	private Viewport viewport = null;
@@ -62,9 +64,12 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 			}
 		};
 		Collections.sort(toDraw, comparator); 
+		stage = new Stage();
+		stage.setViewport(viewport);
 		for(Drawable element : toDraw) {
 			element.accept(this);
 		}
+		stage.draw();
 	}
 
 	@Override
