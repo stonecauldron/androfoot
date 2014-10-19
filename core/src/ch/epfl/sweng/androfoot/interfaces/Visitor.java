@@ -1,5 +1,11 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
+/**
+ * Reprensent an object that can visit Visitable objects 
+ * @see <a href="http://en.wikipedia.org/wiki/Visitor_pattern"> Visitor pattern on wikipedia </a>
+ * @author Guillame Leclerc
+ *
+ */
 public interface Visitor {
 	
 	public void visit(Visitable visitable);

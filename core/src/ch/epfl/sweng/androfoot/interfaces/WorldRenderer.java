@@ -18,5 +18,12 @@ public interface WorldRenderer {
 	 * Render the world on the screen
 	 */
 	public void render();
+	
+	/**
+	 * define the screen size usable by this renderer
+	 * @param width the screen width
+	 * @param height the screen height
+	 */
+	public void setScreenSize(int width, int height);
 
 }
