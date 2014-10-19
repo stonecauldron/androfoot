@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import ch.epfl.sweng.androfoot.interfaces.BallInterface;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 import ch.epfl.sweng.androfoot.interfaces.ScoreDisplayer;
@@ -70,6 +71,11 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 			element.accept(this);
 		}
 		stage.draw();
+	}
+	
+	public void visit(BallInterface ball) {
+		BallRenderer renderer = new BallRenderer(ball);
+		stage.addActor(renderer);
 	}
 
 	@Override
