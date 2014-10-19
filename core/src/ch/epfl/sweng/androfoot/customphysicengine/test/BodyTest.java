@@ -4,57 +4,45 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.badlogic.gdx.math.Polygon;
-
-import ch.epfl.sweng.androfoot.customphysicengine.DynamicBody;
-import ch.epfl.sweng.androfoot.customphysicengine.StaticBody;
+import ch.epfl.sweng.androfoot.customphysicengine.CircleBody;
+import ch.epfl.sweng.androfoot.customphysicengine.RectangleBody;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 
 public class BodyTest {
 
     @Test
-    public void createAStaticBodyTest() {
-        float[] vertices = new float[8];
-        vertices[0] = 5;
-        vertices[1] = 6;
+    public void createARectanglecBodyTest() {
+        Rectangle rect = new Rectangle(1, 2, 200, 50);
+        RectangleBody body = new RectangleBody(rect, 5, 0);
         
-        vertices[2] = 8;
-        vertices[3] = 8;
-        
-        vertices[4] = 15;
-        vertices[5] = 8;
-        
-        vertices[6] = 15;
-        vertices[7] = 5;
-        
-        StaticBody body = new StaticBody(new Polygon(vertices));
-        body.move(5, 6);
-        
-        assertEquals(body.getX(), 5, 0);
-        assertEquals(body.getY(), 6, 0);
+        assertEquals(body.getX(), 1, 0);
+        assertEquals(body.getY(), 2, 0);
+        assertTrue(body.isDynamic());
     }
     
     @Test
-    public void createADynamicBodyTest() {
-        float[] vertices = new float[8];
-        vertices[0] = 5;
-        vertices[1] = 6;
-        
-        vertices[2] = 8;
-        vertices[3] = 8;
-        
-        vertices[4] = 15;
-        vertices[5] = 8;
-        
-        vertices[6] = 15;
-        vertices[7] = 5;
-        
-        DynamicBody body = new DynamicBody(new Polygon(vertices));
-        body.move(5, 6);
+    public void createACircleBodyTest() {
+        Circle circle = new Circle(5, 6, 10);
+        CircleBody body = new CircleBody(circle);
         
         assertEquals(body.getX(), 5, 0);
         assertEquals(body.getY(), 6, 0);
-        assertEquals(body.getVelocity().getVelocityX(), 0, 0);
-        assertEquals(body.getVelocity().getVelocityY(), 0, 0);
+        assertTrue(body.isStatic());
+    }
+    
+    @Test
+    public void moveBodyTest() {
+        Rectangle rect = new Rectangle(0, 0, 50, 50);
+        RectangleBody body = new RectangleBody(rect);
+        
+        body.move(5, 0);
+        assertEquals(body.getX(), 5, 0);
+        assertEquals(body.getY(), 0, 0);
+        
+        body.move(0, 10);
+        assertEquals(body.getX(), 5, 0);
+        assertEquals(body.getY(), 10, 0);
     }
 
 }

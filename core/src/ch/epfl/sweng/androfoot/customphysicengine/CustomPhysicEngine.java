@@ -1,12 +1,11 @@
 package ch.epfl.sweng.androfoot.customphysicengine;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
-import ch.epfl.sweng.androfoot.customphysicengine.DynamicBody.Velocity;
-
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Polygon;
+import ch.epfl.sweng.androfoot.customphysicengine.interfaces.ShapeBodyVisitable;
 
 /**
  * Default implementation of the custom physic engine
@@ -15,12 +14,10 @@ import com.badlogic.gdx.math.Polygon;
 public final class CustomPhysicEngine extends Thread implements PhysicEngine {
 
     private static final CustomPhysicEngine PHYSIC_ENGINE = new CustomPhysicEngine();
-    private Set<StaticBody> staticBodies;
-    private Set<DynamicBody> dynamicBodies;
+    private Set<Body> bodies;
     
     private CustomPhysicEngine() {
-        staticBodies = new LinkedHashSet<StaticBody>();
-        dynamicBodies = new LinkedHashSet<DynamicBody>();
+        bodies = new LinkedHashSet<Body>();
     }
 
     /**
@@ -34,21 +31,16 @@ public final class CustomPhysicEngine extends Thread implements PhysicEngine {
     /**
      * @see PhysicEngine.addStaticBody
      */
-    public void addStaticBody(Polygon polygon) {
-        staticBodies.add(new StaticBody(polygon));
-    }
-    
-    /**
-     * @see PhysicEngine.addDynamicBody
-     */
-    public void addDynamicBody(Polygon polygon) {
-        dynamicBodies.add(new DynamicBody(polygon));
+    public void addBody(Body body) {
+        bodies.add(body);
     }
 
     @Override
     public void run() {
         while (true) {
             long time = System.currentTimeMillis();
+            
+            // Calcul the new positions
             calculPositions();
 
             try {
@@ -67,13 +59,25 @@ public final class CustomPhysicEngine extends Thread implements PhysicEngine {
      * Calcul the new positions of all the objects for a step
      */
     private void calculPositions() {
-        for (DynamicBody body : dynamicBodies) {
-            Velocity bodyVelocity = body.getVelocity();
-            body.move(bodyVelocity.getVelocityX(), bodyVelocity.getVelocityY());
+        for (Body body : bodies) {
+            body.move(body.getVelocityX(), body.getVelocityY());
             
-            for (StaticBody staticBody : staticBodies) {
-                if (Intersector.overlapConvexPolygons(body.getPolygon(), staticBody.getPolygon())) {
+            Set<Body> othersBody = bodies;
+            assert othersBody.remove(body);
+            
+            OverlapVisitor overlaps = new OverlapVisitor();
+            UpdateVelocityVisitor velocityAdaptator = new UpdateVelocityVisitor();
+            for (Body other : othersBody) {
+                List<ShapeBodyVisitable> overlapBodies = new ArrayList<ShapeBodyVisitable>();
+                bodies.add(body);
+                bodies.add(other);
+                
+                overlaps.visit(overlapBodies);
+                if (overlaps.isOverlapsed()) {
+                    velocityAdaptator.visit(overlapBodies);
                     
+                    body.setVelocityX(velocityAdaptator.getNewVelocity()[0]);
+                    body.setVelocityY(velocityAdaptator.getNewVelocity()[1]);
                 }
             }
         }

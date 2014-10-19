@@ -1,7 +1,5 @@
 package ch.epfl.sweng.androfoot.customphysicengine;
 
-import com.badlogic.gdx.math.Polygon;
-
 /**
  * Interface of the physic engine
  * @author Gilthoniel (Gaylor Bosson)
@@ -18,14 +16,8 @@ public interface PhysicEngine {
     PhysicEngine getInstance();
     
     /**
-     * Add a new static object in the world
+     * Add a new body in the world
      * @param polygon
      */
-    void addStaticBody(Polygon polygon);
-    
-    /**
-     * Add a new dynamic object in the world
-     * @param polygon
-     */
-    void addDynamicBody(Polygon polygon);
+    void addBody(Body body);
 }
