@@ -14,6 +14,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		PhysicsWorld.getPhysicsWorld().phyStep(delta);
 		GraphicEngine.getEngine().render();
 	}
 
@@ -25,30 +26,23 @@ public class GameScreen implements Screen {
 	@Override
 	public void show() {
 		GraphicEngine.getEngine().bindToWorld(PhysicsWorld.getPhysicsWorld());
-		PhysicsWorld.getPhysicsWorld().init();
-		PhysicsWorld.getPhysicsWorld().start();
 	}
 
 	@Override
 	public void hide() {
-		PhysicsWorld.getPhysicsWorld().pause();
 
 	}
 
 	@Override
 	public void pause() {
-		PhysicsWorld.getPhysicsWorld().pause();
-
 	}
 
 	@Override
 	public void resume() {
-		PhysicsWorld.getPhysicsWorld().resume();
 	}
 
 	@Override
 	public void dispose() {
-		PhysicsWorld.getPhysicsWorld().pause();
 	}
 
 }
