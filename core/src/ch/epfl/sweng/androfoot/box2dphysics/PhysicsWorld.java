@@ -40,7 +40,7 @@ public class PhysicsWorld implements DrawableWorld {
 		physicsWorld.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 	}
 	
-	public PhysicsWorld getPhysicsWorld() {
+	public static PhysicsWorld getPhysicsWorld() {
 		return PHYSICS_WORLD_INSTANCE;
 	}
 	@Override
