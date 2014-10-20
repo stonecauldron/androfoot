@@ -10,15 +10,15 @@ public interface BallInterface extends Visitable{
 	/**
 	 * Recovers the x position of the ball.
 	 */
-	public float getPositionX();
+	float getPositionX();
 	
 	/**
 	 * Recovers the y position of the ball.
 	 */
-	public float getPositionY();
+	float getPositionY();
 	
 	/**
 	 * Recovers the radius of the ball.
 	 */
-	public float getRadius();
+	float getRadius();
 }

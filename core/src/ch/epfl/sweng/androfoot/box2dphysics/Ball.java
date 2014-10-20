@@ -25,6 +25,16 @@ public class Ball implements Drawable, BallInterface {
 	private FixtureDef fixture = new FixtureDef();
 	private float ballRadius;
 	
+	/**
+	 * Contructor of the Ball class.
+	 * @param world World to which the ball will be attached.
+	 * @param initPosX Initial x coordinate of the ball.
+	 * @param initPosY Initial y coordinate of the ball.
+	 * @param radius Radius of the ball.
+	 * @param density Density of the ball.
+	 * @param friction Friction of the ball.
+	 * @param restitution Restitution coefficient of the ball.
+	 */
 	public Ball(World world, float initPosX, float initPosY, float radius,
 					float density, float friction, float restitution) {
 		bodyDef.type = BodyType.DynamicBody;

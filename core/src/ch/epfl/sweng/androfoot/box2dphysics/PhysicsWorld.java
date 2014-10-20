@@ -10,6 +10,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 
+/**
+ * The class that defines the Physics World which will contain all the physical objects and 
+ * manage their interactions and movements.
+ * @author Matvey
+ *
+ */
 public class PhysicsWorld implements DrawableWorld{
 
 	private static final int POSITION_ITERATIONS = 1;
@@ -40,6 +46,10 @@ public class PhysicsWorld implements DrawableWorld{
 		AllBorders allBorders = new AllBorders(physicsWorld, WORLD_SIZE_X, WORLD_SIZE_Y);
 	}
 	
+	/**
+	 * Returns the singleton instance of the PhysicsWorld.
+	 * @return The instance of PhysicsWorld.
+	 */
 	public static PhysicsWorld getPhysicsWorld() {
 		return PHYSICS_WORLD_INSTANCE;
 	}
@@ -47,7 +57,10 @@ public class PhysicsWorld implements DrawableWorld{
 	public Set<Drawable> toDraw() {
 		return new HashSet<Drawable>(drawableObjectsSet);
 	}
-	
+	/**
+	 * Performs a step of the physics simulation.
+	 * @param delta The delat number (Frames Per Second).
+	 */
 	public void phyStep(float delta) {
 		physicsWorld.step(delta, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 	}
