@@ -25,30 +25,30 @@ public class GameScreen implements Screen {
 	@Override
 	public void show() {
 		GraphicEngine.getEngine().bindToWorld(PhysicsWorld.getPhysicsWorld());
+		PhysicsWorld.getPhysicsWorld().init();
+		PhysicsWorld.getPhysicsWorld().start();
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
+		PhysicsWorld.getPhysicsWorld().pause();
 
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
+		PhysicsWorld.getPhysicsWorld().pause();
 
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-
+		PhysicsWorld.getPhysicsWorld().resume();
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+		PhysicsWorld.getPhysicsWorld().pause();
 	}
 
 }

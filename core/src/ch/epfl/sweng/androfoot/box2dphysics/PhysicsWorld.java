@@ -73,6 +73,7 @@ public class PhysicsWorld implements DrawableWorld, SeparateThreadEngine {
 	@Override
 	public void resume() {
 		runner = new PhysicsRunner();
+		runner.setDaemon(true);
 		runner.start();
 	}
 
@@ -84,7 +85,6 @@ public class PhysicsWorld implements DrawableWorld, SeparateThreadEngine {
 	private class PhysicsRunner extends Thread {
 		@Override
 		public void run() {
-			this.setDaemon(true);
 			super.run();
 			while (!Thread.interrupted()) {
 				long before = System.nanoTime();
