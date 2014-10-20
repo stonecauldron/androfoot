@@ -5,8 +5,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -24,16 +29,20 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	
 	private final int DEFAULT_SCREEN_WIDTH = 300;
 	private final int DEFAULT_SCREEN_HEIGHT = 200;
+
+	ShapeRenderer renderer  = new ShapeRenderer();
+	SpriteBatch batch = new SpriteBatch();
 	
 	private final static GraphicEngine instance = new GraphicEngine();
+	private static final float WORLD_WIDTH = 1500;
+	static final float WORLD_HEIGHT = 900;
 	
 	private DrawableWorld world = null;
 	private int currentScorePlayer1 = 0;
 	private int currentScorePlayer2 = 0;
-	private Stage stage = new Stage();
 	private Rectangle worldRegion = null;
 	private OrthographicCamera camera = null;
-	private Viewport viewport = null;
+	private FitViewport viewport = null;
 	private boolean isBoundToWorld = false;
 	private int screenWidth = DEFAULT_SCREEN_WIDTH;
 	private int screenHeight = DEFAULT_SCREEN_HEIGHT;
@@ -64,20 +73,32 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 				return o1.getZIndex() - o2.getZIndex();
 			}
 		};
+		
 		Collections.sort(toDraw, comparator); 
-		stage = new Stage();
-		stage.setViewport(viewport);
-		for(Drawable element : toDraw) {
-			element.accept(this);
+
+		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		batch.setProjectionMatrix(camera.combined);
+		renderer.setProjectionMatrix(camera.combined);
+
+		renderer.setColor(Color.BLACK);
+		renderer.begin(ShapeType.Filled);
+		renderer.rect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+		renderer.end();
+
+		batch.begin();
+		for(Visitable v : toDraw) {
+			v.accept(this);
 		}
-		stage.draw();
+		batch.end();
 	}
 	
+	@Override
 	public void visit(BallInterface ball) {
-		BallRenderer renderer = new BallRenderer(ball);
-		stage.addActor(renderer);
+		new BallRenderer(ball).render(batch, renderer);
 	}
-
+	
 	@Override
 	public void visit(Visitable visitable) {
 		String message = this.getClass().getName() + " cannot render ojects of type " + 
@@ -92,8 +113,12 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	}
 	
 	private void initCamera() {
+		viewport = new FitViewport(worldRegion.width, worldRegion.height);
 		camera = new OrthographicCamera(worldRegion.width,worldRegion.height);
-		viewport = new FitViewport(screenWidth, screenHeight, camera);
+		viewport.setCamera(camera);
+		camera.position.set(worldRegion.width/2 + worldRegion.x,
+				worldRegion.height/2 + worldRegion.y,
+				camera.position.z);
 		camera.update();
 	}
 

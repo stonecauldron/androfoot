@@ -9,6 +9,8 @@ package ch.epfl.sweng.androfoot.interfaces;
 public interface Visitor {
 	
 	public void visit(Visitable visitable);
+	public void visit(BallInterface ball);
+
 	
 	public static class NotCompatibleVisitableException extends RuntimeException {
 		/**
