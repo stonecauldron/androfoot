@@ -9,8 +9,9 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
+import ch.epfl.sweng.androfoot.interfaces.SeparateThreadEngine;
 
-public class PhysicsWorld implements DrawableWorld {
+public class PhysicsWorld implements DrawableWorld, SeparateThreadEngine {
 
 	private static final int POSITION_ITERATIONS = 6;
 	private static final int VELOCITY_ITERATIONS = 6;
@@ -31,13 +32,9 @@ public class PhysicsWorld implements DrawableWorld {
 	private World physicsWorld = new World(new Vector2(0, 0), false);
 	private Set<Drawable> drawableObjectsSet = new HashSet<Drawable>();
 	
+	private PhysicsRunner runner;
+	
 	private PhysicsWorld() {
-		Ball ball = new Ball(physicsWorld, BALL_INIT_POS_X, BALL_INIT_POS_Y, BALL_RADIUS, 
-				BALL_DENSITY, BALL_FRICTION, BALL_RESTITUTION);
-		
-		drawableObjectsSet.add(ball);
-		
-		physicsWorld.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 	}
 	
 	public static PhysicsWorld getPhysicsWorld() {
@@ -53,4 +50,52 @@ public class PhysicsWorld implements DrawableWorld {
 		return new Rectangle(WORLD_ORIGIN_X, WORLD_ORIGIN_Y, WORLD_SIZE_X, WORLD_SIZE_Y);
 	}
 
+	@Override
+	public void init() {
+		Ball ball = new Ball(physicsWorld, BALL_INIT_POS_X, BALL_INIT_POS_Y, BALL_RADIUS, 
+				BALL_DENSITY, BALL_FRICTION, BALL_RESTITUTION);
+		
+		drawableObjectsSet.add(ball);
+	}
+
+	@Override
+	public void reset() {
+		init();
+	}
+
+	@Override
+	public void pause() {
+		assert(runner != null);
+		runner.interrupt();
+		runner = null;
+	}
+
+	@Override
+	public void resume() {
+		runner = new PhysicsRunner();
+		runner.start();
+	}
+
+	@Override
+	public void start() {
+		resume();
+	}
+
+	private class PhysicsRunner extends Thread {
+		@Override
+		public void run() {
+			this.setDaemon(true);
+			super.run();
+			while (!Thread.interrupted()) {
+				long before = System.nanoTime();
+				physicsWorld.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+				
+				try {
+					Thread.sleep((System.nanoTime() - before) / 1000);
+				} catch (InterruptedException e) {
+					break;
+				} 
+			}
+		}
+	}
 }
