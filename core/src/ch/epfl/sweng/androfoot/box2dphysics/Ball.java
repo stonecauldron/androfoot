@@ -43,7 +43,7 @@ public class Ball implements Drawable, BallInterface {
 		
 		circle.dispose();
 		
-		ballBody.setLinearVelocity(new Vector2(40, 40));
+		ballBody.setLinearVelocity(new Vector2(2, 2));
 	}
 
 	@Override

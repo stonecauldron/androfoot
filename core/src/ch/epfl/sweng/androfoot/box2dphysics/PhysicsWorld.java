@@ -9,23 +9,22 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
-import ch.epfl.sweng.androfoot.interfaces.SeparateThreadEngine;
 
 public class PhysicsWorld implements DrawableWorld{
 
 	private static final int POSITION_ITERATIONS = 1;
 	private static final int VELOCITY_ITERATIONS = 1;
 	private static final float TIME_STEP = 1/30f;
-	private static final float BALL_RESTITUTION = 0.8f;
-	private static final float BALL_FRICTION = 0.4f;
+	private static final float BALL_RESTITUTION = 1.0f;
+	private static final float BALL_FRICTION = 0.0f;
 	private static final float BALL_DENSITY = 0.5f;
-	private static final float BALL_RADIUS = 2.0f;
-	private static final int BALL_INIT_POS_Y = 00;
-	private static final int BALL_INIT_POS_X = 00;
-	private static final int WORLD_ORIGIN_Y = 0;
-	private static final int WORLD_ORIGIN_X = 0;
-	private static final int WORLD_SIZE_Y = 60;
-	private static final int WORLD_SIZE_X = 100;
+	private static final float BALL_RADIUS = 0.2f;
+	private static final float BALL_INIT_POS_Y = 3.0f;
+	private static final float BALL_INIT_POS_X = 5.0f;
+	private static final float WORLD_ORIGIN_Y = 0;
+	private static final float WORLD_ORIGIN_X = 0;
+	private static final float WORLD_SIZE_Y = 6.0f;
+	private static final float WORLD_SIZE_X = 10.0f;
 	
 	private static final PhysicsWorld PHYSICS_WORLD_INSTANCE = new PhysicsWorld();
 	
@@ -37,6 +36,8 @@ public class PhysicsWorld implements DrawableWorld{
 				BALL_DENSITY, BALL_FRICTION, BALL_RESTITUTION);
 		
 		drawableObjectsSet.add(ball);
+		
+		AllBorders allBorders = new AllBorders(physicsWorld, WORLD_SIZE_X, WORLD_SIZE_Y);
 	}
 	
 	public static PhysicsWorld getPhysicsWorld() {
