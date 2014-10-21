@@ -1,5 +1,8 @@
 package ch.epfl.sweng.androfoot.screens;
 
+import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
+import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
+
 import com.badlogic.gdx.Screen;
 
 /**
@@ -11,44 +14,35 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
-
+		PhysicsWorld.getPhysicsWorld().phyStep(delta);
+		GraphicEngine.getEngine().render();
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-
+		GraphicEngine.getEngine().setScreenSize(width, height);
 	}
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-
+		GraphicEngine.getEngine().bindToWorld(PhysicsWorld.getPhysicsWorld());
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
 	}
 
 }
