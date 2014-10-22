@@ -43,6 +43,10 @@ public class PhysicsWorld implements DrawableWorld{
 		
 		drawableObjectsSet.add(ball);
 		
+		Player player = new Player(physicsWorld, 1.0f, 1.0f, 0.5f);
+		
+		drawableObjectsSet.add(player);
+		
 		new AllBorders(physicsWorld, WORLD_SIZE_X, WORLD_SIZE_Y);
 	}
 	
