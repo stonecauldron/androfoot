@@ -20,7 +20,7 @@ public class PhysicsWorld implements DrawableWorld{
 
 	private static final int POSITION_ITERATIONS = 1;
 	private static final int VELOCITY_ITERATIONS = 1;
-	private static final float TIME_STEP = 1/30f;
+	//private static final float TIME_STEP = 1/30f;
 	private static final float BALL_RESTITUTION = 1.0f;
 	private static final float BALL_FRICTION = 0.0f;
 	private static final float BALL_DENSITY = 0.5f;
@@ -43,7 +43,7 @@ public class PhysicsWorld implements DrawableWorld{
 		
 		drawableObjectsSet.add(ball);
 		
-		AllBorders allBorders = new AllBorders(physicsWorld, WORLD_SIZE_X, WORLD_SIZE_Y);
+		new AllBorders(physicsWorld, WORLD_SIZE_X, WORLD_SIZE_Y);
 	}
 	
 	/**
@@ -64,7 +64,7 @@ public class PhysicsWorld implements DrawableWorld{
 	}
 	/**
 	 * Performs a step of the physics simulation.
-	 * @param delta The delat number (Frames Per Second).
+	 * @param delta The delta number (Frames Per Second).
 	 */
 	public void phyStep(float delta) {
 		physicsWorld.step(delta, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
