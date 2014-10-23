@@ -53,6 +53,11 @@ public class PhysicsWorld implements DrawableWorld{
 	public static PhysicsWorld getPhysicsWorld() {
 		return PHYSICS_WORLD_INSTANCE;
 	}
+	
+	public World getWorld() {
+	    return physicsWorld;
+	}
+	
 	@Override
 	public Set<Drawable> toDraw() {
 		return new HashSet<Drawable>(drawableObjectsSet);

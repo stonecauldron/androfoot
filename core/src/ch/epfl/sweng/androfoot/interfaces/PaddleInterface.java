@@ -1,9 +1,10 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
 /**
- * Represents the set of players which interact together.
+ * Represents an paddle alone.
+ * @see GroupPaddleInterface for multiple paddles group
  * 
- * A paddle has a certain number of players which are aligned along the y axis with an x position defined in parameters
+ * The position of a paddle is the bottom left vertex
  * 
  * UI gives it a velocity and the paddle doesn't go out of a certain area defined by a limit rectangle
  * @author Gilthoniel (Gaylor Bosson)
@@ -16,5 +17,5 @@ public interface PaddleInterface {
      * @param x composant of the velocity
      * @param y composant of the velocity
      */
-    public void setVelocity(float x, float y);
+    void setVelocity(float x, float y);
 }
