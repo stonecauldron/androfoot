@@ -1,0 +1,9 @@
+{
+    "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+        "standard": { "file": "fonts/tahoma.fnt" },
+    },
+    
+    "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": { 
+        "default": { "up": "blue_button1" , "down": "blue_button1", "font": standard, "pressedOffsetY": -4 }
+    }
+ }
