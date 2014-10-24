@@ -21,18 +21,16 @@ public class Player implements PlayerInterface {
 	private static final Vector2 OFFSETFACINGLEFT = new Vector2(0.3f, 0);
 	private static final float PLAYERDENSITY = 0.5f;
 	private static final float PLAYERFRICTION = 0.0f;
-	private static final float PLAYERRESTITUTION = 1.0f;
+	private static final float PLAYERRESTITUTION = 0.0f;
 	
 	private Body playerBody;
 	private BodyDef playerBodyDef = new BodyDef();
 	
 	private FixtureDef fixtureForCircle = new FixtureDef();
+	private FixtureDef fixtureForBox = new FixtureDef();
 	
-	//facingRight boolean in constructor for the entire bar or 
-	//a method for individual player ?????????????
-	//TODO
 	public Player(World world, float initPosX, float initPosY, boolean facingRight) {
-		playerBodyDef.type = BodyType.KinematicBody;
+		playerBodyDef.type = BodyType.DynamicBody;
 		playerBodyDef.position.set(new Vector2(initPosX, initPosY));
 		
 		playerBody = world.createBody(playerBodyDef);
@@ -50,6 +48,7 @@ public class Player implements PlayerInterface {
 		fixtureForCircle.density = PLAYERDENSITY;
 		fixtureForCircle.friction = PLAYERFRICTION;
 		fixtureForCircle.restitution = PLAYERRESTITUTION;
+		fixtureForCircle.filter.maskBits = Paddle.CATEGORY_PLAYER;
 		
 		playerBody.createFixture(fixtureForCircle);
 		
@@ -65,7 +64,12 @@ public class Player implements PlayerInterface {
 			boxShape.setAsBox(BOXHALFWIDTH, BOXHALFLENGTH, OFFSETFACINGLEFT, 0);
 		}
 		
-		playerBody.createFixture(boxShape, PLAYERDENSITY);
+		fixtureForBox.shape = boxShape;
+		fixtureForBox.density = PLAYERDENSITY;
+		fixtureForBox.restitution = PLAYERRESTITUTION;
+		fixtureForBox.filter.maskBits = Paddle.CATEGORY_PLAYER;
+		
+		playerBody.createFixture(fixtureForBox);
 		
 		boxShape.dispose();
 	}
