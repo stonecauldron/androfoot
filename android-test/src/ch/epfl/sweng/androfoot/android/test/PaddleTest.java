@@ -45,26 +45,25 @@ public class PaddleTest extends TestCase {
         CircleShape circleShape = new CircleShape();
         FixtureDef fixture = new FixtureDef();
         
-        bodyDef.type = BodyType.KinematicBody;
+        bodyDef.type = BodyType.DynamicBody;
         bodyDef.position.set(new Vector2(2, 2));
         
-        circleShape.setRadius(1);
+        circleShape.setRadius(0.2f);
         fixture.shape = circleShape;
         fixture.restitution = 0.0f;
         fixture.density = 1.0f;
         fixture.friction = 0.0f;
-        //fixture.filter.categoryBits = Paddle.CATEGORY_PLAYER;
+        fixture.filter.categoryBits = Paddle.CATEGORY_PLAYER;
         
         circle = worldTest.createBody(bodyDef);
         circle.createFixture(fixture);
         
         circleShape.dispose();
         
-        circle.setLinearVelocity(0, -0.3f);
+        circle.setLinearVelocity(0, -0.2f);
         
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 50; i++) {
             PhysicsWorld.getPhysicsWorld().phyStep(1);
-            Log.d("position", String.valueOf(circle.getPosition().y));
         }
         
         assertTrue(circle.getPosition().x >= 1 && circle.getPosition().x <= 4);
