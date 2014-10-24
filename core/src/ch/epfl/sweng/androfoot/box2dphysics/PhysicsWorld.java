@@ -2,6 +2,8 @@ package ch.epfl.sweng.androfoot.box2dphysics;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -35,7 +37,7 @@ public class PhysicsWorld implements DrawableWorld{
 	private static final PhysicsWorld PHYSICS_WORLD_INSTANCE = new PhysicsWorld();
 	
 	private World physicsWorld = new World(new Vector2(0, 0), false);
-	private Set<Drawable> drawableObjectsSet = new HashSet<Drawable>();
+	private TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
 	
 	private PhysicsWorld() {
 		Ball ball = new Ball(physicsWorld, BALL_INIT_POS_X, BALL_INIT_POS_Y, BALL_RADIUS, 
@@ -43,7 +45,7 @@ public class PhysicsWorld implements DrawableWorld{
 		
 		drawableObjectsSet.add(ball);
 		
-		Player player = new Player(physicsWorld, 2.5f, 3.0f, true);
+		//Player player = new Player(physicsWorld, 2.5f, 3.0f, true);
 		
 		//drawableObjectsSet.add(player);
 		
@@ -58,8 +60,8 @@ public class PhysicsWorld implements DrawableWorld{
 		return PHYSICS_WORLD_INSTANCE;
 	}
 	@Override
-	public Set<Drawable> toDraw() {
-		return new HashSet<Drawable>(drawableObjectsSet);
+	public SortedSet<Drawable> toDraw() {
+		return drawableObjectsSet;
 	}
 	/**
 	 * Performs a step of the physics simulation.

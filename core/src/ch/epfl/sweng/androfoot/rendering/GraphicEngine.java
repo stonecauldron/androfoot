@@ -65,16 +65,6 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	
 	@Override
 	public void render() {
-		List<Drawable> toDraw = new ArrayList<Drawable>(world.toDraw());
-		Comparator<Drawable> comparator = new Comparator<Drawable>() {
-			
-			@Override
-			public int compare(Drawable o1, Drawable o2) {
-				return o1.getZIndex() - o2.getZIndex();
-			}
-		};
-		
-		Collections.sort(toDraw, comparator); 
 
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);
@@ -88,7 +78,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 		renderer.end();
 
 		batch.begin();
-		for(Visitable v : toDraw) {
+		for(Visitable v : world.toDraw()) {
 			v.accept(this);
 		}
 		batch.end();
