@@ -27,27 +27,31 @@ import ch.epfl.sweng.androfoot.interfaces.WorldRenderer;
 
 public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	
-	private final int DEFAULT_SCREEN_WIDTH = 300;
-	private final int DEFAULT_SCREEN_HEIGHT = 200;
+	private static final int DEFAULT_SCREEN_WIDTH = 300;
+	private static final int DEFAULT_SCREEN_HEIGHT = 200;
 
-	ShapeRenderer renderer  = new ShapeRenderer();
-	SpriteBatch batch = new SpriteBatch();
-	
 	private final static GraphicEngine instance = new GraphicEngine();
-	private static final float WORLD_WIDTH = 1500;
-	static final float WORLD_HEIGHT = 900;
+
+	private final ShapeRenderer renderer  = new ShapeRenderer();
+	private final SpriteBatch batch = new SpriteBatch();
+	private final BallRenderer ballRenderer = new BallRenderer();
 	
+
 	private DrawableWorld world = null;
-	private int currentScorePlayer1 = 0;
-	private int currentScorePlayer2 = 0;
 	private Rectangle worldRegion = null;
+	private boolean isBoundToWorld = false;
+	
 	private OrthographicCamera camera = null;
 	private FitViewport viewport = null;
-	private boolean isBoundToWorld = false;
+	
+	private int currentScorePlayer1 = 0;
+	private int currentScorePlayer2 = 0;
+
 	private int screenWidth = DEFAULT_SCREEN_WIDTH;
 	private int screenHeight = DEFAULT_SCREEN_HEIGHT;
 	
-	private GraphicEngine() { }
+	private GraphicEngine() {
+	}
 	
 	public static GraphicEngine getEngine() {
 		return instance;
@@ -65,30 +69,20 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	
 	@Override
 	public void render() {
-		List<Drawable> toDraw = new ArrayList<Drawable>(world.toDraw());
-		Comparator<Drawable> comparator = new Comparator<Drawable>() {
-			
-			@Override
-			public int compare(Drawable o1, Drawable o2) {
-				return o1.getZIndex() - o2.getZIndex();
-			}
-		};
-		
-		Collections.sort(toDraw, comparator); 
 
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);
 		
 		batch.setProjectionMatrix(camera.combined);
 		renderer.setProjectionMatrix(camera.combined);
 
 		renderer.setColor(Color.BLACK);
 		renderer.begin(ShapeType.Filled);
-		renderer.rect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+		renderer.rect(0, 0, worldRegion.width, worldRegion.height);
 		renderer.end();
 
 		batch.begin();
-		for(Visitable v : toDraw) {
+		for(Visitable v : world.toDraw()) {
 			v.accept(this);
 		}
 		batch.end();
@@ -96,14 +90,15 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	
 	@Override
 	public void visit(BallInterface ball) {
-		new BallRenderer(ball).render(batch, renderer);
+		ballRenderer.setBall(ball).render(batch, renderer);
 	}
 	
 	@Override
 	public void visit(Visitable visitable) {
-		String message = this.getClass().getName() + " cannot render ojects of type " + 
+		return;
+		/*String message = this.getClass().getName() + " cannot render ojects of type " + 
 				visitable.getClass().getName();
-		throw new Visitor.NotCompatibleVisitableException(message);
+		throw new Visitor.NotCompatibleVisitableException(message);*/
 	}
 
 	@Override
