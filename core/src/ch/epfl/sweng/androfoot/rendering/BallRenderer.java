@@ -7,16 +7,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
@@ -98,7 +95,7 @@ public class BallRenderer implements DrawableRenderer {
 				+ "void main () {"
 				+ "vec4 afterScale = u_scaleMatrix * a_position;"
 				+ "vec2 xyPoint = vec2(afterScale.x, afterScale.y);"
-				+ "v_distance = clamp(((distance(xyPoint,vec2(0)))-0.5)/(u_scaleMatrix[0][0]-1)*2,0,1);"
+				+ "v_distance = clamp(((distance(xyPoint,vec2(0.0)))-0.5)/(u_scaleMatrix[0][0]-1.0)*2.0,0.0,1.0);"
 				+ "gl_Position = u_projMatrix * u_transMatrix * afterScale;"
 				+ "v_color = u_color;"
 				+ "}";
@@ -108,14 +105,11 @@ public class BallRenderer implements DrawableRenderer {
                 "#endif\n" +
 				"varying vec4 v_color;"
 				+ "varying float v_distance;"
-				+ "out vec4 final_color;"
 				+ "void main() {"
 				+ "float opacity;"
-				+ "final_color = (vec4(1.0)*(1+v_distance))*0.4 + v_color-vec4(0.2);"
-				+ "final_color.a = 1.0;"
-				+ "opacity = 1 - sqrt(sqrt(v_distance));"
-				+ "final_color = v_color;"
-				+ "final_color.a = opacity;"
+				+ "opacity = 1.0 - sqrt(sqrt(v_distance));"
+				+ "gl_FragColor = v_color;"
+				+ "gl_FragColor.a = opacity;"
 				+ "}";
 		
 		basicShader = new ShaderProgram(vertexShader, fragmentShader);
