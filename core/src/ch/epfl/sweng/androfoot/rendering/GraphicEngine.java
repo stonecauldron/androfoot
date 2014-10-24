@@ -76,13 +76,13 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 		
 		Collections.sort(toDraw, comparator); 
 
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);
 		
 		batch.setProjectionMatrix(camera.combined);
 		renderer.setProjectionMatrix(camera.combined);
 
-		renderer.setColor(Color.BLACK);
+		renderer.setColor(new Color(0x303030));
 		renderer.begin(ShapeType.Filled);
 		renderer.rect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
 		renderer.end();
@@ -101,9 +101,10 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	
 	@Override
 	public void visit(Visitable visitable) {
-		String message = this.getClass().getName() + " cannot render ojects of type " + 
+		return;
+		/*String message = this.getClass().getName() + " cannot render ojects of type " + 
 				visitable.getClass().getName();
-		throw new Visitor.NotCompatibleVisitableException(message);
+		throw new Visitor.NotCompatibleVisitableException(message);*/
 	}
 
 	@Override
