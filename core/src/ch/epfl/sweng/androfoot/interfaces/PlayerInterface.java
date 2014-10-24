@@ -19,5 +19,10 @@ public interface PlayerInterface extends Visitable {
 	 */
 	float getPositionY();
 	
-	
+	/**
+	 * Modifies the velocity of the player.
+	 * @param x x component of the velocity vector.
+	 * @param y y component of the velocity vector.
+	 */
+	void setPlayerVelocity(float x, float y);
 }
