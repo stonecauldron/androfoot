@@ -21,4 +21,9 @@ public interface BallInterface extends Visitable{
 	 * Recovers the radius of the ball.
 	 */
 	float getRadius();
+	
+	/**
+	 * Sets the position of the ball.
+	 */
+	void setBallPosition(float x, float y);
 }

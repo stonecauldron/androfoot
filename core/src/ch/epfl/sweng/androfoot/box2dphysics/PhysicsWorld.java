@@ -43,9 +43,9 @@ public class PhysicsWorld implements DrawableWorld{
 		Ball ball = new Ball(physicsWorld, BALL_INIT_POS_X, BALL_INIT_POS_Y, BALL_RADIUS, 
 				BALL_DENSITY, BALL_FRICTION, BALL_RESTITUTION);
 		
-		drawableObjectsSet.add(ball);
+		addToDrawableObjectsSet(ball);
 		
-		//Player player = new Player(physicsWorld, 2.5f, 3.0f, true);
+		new Player(physicsWorld, 2.5f, 3.0f, true);
 		
 		//drawableObjectsSet.add(player);
 		
@@ -64,6 +64,9 @@ public class PhysicsWorld implements DrawableWorld{
 	    return physicsWorld;
 	}
 	
+	public void addToDrawableObjectsSet(Drawable object) {
+		drawableObjectsSet.add(object);
+	}
 	@Override
 	public SortedSet<Drawable> toDraw() {
 		return drawableObjectsSet;

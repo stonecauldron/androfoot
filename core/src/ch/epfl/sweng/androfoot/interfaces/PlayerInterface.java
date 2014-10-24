@@ -20,6 +20,12 @@ public interface PlayerInterface extends Visitable {
 	float getPositionY();
 	
 	/**
+	 * Recovers the world rotation angle of the player in radians.
+	 * @return The world rotation angle of the player in radians.
+	 */
+	float getPlayerAngle();
+	
+	/**
 	 * Modifies the velocity of the player.
 	 * @param x x component of the velocity vector.
 	 * @param y y component of the velocity vector.

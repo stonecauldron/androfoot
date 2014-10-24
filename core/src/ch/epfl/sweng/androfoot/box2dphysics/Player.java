@@ -113,6 +113,11 @@ public class Player implements PlayerInterface {
 		playerBody.setLinearVelocity(x, y);
 	}
 
+	@Override
+	public float getPlayerAngle() {
+		return playerBody.getAngle();
+	}
+
 //	@Override
 //	public int getZIndex() {
 //		return 1;
