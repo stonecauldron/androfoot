@@ -24,14 +24,14 @@ public class GroupPaddle implements GroupPaddleInterface {
      * @param world the physic world
      * @param worldHeight height of the world
      */
-    public GroupPaddle(float x, float width, int number, World world, float worldHeight) {
+    public GroupPaddle(float x, float width, int number, World world, float worldHeight, boolean facingRight) {
         paddles = new ArrayList<Paddle>();
         
         for (int i = 0; i < number; i++) {
             float height = worldHeight / number;
             float y = i * height;
             
-            paddles.add(new Paddle(world, x, y, width, height));
+            paddles.add(new Paddle(world, x, y, width, height, facingRight));
         }
     }
 

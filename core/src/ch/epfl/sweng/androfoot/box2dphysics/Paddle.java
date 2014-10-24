@@ -28,6 +28,8 @@ public class Paddle implements PaddleInterface {
     private List<EdgeShape> areasShape;
     private FixtureDef areaFixture;
     
+    private Player player;
+    
     /**
      * Constructor
      * @param world the physic world
@@ -36,7 +38,7 @@ public class Paddle implements PaddleInterface {
      * @param width of the limited area
      * @param height of the limited area
      */
-    public Paddle(World world, float x, float y, float width, float height) {
+    public Paddle(World world, float x, float y, float width, float height, boolean facingRight) {
         areasShape = new ArrayList<EdgeShape>();
         
         // Static definition for the 4 egdes
@@ -73,11 +75,15 @@ public class Paddle implements PaddleInterface {
             edge.dispose();
         }
         
-        // TODO Add player when the class will be created
+        player = new Player(world, x + (width / 2), y + (height / 2), facingRight);
     }
     
     public Body getLimitedArea() {
         return limitedArea;
+    }
+    
+    public Player getPlayer() {
+        return player;
     }
 
     @Override
@@ -85,5 +91,4 @@ public class Paddle implements PaddleInterface {
         // TODO set the velocity of the player
         
     }
-
 }

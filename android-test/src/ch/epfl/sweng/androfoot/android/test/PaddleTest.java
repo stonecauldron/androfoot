@@ -23,7 +23,7 @@ public class PaddleTest extends TestCase {
     public final void testPaddleCreation() {
         World worldTest = PhysicsWorld.getPhysicsWorld().getWorld();
         
-        Paddle paddle = new Paddle(worldTest, 1, 1, 1, 1);
+        Paddle paddle = new Paddle(worldTest, 1, 1, 1, 1, true);
         
         Array<Body> bodies = new Array<Body>();
         worldTest.getBodies(bodies);
@@ -38,7 +38,8 @@ public class PaddleTest extends TestCase {
     @Test
     public final void testPaddleLimit() throws InterruptedException {
         World worldTest = PhysicsWorld.getPhysicsWorld().getWorld();
-        Paddle paddle = new Paddle(worldTest, 1, 1, 3, 3);
+        @SuppressWarnings("unused")
+        Paddle paddle = new Paddle(worldTest, 1, 1, 3, 3, true);
         
         Body circle;
         BodyDef bodyDef = new BodyDef();
@@ -60,13 +61,41 @@ public class PaddleTest extends TestCase {
         
         circleShape.dispose();
         
-        circle.setLinearVelocity(0, -0.2f);
+        circle.setLinearVelocity(0, -0.5f);
+        
+        for (int i = 0; i < 50; i++) {
+            PhysicsWorld.getPhysicsWorld().phyStep(1);
+        }
+        Log.d("bottom limit", String.valueOf(circle.getPosition().y));
+        
+        assertTrue("Bottom limit : position x", circle.getPosition().x >= 1 && circle.getPosition().x <= 4);
+        assertTrue("Bottom limit : position y", circle.getPosition().y >= 1 && circle.getPosition().y <= 1.3);
+        
+        circle.setLinearVelocity(0, 0.5f);
         
         for (int i = 0; i < 50; i++) {
             PhysicsWorld.getPhysicsWorld().phyStep(1);
         }
         
-        assertTrue(circle.getPosition().x >= 1 && circle.getPosition().x <= 4);
-        assertTrue(circle.getPosition().y >= 1 && circle.getPosition().y <= 4);
+        assertTrue("Top limit : position x", circle.getPosition().x >= 1 && circle.getPosition().x <= 4);
+        assertTrue("Top limit : position y", circle.getPosition().y >= 3.7 && circle.getPosition().y <= 4);
+        
+        circle.setLinearVelocity(0.5f, 0);
+        
+        for (int i = 0; i < 50; i++) {
+            PhysicsWorld.getPhysicsWorld().phyStep(1);
+        }
+        
+        assertTrue("Right limit : position x", circle.getPosition().x >= 3.7 && circle.getPosition().x <= 4);
+        assertTrue("Right limit : position y", circle.getPosition().y >= 3.7 && circle.getPosition().y <= 4);
+        
+        circle.setLinearVelocity(-0.5f, 0);
+        
+        for (int i = 0; i < 50; i++) {
+            PhysicsWorld.getPhysicsWorld().phyStep(1);
+        }
+        
+        assertTrue("Left limit : position x", circle.getPosition().x >= 1 && circle.getPosition().x <= 1.3);
+        assertTrue("Left limit : position y", circle.getPosition().y >= 3.7 && circle.getPosition().y <= 4);
     }
 }
