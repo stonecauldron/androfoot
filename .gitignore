@@ -71,10 +71,20 @@ proguard/
 ### Gradle ###
 .gradle
 build/
-core/build/
 
 # Ignore Gradle GUI config
 gradle-app.setting
+
+### libGDX ###
+core/build/
+core/bin/
+core/.settings/
+
+desktop/bin/
+desktop/.settings/
+
+html/.settings/
+html/war/
 
 ### Windows ###
 # Windows image file caches
