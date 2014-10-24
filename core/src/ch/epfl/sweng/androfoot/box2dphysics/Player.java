@@ -12,6 +12,11 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import ch.epfl.sweng.androfoot.interfaces.PlayerInterface;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
+/**
+ * Class that defines an individual player.
+ * @author Matvey
+ *
+ */
 public class Player implements PlayerInterface {
 
 	private static final float CIRCLERADIUS = 0.6f;
@@ -29,6 +34,13 @@ public class Player implements PlayerInterface {
 	private FixtureDef fixtureForCircle = new FixtureDef();
 	private FixtureDef fixtureForBox = new FixtureDef();
 	
+	/**
+	 * Constructor of an individual player.
+	 * @param world Instance of the physics world to which the player will be attached.
+	 * @param initPosX x coordinate of the initial position of the player.
+	 * @param initPosY y coordinate of the initial position of the player.
+	 * @param facingRight If true the player is facing right, otherwise player is facing left.
+	 */
 	public Player(World world, float initPosX, float initPosY, boolean facingRight) {
 		playerBodyDef.type = BodyType.DynamicBody;
 		playerBodyDef.position.set(new Vector2(initPosX, initPosY));
@@ -37,9 +49,12 @@ public class Player implements PlayerInterface {
 		
 		createAttachCircleFixture();
 		
-		createAttachBoxFixture(world, facingRight);
+		createAttachBoxFixture(facingRight);
 	}
 	
+	/**
+	 * Creates and attaches the circle fixture to the physics body.
+	 */
 	private void createAttachCircleFixture() {
 		CircleShape circle = new CircleShape();
 		
@@ -55,7 +70,11 @@ public class Player implements PlayerInterface {
 		circle.dispose();
 	}
 	
-	private void createAttachBoxFixture(World world, boolean facingRight) {
+	/**
+	 * Creates and attaches the box fixture to the physics body.
+	 * @param facingRight If true the player is facing right, otherwise player is facing left.
+	 */
+	private void createAttachBoxFixture(boolean facingRight) {
 		PolygonShape boxShape = new PolygonShape();
 		
 		if(facingRight) {
