@@ -89,6 +89,11 @@ public class Player implements PlayerInterface {
 		return playerBody.getPosition().y;
 	}
 
+	@Override
+	public void setPlayerVelocity(float x, float y) {
+		playerBody.setLinearVelocity(x, y);
+	}
+
 //	@Override
 //	public int getZIndex() {
 //		return 1;
