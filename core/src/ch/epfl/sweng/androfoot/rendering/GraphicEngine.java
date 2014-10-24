@@ -27,27 +27,31 @@ import ch.epfl.sweng.androfoot.interfaces.WorldRenderer;
 
 public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	
-	private final int DEFAULT_SCREEN_WIDTH = 300;
-	private final int DEFAULT_SCREEN_HEIGHT = 200;
+	private static final int DEFAULT_SCREEN_WIDTH = 300;
+	private static final int DEFAULT_SCREEN_HEIGHT = 200;
 
-	ShapeRenderer renderer  = new ShapeRenderer();
-	SpriteBatch batch = new SpriteBatch();
-	
 	private final static GraphicEngine instance = new GraphicEngine();
-	private static final float WORLD_WIDTH = 1500;
-	static final float WORLD_HEIGHT = 900;
+
+	private final ShapeRenderer renderer  = new ShapeRenderer();
+	private final SpriteBatch batch = new SpriteBatch();
+	private final BallRenderer ballRenderer = new BallRenderer();
 	
+
 	private DrawableWorld world = null;
-	private int currentScorePlayer1 = 0;
-	private int currentScorePlayer2 = 0;
 	private Rectangle worldRegion = null;
+	private boolean isBoundToWorld = false;
+	
 	private OrthographicCamera camera = null;
 	private FitViewport viewport = null;
-	private boolean isBoundToWorld = false;
+	
+	private int currentScorePlayer1 = 0;
+	private int currentScorePlayer2 = 0;
+
 	private int screenWidth = DEFAULT_SCREEN_WIDTH;
 	private int screenHeight = DEFAULT_SCREEN_HEIGHT;
 	
-	private GraphicEngine() { }
+	private GraphicEngine() {
+	}
 	
 	public static GraphicEngine getEngine() {
 		return instance;
@@ -72,9 +76,9 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 		batch.setProjectionMatrix(camera.combined);
 		renderer.setProjectionMatrix(camera.combined);
 
-		renderer.setColor(new Color(0x303030));
+		renderer.setColor(Color.BLACK);
 		renderer.begin(ShapeType.Filled);
-		renderer.rect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+		renderer.rect(0, 0, worldRegion.width, worldRegion.height);
 		renderer.end();
 
 		batch.begin();
@@ -86,7 +90,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	
 	@Override
 	public void visit(BallInterface ball) {
-		new BallRenderer(ball).render(batch, renderer);
+		ballRenderer.setBall(ball).render(batch, renderer);
 	}
 	
 	@Override

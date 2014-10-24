@@ -23,29 +23,39 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 public class BallRenderer implements DrawableRenderer {
 	
 	private static final int NB_SEGMENTS = 100;
-	private static final Color ballColor = new Color(27/255f, 186/255f, 254/255f, 1.0f);
-	private BallInterface ball;
-	private ShaderProgram currentBasicShader = getSimpleShader();
-	
+	private static final int BALL_COLOR_HEXA = 0x1BBAFEFF;
+	private static final int UNIT_VECTOR_VALUE = 1;
+	private static final Color BALL_COLOR = new Color(BALL_COLOR_HEXA);
+	private static final float SHADOW_SCALE = 1.5f;
+
 	private static ShaderProgram basicShader = null;
 	private static int basicShaderColorPosition = -1;
 	private static int basicShaderProjMatrixPosition = -1;
 	private static int basicShaderTransformationMatrixPosition = -1;
 	private static int basicShaderScaleMatrix = -1;
-	private static ModelBuilder builder = new ModelBuilder();
-	private static Model sphere = null;
 	
-	public BallRenderer(BallInterface ballToRender) {
-		ball = ballToRender;
-		sphere = builder.createSphere(1, 1, 1, 150, 150, new Material(), Usage.Position);	
+	private final Matrix4 shadowScaleMatrix;
+	private final Matrix4 transformationMatrix;
+	private final ShaderProgram currentBasicShader = getSimpleShader();
+	private final Model sphere;
+
+	private BallInterface ball = null;
+	
+	public BallRenderer() {
+		ModelBuilder builder = new ModelBuilder();
+		sphere = builder.createSphere(UNIT_VECTOR_VALUE, UNIT_VECTOR_VALUE, UNIT_VECTOR_VALUE,
+				NB_SEGMENTS, NB_SEGMENTS, new Material(), Usage.Position);
+		shadowScaleMatrix = new Matrix4().scl(SHADOW_SCALE);
+		transformationMatrix = new Matrix4();
 	}
 	
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapeRenderer) {
+		assert ball != null;
 		
-		Matrix4 transformationMat = new Matrix4().setTranslation(ball.getPositionX(), ball.getPositionY(), 0);
-		Matrix4 scaleMatrix = new Matrix4().scl(ball.getRadius()*2);
-		Matrix4 shadowScaleMatrix = new Matrix4().scl(1.5f);
+		transformationMatrix.idt()
+			.setTranslation(ball.getPositionX(), ball.getPositionY(), 0)
+			.scl(ball.getRadius() + ball.getRadius());
 		
 		batch.end();
 		Array<Mesh> meshes = sphere.meshes;
@@ -55,13 +65,18 @@ public class BallRenderer implements DrawableRenderer {
 		currentBasicShader.begin();
 		currentBasicShader.setUniformMatrix(basicShaderProjMatrixPosition, batch.getProjectionMatrix());
 		currentBasicShader.setUniformMatrix(basicShaderScaleMatrix, shadowScaleMatrix);
-		currentBasicShader.setUniformMatrix(basicShaderTransformationMatrixPosition, transformationMat.mul(scaleMatrix));
-		currentBasicShader.setUniformf(basicShaderColorPosition, ballColor);
+		currentBasicShader.setUniformMatrix(basicShaderTransformationMatrixPosition, transformationMatrix);
+		currentBasicShader.setUniformf(basicShaderColorPosition, BALL_COLOR);
 		for(Mesh m : meshes) {
 			m.render(currentBasicShader, GL20.GL_TRIANGLES);
 		}
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 		batch.begin();
+	}
+	
+	public BallRenderer setBall(BallInterface ballArg) {
+		ball = ballArg;
+		return this;
 	}
 	
 	/**
