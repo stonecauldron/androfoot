@@ -12,3 +12,4 @@ core/bin/
 .settings/gradle/org.springsource.ide.eclipse.gradle.core.import.prefs
 *.bin
 *.lock
+desktop/bin/*
