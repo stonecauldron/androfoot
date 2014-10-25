@@ -1,7 +1,5 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -18,21 +16,7 @@ import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
  * @author Matvey
  *
  */
-public class PhysicsWorld implements DrawableWorld{
-
-	private static final int POSITION_ITERATIONS = 1;
-	private static final int VELOCITY_ITERATIONS = 1;
-	//private static final float TIME_STEP = 1/30f;
-	private static final float BALL_RESTITUTION = 1.0f;
-	private static final float BALL_FRICTION = 0.0f;
-	private static final float BALL_DENSITY = 0.5f;
-	private static final float BALL_RADIUS = 0.2f;
-	private static final float BALL_INIT_POS_Y = 3.0f;
-	private static final float BALL_INIT_POS_X = 5.0f;
-	private static final float WORLD_ORIGIN_Y = 0;
-	private static final float WORLD_ORIGIN_X = 0;
-	private static final float WORLD_SIZE_Y = 6.0f;
-	private static final float WORLD_SIZE_X = 10.0f;
+public final class PhysicsWorld implements DrawableWorld {
 	
 	private static final PhysicsWorld PHYSICS_WORLD_INSTANCE = new PhysicsWorld();
 	
@@ -40,8 +24,8 @@ public class PhysicsWorld implements DrawableWorld{
 	private TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
 	
 	private PhysicsWorld() {
-		Ball ball = new Ball(physicsWorld, BALL_INIT_POS_X, BALL_INIT_POS_Y, BALL_RADIUS, 
-				BALL_DENSITY, BALL_FRICTION, BALL_RESTITUTION);
+		Ball ball = new Ball(physicsWorld, Constants.BALL_INIT_POS_X, Constants.BALL_INIT_POS_Y, Constants.BALL_RADIUS, 
+		        Constants.BALL_DENSITY, Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
 		
 		addToDrawableObjectsSet(ball);
 		
@@ -49,7 +33,7 @@ public class PhysicsWorld implements DrawableWorld{
 		
 		//drawableObjectsSet.add(player);
 		
-		new AllBorders(physicsWorld, WORLD_SIZE_X, WORLD_SIZE_Y);
+		new AllBorders(physicsWorld, Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y);
 	}
 	
 	/**
@@ -76,11 +60,12 @@ public class PhysicsWorld implements DrawableWorld{
 	 * @param delta The delta number (Frames Per Second).
 	 */
 	public void phyStep(float delta) {
-		physicsWorld.step(delta, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+		physicsWorld.step(delta, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
 	}
 
 	@Override
 	public Rectangle regionToDraw() {
-		return new Rectangle(WORLD_ORIGIN_X, WORLD_ORIGIN_Y, WORLD_SIZE_X, WORLD_SIZE_Y);
+		return new Rectangle(Constants.WORLD_ORIGIN_X, Constants.WORLD_ORIGIN_Y, 
+		        Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y);
 	}
 }

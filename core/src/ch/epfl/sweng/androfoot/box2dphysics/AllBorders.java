@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class AllBorders {
 	
-	private static final float SCREENOFFSET = 0.1f;
 	/**
 	 * Constructor of the AllBorders class.
 	 * @param world World which will contain the borders.
@@ -18,10 +17,10 @@ public class AllBorders {
 	 */
 	public AllBorders(World world, float screenLength, float screenWidth) {
 		
-		new Border(world, screenLength/2, -SCREENOFFSET, screenLength, SCREENOFFSET);
-		new Border(world, -SCREENOFFSET, screenWidth/2, SCREENOFFSET, screenWidth);
-		new Border(world, screenLength/2, screenWidth + SCREENOFFSET, screenLength, SCREENOFFSET);
-		new Border(world, screenLength + SCREENOFFSET, screenWidth/2, SCREENOFFSET, screenWidth);
+		new Border(world, screenLength/2, -Constants.SCREENOFFSET, screenLength, Constants.SCREENOFFSET);
+		new Border(world, -Constants.SCREENOFFSET, screenWidth/2, Constants.SCREENOFFSET, screenWidth);
+		new Border(world, screenLength/2, screenWidth + Constants.SCREENOFFSET, screenLength, Constants.SCREENOFFSET);
+		new Border(world, screenLength + Constants.SCREENOFFSET, screenWidth/2, Constants.SCREENOFFSET, screenWidth);
 	}
 	
 }

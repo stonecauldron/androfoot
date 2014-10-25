@@ -20,8 +20,6 @@ import ch.epfl.sweng.androfoot.interfaces.PaddleInterface;
  */
 public class Paddle implements PaddleInterface {
     
-    public static final short CATEGORY_PLAYER = 0x0001;
-    
     // Limited area definition
     private Body limitedArea;
     private BodyDef areaBodyDef;
@@ -56,7 +54,7 @@ public class Paddle implements PaddleInterface {
         vertices.add(new Vector2(0 + width, 0));
         
         areaFixture = new FixtureDef();
-        areaFixture.filter.maskBits = CATEGORY_PLAYER;
+        areaFixture.filter.maskBits = Constants.CATEGORY_PLAYER;
         areaFixture.density = 1.0f;
         areaFixture.friction = 0.0f;
         // We want the player stops himself after the collision
@@ -88,7 +86,6 @@ public class Paddle implements PaddleInterface {
 
     @Override
     public void setVelocity(float x, float y) {
-        // TODO set the velocity of the player
-        
+        player.setPlayerVelocity(x, y);
     }
 }

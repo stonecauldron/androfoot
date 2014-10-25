@@ -18,15 +18,6 @@ import ch.epfl.sweng.androfoot.interfaces.Visitor;
  *
  */
 public class Player implements PlayerInterface {
-
-	private static final float CIRCLERADIUS = 0.6f;
-	private static final float BOXHALFWIDTH = 0.3f;
-	private static final float BOXHALFLENGTH = 0.6f;
-	private static final Vector2 OFFSETFACINGRIGHT = new Vector2(-0.3f, 0);
-	private static final Vector2 OFFSETFACINGLEFT = new Vector2(0.3f, 0);
-	private static final float PLAYERDENSITY = 0.5f;
-	private static final float PLAYERFRICTION = 0.0f;
-	private static final float PLAYERRESTITUTION = 0.0f;
 	
 	private Body playerBody;
 	private BodyDef playerBodyDef = new BodyDef();
@@ -58,12 +49,12 @@ public class Player implements PlayerInterface {
 	private void createAttachCircleFixture() {
 		CircleShape circle = new CircleShape();
 		
-		circle.setRadius(CIRCLERADIUS);
+		circle.setRadius(Constants.CIRCLERADIUS);
 		fixtureForCircle.shape = circle;
-		fixtureForCircle.density = PLAYERDENSITY;
-		fixtureForCircle.friction = PLAYERFRICTION;
-		fixtureForCircle.restitution = PLAYERRESTITUTION;
-		fixtureForCircle.filter.maskBits = Paddle.CATEGORY_PLAYER;
+		fixtureForCircle.density = Constants.PLAYERDENSITY;
+		fixtureForCircle.friction = Constants.PLAYERFRICTION;
+		fixtureForCircle.restitution = Constants.PLAYERRESTITUTION;
+		fixtureForCircle.filter.maskBits = Constants.CATEGORY_PLAYER;
 		
 		playerBody.createFixture(fixtureForCircle);
 		
@@ -77,16 +68,16 @@ public class Player implements PlayerInterface {
 	private void createAttachBoxFixture(boolean facingRight) {
 		PolygonShape boxShape = new PolygonShape();
 		
-		if(facingRight) {
-			boxShape.setAsBox(BOXHALFWIDTH, BOXHALFLENGTH, OFFSETFACINGRIGHT, 0);
+		if (facingRight) {
+			boxShape.setAsBox(Constants.BOXHALFWIDTH, Constants.BOXHALFLENGTH, Constants.OFFSETFACINGRIGHT, 0);
 		} else {
-			boxShape.setAsBox(BOXHALFWIDTH, BOXHALFLENGTH, OFFSETFACINGLEFT, 0);
+			boxShape.setAsBox(Constants.BOXHALFWIDTH, Constants.BOXHALFLENGTH, Constants.OFFSETFACINGLEFT, 0);
 		}
 		
 		fixtureForBox.shape = boxShape;
-		fixtureForBox.density = PLAYERDENSITY;
-		fixtureForBox.restitution = PLAYERRESTITUTION;
-		fixtureForBox.filter.maskBits = Paddle.CATEGORY_PLAYER;
+		fixtureForBox.density = Constants.PLAYERDENSITY;
+		fixtureForBox.restitution = Constants.PLAYERRESTITUTION;
+		fixtureForBox.filter.maskBits = Constants.CATEGORY_PLAYER;
 		
 		playerBody.createFixture(fixtureForBox);
 		
