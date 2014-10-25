@@ -33,6 +33,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	private final SpriteBatch batch = new SpriteBatch();
 	private final BallRenderer ballRenderer = new BallRenderer();
 	private final ScoreRenderer scoreRenderer = new ScoreRenderer(SCORE_COLOR);
+	private final BoardRenderer boardRenderer = new BoardRenderer();
 	
 	private DrawableWorld world = null;
 	private Rectangle worldRegion = null;
@@ -58,6 +59,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 		world = worldArg;
 		worldRegion = world.regionToDraw();
 		isBoundToWorld = true;
+		boardRenderer.setWorldSize(worldRegion);
 		initCamera();
 	}
 	
@@ -76,8 +78,8 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 		renderer.end();
 		
 		batch.begin();
-		
 		scoreRenderer.render(batch, renderer);
+		boardRenderer.render(batch, renderer);
 		for(Visitable v : world.toDraw()) {
 			v.accept(this);
 		}
