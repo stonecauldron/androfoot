@@ -75,6 +75,11 @@ public class Ball implements Drawable, BallInterface {
 	public float getRadius() {
 		return ballRadius;
 	}
+	
+	@Override
+	public void setBallPosition(float x, float y) {
+		ballBody.setTransform(x, y, 0);
+	}
 
 	@Override
 	public int getZIndex() {
