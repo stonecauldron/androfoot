@@ -1,10 +1,5 @@
 package ch.epfl.sweng.androfoot.rendering;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,12 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ch.epfl.sweng.androfoot.interfaces.BallInterface;
-import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 import ch.epfl.sweng.androfoot.interfaces.ScoreDisplayer;
 import ch.epfl.sweng.androfoot.interfaces.Visitable;
@@ -30,13 +22,18 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	private static final int DEFAULT_SCREEN_WIDTH = 300;
 	private static final int DEFAULT_SCREEN_HEIGHT = 200;
 
+	private static final int SCORE_COLOR_HEX = 0x2B2B2BFF;
+	private static final Color SCORE_COLOR = new Color(SCORE_COLOR_HEX);
+	private static final int FIELD_COLOR_HEX = 0x303030FF;
+	private static final Color FIELD_COLOR = new Color(FIELD_COLOR_HEX);
+
 	private final static GraphicEngine instance = new GraphicEngine();
 
 	private final ShapeRenderer renderer  = new ShapeRenderer();
 	private final SpriteBatch batch = new SpriteBatch();
 	private final BallRenderer ballRenderer = new BallRenderer();
+	private final ScoreRenderer scoreRenderer = new ScoreRenderer(SCORE_COLOR);
 	
-
 	private DrawableWorld world = null;
 	private Rectangle worldRegion = null;
 	private boolean isBoundToWorld = false;
@@ -44,9 +41,6 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	private OrthographicCamera camera = null;
 	private FitViewport viewport = null;
 	
-	private int currentScorePlayer1 = 0;
-	private int currentScorePlayer2 = 0;
-
 	private int screenWidth = DEFAULT_SCREEN_WIDTH;
 	private int screenHeight = DEFAULT_SCREEN_HEIGHT;
 	
@@ -76,12 +70,14 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 		batch.setProjectionMatrix(camera.combined);
 		renderer.setProjectionMatrix(camera.combined);
 
-		renderer.setColor(Color.BLACK);
+		renderer.setColor(FIELD_COLOR);
 		renderer.begin(ShapeType.Filled);
 		renderer.rect(0, 0, worldRegion.width, worldRegion.height);
 		renderer.end();
-
+		
 		batch.begin();
+		
+		scoreRenderer.render(batch, renderer);
 		for(Visitable v : world.toDraw()) {
 			v.accept(this);
 		}
@@ -95,16 +91,14 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	
 	@Override
 	public void visit(Visitable visitable) {
-		return;
-		/*String message = this.getClass().getName() + " cannot render ojects of type " + 
+		String message = this.getClass().getName() + " cannot render ojects of type " + 
 				visitable.getClass().getName();
-		throw new Visitor.NotCompatibleVisitableException(message);*/
+		throw new Visitor.NotCompatibleVisitableException(message);
 	}
 
 	@Override
 	public void setScore(int player1, int player2) {
-		currentScorePlayer1 = player1;
-		currentScorePlayer2 = player2;
+		scoreRenderer.setScore(player1, player2);
 	}
 	
 	private void initCamera() {
