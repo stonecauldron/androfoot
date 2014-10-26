@@ -5,7 +5,7 @@ import java.util.List;
 
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 
-public class CircleGenerator implements PolygonGenerator {
+public class CircleGenerator extends AbstractPolygonGenerator {
 	
 	private static final float MIN_ANGLE = 0f;
 	private static final float MAX_ANGLE_RADIAN = (float) Math.PI * 2;
@@ -62,9 +62,10 @@ public class CircleGenerator implements PolygonGenerator {
 		return (float) (angle-divided*MAX_ANGLE_RADIAN);
 	}
 	
-	private void generate() {
+	@Override
+	protected float[] generate() {
 		if (isGenerated) {
-			return;
+			return vertexes;
 		}
 		
 		float angleStep = (to-from)/(segments);
@@ -75,37 +76,7 @@ public class CircleGenerator implements PolygonGenerator {
 			vertexes[2*i] = (float)Math.cos(currentAngle)*radius;
 			vertexes[2*i + 1] = (float)Math.sin(currentAngle)*radius;
 		}
-	}
-
-	@Override
-	public float[] generateVertexesFloat() {
-		generate();
+		isGenerated = true;
 		return vertexes;
 	}
-
-	@Override
-	public float[] generateVertexesFloatInZPlane(float z) {
-		generate();
-		float[] vertexes3D = new float[(segments + 1) * 3];
-		for (int i = 0 ; i <= segments ; i++){
-			vertexes3D[3*i] = vertexes[2*i];
-			vertexes3D[3*i + 1] = vertexes[2*i + 1];
-			vertexes3D[3*i + 2] = z;
-		}
-		
-		return vertexes3D;
-	}
-
-	@Override
-	public List<ImmutablePoint<Float>> generatePointsList() {
-		generate();
-		ArrayList<ImmutablePoint<Float>> result = new ArrayList<ImmutablePoint<Float>>();
-		for (int i = 0 ; i <= segments ; i ++) {
-			result.add(new ImmutablePoint<Float>(vertexes[2*i],vertexes[2*i + 1]));
-		}
-
-		return result;
-	}
-
-
 }
