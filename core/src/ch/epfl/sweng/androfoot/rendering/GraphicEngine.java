@@ -12,10 +12,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import ch.epfl.sweng.androfoot.interfaces.BallInterface;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
+import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 import ch.epfl.sweng.androfoot.interfaces.ScoreDisplayer;
 import ch.epfl.sweng.androfoot.interfaces.Visitable;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 import ch.epfl.sweng.androfoot.interfaces.WorldRenderer;
+import ch.epfl.sweng.androfoot.polygongenerator.CircleGenerator;
 
 public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	
@@ -34,6 +36,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	private final BallRenderer ballRenderer = new BallRenderer();
 	private final ScoreRenderer scoreRenderer = new ScoreRenderer(SCORE_COLOR);
 	private final BoardRenderer boardRenderer = new BoardRenderer();
+	private final PolygonRenderer testPolygon;
 	
 	private DrawableWorld world = null;
 	private Rectangle worldRegion = null;
@@ -46,6 +49,8 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	private int screenHeight = DEFAULT_SCREEN_HEIGHT;
 	
 	private GraphicEngine() {
+		PolygonGenerator circleGenerator = new CircleGenerator(90);
+		testPolygon = new PolygonRenderer(circleGenerator);
 	}
 	
 	public static GraphicEngine getEngine() {
@@ -80,6 +85,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 		batch.begin();
 		scoreRenderer.render(batch, renderer);
 		boardRenderer.render(batch, renderer);
+		testPolygon.render(batch, renderer);
 		for(Visitable v : world.toDraw()) {
 			v.accept(this);
 		}
