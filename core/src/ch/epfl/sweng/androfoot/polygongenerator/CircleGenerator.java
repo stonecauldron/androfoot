@@ -1,7 +1,7 @@
 package ch.epfl.sweng.androfoot.polygongenerator;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 
@@ -46,12 +46,11 @@ public class CircleGenerator implements PolygonGenerator {
 		}
 
 		if (angleType == AngleType.DEGREE) {
-			from = degreeToRadian(angleFrom);
-			to = degreeToRadian(angleTo);
-		} else {
-			from = angleFrom;
-			to = angleTo;
-		}
+			angleFrom = degreeToRadian(angleFrom);
+			angleTo = degreeToRadian(angleTo);
+		} 
+		from = simplifyRadianAngle(angleFrom);
+		to = simplifyRadianAngle(angleTo);
 	}
 	
 	public static float degreeToRadian(float angleDegree) {
@@ -59,9 +58,8 @@ public class CircleGenerator implements PolygonGenerator {
 	}
 	
 	public static float simplifyRadianAngle(float angle) {
-		angle = Math.abs(angle);
-		double divided = Math.ceil(angle / MAX_ANGLE_RADIAN);
-		return (float) (angle-divided);
+		double divided = Math.floor(angle / MAX_ANGLE_RADIAN);
+		return (float) (angle-divided*MAX_ANGLE_RADIAN);
 	}
 	
 	private void generate() {
@@ -91,7 +89,7 @@ public class CircleGenerator implements PolygonGenerator {
 		float[] vertexes3D = new float[(segments + 1) * 3];
 		for (int i = 0 ; i <= segments ; i++){
 			vertexes3D[3*i] = vertexes[2*i];
-			vertexes3D[3*i + 1] = vertexes[2*i] + 1;
+			vertexes3D[3*i + 1] = vertexes[2*i + 1];
 			vertexes3D[3*i + 2] = z;
 		}
 		
@@ -99,9 +97,9 @@ public class CircleGenerator implements PolygonGenerator {
 	}
 
 	@Override
-	public Set<ImmutablePoint<Float>> generatePointsSet() {
+	public List<ImmutablePoint<Float>> generatePointsList() {
 		generate();
-		HashSet<ImmutablePoint<Float>> result = new HashSet<ImmutablePoint<Float>>();
+		ArrayList<ImmutablePoint<Float>> result = new ArrayList<ImmutablePoint<Float>>();
 		for (int i = 0 ; i <= segments ; i ++) {
 			result.add(new ImmutablePoint<Float>(vertexes[2*i],vertexes[2*i + 1]));
 		}
