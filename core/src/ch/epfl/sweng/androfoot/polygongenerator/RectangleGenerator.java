@@ -2,6 +2,11 @@ package ch.epfl.sweng.androfoot.polygongenerator;
 
 import com.badlogic.gdx.math.Rectangle;
 
+/**
+ * Generate a rectangle
+ * @author Guillame Leclerc
+ *
+ */
 public class RectangleGenerator extends AbstractPolygonGenerator {
 	
 	private final static int NB_VERTEX_COORDS_RECTANGLE = 8;
@@ -11,6 +16,10 @@ public class RectangleGenerator extends AbstractPolygonGenerator {
 	private boolean isGenerated;
 		
 	
+	/**
+	 * Build a Rectangle generator from a Rectangle Object
+	 * @param rectangleArg the rectangle to build the polygon for
+	 */
 	public RectangleGenerator(Rectangle rectangleArg) {
 		rectangle = new Rectangle(rectangleArg);
 		isGenerated = false;

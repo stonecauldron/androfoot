@@ -1,5 +1,10 @@
 package ch.epfl.sweng.androfoot.polygongenerator;
 
+/**
+ * Generate a polygon wich is an approximation of a circle
+ * @author Guillame Leclerc
+ *
+ */
 public class CircleGenerator extends AbstractPolygonGenerator {
 	
 	private static final float MIN_ANGLE = 0f;
@@ -14,14 +19,33 @@ public class CircleGenerator extends AbstractPolygonGenerator {
 	
 	private boolean isGenerated;
 	
+	/**
+	 * The generator built will return a polygon which is an approximation of a circle of radius 1
+	 * @param nbSegments the number of segments in the polygon (number of vertexes -1)
+	 */
 	public CircleGenerator(int nbSegments) {
 		this(nbSegments, MIN_ANGLE, MAX_ANGLE_RADIAN, AngleType.RADIAN);
 	}
 
+	/**
+	 * the generator build will return a polygon which is a subset of a circle of radius 1
+	 * @param nbSegments the number of segments in the polygon (number of vertexes -1)
+	 * @param angleFrom the angle to start the sub-circle
+	 * @param angleTo than angle to stop the sub-circle
+	 * @param angleType the unit used for the last two arguments
+	 */
 	public CircleGenerator(int nbSegments, float angleFrom, float angleTo, AngleType angleType) {
 		this(nbSegments, angleFrom, angleTo, angleType, 1f);
 	}
 	
+	/**
+	 * the generator build will return a polygon which is a subset of a circle
+	 * @param nbSegments the number of segments in the polygon (number of vertexes -1)
+	 * @param angleFrom the angle to start the sub-circle
+	 * @param angleTo than angle to stop the sub-circle
+	 * @param angleType the unit used for the last two arguments
+	 * @param radiusArg the radius of the circle
+	 */
 	public CircleGenerator(int nbSegments, float angleFrom, float angleTo, AngleType angleType, float radiusArg) {
 		if(nbSegments < 1) {
 			throw new IllegalArgumentException("the number of segments must be greater than 1");
@@ -48,10 +72,20 @@ public class CircleGenerator extends AbstractPolygonGenerator {
 		to = simplifyRadianAngle(angleTo);
 	}
 	
+	/**
+	 * Converts an angle from degree to radians
+	 * @param angleDegree the angle in degree
+	 * @return the angle in radians
+	 */
 	public static float degreeToRadian(float angleDegree) {
 		return angleDegree/MAX_ANGLE_DEGREE*MAX_ANGLE_RADIAN;
 	}
 	
+	/**
+	 * Simplify an angle in radians
+	 * @param angle a simplified angle (between 0 and 2Pi)
+	 * @return
+	 */
 	public static float simplifyRadianAngle(float angle) {
 		double divided = Math.floor(angle / MAX_ANGLE_RADIAN);
 		return (float) (angle-divided*MAX_ANGLE_RADIAN);
