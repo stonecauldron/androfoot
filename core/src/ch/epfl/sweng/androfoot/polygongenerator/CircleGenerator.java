@@ -99,7 +99,7 @@ public class CircleGenerator extends AbstractPolygonGenerator {
 		
 		float angleStep = (to-from)/(segments);
 		if(from-to == 0) {
-			angleStep = MAX_ANGLE_RADIAN/segments;
+			angleStep = MAX_ANGLE_RADIAN*2/segments;
 		}
 		
 		float currentAngle = from;
