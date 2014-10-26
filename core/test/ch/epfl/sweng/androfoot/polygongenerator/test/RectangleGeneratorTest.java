@@ -13,7 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 import ch.epfl.sweng.androfoot.polygongenerator.RectangleGenerator;
 
-public class RectangeGeneratorTest {
+public class RectangleGeneratorTest {
 	
 	private static float DELTA = 0.0001f;
 	
