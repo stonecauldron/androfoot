@@ -15,7 +15,10 @@ public class UniformShaderBuilder implements ShaderBuilder{
 	private final int transfoMatrixPosition;
 	
 	public UniformShaderBuilder() {
-		String vertexShader = ""
+		String vertexShader = 
+				"#ifdef GL_ES\n" 
+                + "precision mediump float;\n"  
+                + "#endif\n" 
 				+ "attribute vec4 a_position;"
 				+ "uniform vec4 u_color;"
 				+ "uniform mat4 u_projMatrix;"
@@ -26,7 +29,10 @@ public class UniformShaderBuilder implements ShaderBuilder{
 				+ "gl_Position = u_projMatrix * u_transMatrix * a_position;"
 				+ "}";
 		
-		String fragmentShader = ""
+		String fragmentShader = 
+				"#ifdef GL_ES\n" 
+                + "precision mediump float;\n"  
+                + "#endif\n" 
 				+ "varying vec4 v_color;"
 				+ "void main() {"
 				+ "gl_FragColor = v_color;"
