@@ -1,10 +1,6 @@
 package ch.epfl.sweng.androfoot.polygongenerator;
 
-import java.util.List;
-
 import com.badlogic.gdx.math.Rectangle;
-
-import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 
 public class RectangleGenerator extends AbstractPolygonGenerator {
 	

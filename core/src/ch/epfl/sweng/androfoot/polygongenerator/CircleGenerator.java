@@ -1,10 +1,5 @@
 package ch.epfl.sweng.androfoot.polygongenerator;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
-
 public class CircleGenerator extends AbstractPolygonGenerator {
 	
 	private static final float MIN_ANGLE = 0f;

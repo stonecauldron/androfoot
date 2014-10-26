@@ -1,8 +1,6 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
-import java.awt.geom.Point2D;
 import java.util.List;
-import java.util.Set;
 
 import ch.epfl.sweng.androfoot.polygongenerator.ImmutablePoint;
 
