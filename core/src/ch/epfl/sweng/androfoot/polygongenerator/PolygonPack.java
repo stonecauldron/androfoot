@@ -5,6 +5,11 @@ import java.util.HashMap;
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 import ch.epfl.sweng.androfoot.interfaces.PolygonMap;
 
+/**
+ * A polygonGenerator aggregator 
+ * @author Guillame Leclerc
+ *
+ */
  class PolygonPack extends AbstractPolygonGenerator implements PolygonMap{
 	
 	private final HashMap<String, PolygonGenerator> generators = new HashMap<String, PolygonGenerator>();
