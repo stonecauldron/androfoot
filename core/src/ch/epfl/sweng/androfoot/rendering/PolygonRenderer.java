@@ -7,6 +7,7 @@ import ch.epfl.sweng.androfoot.rendering.shaders.UniformShaderBuilder;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
@@ -20,17 +21,47 @@ public class PolygonRenderer implements DrawableRenderer {
 	
 	private final UniformShaderBuilder shaderBuilder;
 	private final Mesh mesh;
-	private final Matrix4 transformationMatrix = new Matrix4().idt();
+	private final Matrix4 transformationMatrix;
+	private final Matrix4 rotationMatrix;
+	private ImmutablePoint<Float> postition;
+	private float zPos;
+	private float scale;
 	
 	public PolygonRenderer(PolygonGenerator generator) {
 		shaderBuilder = new UniformShaderBuilder();
 		mesh = new Mesh(false, generator.generatePointsList().size(), 0, 
 				new VertexAttribute(Usage.Position,3, "a_position"));
-		mesh.setVertices(generator.generateVertexesFloatInZPlane(0f));
+		mesh.setVertices(generator.generateVertexesFloatInZPlane(zPos));
+		zPos = -1;
+		scale = 0;
+		postition = new ImmutablePoint<Float>(0f, 0f);
+		transformationMatrix = new Matrix4().idt();
+		rotationMatrix = new Matrix4().idt();
+	}
+	
+	public void setPosition(float x, float y) {
+		postition = new ImmutablePoint<Float>(x, y);
+	}
+	
+	public void setRotation(float angle) {
+		rotationMatrix.idt().rotateRad(0f, 0f, 1f, angle);
+	}
+	
+	public void setScale(float s) {
+		scale = s;
+	}
+	
+	public void setZindex(float z) {
+		zPos = z;
+	}
+	
+	private void generateMatrix() {
+		transformationMatrix.idt().scl(scale).translate(postition.x, postition.y, zPos).mul(rotationMatrix);
 	}
 
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapes) {
+		generateMatrix();
 		batch.end();
 		shaderBuilder.build().begin();
 		shaderBuilder.setColor(POLYGON_COLOR);

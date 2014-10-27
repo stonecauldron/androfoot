@@ -5,7 +5,7 @@ package ch.epfl.sweng.androfoot.interfaces;
  * @author Matvey
  *
  */
-public interface PlayerInterface extends Visitable {
+public interface PlayerInterface extends Drawable {
 
 	/**
 	 * Recovers the x position of the player.
@@ -24,6 +24,11 @@ public interface PlayerInterface extends Visitable {
 	 * @return The world rotation angle of the player in radians.
 	 */
 	float getPlayerAngle();
+	
+	/**
+	 * Gets the player's team. If true the player belongs to team 1, else team 2.
+	 */
+	boolean getTeam();
 	
 	/**
 	 * Modifies the velocity of the player.

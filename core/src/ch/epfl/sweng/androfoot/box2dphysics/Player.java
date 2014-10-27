@@ -9,8 +9,13 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
+import ch.epfl.sweng.androfoot.gamelogic.PlayerShapeManager;
 import ch.epfl.sweng.androfoot.interfaces.PlayerInterface;
+import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
+import ch.epfl.sweng.androfoot.interfaces.PolygonMap;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
+import ch.epfl.sweng.androfoot.polygongenerator.PaddleGenerator;
+import ch.epfl.sweng.androfoot.polygongenerator.PaddleSimplifier;
 
 /**
  * Class that defines an individual player.
@@ -19,69 +24,59 @@ import ch.epfl.sweng.androfoot.interfaces.Visitor;
  */
 public class Player implements PlayerInterface {
 	
+	private static final int MAX_PLAYER_VERTEX = 11;
 	private Body playerBody;
 	private BodyDef playerBodyDef = new BodyDef();
 	
 	private FixtureDef fixtureForCircle = new FixtureDef();
 	private FixtureDef fixtureForBox = new FixtureDef();
 	
+	private PolygonShape controlShape = new PolygonShape();
+	private PolygonShape shootingShape = new PolygonShape(); 
+	
+	private PolygonMap paddleGenerator;
+	private boolean teamFlag;
+	
 	/**
 	 * Constructor of an individual player.
 	 * @param world Instance of the physics world to which the player will be attached.
 	 * @param initPosX x coordinate of the initial position of the player.
 	 * @param initPosY y coordinate of the initial position of the player.
-	 * @param facingRight If true the player is facing right, otherwise player is facing left.
+	 * @param teamOrientation If true the player is facing right, otherwise player is facing left.
 	 */
-	public Player(World world, float initPosX, float initPosY, boolean facingRight) {
+	public Player(World world, float initPosX, float initPosY, boolean teamOrientation) {
+		teamFlag = teamOrientation;
+		PaddleGenerator fullGenerator;
+		if(teamOrientation) {
+			fullGenerator = PlayerShapeManager.getInstanceTeam1();
+		} else {
+			fullGenerator = PlayerShapeManager.getInstanceTeam2();
+		}
+		
+		paddleGenerator = new PaddleSimplifier(fullGenerator, MAX_PLAYER_VERTEX);
+		
 		playerBodyDef.type = BodyType.DynamicBody;
 		playerBodyDef.position.set(new Vector2(initPosX, initPosY));
 		
 		playerBody = world.createBody(playerBodyDef);
 		
-		createAttachCircleFixture();
+		PolygonGenerator controlPolygonBuilder = paddleGenerator.get(PaddleGenerator.CONTROL_BLOCK_KEY);
+		PolygonGenerator shootPolygonBuilder = paddleGenerator.get(PaddleGenerator.SHOOT_BLOCK_KEY);
 		
-		createAttachBoxFixture(facingRight);
-	}
-	
-	/**
-	 * Creates and attaches the circle fixture to the physics body.
-	 */
-	private void createAttachCircleFixture() {
-		CircleShape circle = new CircleShape();
+		controlShape.set(controlPolygonBuilder.generateVertexesFloat());
+		shootingShape.set(shootPolygonBuilder.generateVertexesFloat());
 		
-		circle.setRadius(Constants.CIRCLERADIUS);
-		fixtureForCircle.shape = circle;
-		fixtureForCircle.density = Constants.PLAYERDENSITY;
-		fixtureForCircle.friction = Constants.PLAYERFRICTION;
-		fixtureForCircle.restitution = Constants.PLAYERRESTITUTION;
-		fixtureForCircle.filter.maskBits = Constants.CATEGORY_PLAYER;
+		fixtureForCircle.shape = controlShape;
+		fixtureForBox.shape = shootingShape;
 		
 		playerBody.createFixture(fixtureForCircle);
-		
-		circle.dispose();
-	}
-	
-	/**
-	 * Creates and attaches the box fixture to the physics body.
-	 * @param facingRight If true the player is facing right, otherwise player is facing left.
-	 */
-	private void createAttachBoxFixture(boolean facingRight) {
-		PolygonShape boxShape = new PolygonShape();
-		
-		if (facingRight) {
-			boxShape.setAsBox(Constants.BOXHALFWIDTH, Constants.BOXHALFLENGTH, Constants.OFFSETFACINGRIGHT, 0);
-		} else {
-			boxShape.setAsBox(Constants.BOXHALFWIDTH, Constants.BOXHALFLENGTH, Constants.OFFSETFACINGLEFT, 0);
-		}
-		
-		fixtureForBox.shape = boxShape;
-		fixtureForBox.density = Constants.PLAYERDENSITY;
-		fixtureForBox.restitution = Constants.PLAYERRESTITUTION;
-		fixtureForBox.filter.maskBits = Constants.CATEGORY_PLAYER;
-		
 		playerBody.createFixture(fixtureForBox);
 		
-		boxShape.dispose();
+		if(teamOrientation) {
+			playerBody.setTransform(playerBody.getPosition(), (float) (-Math.PI/2));
+		} else {
+			playerBody.setTransform(playerBody.getPosition(), (float) (Math.PI/2));
+		}
 	}
 	
 	@Override
@@ -109,9 +104,14 @@ public class Player implements PlayerInterface {
 		return playerBody.getAngle();
 	}
 
-//	@Override
-//	public int getZIndex() {
-//		return 1;
-//	}
+	@Override
+	public boolean getTeam() {
+		return teamFlag;
+	}
+
+	@Override
+	public int getZIndex() {
+		return 1;
+	}
 
 }

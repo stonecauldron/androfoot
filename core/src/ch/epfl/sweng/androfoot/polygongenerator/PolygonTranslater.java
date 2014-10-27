@@ -10,10 +10,10 @@ import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
  *
  * @param <T> the type of polygon to translate
  */
-public class PolygonTranslater<T extends PolygonGenerator> extends AbstractPolygonGenerator implements
+public class PolygonTranslater extends AbstractPolygonGenerator implements
 	PolygonGenerator {
 
-	private final T generator;
+	private final PolygonGenerator generator;
 	private final float[] vertexes;
 	private final float dX;
 	private final float dY;
@@ -26,7 +26,7 @@ public class PolygonTranslater<T extends PolygonGenerator> extends AbstractPolyg
 	 * @param dx displacement on X axis
 	 * @param dy displacement on Y axis
 	 */
-	public PolygonTranslater(T generatorArg, float dx, float dy) {
+	public PolygonTranslater(PolygonGenerator generatorArg, float dx, float dy) {
 		generator = generatorArg;
 		int size = generator.generateVertexesFloat().length;
 		vertexes = Arrays.copyOf(generator.generateVertexesFloat(), size);

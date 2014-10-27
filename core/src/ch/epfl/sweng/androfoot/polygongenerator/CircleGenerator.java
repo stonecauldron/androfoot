@@ -54,7 +54,7 @@ public class CircleGenerator extends AbstractPolygonGenerator {
 		isGenerated = false;
 
 		segments = nbSegments;
-		vertexes = new float[(segments + 1) * 2];
+		vertexes = new float[(segments + 2) * 2];
 		
 		radius = radiusArg;
 		
@@ -108,6 +108,8 @@ public class CircleGenerator extends AbstractPolygonGenerator {
 			vertexes[2*i] = (float)Math.cos(currentAngle)*radius;
 			vertexes[2*i + 1] = (float)Math.sin(currentAngle)*radius;
 		}
+		vertexes[vertexes.length-2] = vertexes[0];
+		vertexes[vertexes.length-1] = vertexes[1];
 		isGenerated = true;
 		return vertexes;
 	}

@@ -10,14 +10,18 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import ch.epfl.sweng.androfoot.gamelogic.PlayerShapeManager;
 import ch.epfl.sweng.androfoot.interfaces.BallInterface;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
+import ch.epfl.sweng.androfoot.interfaces.PlayerInterface;
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 import ch.epfl.sweng.androfoot.interfaces.ScoreDisplayer;
 import ch.epfl.sweng.androfoot.interfaces.Visitable;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 import ch.epfl.sweng.androfoot.interfaces.WorldRenderer;
 import ch.epfl.sweng.androfoot.polygongenerator.CircleGenerator;
+import ch.epfl.sweng.androfoot.polygongenerator.PaddleGenerator;
+import ch.epfl.sweng.androfoot.polygongenerator.PaddleSimplifier;
 
 public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	
@@ -36,7 +40,8 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	private final BallRenderer ballRenderer = new BallRenderer();
 	private final ScoreRenderer scoreRenderer = new ScoreRenderer(SCORE_COLOR);
 	private final BoardRenderer boardRenderer = new BoardRenderer();
-	private final PolygonRenderer testPolygon;
+	private final PolygonRenderer playerT1Renderer;
+	private final PolygonRenderer playerT2Renderer;
 	
 	private DrawableWorld world = null;
 	private Rectangle worldRegion = null;
@@ -49,8 +54,8 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	private int screenHeight = DEFAULT_SCREEN_HEIGHT;
 	
 	private GraphicEngine() {
-		PolygonGenerator circleGenerator = new CircleGenerator(90);
-		testPolygon = new PolygonRenderer(circleGenerator);
+		playerT1Renderer = new PolygonRenderer(PlayerShapeManager.getInstanceTeam1());
+		playerT2Renderer = new PolygonRenderer(PlayerShapeManager.getInstanceTeam1());
 	}
 	
 	public static GraphicEngine getEngine() {
@@ -85,7 +90,6 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 		batch.begin();
 		scoreRenderer.render(batch, renderer);
 		boardRenderer.render(batch, renderer);
-		testPolygon.render(batch, renderer);
 		for(Visitable v : world.toDraw()) {
 			v.accept(this);
 		}
@@ -102,6 +106,21 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 		String message = this.getClass().getName() + " cannot render ojects of type " + 
 				visitable.getClass().getName();
 		throw new Visitor.NotCompatibleVisitableException(message);
+	}
+	
+	@Override
+	public void visit(PlayerInterface player) {
+		PolygonRenderer pr;
+		if(player.getTeam())
+		{
+			pr = playerT1Renderer;
+		} else {
+			pr = playerT2Renderer;
+		}
+		pr.setPosition(player.getPositionX(), player.getPositionY());
+		pr.setScale(1);
+		pr.setRotation(player.getPlayerAngle());
+		pr.render(batch, renderer);
 	}
 
 	@Override
