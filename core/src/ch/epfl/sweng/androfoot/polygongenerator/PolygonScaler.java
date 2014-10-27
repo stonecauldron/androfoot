@@ -10,10 +10,10 @@ import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
  *
  * @param <T> the type of Generator to scale
  */
-public class PolygonScaler<T extends PolygonGenerator> extends AbstractPolygonGenerator implements
+public class PolygonScaler extends AbstractPolygonGenerator implements
 		PolygonGenerator {
 	
-	private final T generator;
+	private final PolygonGenerator generator;
 	private final float[] vertexes;
 	private final float scaleX;
 	private final float scaleY;
@@ -24,7 +24,7 @@ public class PolygonScaler<T extends PolygonGenerator> extends AbstractPolygonGe
 	 * @param generatorArg
 	 * @param scale the scale (same on X and Y axis)
 	 */
-	public PolygonScaler(T generatorArg, float scale) {
+	public PolygonScaler(PolygonGenerator generatorArg, float scale) {
 		this(generatorArg, scale, scale);
 	}
 	
@@ -34,7 +34,7 @@ public class PolygonScaler<T extends PolygonGenerator> extends AbstractPolygonGe
 	 * @param scaleXArg the scale on X axis
 	 * @param scaleYArg the scale on Y axis
 	 */
-	public PolygonScaler(T generatorArg, float scaleXArg, float scaleYArg) {
+	public PolygonScaler(PolygonGenerator generatorArg, float scaleXArg, float scaleYArg) {
 		generator = generatorArg;
 		int size = generator.generateVertexesFloat().length;
 		vertexes = Arrays.copyOf(generator.generateVertexesFloat(), size);
