@@ -2,11 +2,15 @@ package ch.epfl.sweng.androfoot.polygongenerator;
 
 import java.util.HashMap;
 
+import com.sun.org.apache.bcel.internal.classfile.Code;
+
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 import ch.epfl.sweng.androfoot.interfaces.PolygonMap;
 
 /**
  * A polygonGenerator aggregator 
+ * It is a kind of {@code Map<String, PolygonGenerator>}
+ * You can't add a new sub polygon after the vertexes have been generated
  * @author Guillame Leclerc
  *
  */
@@ -44,6 +48,7 @@ import ch.epfl.sweng.androfoot.interfaces.PolygonMap;
 	 * Add a new PolygonGenerator to the PolygonPack
 	 * @param key the key of the Polygon
 	 * @param generator the generator of the polygon
+	 * @throws RuntimeException when the polygon has already been generated at least onece.
 	 */
 	protected void add(String key, PolygonGenerator generator) {
 		if(isGenerated) {

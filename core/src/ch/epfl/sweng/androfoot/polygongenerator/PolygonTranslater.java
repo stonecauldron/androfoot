@@ -5,7 +5,7 @@ import java.util.Arrays;
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 
 /**
- * Translate a PolygonGenerator
+ * A Translated version of a {@link PolygonGenerator}
  * @author Guillame Leclerc
  *
  * @param <T> the type of polygon to translate
@@ -21,7 +21,7 @@ public class PolygonTranslater extends AbstractPolygonGenerator implements
 	
 	
 	/**
-	 * Return a new PolygonGenerator that is a translated version of the argument
+	 * Return a new {@link PolygonGenerator} that is a translated version of the argument
 	 * @param generatorArg
 	 * @param dx displacement on X axis
 	 * @param dy displacement on Y axis

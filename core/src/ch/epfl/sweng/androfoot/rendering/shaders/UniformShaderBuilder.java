@@ -7,6 +7,11 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
+/**
+ * A shader builder that fill the pixels with an uniform color
+ * @author Guillame Leclerc
+ *
+ */
 public class UniformShaderBuilder implements ShaderBuilder{
 	
 	private final ShaderProgram shader;
@@ -14,6 +19,9 @@ public class UniformShaderBuilder implements ShaderBuilder{
 	private final int colorPosition;
 	private final int transfoMatrixPosition;
 	
+	/**
+	 * Instanciate a new {@link UniformShaderBuilder}
+	 */
 	public UniformShaderBuilder() {
 		String vertexShader = 
 				"#ifdef GL_ES\n" 
@@ -47,14 +55,25 @@ public class UniformShaderBuilder implements ShaderBuilder{
 		transfoMatrixPosition = shader.getUniformLocation("u_transMatrix");
 	}
 	
+	/**
+	 * Set the color of the mesh rendered
+	 * @param c the color
+	 */
 	public void setColor(Color c) {
 		shader.setUniformf(colorPosition, c);
 	}
 	
+	/**
+	 * Set the projection matrix
+	 */
 	public void setProjMatrix(Matrix4 m) {
 		shader.setUniformMatrix(projMatrixPosition, m);
 	}
 	
+	/**
+	 * Set the transform matrix
+	 * @param m the matrix
+	 */
 	public void setTransfoMatrix(Matrix4 m) {
 		shader.setUniformMatrix(transfoMatrixPosition, m);
 	}
