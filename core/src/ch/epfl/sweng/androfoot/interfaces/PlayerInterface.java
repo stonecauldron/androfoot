@@ -26,6 +26,11 @@ public interface PlayerInterface extends Visitable {
 	float getPlayerAngle();
 	
 	/**
+	 * Gets the player's team. If true the player belongs to team 1, else team 2.
+	 */
+	boolean getTeam();
+	
+	/**
 	 * Modifies the velocity of the player.
 	 * @param x x component of the velocity vector.
 	 * @param y y component of the velocity vector.
