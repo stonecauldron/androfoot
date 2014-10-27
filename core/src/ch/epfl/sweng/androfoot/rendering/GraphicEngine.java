@@ -21,6 +21,7 @@ import ch.epfl.sweng.androfoot.interfaces.Visitor;
 import ch.epfl.sweng.androfoot.interfaces.WorldRenderer;
 import ch.epfl.sweng.androfoot.polygongenerator.CircleGenerator;
 import ch.epfl.sweng.androfoot.polygongenerator.PaddleGenerator;
+import ch.epfl.sweng.androfoot.polygongenerator.PaddleSimplifier;
 
 public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	

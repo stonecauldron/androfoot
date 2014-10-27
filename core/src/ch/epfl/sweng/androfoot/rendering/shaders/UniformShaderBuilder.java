@@ -25,6 +25,7 @@ public class UniformShaderBuilder implements ShaderBuilder{
 				+ "uniform mat4 u_transMatrix;"
 				+ "varying vec4 v_color;"
 				+ "void main() {"
+				+ "gl_PointSize = 2;"
 				+ "v_color = u_color;"
 				+ "gl_Position = u_projMatrix * u_transMatrix * a_position;"
 				+ "}";

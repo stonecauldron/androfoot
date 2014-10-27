@@ -15,6 +15,7 @@ import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 import ch.epfl.sweng.androfoot.interfaces.PolygonMap;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 import ch.epfl.sweng.androfoot.polygongenerator.PaddleGenerator;
+import ch.epfl.sweng.androfoot.polygongenerator.PaddleSimplifier;
 
 /**
  * Class that defines an individual player.
@@ -23,6 +24,7 @@ import ch.epfl.sweng.androfoot.polygongenerator.PaddleGenerator;
  */
 public class Player implements PlayerInterface {
 	
+	private static final int MAX_PLAYER_VERTEX = 11;
 	private Body playerBody;
 	private BodyDef playerBodyDef = new BodyDef();
 	
@@ -32,7 +34,7 @@ public class Player implements PlayerInterface {
 	private PolygonShape controlShape = new PolygonShape();
 	private PolygonShape shootingShape = new PolygonShape(); 
 	
-	private PaddleGenerator paddleGenerator;
+	private PolygonMap paddleGenerator;
 	private boolean teamFlag;
 	
 	/**
@@ -44,11 +46,14 @@ public class Player implements PlayerInterface {
 	 */
 	public Player(World world, float initPosX, float initPosY, boolean teamOrientation) {
 		teamFlag = teamOrientation;
+		PaddleGenerator fullGenerator;
 		if(teamOrientation) {
-			paddleGenerator = PlayerShapeManager.getInstanceTeam1();
+			fullGenerator = PlayerShapeManager.getInstanceTeam1();
 		} else {
-			paddleGenerator = PlayerShapeManager.getInstanceTeam2();
+			fullGenerator = PlayerShapeManager.getInstanceTeam2();
 		}
+		
+		paddleGenerator = new PaddleSimplifier(fullGenerator, MAX_PLAYER_VERTEX);
 		
 		playerBodyDef.type = BodyType.DynamicBody;
 		playerBodyDef.position.set(new Vector2(initPosX, initPosY));
