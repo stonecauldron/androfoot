@@ -104,9 +104,9 @@ public class Player implements PlayerInterface {
 		return teamFlag;
 	}
 
-//	@Override
-//	public int getZIndex() {
-//		return 1;
-//	}
+	@Override
+	public int getZIndex() {
+		return 1;
+	}
 
 }

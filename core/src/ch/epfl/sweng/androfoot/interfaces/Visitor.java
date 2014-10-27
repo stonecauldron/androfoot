@@ -10,6 +10,7 @@ public interface Visitor {
 	
 	public void visit(Visitable visitable);
 	public void visit(BallInterface ball);
+	public void visit(PlayerInterface player);
 
 	
 	public static class NotCompatibleVisitableException extends RuntimeException {

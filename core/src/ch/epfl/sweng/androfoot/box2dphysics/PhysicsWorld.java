@@ -29,9 +29,9 @@ public final class PhysicsWorld implements DrawableWorld {
 		
 		addToDrawableObjectsSet(ball);
 		
-		new Player(physicsWorld, 2.5f, 3.0f, true);
+		Player p = new Player(physicsWorld, 2.5f, 3.0f, true);
 		
-		//drawableObjectsSet.add(player);
+		drawableObjectsSet.add(p);
 		
 		new AllBorders(physicsWorld, Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y);
 	}

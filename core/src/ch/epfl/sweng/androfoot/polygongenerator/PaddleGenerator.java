@@ -19,7 +19,7 @@ public class PaddleGenerator extends PolygonPack {
 	 */
 	public static final String SHOOT_BLOCK_KEY = "shoot";
 	
-	private final static int NB_SEGMENT_CIRCLE = 50;
+	private final static int NB_SEGMENT_CIRCLE = 6;
 	
 	/**
 	 * Create a generator for a paddle with basic configuration
@@ -28,14 +28,15 @@ public class PaddleGenerator extends PolygonPack {
 	 * @param heightRectangle the height of the rectangle part
 	 */
 	public PaddleGenerator(float width, float heightCircle, float heightRectangle) {
-		//float displacementX = (heightCircle + heightRectangle)/2 - heightCircle;
-		//displacementX = 0;
+		float displacementY = (heightCircle + heightRectangle)/2 - heightCircle;
+		System.out.println(displacementY);
+		//displacementY = 1;
 		PolygonGenerator circleGenerator = new PolygonTranslater(
 				new PolygonScaler(
 						new CircleGenerator(NB_SEGMENT_CIRCLE, 0f, (float)Math.PI, AngleType.RADIAN),
-						width/2, heightCircle/2),
-				0f, 0f);
-		Rectangle rectangle = new Rectangle(-width/2,0 , width, heightRectangle);
+						width/2, heightCircle),
+				0f, displacementY);
+		Rectangle rectangle = new Rectangle(-width/2,displacementY, width, heightRectangle);
 		RectangleGenerator rectangleGenerator = new RectangleGenerator(rectangle);
 		this.add(SHOOT_BLOCK_KEY, circleGenerator);
 		this.add(CONTROL_BLOCK_KEY, rectangleGenerator);

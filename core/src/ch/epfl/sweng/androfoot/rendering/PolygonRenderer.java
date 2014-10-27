@@ -22,6 +22,7 @@ public class PolygonRenderer implements DrawableRenderer {
 	private final UniformShaderBuilder shaderBuilder;
 	private final Mesh mesh;
 	private final Matrix4 transformationMatrix;
+	private final Matrix4 rotationMatrix;
 	private ImmutablePoint<Float> postition;
 	private float zPos;
 	private float scale;
@@ -34,11 +35,16 @@ public class PolygonRenderer implements DrawableRenderer {
 		zPos = -1;
 		scale = 0;
 		postition = new ImmutablePoint<Float>(0f, 0f);
-		transformationMatrix = new Matrix4();
+		transformationMatrix = new Matrix4().idt();
+		rotationMatrix = new Matrix4().idt();
 	}
 	
 	public void setPosition(float x, float y) {
 		postition = new ImmutablePoint<Float>(x, y);
+	}
+	
+	public void setRotation(float angle) {
+		rotationMatrix.idt().rotateRad(0f, 0f, 1f, angle);
 	}
 	
 	public void setScale(float s) {
@@ -50,7 +56,7 @@ public class PolygonRenderer implements DrawableRenderer {
 	}
 	
 	private void generateMatrix() {
-		transformationMatrix.idt().scl(scale).translate(postition.x, postition.y, zPos);
+		transformationMatrix.idt().scl(scale).translate(postition.x, postition.y, zPos).mul(rotationMatrix);
 	}
 
 	@Override

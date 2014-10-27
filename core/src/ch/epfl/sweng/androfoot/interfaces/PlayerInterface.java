@@ -5,7 +5,7 @@ package ch.epfl.sweng.androfoot.interfaces;
  * @author Matvey
  *
  */
-public interface PlayerInterface extends Visitable {
+public interface PlayerInterface extends Drawable {
 
 	/**
 	 * Recovers the x position of the player.
