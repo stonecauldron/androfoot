@@ -21,7 +21,7 @@ public class PlayerShapeManager {
 	
 	public static PaddleGenerator getInstanceTeam2() {
 		if(paddleGeneratorInstanceTeam2 == null) {
-			paddleGeneratorInstanceTeam1 = new PaddleGenerator(
+			paddleGeneratorInstanceTeam2 = new PaddleGenerator(
 					DEFAULT_PADDLE_WIDTH, DEFAULT_PADDLE_HEIGHT_CIRCLE, DEFAULT_PADDLE_HEIGHT_RECTANGLE);
 		}
 		return paddleGeneratorInstanceTeam2;
