@@ -23,7 +23,7 @@ public class RectangleGenerator extends AbstractPolygonGenerator {
 	public RectangleGenerator(Rectangle rectangleArg) {
 		rectangle = new Rectangle(rectangleArg);
 		isGenerated = false;
-		vertexes = new float[NB_VERTEX_COORDS_RECTANGLE];
+		vertexes = new float[NB_VERTEX_COORDS_RECTANGLE + 2];
 	}
 
 
@@ -40,6 +40,9 @@ public class RectangleGenerator extends AbstractPolygonGenerator {
 		vertexes[5] = vertexes[3] - rectangle.height;
 		vertexes[6] = vertexes[0];
 		vertexes[7] = vertexes[5];
+		
+		vertexes[vertexes.length-2] = vertexes[0];
+		vertexes[vertexes.length-1] = vertexes[1];
 		
 		isGenerated = true;
 		return vertexes;

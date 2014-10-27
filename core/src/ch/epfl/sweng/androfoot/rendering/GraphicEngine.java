@@ -18,6 +18,7 @@ import ch.epfl.sweng.androfoot.interfaces.Visitable;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 import ch.epfl.sweng.androfoot.interfaces.WorldRenderer;
 import ch.epfl.sweng.androfoot.polygongenerator.CircleGenerator;
+import ch.epfl.sweng.androfoot.polygongenerator.PaddleGenerator;
 
 public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	
@@ -49,8 +50,10 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	private int screenHeight = DEFAULT_SCREEN_HEIGHT;
 	
 	private GraphicEngine() {
-		PolygonGenerator circleGenerator = new CircleGenerator(90);
+		PolygonGenerator circleGenerator = new PaddleGenerator(1f, 0.5f, 0.1f);
 		testPolygon = new PolygonRenderer(circleGenerator);
+		testPolygon.setPosition(2f, 2f);
+		testPolygon.setScale(1.5f);
 	}
 	
 	public static GraphicEngine getEngine() {
