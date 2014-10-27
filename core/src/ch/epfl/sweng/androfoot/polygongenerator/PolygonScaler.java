@@ -5,10 +5,9 @@ import java.util.Arrays;
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 
 /**
- * Scale a PolygonGenerator
+ * A scaled version of a {@link PolygonGenerator} 
  * @author Guillame Leclerc
  *
- * @param <T> the type of Generator to scale
  */
 public class PolygonScaler extends AbstractPolygonGenerator implements
 		PolygonGenerator {

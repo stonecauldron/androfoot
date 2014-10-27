@@ -6,6 +6,8 @@ import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 
 /**
  * Generate a polygon that represent a paddle
+ * all the subpolygons are cyclic, that means the last vertex is the same as the first one
+ * the polygon istelf is not cyclic
  * @author Guillame Leclerc
  *
  */
@@ -26,7 +28,7 @@ public class PaddleGenerator extends PolygonPack {
 	private final float currHeightRectangle;
 	
 	/**
-	 * Create a generator for a paddle with basic configuration
+	 * Create a generator for a paddle with full configuration
 	 * @param width the width of the paddle
 	 * @param heightCircle the height of the circle part
 	 * @param heightRectangle the height of the rectangle part
@@ -49,10 +51,21 @@ public class PaddleGenerator extends PolygonPack {
 		currWidth = width;
 	}
 	
+	/**
+	 * Create a {@link PaddleGenerator} with default number of segment in the circle part
+	 * @param width
+	 * @param heightCircle
+	 * @param heightRectangle
+	 */
 	public PaddleGenerator(float width, float heightCircle, float heightRectangle) {
 		this(width, heightCircle, heightRectangle, NB_SEGMENT_CIRCLE);
 	}
 	
+	/**
+	 * Create a copy of a {@link PaddleGenerator} but with a different number of segments in the circle part
+	 * @param paddleGen the {@link PaddleGenerator} to copy
+	 * @param nbCircleSegments the number of segments in the circle part
+	 */
 	protected PaddleGenerator(PaddleGenerator paddleGen, int nbCircleSegments){
 		this(paddleGen.currWidth, paddleGen.currHeightCircle, paddleGen.currHeightRectangle, nbCircleSegments);
 	}

@@ -1,5 +1,10 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
+/**
+ * Represent a Map of polygons where the key is a string
+ * @author Guillame Leclerc
+ *
+ */
 public interface PolygonMap {
 	/**
 	 * Get the corresponding PolygonGenerator

@@ -6,15 +6,20 @@ import java.util.List;
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 
 /**
- * Implements some generic methods of PolygonGenerator
+ * Provide some default implementations of the the interface so the different representations
+ * of the polygon are consistent
+ * 
+ * To use the features of this class you need to provide a method {@code generate()}
  * @author Guillame Leclerc
+ * @see PolygonGenerator
  *
  */
 public abstract class AbstractPolygonGenerator implements PolygonGenerator {
 
 	/**
 	 * generate the polygon and return the vertexes
-	 * @return an array containing the vertexes in 2D (even indexes for X coords and odd for Y coords)
+	 * @return an array containing the vertexes in 2D (even indexes for X coords and odd for Y coord)
+	 * 		
 	 */
 	protected abstract float[] generate();
 

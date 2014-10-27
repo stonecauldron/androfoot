@@ -3,7 +3,8 @@ package ch.epfl.sweng.androfoot.polygongenerator;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
- * Generate a rectangle
+ * Generator for a rectangle
+ * Parallel to the x and y axis
  * @author Guillame Leclerc
  *
  */

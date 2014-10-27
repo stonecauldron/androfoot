@@ -2,6 +2,8 @@ package ch.epfl.sweng.androfoot.polygongenerator;
 
 /**
  * Generate a polygon wich is an approximation of a circle
+ * It can also generate subparts of circles 
+ * This is a circular Polygon, that means the the first and the last point are the same
  * @author Guillame Leclerc
  *
  */
