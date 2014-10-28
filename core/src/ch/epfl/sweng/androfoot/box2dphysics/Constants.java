@@ -31,7 +31,7 @@ public class Constants {
     //public static final float TIME_STEP = 1/30f;
     public static final float BALL_RESTITUTION = 1.0f;
     public static final float BALL_FRICTION = 0.0f;
-    public static final float BALL_DENSITY = 0.0001f;
+    public static final float BALL_DENSITY = 0.000000001f;
     public static final float BALL_RADIUS = 0.2f;
     public static final float BALL_INIT_POS_Y = 3.4f;
     public static final float BALL_INIT_POS_X = 5.0f;
