@@ -11,15 +11,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class AndroGame extends Game {
 	SpriteBatch batch;
 	
-	SplashScreen splashScreen;
-	GameScreen gameScreen;
-	MenuScreen menuScreen;
-	ConfigScreen configScreen;
+	MainMenuScreen mainMenuScreen;
 	
 	@Override
 	public void create () {
-		//splashScreen = new SplashScreen();
-		gameScreen = new GameScreen();
-		setScreen(gameScreen);
+		mainMenuScreen = new MainMenuScreen();
+		setScreen(mainMenuScreen);
 	}
 }
