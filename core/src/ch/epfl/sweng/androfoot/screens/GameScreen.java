@@ -16,7 +16,8 @@ import com.badlogic.gdx.Screen;
  */
 public class GameScreen implements Screen, TouchTrackerObserver {
 
-	private GroupPaddle mPaddlesPlayerOne = new GroupPaddle(2, 2, 1, PhysicsWorld.getPhysicsWorld().getWorld(), Constants.WORLD_SIZE_Y, true);
+	private GroupPaddle mPaddlesOnePlayerOne = new GroupPaddle(2, 2, 1, PhysicsWorld.getPhysicsWorld().getWorld(), Constants.WORLD_SIZE_Y, true);
+
 	private float mPlayerOneOldX = 0;
 	private float mPlayerOneOldY = 0;
 	private boolean mPlayerOneOldTouched = false;
@@ -32,16 +33,16 @@ public class GameScreen implements Screen, TouchTrackerObserver {
 	@Override
 	public void update(int playerId, float posX, float posY, boolean touched) {
 		if (mPlayerOneOldTouched == true && touched == true) {
-			mPaddlesPlayerOne.setVelocity(posX - mPlayerOneOldX, mPlayerOneOldY - posY);
+			mPaddlesOnePlayerOne.setVelocity(posX - mPlayerOneOldX, mPlayerOneOldY - posY);
 			mPlayerOneOldX = posX;
 			mPlayerOneOldY = posY;
+			mPlayerOneOldTouched = touched;
 		} else if (touched){
 			mPlayerOneOldTouched = touched;
 			mPlayerOneOldX = posX;
 			mPlayerOneOldY = posY;
 		} else {
-			mPlayerOneOldX = 0;
-			mPlayerOneOldY = 0;
+			mPaddlesOnePlayerOne.setVelocity(0,0);
 			mPlayerOneOldTouched = false;
 		}
 	}

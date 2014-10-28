@@ -82,7 +82,7 @@ public final class SinglePlayerTouchTracker implements InputProcessor, Observabl
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		if (pointer == 1) {
+		if (pointer < 1) {
 			touch.touchX = 0;
 			touch.touchY = 0;
 			touch.touched = false;
