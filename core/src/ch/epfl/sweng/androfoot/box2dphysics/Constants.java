@@ -1,5 +1,6 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -8,6 +9,15 @@ import com.badlogic.gdx.math.Vector2;
  *
  */
 public class Constants {
+	
+	/* Goals */
+	public static final float GOAL_WIDTH = 0.2f;
+	public static final float GOAL_HEIGHT = 2f;
+	public static final int GOAL_COLOR_TEAM1_HEX = 0x2ECC71FF;
+	public static final int GOAL_COLOR_TEAM2_HEX = 0xBF55ECFF;
+	public static final Color GOAL_COLOR_TEAM1 = new Color(GOAL_COLOR_TEAM1_HEX);
+	public static final Color GOAL_COLOR_TEAM2 = new Color(GOAL_COLOR_TEAM2_HEX);
+	
     /* Paddle */
     public static final short CATEGORY_PLAYER = 0x0001;
     public static final short CATEGORY_OTHERS = 0x0002;
@@ -23,7 +33,7 @@ public class Constants {
     public static final float BALL_FRICTION = 0.0f;
     public static final float BALL_DENSITY = 0.0001f;
     public static final float BALL_RADIUS = 0.2f;
-    public static final float BALL_INIT_POS_Y = 3.0f;
+    public static final float BALL_INIT_POS_Y = 3.4f;
     public static final float BALL_INIT_POS_X = 5.0f;
     public static final float WORLD_ORIGIN_Y = 0;
     public static final float WORLD_ORIGIN_X = 0;
