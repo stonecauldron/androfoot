@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
+import ch.epfl.sweng.androfoot.box2dphysics.Goals.GoalsBorder;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 
@@ -32,6 +33,12 @@ public final class PhysicsWorld implements DrawableWorld {
 		Player p = new Player(physicsWorld, 2.5f, 3.0f, true);
 		
 		drawableObjectsSet.add(p);
+		
+		Goals goals= new Goals(physicsWorld, Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y); 
+		
+		for(GoalsBorder goalPart : goals.getBorders()) {
+			drawableObjectsSet.add(goalPart);
+		}
 		
 		new AllBorders(physicsWorld, Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y);
 	}

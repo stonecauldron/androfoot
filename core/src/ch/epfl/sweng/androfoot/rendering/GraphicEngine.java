@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import ch.epfl.sweng.androfoot.gamelogic.PlayerShapeManager;
 import ch.epfl.sweng.androfoot.interfaces.BallInterface;
+import ch.epfl.sweng.androfoot.interfaces.DrawableRectangle;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 import ch.epfl.sweng.androfoot.interfaces.PlayerInterface;
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
@@ -40,6 +41,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	private final BallRenderer ballRenderer = new BallRenderer();
 	private final ScoreRenderer scoreRenderer = new ScoreRenderer(SCORE_COLOR);
 	private final BoardRenderer boardRenderer = new BoardRenderer();
+	private final RectangleRenderer rectangleRenderer = new RectangleRenderer();
 	private final PolygonRenderer playerT1Renderer;
 	private final PolygonRenderer playerT2Renderer;
 	
@@ -145,5 +147,12 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 		if(isBoundToWorld) {
 			viewport.update(screenWidth, screenHeight);
 		}
+	}
+
+	@Override
+	public void visit(DrawableRectangle rectangle) {
+		rectangleRenderer.setColor(rectangle.getColor());
+		rectangleRenderer.setRectangle(rectangle.getShape());
+		rectangleRenderer.render(batch, renderer);
 	}
 }
