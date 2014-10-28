@@ -74,6 +74,7 @@ public class Paddle implements PaddleInterface {
         }
         
         player = new Player(world, x + (width / 2), y + (height / 2), facingRight);
+        PhysicsWorld.getPhysicsWorld().addToDrawableObjectsSet(player);
     }
     
     public Body getLimitedArea() {

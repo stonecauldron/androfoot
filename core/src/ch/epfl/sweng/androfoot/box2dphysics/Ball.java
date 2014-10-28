@@ -47,6 +47,7 @@ public class Ball implements Drawable, BallInterface {
 		fixture.density = density;
 		fixture.friction = friction;
 		fixture.restitution = restitution;
+		fixture.filter.categoryBits = Constants.CATEGORY_OTHERS;
 		
 		ballBody = world.createBody(bodyDef);
 		ballBody.createFixture(fixture);

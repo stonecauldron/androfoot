@@ -67,7 +67,10 @@ public class Player implements PlayerInterface {
 		shootingShape.set(shootPolygonBuilder.generateVertexesFloat());
 		
 		fixtureForCircle.shape = controlShape;
+		fixtureForCircle.filter.categoryBits = Constants.CATEGORY_PLAYER;
+		fixtureForCircle.filter.maskBits = Constants.CATEGORY_OTHERS | Constants.CATEGORY_PLAYER;
 		fixtureForBox.shape = shootingShape;
+		fixtureForBox.filter.categoryBits = Constants.CATEGORY_PLAYER;
 		
 		playerBody.createFixture(fixtureForCircle);
 		playerBody.createFixture(fixtureForBox);

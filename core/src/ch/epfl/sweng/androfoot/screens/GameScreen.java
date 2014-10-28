@@ -1,5 +1,7 @@
 package ch.epfl.sweng.androfoot.screens;
 
+import ch.epfl.sweng.androfoot.box2dphysics.Constants;
+import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
 
@@ -26,6 +28,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void show() {
 		GraphicEngine.getEngine().bindToWorld(PhysicsWorld.getPhysicsWorld());
+		GroupPaddle paddles = new GroupPaddle(2, 2, 1, PhysicsWorld.getPhysicsWorld().getWorld(), Constants.WORLD_SIZE_Y, true);
 	}
 
 	@Override
