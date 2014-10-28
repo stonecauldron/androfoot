@@ -44,7 +44,7 @@ public class Goals {
 	
 	class GoalsBorder implements DrawableRectangle{
 		private final BodyDef borderDef = new BodyDef();
-		private final Body borderBody;
+		private Body borderBody;
 		private final boolean isTeam1;
 		private final Rectangle shape;
 		private final int currentZindex;
@@ -67,16 +67,19 @@ public class Goals {
 				posY = worldHeight - Constants.GOAL_HEIGHT;
 			}
 			
-			borderDef.type = BodyType.StaticBody;
+			
+			//TODO Create the correct body
+			
+			/*borderDef.type = BodyType.StaticBody;
 			borderDef.position.set(new Vector2(posX, posY));
  
 			borderBody = world.createBody(borderDef);
 			final PolygonShape borderShape = new PolygonShape();
-			borderShape.setAsBox(Constants.GOAL_HEIGHT, Constants.GOAL_WIDTH, new Vector2(0f,0f), 0f);
+			borderShape.setAsBox(Constants.GOAL_HEIGHT, Constants.GOAL_WIDTH, new Vector2(-Constants.GOAL_WIDTH/2,-Constants.GOAL_HEIGHT/2), 0f);
 			borderBody.createFixture(borderShape, 0f);
+			*/
 			
 			shape = new Rectangle(posX, posY, Constants.GOAL_WIDTH, Constants.GOAL_HEIGHT);
-			System.out.println(shape);
 		}
 
 		@Override

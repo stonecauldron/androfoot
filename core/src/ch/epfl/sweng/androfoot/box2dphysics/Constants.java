@@ -32,7 +32,7 @@ public class Constants {
     public static final float BALL_FRICTION = 0.0f;
     public static final float BALL_DENSITY = 0.5f;
     public static final float BALL_RADIUS = 0.2f;
-    public static final float BALL_INIT_POS_Y = 3.0f;
+    public static final float BALL_INIT_POS_Y = 3.4f;
     public static final float BALL_INIT_POS_X = 5.0f;
     public static final float WORLD_ORIGIN_Y = 0;
     public static final float WORLD_ORIGIN_X = 0;
