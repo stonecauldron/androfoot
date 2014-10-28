@@ -18,20 +18,33 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
  *
  */
 public class MainMenuScreen implements Screen {
+	private static final String
+		BUTTON_STRING_LOCALPLAY = "Local Play",
+		BUTTON_STRING_HOSTGAME = "Host Game",
+		BUTTON_STRING_JOINGAME = "Join Game",
+		BUTTON_STRING_SETTINGS = "Settings",
+		BUTTON_STRING_CREDITS = "Credits",
+		BUTTON_STRING_EXIT = "Exit",
+		LABEL_TITLE = "AndroFoot";
+	private static final int
+		BUTTON_X_SIZE_PER_LETTER = 20,
+		BUTTON_X_PADDING = 20,
+		BUTTON_Y_SIZE = 40,
+		WIDGET_Y_PADDING = 20;
 
     private Stage stage = new Stage();
     private Table table = new Table();
-
-    private Skin skin = new Skin(Gdx.files.internal("skins/UI_menus.json"),
-        new TextureAtlas(Gdx.files.internal("skins/UI_menus.pack")));
+    private TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("skins/UI_menus.pack"));
+    private Skin skin = new Skin(Gdx.files.internal("skins/UI_menus.json"), atlas);
 
     private TextButton
-    	buttonLocalPlay = new TextButton("Local Play", skin),
-    	buttonNetworkPlay = new TextButton("Network Play", skin),
-    	buttonSettings = new TextButton("Settings", skin),
-    	buttonCredits = new TextButton("Credits", skin),
-        buttonExit = new TextButton("Exit", skin);
-    private Label title = new Label("AndroFoot",skin);
+    	buttonLocalPlay = new TextButton(BUTTON_STRING_LOCALPLAY, skin),
+    	buttonHost = new TextButton(BUTTON_STRING_HOSTGAME, skin),
+    	buttonJoin = new TextButton(BUTTON_STRING_JOINGAME, skin),
+    	buttonSettings = new TextButton(BUTTON_STRING_SETTINGS, skin),
+    	buttonCredits = new TextButton(BUTTON_STRING_CREDITS, skin),
+        buttonExit = new TextButton(BUTTON_STRING_EXIT, skin);
+    private Label title = new Label(LABEL_TITLE,skin);
 
     @Override
     public void render(float delta) {
@@ -50,7 +63,31 @@ public class MainMenuScreen implements Screen {
     	buttonLocalPlay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new SplashScreen());
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new LocalPlayScreen());
+            }
+        });
+    	buttonHost.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new HostScreen());
+            }
+        });
+    	buttonJoin.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new FindScreen());
+            }
+        });
+    	buttonSettings.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new SettingsScreen());
+            }
+        });
+    	buttonCredits.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new CreditsScreen());
             }
         });
         buttonExit.addListener(new ClickListener(){
@@ -61,12 +98,13 @@ public class MainMenuScreen implements Screen {
         });
 
         // Display the elements (in the order we add them)
-        table.add(title).padBottom(40).row();
-        table.add(buttonLocalPlay).size(200,60).padBottom(20).row();
-        table.add(buttonNetworkPlay).size(250,60).padBottom(20).row();
-        table.add(buttonSettings).size(150,60).padBottom(20).row();
-        table.add(buttonCredits).size(150,60).padBottom(20).row();
-        table.add(buttonExit).size(100,60).padBottom(20).row();
+        table.add(title).padBottom(WIDGET_Y_PADDING*2).row();
+        table.add(buttonLocalPlay).size(BUTTON_X_PADDING+BUTTON_STRING_LOCALPLAY.length()*BUTTON_X_SIZE_PER_LETTER,BUTTON_Y_SIZE).padBottom(WIDGET_Y_PADDING).row();
+        table.add(buttonHost).size(BUTTON_X_PADDING+BUTTON_STRING_HOSTGAME.length()*BUTTON_X_SIZE_PER_LETTER,BUTTON_Y_SIZE).padBottom(WIDGET_Y_PADDING).row();
+        table.add(buttonJoin).size(BUTTON_X_PADDING+BUTTON_STRING_JOINGAME.length()*BUTTON_X_SIZE_PER_LETTER,BUTTON_Y_SIZE).padBottom(WIDGET_Y_PADDING).row();
+        table.add(buttonSettings).size(BUTTON_X_PADDING+BUTTON_STRING_SETTINGS.length()*BUTTON_X_SIZE_PER_LETTER,BUTTON_Y_SIZE).padBottom(WIDGET_Y_PADDING).row();
+        table.add(buttonCredits).size(BUTTON_X_PADDING+BUTTON_STRING_CREDITS.length()*BUTTON_X_SIZE_PER_LETTER,BUTTON_Y_SIZE).padBottom(WIDGET_Y_PADDING).row();
+        table.add(buttonExit).size(BUTTON_X_PADDING+BUTTON_STRING_EXIT.length()*BUTTON_X_SIZE_PER_LETTER,BUTTON_Y_SIZE).padBottom(WIDGET_Y_PADDING).row();
 
         table.setFillParent(true);
         stage.addActor(table);
