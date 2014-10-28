@@ -16,7 +16,7 @@ import com.badlogic.gdx.Screen;
  */
 public class GameScreen implements Screen, TouchTrackerObserver {
 
-	private GroupPaddle mPaddlesOnePlayerOne = new GroupPaddle(2, 2, 1, PhysicsWorld.getPhysicsWorld().getWorld(), Constants.WORLD_SIZE_Y, true);
+	private GroupPaddle mPaddlesOnePlayerOne = new GroupPaddle(2, 2, 3, PhysicsWorld.getPhysicsWorld().getWorld(), Constants.WORLD_SIZE_Y, true);
 
 	private float mPlayerOneOldX = 0;
 	private float mPlayerOneOldY = 0;

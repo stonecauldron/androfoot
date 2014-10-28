@@ -25,6 +25,7 @@ import ch.epfl.sweng.androfoot.polygongenerator.PaddleSimplifier;
 public class Player implements PlayerInterface {
 	
 	private static final int MAX_PLAYER_VERTEX = 11;
+	private static int zIndexCounter = 1;
 	private Body playerBody;
 	private BodyDef playerBodyDef = new BodyDef();
 	
@@ -36,6 +37,8 @@ public class Player implements PlayerInterface {
 	
 	private PolygonMap paddleGenerator;
 	private boolean teamFlag;
+	
+	private int zIndex;
 	
 	/**
 	 * Constructor of an individual player.
@@ -71,6 +74,7 @@ public class Player implements PlayerInterface {
 		fixtureForCircle.filter.maskBits = Constants.CATEGORY_OTHERS | Constants.CATEGORY_PLAYER;
 		fixtureForBox.shape = shootingShape;
 		fixtureForBox.filter.categoryBits = Constants.CATEGORY_PLAYER;
+		fixtureForBox.filter.maskBits = Constants.CATEGORY_OTHERS | Constants.CATEGORY_PLAYER;
 		
 		playerBody.createFixture(fixtureForCircle);
 		playerBody.createFixture(fixtureForBox);
@@ -80,6 +84,9 @@ public class Player implements PlayerInterface {
 		} else {
 			playerBody.setTransform(playerBody.getPosition(), (float) (Math.PI/2));
 		}
+		
+		zIndex = zIndexCounter;
+		zIndexCounter++;
 	}
 	
 	@Override
@@ -114,7 +121,7 @@ public class Player implements PlayerInterface {
 
 	@Override
 	public int getZIndex() {
-		return 1;
+		return zIndex;
 	}
 
 }
