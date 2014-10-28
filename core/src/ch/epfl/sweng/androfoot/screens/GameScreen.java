@@ -51,6 +51,7 @@ public class GameScreen implements Screen, TouchTrackerObserver {
 		GraphicEngine.getEngine().render();
 	}
 
+	//TODO Refactor code duplication.
 	@Override
 	public void update(int playerId, float posX, float posY, boolean touched) {
 		if (playerId == 0) {
@@ -91,7 +92,7 @@ public class GameScreen implements Screen, TouchTrackerObserver {
 			} else {
 				mPaddlesOnePlayerTwo.setVelocity(0, 0);
 				mPaddlesTwoPlayerTwo.setVelocity(0, 0);
-				mPlayerOneOldTouched = false;
+				mPlayerTwoOldTouched = false;
 			}
 		}
 	}
