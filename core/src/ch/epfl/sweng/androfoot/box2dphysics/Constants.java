@@ -20,6 +20,7 @@ public class Constants {
 	
     /* Paddle */
     public static final short CATEGORY_PLAYER = 0x0001;
+    public static final short CATEGORY_OTHERS = 0x0002;
     
     /* Border */
     public static final float SCREENOFFSET = 0.1f;
@@ -30,7 +31,7 @@ public class Constants {
     //public static final float TIME_STEP = 1/30f;
     public static final float BALL_RESTITUTION = 1.0f;
     public static final float BALL_FRICTION = 0.0f;
-    public static final float BALL_DENSITY = 0.5f;
+    public static final float BALL_DENSITY = 0.0001f;
     public static final float BALL_RADIUS = 0.2f;
     public static final float BALL_INIT_POS_Y = 3.4f;
     public static final float BALL_INIT_POS_X = 5.0f;

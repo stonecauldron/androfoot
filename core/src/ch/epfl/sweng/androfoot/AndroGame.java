@@ -1,5 +1,8 @@
 package ch.epfl.sweng.androfoot;
 
+import ch.epfl.sweng.androfoot.box2dphysics.Constants;
+import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
+import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.screens.ConfigScreen;
 import ch.epfl.sweng.androfoot.screens.GameScreen;
 import ch.epfl.sweng.androfoot.screens.MainMenuScreen;
