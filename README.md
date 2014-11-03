@@ -10,3 +10,6 @@ To compile the project from the command line just navigate to the root of the pr
 - `./gradlew desktop:run` to run the desktop version of the project
 - `./gradlew android:installDebug android:run` to install the project on a connected android device or emulator
 - `./gradlew tasks` to see all the tasks that gradle can execute.
+
+###Prototype
+An apk of the prototype is in the prototypeBuilds folder. You can install it through adb by typing `adb install -r prototype.apk`.
