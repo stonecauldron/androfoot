@@ -96,8 +96,8 @@ public final class DualPlayerTouchTracker implements InputProcessor, ObservableT
 				mPlayerOneTouch.touchY = screenY;
 				mPlayerOneTouch.touched = true;
 				updatePlayerOne();
-			}
-		} 
+			} 
+		}
 		
 		if (mPlayerTwoCurrentPointer == pointer
 				|| mPlayerTwoCurrentPointer == NO_POINTER) {
@@ -141,8 +141,9 @@ public final class DualPlayerTouchTracker implements InputProcessor, ObservableT
 				mPlayerOneTouch.touchX = screenX;
 				mPlayerOneTouch.touchY = screenY;
 				mPlayerOneTouch.touched = true;
-				
-				
+				updatePlayerOne();
+			} else {
+				mPlayerOneTouch.touched = false;
 				updatePlayerOne();
 			}
 		}
@@ -154,6 +155,9 @@ public final class DualPlayerTouchTracker implements InputProcessor, ObservableT
 				mPlayerTwoTouch.touchY = screenY;
 				mPlayerTwoTouch.touched = true;
 				
+				updatePlayerTwo();
+			} else {
+				mPlayerTwoTouch.touched = false;
 				updatePlayerTwo();
 			}
 		}
