@@ -93,6 +93,18 @@ public final class PhysicsWorld implements DrawableWorld {
 		for (int i = 0; i < discreteNbPhysicsStepInFrame; i++) {
 			physicsWorld.step(Constants.TIME_STEP, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
 		}
+		
+		checkVelocity(ball);
+	}
+	
+	public void checkVelocity(Ball ball) {
+		Vector2 ballVelocity = ball.getLinearVelocity();
+		
+		if((ballVelocity.x > Constants.BALL_MAX_VELOCITY) || 
+				(ballVelocity.y > Constants.BALL_MAX_VELOCITY)) {
+			
+			ball.setLinearVelocity(Constants.BALL_MAX_VELOCITY, Constants.BALL_MAX_VELOCITY);
+		}
 	}
 
 	@Override

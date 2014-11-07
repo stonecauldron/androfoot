@@ -33,16 +33,19 @@ public class Constants {
     /* Border */
     public static final float SCREENOFFSET = 0.1f;
     
-    /* PhysicsWorld */
-    public static final int POSITION_ITERATIONS = 6;
-    public static final int VELOCITY_ITERATIONS = 2;
-    public static final float TIME_STEP = 1/60f;
+    /* Ball */
     public static final float BALL_RESTITUTION = 1.0f;
     public static final float BALL_FRICTION = 0.0f;
     public static final float BALL_DENSITY = 0.00001f;
     public static final float BALL_RADIUS = 0.2f;
     public static final float BALL_INIT_POS_Y = 3.4f;
     public static final float BALL_INIT_POS_X = 5.0f;
+    public static final float BALL_MAX_VELOCITY = 6.0f;
+    
+    /* PhysicsWorld */
+    public static final int POSITION_ITERATIONS = 6;
+    public static final int VELOCITY_ITERATIONS = 2;
+    public static final float TIME_STEP = 1/60f;
     public static final float WORLD_ORIGIN_Y = 0;
     public static final float WORLD_ORIGIN_X = 0;
     public static final float WORLD_SIZE_Y = 6.0f;

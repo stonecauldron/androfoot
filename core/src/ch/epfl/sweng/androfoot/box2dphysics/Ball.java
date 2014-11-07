@@ -98,6 +98,11 @@ public class Ball implements Drawable, BallInterface {
 	public void setLinearVelocity(float x, float y) {
 	    ballBody.setLinearVelocity(x, y);
 	}
+	
+	@Override
+	public Vector2 getLinearVelocity() {
+		return ballBody.getLinearVelocity();
+	}
 
 	@Override
 	public int getZIndex() {
