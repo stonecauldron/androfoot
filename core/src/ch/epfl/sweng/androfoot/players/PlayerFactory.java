@@ -1,7 +1,5 @@
 package ch.epfl.sweng.androfoot.players;
 
-import ch.epfl.sweng.androfoot.interfaces.Controllable;
-
 /**
  * The factory for the players.
  * Uses the enum PlayerType to decide which type of player to instantiate.
@@ -9,21 +7,34 @@ import ch.epfl.sweng.androfoot.interfaces.Controllable;
  *
  */
 public class PlayerFactory {
+	
+	// enum create the correct player each time.
+	private static PlayerNumber playerNumber = PlayerNumber.ONE;
 
-	public static Controllable createPlayer(PlayerType playerType) {
+	public static AbstractPlayer createPlayer(PlayerType playerType) {
+		
+		AbstractPlayer player;
+		
 		switch(playerType) {
 		
 		case AI_PLAYER:
-			return new AIPlayer();
+			player = new AIPlayer(playerNumber);
+			break;
 			
 		case LOCAL_PLAYER:
-			return new LocalPlayer();
+			player = new LocalPlayer(playerNumber);
+			break;
 			
 		case REMOTE_PLAYER:
-			return new RemotePlayer();
+			player = new RemotePlayer(playerNumber);
+			break;
 			
 		default:
 			throw new IllegalArgumentException();
 		}
+		// get next player number
+		playerNumber = PlayerNumber.values()[playerNumber.ordinal() + 1];
+		
+		return player;
 	}
 }

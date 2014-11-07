@@ -1,6 +1,5 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
-
 /**
  * Defines what actions a player can do.
  * 
@@ -8,6 +7,7 @@ package ch.epfl.sweng.androfoot.interfaces;
  *
  */
 public interface Controllable {
+	
 	/**
 	 * Move horizontally in function of deltaX
 	 * @param deltaX variation of position on the x axis

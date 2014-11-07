@@ -7,7 +7,12 @@ import ch.epfl.sweng.androfoot.interfaces.Controllable;
  * @author Pedro Caldeira <pedrocaldeira>
  *
  */
-public class RemotePlayer implements Controllable {
+public class RemotePlayer extends AbstractPlayer implements Controllable {
+
+	RemotePlayer(PlayerNumber number) {
+		super(number);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void moveHorizontally(float deltaX) {

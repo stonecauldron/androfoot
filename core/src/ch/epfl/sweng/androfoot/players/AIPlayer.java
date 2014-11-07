@@ -7,7 +7,11 @@ import ch.epfl.sweng.androfoot.interfaces.Controllable;
  * @author Pedro Caldeira <pedrocaldeira>
  *
  */
-public class AIPlayer implements Controllable {
+public class AIPlayer extends AbstractPlayer implements Controllable {
+
+	AIPlayer(PlayerNumber number) {
+		super(number);
+	}
 
 	@Override
 	public void moveHorizontally(float deltaX) {
@@ -18,7 +22,6 @@ public class AIPlayer implements Controllable {
 	@Override
 	public void moveVertically(float deltaY) {
 		// TODO Auto-generated method stub
-
 	}
-
+	
 }

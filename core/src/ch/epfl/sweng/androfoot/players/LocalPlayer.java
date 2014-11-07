@@ -7,7 +7,12 @@ import ch.epfl.sweng.androfoot.interfaces.Controllable;
  * @author Pedro Caldeira <pedrocaldeira>
  *
  */
-public class LocalPlayer implements Controllable {
+public class LocalPlayer extends AbstractPlayer implements Controllable {
+
+	LocalPlayer(PlayerNumber playerNumber) {
+		super(playerNumber);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void moveHorizontally(float deltaX) {
