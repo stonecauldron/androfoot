@@ -78,39 +78,17 @@ public final class PhysicsWorld implements DrawableWorld {
 		return drawableObjectsSet;
 	}
 	/**
-	 * Performs a step of the physics simulation.
+	 * Performs a step of the physics simulation. Uses an accumulator to calculate correctly the number
+	 * of physics steps in relation to the delta time of the renderer. The time step stays constant. 
 	 * @param delta The delta number (Frames Per Second).
 	 */
 	public void phyStep(float delta) {
 		//fixed time step
-		//max frame to avoid the spiral of death
 		
-		/* float wholeInteger = (float) (delta + accumulator) * Constants.TIME_STEP;
-		System.out.println(delta);
-		int stepsPerFrame = (int) Math.floor(wholeInteger);
-		accumulator = wholeInteger - stepsPerFrame; */
-		
-		System.out.println("Deltas");
-		System.out.println(delta);
-		System.out.println(accumulator);
 		float correctedDelta = delta + accumulator;
-		System.out.println(correctedDelta);
-		System.out.println("division");
-		System.out.println("time step " + Constants.TIME_STEP);
 		float nbPhysicsStepInFrame =  correctedDelta/Constants.TIME_STEP;
-		System.out.println("nb phy : " + nbPhysicsStepInFrame);
 		int discreteNbPhysicsStepInFrame = (int) Math.floor(nbPhysicsStepInFrame);
-		System.out.println("dis " + discreteNbPhysicsStepInFrame);
 		accumulator = (nbPhysicsStepInFrame-discreteNbPhysicsStepInFrame)*Constants.TIME_STEP;
-		
-		//System.out.println(Constants.TIME_STEP);
-		//System.out.println(accumulator);
-		//System.out.println(delta);
-		//System.out.println(correctedDelta);
-		//System.out.println(nbPhysicsStepInFrame);
-		//System.out.println(discreteNbPhysicsStepInFrame);*/
-		
-		System.out.println("------");
 		
 		for (int i = 0; i < discreteNbPhysicsStepInFrame; i++) {
 			physicsWorld.step(Constants.TIME_STEP, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
