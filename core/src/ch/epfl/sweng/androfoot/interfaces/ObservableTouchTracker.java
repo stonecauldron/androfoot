@@ -8,7 +8,10 @@ package ch.epfl.sweng.androfoot.interfaces;
  * Use TouchTrackerObserver to start tracking user input.
  */
 public interface ObservableTouchTracker {
-	void addObserver(TouchTrackerObserver obs);
-
-	boolean removeObserver(TouchTrackerObserver obs);
+	void addObserverPlayerOne(TouchTrackerObserver obs);
+	boolean removeObserverPlayerOne(TouchTrackerObserver obs);
+	
+	void addObserverPlayerTwo(TouchTrackerObserver obs);
+	boolean removeObserverPlayerTwo(TouchTrackerObserver obs);
+	
 }

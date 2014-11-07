@@ -16,14 +16,17 @@ import com.badlogic.gdx.InputProcessor;
  * by implementing the TouchTrackerObserver interface 
  * In our project this list will probably contain only one Object.
  */
-public enum DualPlayerTouchTracker implements InputProcessor, ObservableTouchTracker {
+public enum PlayerTouchTracker implements InputProcessor, ObservableTouchTracker {
 	INSTANCE;
 	
 	private final static int NO_POINTER = -1;
 	private final static int PLAYER_ONE = 0;
 	private final static int PLAYER_TWO = 1;
 	
-	private List<TouchTrackerObserver> observers = new ArrayList<TouchTrackerObserver>();
+	private List<TouchTrackerObserver> observersPlayerOne = new ArrayList<TouchTrackerObserver>();
+	
+	private List<TouchTrackerObserver> observersPlayerTwo = new ArrayList<TouchTrackerObserver>();
+
 
 	private TouchInfo mPlayerOneTouch = new TouchInfo();
 	private TouchInfo mPlayerTwoTouch = new TouchInfo();
@@ -32,22 +35,22 @@ public enum DualPlayerTouchTracker implements InputProcessor, ObservableTouchTra
 	private int mPlayerOneCurrentPointer = NO_POINTER;
 	private int mPlayerTwoCurrentPointer = NO_POINTER;
 
-	private DualPlayerTouchTracker() {
+	private PlayerTouchTracker() {
 		Gdx.input.setInputProcessor(this);
 	}
 	
-	public static DualPlayerTouchTracker getInstance() {
+	public static PlayerTouchTracker getInstance() {
 		return INSTANCE;
 	}
 	
 	private void updatePlayerOne() {
-		for (TouchTrackerObserver obs: observers) {
+		for (TouchTrackerObserver obs: observersPlayerOne) {
 			obs.update(PLAYER_ONE, mPlayerOneTouch.touchX, mPlayerOneTouch.touchY, mPlayerOneTouch.touched);
 		}
 	}
 	
 	private void updatePlayerTwo() {
-		for (TouchTrackerObserver obs: observers) {
+		for (TouchTrackerObserver obs: observersPlayerTwo) {
 			obs.update(PLAYER_TWO, mPlayerTwoTouch.touchX, mPlayerTwoTouch.touchY, mPlayerTwoTouch.touched);
 		}
 	}
@@ -56,16 +59,26 @@ public enum DualPlayerTouchTracker implements InputProcessor, ObservableTouchTra
 		this.mScreenWidth = screenWidth;
 	}
 	
-
 	@Override
-	public void addObserver(TouchTrackerObserver obs) {
-		observers.add(obs);
+	public void addObserverPlayerOne(TouchTrackerObserver obs) {
+		observersPlayerOne.add(obs);
 	}
 	
 	@Override
-	public boolean removeObserver(TouchTrackerObserver obs) {
-		return observers.remove(obs);
+	public boolean removeObserverPlayerOne(TouchTrackerObserver obs) {
+		return observersPlayerOne.remove(obs);
 	}
+	
+	@Override
+	public void addObserverPlayerTwo(TouchTrackerObserver obs) {
+		observersPlayerTwo.add(obs);	
+	}
+
+	@Override
+	public boolean removeObserverPlayerTwo(TouchTrackerObserver obs) {
+		return observersPlayerOne.remove(obs);
+	}
+	
 	
 	@Override
 	public boolean keyDown(int keycode) {
@@ -176,6 +189,5 @@ public enum DualPlayerTouchTracker implements InputProcessor, ObservableTouchTra
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 }

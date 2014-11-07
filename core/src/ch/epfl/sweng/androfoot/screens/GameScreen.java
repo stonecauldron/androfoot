@@ -8,7 +8,7 @@ import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.interfaces.TouchTrackerObserver;
 import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
 import ch.epfl.sweng.androfoot.soundeffect.SoundEffectManager;
-import ch.epfl.sweng.androfoot.touchtracker.DualPlayerTouchTracker;
+import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
 
 import com.badlogic.gdx.Screen;
 
@@ -48,7 +48,8 @@ public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver {
 	private boolean mPlayerTwoOldTouched = false;
 	
 	public GameScreen() {
-		DualPlayerTouchTracker.getInstance().addObserver(this);
+		PlayerTouchTracker.getInstance().addObserverPlayerOne(this);
+		PlayerTouchTracker.getInstance().addObserverPlayerTwo(this);
 	    PhysicsWorld.getPhysicsWorld().addGoalObserver(this);
 	    PhysicsWorld.getPhysicsWorld().addGoalObserver(SoundEffectManager.getInstance());
 	}
@@ -85,9 +86,11 @@ public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver {
 					mPaddlesOnePlayerOne.setVelocity(0, 0);
 					mPaddlesTwoPlayerOne.setVelocity(0, 0);
 				}
+				
 				mPlayerOneOldX = posX;
 				mPlayerOneOldY = posY;
 				mPlayerOneOldTouched = touched;
+				
 			} else if (touched) {
 				mPlayerOneOldTouched = touched;
 				mPlayerOneOldX = posX;
@@ -129,7 +132,7 @@ public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver {
 	@Override
 	public void resize(int width, int height) {
 		GraphicEngine.getEngine().setScreenSize(width, height);
-		DualPlayerTouchTracker.getInstance().setNewScreenWidth(width);
+		PlayerTouchTracker.getInstance().setNewScreenWidth(width);
 	}
 
 	@Override
