@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import ch.epfl.sweng.androfoot.gamelogic.PlayerShapeManager;
+import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
 import ch.epfl.sweng.androfoot.interfaces.BallInterface;
 import ch.epfl.sweng.androfoot.interfaces.DrawableRectangle;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
@@ -56,8 +56,10 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	private int screenHeight = DEFAULT_SCREEN_HEIGHT;
 	
 	private GraphicEngine() {
-		playerT1Renderer = new PolygonRenderer(PlayerShapeManager.getInstanceTeam1());
-		playerT2Renderer = new PolygonRenderer(PlayerShapeManager.getInstanceTeam1());
+		playerT1Renderer = new PolygonRenderer(PlayerCharacteristicsManager.getInstanceTeam1(),
+				PlayerCharacteristicsManager.getColorTeam1());
+		playerT2Renderer = new PolygonRenderer(PlayerCharacteristicsManager.getInstanceTeam1(),
+				PlayerCharacteristicsManager.getColorTeam2());
 	}
 	
 	public static GraphicEngine getEngine() {

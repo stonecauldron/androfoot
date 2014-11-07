@@ -1,5 +1,7 @@
 package ch.epfl.sweng.androfoot.gamelogic;
 
+import com.badlogic.gdx.graphics.Color;
+
 import ch.epfl.sweng.androfoot.polygongenerator.PaddleGenerator;
 
 /**
@@ -9,14 +11,27 @@ import ch.epfl.sweng.androfoot.polygongenerator.PaddleGenerator;
  * @author Guillame Leclerc
  *
  */
-public class PlayerShapeManager {
+public class PlayerCharacteristicsManager {
 	
 	private static float DEFAULT_PADDLE_HEIGHT_CIRCLE = 0.25f;
 	private static float DEFAULT_PADDLE_HEIGHT_RECTANGLE = 0.1f;
 	private static float DEFAULT_PADDLE_WIDTH = 1f;
-
+	
 	private static PaddleGenerator paddleGeneratorInstanceTeam1 = null;
 	private static PaddleGenerator paddleGeneratorInstanceTeam2 = null;
+
+	public static final int DEFAULT_COLOR_TEAM1_HEX = 0x2ECC71FF;
+	public static final int DEFAULT_COLOR_TEAM2_HEX = 0xBF55ECFF;
+	public static final Color DEFAULT_COLOR_TEAM1 = new Color(DEFAULT_COLOR_TEAM1_HEX);
+	public static final Color DEFAULT_COLOR_TEAM2 = new Color(DEFAULT_COLOR_TEAM2_HEX);
+	
+	public static Color getColorTeam1() {
+		return DEFAULT_COLOR_TEAM1;
+	}
+
+	public static Color getColorTeam2() {
+		return DEFAULT_COLOR_TEAM2;
+	}
 	
 	/**
 	 * Get the shape for players of team 1

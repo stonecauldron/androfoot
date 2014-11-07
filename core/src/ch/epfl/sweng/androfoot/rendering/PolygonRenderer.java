@@ -22,7 +22,6 @@ import com.badlogic.gdx.math.Matrix4;
  *
  */
 public class PolygonRenderer implements DrawableRenderer {
-	private final static Color POLYGON_COLOR = new Color(0xFFF00FFF);
 	
 	private final UniformShaderBuilder shaderBuilder;
 	private final Mesh mesh;
@@ -31,12 +30,13 @@ public class PolygonRenderer implements DrawableRenderer {
 	private ImmutablePoint<Float> postition;
 	private float zPos;
 	private float scale;
+	private Color color;
 	
 	/**
 	 * Create the class from a {@link PolygonGenerator}
 	 * @param generator the generator
 	 */
-	public PolygonRenderer(PolygonGenerator generator) {
+	public PolygonRenderer(PolygonGenerator generator, Color colorArg) {
 		shaderBuilder = new UniformShaderBuilder();
 		mesh = new Mesh(false, generator.generatePointsList().size(), 0, 
 				new VertexAttribute(Usage.Position,3, "a_position"));
@@ -46,6 +46,7 @@ public class PolygonRenderer implements DrawableRenderer {
 		postition = new ImmutablePoint<Float>(0f, 0f);
 		transformationMatrix = new Matrix4().idt();
 		rotationMatrix = new Matrix4().idt();
+		color = colorArg;	
 	}
 	
 	/**
@@ -55,6 +56,14 @@ public class PolygonRenderer implements DrawableRenderer {
 	 */
 	public void setPosition(float x, float y) {
 		postition = new ImmutablePoint<Float>(x, y);
+	}
+	
+	/**
+	 * Set the color for the paddle
+	 * @param c the color
+	 */
+	public void setColor(Color c) {
+		color = c;
 	}
 	
 	/**
@@ -93,7 +102,7 @@ public class PolygonRenderer implements DrawableRenderer {
 		generateMatrix();
 		batch.end();
 		shaderBuilder.build().begin();
-		shaderBuilder.setColor(POLYGON_COLOR);
+		shaderBuilder.setColor(color);
 		shaderBuilder.setProjMatrix(batch.getProjectionMatrix());
 		shaderBuilder.setTransfoMatrix(transformationMatrix);
 		mesh.render(shaderBuilder.build(), GL20.GL_TRIANGLE_FAN);
