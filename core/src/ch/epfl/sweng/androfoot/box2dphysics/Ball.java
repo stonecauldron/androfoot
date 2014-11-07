@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import ch.epfl.sweng.androfoot.interfaces.BallInterface;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
+import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
 /**
@@ -47,7 +48,8 @@ public class Ball implements Drawable, BallInterface {
 		fixture.density = density;
 		fixture.friction = friction;
 		fixture.restitution = restitution;
-		fixture.filter.categoryBits = Constants.CATEGORY_OTHERS;
+		fixture.filter.categoryBits = Constants.CATEGORY_BALL;
+		fixture.filter.maskBits = Constants.CATEGORY_OTHERS | Constants.CATEGORY_PLAYER;
 		
 		ballBody = world.createBody(bodyDef);
 		ballBody.createFixture(fixture);
@@ -80,6 +82,11 @@ public class Ball implements Drawable, BallInterface {
 	@Override
 	public void setBallPosition(float x, float y) {
 		ballBody.setTransform(x, y, 0);
+	}
+	
+	@Override
+	public void setLinearVelocity(float x, float y) {
+	    ballBody.setLinearVelocity(x, y);
 	}
 
 	@Override

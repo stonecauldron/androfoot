@@ -71,10 +71,10 @@ public class Player implements PlayerInterface {
 		
 		fixtureForCircle.shape = controlShape;
 		fixtureForCircle.filter.categoryBits = Constants.CATEGORY_PLAYER;
-		fixtureForCircle.filter.maskBits = Constants.CATEGORY_OTHERS | Constants.CATEGORY_PLAYER;
+		fixtureForCircle.filter.maskBits = Constants.CATEGORY_PADDLE | Constants.CATEGORY_BALL;
 		fixtureForBox.shape = shootingShape;
 		fixtureForBox.filter.categoryBits = Constants.CATEGORY_PLAYER;
-		fixtureForBox.filter.maskBits = Constants.CATEGORY_OTHERS | Constants.CATEGORY_PLAYER;
+		fixtureForBox.filter.maskBits = Constants.CATEGORY_PADDLE | Constants.CATEGORY_BALL;
 		
 		playerBody.createFixture(fixtureForCircle);
 		playerBody.createFixture(fixtureForBox);

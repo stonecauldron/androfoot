@@ -1,12 +1,13 @@
 package ch.epfl.sweng.androfoot.screens;
 
+import ch.epfl.sweng.androfoot.box2dphysics.Ball;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
+import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.interfaces.TouchTrackerObserver;
 import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
 import ch.epfl.sweng.androfoot.touchtracker.DualPlayerTouchTracker;
-import ch.epfl.sweng.androfoot.touchtracker.SinglePlayerTouchTracker;
 
 import com.badlogic.gdx.Screen;
 
@@ -16,7 +17,7 @@ import com.badlogic.gdx.Screen;
  * @author Guillame Leclerc
  *
  */
-public class GameScreen implements Screen, TouchTrackerObserver {
+public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver {
 
 	private final static float X_SPEED_RATIO = (float) 0.75;
 	private final static float Y_SPEED_RATIO = (float) 0.75;
@@ -44,6 +45,10 @@ public class GameScreen implements Screen, TouchTrackerObserver {
 	private float mPlayerTwoOldX = 0;
 	private float mPlayerTwoOldY = 0;
 	private boolean mPlayerTwoOldTouched = false;
+	
+	public GameScreen() {
+	    PhysicsWorld.getPhysicsWorld().addGoalObserver(this);
+	}
 
 	@Override
 	public void render(float delta) {
@@ -126,5 +131,11 @@ public class GameScreen implements Screen, TouchTrackerObserver {
 	@Override
 	public void dispose() {
 	}
+
+    @Override
+    public void goal(boolean isTeamOne) {
+        Ball ball = PhysicsWorld.getPhysicsWorld().getBall();
+        ball.setLinearVelocity(0, 0);
+    }
 
 }

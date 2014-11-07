@@ -13,6 +13,8 @@ public class Constants {
 	/* Goals */
 	public static final float GOAL_WIDTH = 0.2f;
 	public static final float GOAL_HEIGHT = 2f;
+	public static final float GOAL_DENSITY = 1.0f;
+	public static final float GOAL_RESTITUTION = 1.0f;
 	public static final int GOAL_COLOR_TEAM1_HEX = 0x2ECC71FF;
 	public static final int GOAL_COLOR_TEAM2_HEX = 0xBF55ECFF;
 	public static final Color GOAL_COLOR_TEAM1 = new Color(GOAL_COLOR_TEAM1_HEX);
@@ -20,7 +22,12 @@ public class Constants {
 	
     /* Paddle */
     public static final short CATEGORY_PLAYER = 0x0001;
+    public static final short CATEGORY_PADDLE = 0x0004;
     public static final short CATEGORY_OTHERS = 0x0002;
+    public static final short CATEGORY_BALL = 0x0008;
+    public static final float PADDLE_DENSITY = 1.0f;
+    public static final float PADDLE_FRICTION = 1.0f;
+    public static final float PADDLE_RESTITUTION = 0.0f;
     
     /* Border */
     public static final float SCREENOFFSET = 0.1f;
@@ -31,7 +38,7 @@ public class Constants {
     //public static final float TIME_STEP = 1/30f;
     public static final float BALL_RESTITUTION = 1.0f;
     public static final float BALL_FRICTION = 0.0f;
-    public static final float BALL_DENSITY = 0.000000001f;
+    public static final float BALL_DENSITY = 0.00001f;
     public static final float BALL_RADIUS = 0.2f;
     public static final float BALL_INIT_POS_Y = 3.4f;
     public static final float BALL_INIT_POS_X = 5.0f;
@@ -46,7 +53,7 @@ public class Constants {
     public static final float BOXHALFLENGTH = 0.6f;
     public static final Vector2 OFFSETFACINGRIGHT = new Vector2(-0.3f, 0);
     public static final Vector2 OFFSETFACINGLEFT = new Vector2(0.3f, 0);
-    public static final float PLAYERDENSITY = 0.5f;
-    public static final float PLAYERFRICTION = 0.0f;
+    public static final float PLAYERDENSITY = 10000000.0f;
+    public static final float PLAYERFRICTION = 500.0f;
     public static final float PLAYERRESTITUTION = 0.0f;
 }

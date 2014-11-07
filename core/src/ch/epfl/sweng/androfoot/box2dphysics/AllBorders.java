@@ -18,9 +18,7 @@ public class AllBorders {
 	public AllBorders(World world, float screenLength, float screenWidth) {
 		
 		new Border(world, screenLength/2, -Constants.SCREENOFFSET, screenLength, Constants.SCREENOFFSET);
-		new Border(world, -Constants.SCREENOFFSET, screenWidth/2, Constants.SCREENOFFSET, screenWidth);
 		new Border(world, screenLength/2, screenWidth + Constants.SCREENOFFSET, screenLength, Constants.SCREENOFFSET);
-		new Border(world, screenLength + Constants.SCREENOFFSET, screenWidth/2, Constants.SCREENOFFSET, screenWidth);
 	}
 	
 }

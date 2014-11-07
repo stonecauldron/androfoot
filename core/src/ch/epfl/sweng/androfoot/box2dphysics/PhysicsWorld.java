@@ -2,14 +2,14 @@ package ch.epfl.sweng.androfoot.box2dphysics;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
-import ch.epfl.sweng.androfoot.box2dphysics.Goals.GoalsBorder;
+import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalBorder;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
+import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 
 /**
  * The class that defines the Physics World which will contain all the physical objects and 
@@ -23,19 +23,32 @@ public final class PhysicsWorld implements DrawableWorld {
 	
 	private World physicsWorld = new World(new Vector2(0, 0), false);
 	private TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
+	private Ball ball;
+	private GoalContactListener goalListener;
 	
 	private PhysicsWorld() {
-		Ball ball = new Ball(physicsWorld, Constants.BALL_INIT_POS_X, Constants.BALL_INIT_POS_Y, Constants.BALL_RADIUS, 
+	    goalListener = new GoalContactListener();
+	    physicsWorld.setContactListener(goalListener);
+	    
+		ball = new Ball(physicsWorld, Constants.BALL_INIT_POS_X, Constants.BALL_INIT_POS_Y, Constants.BALL_RADIUS, 
 		        Constants.BALL_DENSITY, Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
 		
 		addToDrawableObjectsSet(ball);
 		
 		
-		Goals goals= new Goals(physicsWorld, Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y); 
+		Goal teamOneGoal = new Goal(true, physicsWorld, 500);
+		goalListener.addGoal(teamOneGoal);
 		
-		for(GoalsBorder goalPart : goals.getBorders()) {
+		for (GoalBorder goalPart : teamOneGoal.getBorders()) {
 			drawableObjectsSet.add(goalPart);
 		}
+		
+		Goal teamTwoGoal = new Goal(false, physicsWorld, 520);
+		goalListener.addGoal(teamTwoGoal);
+        
+        for (GoalBorder goalPart : teamTwoGoal.getBorders()) {
+            drawableObjectsSet.add(goalPart);
+        }
 		
 		new AllBorders(physicsWorld, Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y);
 	}
@@ -52,6 +65,10 @@ public final class PhysicsWorld implements DrawableWorld {
 	    return physicsWorld;
 	}
 	
+	public Ball getBall() {
+	    return ball;
+	}
+	
 	public void addToDrawableObjectsSet(Drawable object) {
 		drawableObjectsSet.add(object);
 	}
@@ -64,7 +81,8 @@ public final class PhysicsWorld implements DrawableWorld {
 	 * @param delta The delta number (Frames Per Second).
 	 */
 	public void phyStep(float delta) {
-		physicsWorld.step(delta, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
+	    
+	    physicsWorld.step(delta, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
 	}
 
 	@Override
@@ -72,4 +90,8 @@ public final class PhysicsWorld implements DrawableWorld {
 		return new Rectangle(Constants.WORLD_ORIGIN_X, Constants.WORLD_ORIGIN_Y, 
 		        Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y);
 	}
+
+    public void addGoalObserver(GoalObserver obs) {
+        goalListener.addObserver(obs);
+    }
 }

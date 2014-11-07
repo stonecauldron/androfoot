@@ -34,6 +34,10 @@ public class GroupPaddle implements GroupPaddleInterface {
             paddles.add(new Paddle(world, x, y, width, height, facingRight));
         }
     }
+    
+    public List<Paddle> getPaddles() {
+        return paddles;
+    }
 
     /**
      * Change the velocity of all the paddle

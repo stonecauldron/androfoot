@@ -26,4 +26,9 @@ public interface BallInterface extends Visitable{
 	 * Sets the position of the ball.
 	 */
 	void setBallPosition(float x, float y);
+	
+	/**
+	 * Set the velocity of the ball
+	 */
+	void setLinearVelocity(float x, float y);
 }

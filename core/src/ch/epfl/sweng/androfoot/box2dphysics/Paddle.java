@@ -41,7 +41,7 @@ public class Paddle implements PaddleInterface {
         
         // Static definition for the 4 egdes
         areaBodyDef = new BodyDef();
-        areaBodyDef.type = BodyType.StaticBody;
+        areaBodyDef.type = BodyType.KinematicBody;
         areaBodyDef.position.set(new Vector2(x, y));
         
         limitedArea = world.createBody(areaBodyDef);
@@ -54,11 +54,12 @@ public class Paddle implements PaddleInterface {
         vertices.add(new Vector2(0 + width, 0));
         
         areaFixture = new FixtureDef();
+        areaFixture.filter.categoryBits = Constants.CATEGORY_PADDLE;
         areaFixture.filter.maskBits = Constants.CATEGORY_PLAYER;
-        areaFixture.density = 1.0f;
-        areaFixture.friction = 0.0f;
+        areaFixture.density = Constants.PADDLE_DENSITY;
+        areaFixture.friction = Constants.PADDLE_FRICTION;
         // We want the player stops himself after the collision
-        areaFixture.restitution = 0.0f;
+        areaFixture.restitution = Constants.PADDLE_RESTITUTION;
         
         // Creation of the 4 edges
         for (int i = 0; i < vertices.size(); i++) {
