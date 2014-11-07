@@ -2,6 +2,12 @@ package ch.epfl.sweng.androfoot.players;
 
 import ch.epfl.sweng.androfoot.interfaces.Controllable;
 
+/**
+ * The factory for the players.
+ * Uses the enum PlayerType to decide which type of player to instantiate.
+ * @author Pedro Caldeira <pedrocaldeira>
+ *
+ */
 public class PlayerFactory {
 
 	public static Controllable createPlayer(PlayerType playerType) {
