@@ -158,8 +158,8 @@ public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver {
     @Override
     public void goal(boolean isTeamOne) {
         Ball ball = PhysicsWorld.getPhysicsWorld().getBall();
-        ball.setLinearVelocity(0, 0);
         ball.setBallPosition(Constants.WORLD_SIZE_X / 2, Constants.WORLD_SIZE_Y / 2);
+        ball.setLinearVelocity(3, 0);
     }
 
 }

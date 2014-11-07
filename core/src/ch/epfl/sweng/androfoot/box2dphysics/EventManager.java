@@ -38,6 +38,7 @@ public class EventManager implements GoalObserver {
                 observer.goal(event.getTeam());
             }
         }
+        goalEvents.clear();
     }
     
     public void addGoalListener(Goal goal) {
