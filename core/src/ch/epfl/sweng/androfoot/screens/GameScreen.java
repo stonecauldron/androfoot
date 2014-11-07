@@ -56,17 +56,32 @@ public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver {
 		GraphicEngine.getEngine().render();
 	}
 
-	//TODO Refactor code duplication.
+	// TODO Refactor code duplication.
 	@Override
 	public void update(int playerId, float posX, float posY, boolean touched) {
 		if (playerId == 0) {
 			if (mPlayerOneOldTouched == true && touched == true) {
-				mPaddlesOnePlayerOne.setVelocity((posX - mPlayerOneOldX)
-						* X_SPEED_RATIO, (mPlayerOneOldY - posY)
-						* Y_SPEED_RATIO);
-				mPaddlesTwoPlayerOne.setVelocity((posX - mPlayerOneOldX)
-						* X_SPEED_RATIO, (mPlayerOneOldY - posY)
-						* Y_SPEED_RATIO);
+				/*
+				 * This condition checks if the touch dragged coordinates we get
+				 * from the the input class is big enough because we don't want
+				 * to update the velocity but set it to zero if the user doesn't
+				 * move but holds his finger against the screen (gives small
+				 * input variation because of not precise touch screens
+				 * physics).
+				 */
+				if (Math.abs(posX - mPlayerOneOldX) > 2
+						|| Math.abs(mPlayerOneOldY - posY) > 2) {
+					mPaddlesOnePlayerOne.setVelocity((posX - mPlayerOneOldX)
+							* X_SPEED_RATIO, (mPlayerOneOldY - posY)
+							* Y_SPEED_RATIO);
+					mPaddlesTwoPlayerOne.setVelocity((posX - mPlayerOneOldX)
+							* X_SPEED_RATIO, (mPlayerOneOldY - posY)
+							* Y_SPEED_RATIO);
+				} else {
+					mPaddlesOnePlayerOne.setVelocity(0, 0);
+					mPaddlesTwoPlayerOne.setVelocity(0, 0);
+				}
+
 				mPlayerOneOldX = posX;
 				mPlayerOneOldY = posY;
 				mPlayerOneOldTouched = touched;
@@ -81,12 +96,18 @@ public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver {
 			}
 		} else if (playerId == 1) {
 			if (mPlayerTwoOldTouched == true && touched == true) {
-				mPaddlesOnePlayerTwo.setVelocity((posX - mPlayerTwoOldX)
-						* X_SPEED_RATIO, (mPlayerTwoOldY - posY)
-						* Y_SPEED_RATIO);
-				mPaddlesTwoPlayerTwo.setVelocity((posX - mPlayerTwoOldX)
-						* X_SPEED_RATIO, (mPlayerTwoOldY - posY)
-						* Y_SPEED_RATIO);
+				if (Math.abs(posX - mPlayerTwoOldX) > 2
+						|| Math.abs(mPlayerTwoOldY - posY) > 2) {
+					mPaddlesOnePlayerTwo.setVelocity((posX - mPlayerTwoOldX)
+							* X_SPEED_RATIO, (mPlayerTwoOldY - posY)
+							* Y_SPEED_RATIO);
+					mPaddlesTwoPlayerTwo.setVelocity((posX - mPlayerTwoOldX)
+							* X_SPEED_RATIO, (mPlayerTwoOldY - posY)
+							* Y_SPEED_RATIO);
+				} else {
+					mPaddlesOnePlayerTwo.setVelocity(0, 0);
+					mPaddlesTwoPlayerTwo.setVelocity(0, 0);
+				}
 				mPlayerTwoOldX = posX;
 				mPlayerTwoOldY = posY;
 				mPlayerTwoOldTouched = touched;
