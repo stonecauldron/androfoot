@@ -15,17 +15,14 @@ import com.badlogic.gdx.InputProcessor;
  *         touch input by implementing the TouchTrackerObserver interface In our
  *         project this list will probably contain only one Object.
  */
-public final class SinglePlayerTouchTracker implements InputProcessor,
+public enum SinglePlayerTouchTracker implements InputProcessor,
 		ObservableTouchTracker {
-
-	private static final SinglePlayerTouchTracker INSTANCE = new SinglePlayerTouchTracker();
+	INSTANCE;
+	
 	private TouchInfo touch = new TouchInfo();
 	private List<TouchTrackerObserver> observers = new ArrayList<TouchTrackerObserver>();
 
-	private SinglePlayerTouchTracker() {
-		if (INSTANCE != null) {
-			throw new IllegalStateException("Already instantiated");
-		}
+	SinglePlayerTouchTracker() {
 		Gdx.input.setInputProcessor(this);
 	}
 
@@ -98,7 +95,6 @@ public final class SinglePlayerTouchTracker implements InputProcessor,
 			touch.touched = true;
 			update();
 		}
-
 		return true;
 	}
 

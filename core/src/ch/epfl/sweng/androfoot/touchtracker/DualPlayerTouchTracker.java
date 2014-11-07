@@ -16,12 +16,10 @@ import com.badlogic.gdx.InputProcessor;
  * by implementing the TouchTrackerObserver interface 
  * In our project this list will probably contain only one Object.
  */
-public final class DualPlayerTouchTracker implements InputProcessor, ObservableTouchTracker {
-
-	private static final DualPlayerTouchTracker INSTANCE = new DualPlayerTouchTracker();
-
+public enum DualPlayerTouchTracker implements InputProcessor, ObservableTouchTracker {
+	INSTANCE;
+	
 	private final static int NO_POINTER = -1;
-	private final static int SCREEN_WIDTH = Gdx.graphics.getWidth();
 	private final static int PLAYER_ONE = 0;
 	private final static int PLAYER_TWO = 1;
 	
@@ -30,13 +28,11 @@ public final class DualPlayerTouchTracker implements InputProcessor, ObservableT
 	private TouchInfo mPlayerOneTouch = new TouchInfo();
 	private TouchInfo mPlayerTwoTouch = new TouchInfo();
 
+	private int mScreenWidth = Gdx.graphics.getWidth();
 	private int mPlayerOneCurrentPointer = NO_POINTER;
 	private int mPlayerTwoCurrentPointer = NO_POINTER;
 
 	private DualPlayerTouchTracker() {
-		if (INSTANCE != null) {
-			throw new IllegalStateException("Already instantiated");
-		}
 		Gdx.input.setInputProcessor(this);
 	}
 	
@@ -54,6 +50,10 @@ public final class DualPlayerTouchTracker implements InputProcessor, ObservableT
 		for (TouchTrackerObserver obs: observers) {
 			obs.update(PLAYER_TWO, mPlayerTwoTouch.touchX, mPlayerTwoTouch.touchY, mPlayerTwoTouch.touched);
 		}
+	}
+	
+	public void setNewScreenWidth(int screenWidth) {
+		this.mScreenWidth = screenWidth;
 	}
 	
 
@@ -90,7 +90,7 @@ public final class DualPlayerTouchTracker implements InputProcessor, ObservableT
 
 		if (mPlayerOneCurrentPointer == pointer
 				|| mPlayerOneCurrentPointer == NO_POINTER) {
-			if (screenX <= SCREEN_WIDTH / 2) {
+			if (screenX <= mScreenWidth / 2) {
 				mPlayerOneCurrentPointer = pointer;
 				mPlayerOneTouch.touchX = screenX;
 				mPlayerOneTouch.touchY = screenY;
@@ -101,7 +101,7 @@ public final class DualPlayerTouchTracker implements InputProcessor, ObservableT
 		
 		if (mPlayerTwoCurrentPointer == pointer
 				|| mPlayerTwoCurrentPointer == NO_POINTER) {
-			if (screenX > SCREEN_WIDTH / 2) {
+			if (screenX > mScreenWidth / 2) {
 				mPlayerTwoCurrentPointer = pointer;
 				mPlayerTwoTouch.touchX = screenX;
 				mPlayerTwoTouch.touchY = screenY;
@@ -136,7 +136,7 @@ public final class DualPlayerTouchTracker implements InputProcessor, ObservableT
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 
 		if (mPlayerOneCurrentPointer == pointer) {
-			if (screenX <= SCREEN_WIDTH / 2) {
+			if (screenX <= mScreenWidth / 2) {
 				mPlayerOneCurrentPointer = pointer;
 				mPlayerOneTouch.touchX = screenX;
 				mPlayerOneTouch.touchY = screenY;
@@ -149,7 +149,7 @@ public final class DualPlayerTouchTracker implements InputProcessor, ObservableT
 		}
 		
 		if (mPlayerTwoCurrentPointer == pointer) {
-			if (screenX > SCREEN_WIDTH / 2) {
+			if (screenX > mScreenWidth / 2) {
 				mPlayerTwoCurrentPointer = pointer;
 				mPlayerTwoTouch.touchX = screenX;
 				mPlayerTwoTouch.touchY = screenY;

@@ -48,7 +48,9 @@ public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver {
 	private boolean mPlayerTwoOldTouched = false;
 	
 	public GameScreen() {
+		DualPlayerTouchTracker.getInstance().addObserver(this);
 	    PhysicsWorld.getPhysicsWorld().addGoalObserver(this);
+	    PhysicsWorld.getPhysicsWorld().addGoalObserver(SoundEffectManager.getInstance());
 	}
 
 	@Override
@@ -78,6 +80,7 @@ public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver {
 					mPaddlesTwoPlayerOne.setVelocity((posX - mPlayerOneOldX)
 							* X_SPEED_RATIO, (mPlayerOneOldY - posY)
 							* Y_SPEED_RATIO);
+					
 				} else {
 					mPaddlesOnePlayerOne.setVelocity(0, 0);
 					mPaddlesTwoPlayerOne.setVelocity(0, 0);
@@ -126,14 +129,12 @@ public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver {
 	@Override
 	public void resize(int width, int height) {
 		GraphicEngine.getEngine().setScreenSize(width, height);
+		DualPlayerTouchTracker.getInstance().setNewScreenWidth(width);
 	}
 
 	@Override
 	public void show() {
 		GraphicEngine.getEngine().bindToWorld(PhysicsWorld.getPhysicsWorld());
-
-		DualPlayerTouchTracker dptt = DualPlayerTouchTracker.getInstance();
-		dptt.addObserver(this);
 	}
 
 	@Override
