@@ -10,7 +10,6 @@ public class DesktopLauncher {
 		config.allowSoftwareMode = false;
 		config.foregroundFPS = 0;
 		config.vSyncEnabled = false;
-		LwjglApplicationConfiguration.disableAudio = true;
 		new LwjglApplication(new AndroGame(), config);
 	}
 }

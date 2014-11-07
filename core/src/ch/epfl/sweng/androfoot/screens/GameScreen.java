@@ -5,6 +5,7 @@ import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.interfaces.TouchTrackerObserver;
 import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
+import ch.epfl.sweng.androfoot.soundeffect.SoundEffectManager;
 import ch.epfl.sweng.androfoot.touchtracker.DualPlayerTouchTracker;
 import ch.epfl.sweng.androfoot.touchtracker.SinglePlayerTouchTracker;
 
@@ -76,7 +77,6 @@ public class GameScreen implements Screen, TouchTrackerObserver {
 					mPaddlesOnePlayerOne.setVelocity(0, 0);
 					mPaddlesTwoPlayerOne.setVelocity(0, 0);
 				}
-
 				mPlayerOneOldX = posX;
 				mPlayerOneOldY = posY;
 				mPlayerOneOldTouched = touched;

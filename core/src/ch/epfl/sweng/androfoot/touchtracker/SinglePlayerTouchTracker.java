@@ -1,6 +1,5 @@
 package ch.epfl.sweng.androfoot.touchtracker;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,18 +10,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 
 /**
- * @author Ahaeflig
- * Singleton implementation of one player touch input tracking.
- * Add yourself to the tracker's observer list to start observing the touch input
- * by implementing the TouchTrackerObserver interface 
- * In our project this list will probably contain only one Object.
+ * @author Ahaeflig Singleton implementation of one player touch input tracking.
+ *         Add yourself to the tracker's observer list to start observing the
+ *         touch input by implementing the TouchTrackerObserver interface In our
+ *         project this list will probably contain only one Object.
  */
-public final class SinglePlayerTouchTracker implements InputProcessor, ObservableTouchTracker	 {
+public final class SinglePlayerTouchTracker implements InputProcessor,
+		ObservableTouchTracker {
 
 	private static final SinglePlayerTouchTracker INSTANCE = new SinglePlayerTouchTracker();
 	private TouchInfo touch = new TouchInfo();
 	private List<TouchTrackerObserver> observers = new ArrayList<TouchTrackerObserver>();
-	
+
 	private SinglePlayerTouchTracker() {
 		if (INSTANCE != null) {
 			throw new IllegalStateException("Already instantiated");
@@ -33,13 +32,13 @@ public final class SinglePlayerTouchTracker implements InputProcessor, Observabl
 	public static SinglePlayerTouchTracker getInstance() {
 		return INSTANCE;
 	}
-	
+
 	private void update() {
-		for (TouchTrackerObserver obs: observers) {
+		for (TouchTrackerObserver obs : observers) {
 			obs.update(0, touch.touchX, touch.touchY, touch.touched);
 		}
 	}
-	
+
 	@Override
 	public void addObserver(TouchTrackerObserver obs) {
 		observers.add(obs);
@@ -49,7 +48,7 @@ public final class SinglePlayerTouchTracker implements InputProcessor, Observabl
 	public boolean removeObserver(TouchTrackerObserver o) {
 		return observers.remove(o);
 	}
-	
+
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub
@@ -102,7 +101,6 @@ public final class SinglePlayerTouchTracker implements InputProcessor, Observabl
 
 		return true;
 	}
-	
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
@@ -115,6 +113,5 @@ public final class SinglePlayerTouchTracker implements InputProcessor, Observabl
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 }
