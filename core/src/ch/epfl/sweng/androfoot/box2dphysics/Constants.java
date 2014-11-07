@@ -40,7 +40,7 @@ public class Constants {
     public static final float BALL_RADIUS = 0.2f;
     public static final float BALL_INIT_POS_Y = 3.4f;
     public static final float BALL_INIT_POS_X = 5.0f;
-    public static final float BALL_MAX_VELOCITY = 6.0f;
+    public static final float BALL_MAX_VELOCITY = 6.0f; //Too fast?
     
     /* PhysicsWorld */
     public static final int POSITION_ITERATIONS = 6;

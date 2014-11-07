@@ -48,37 +48,18 @@ public class Player implements PlayerInterface {
 	 */
 	public Player(World world, float initPosX, float initPosY, boolean teamOrientation) {
 		teamFlag = teamOrientation;
-		PaddleGenerator fullGenerator;
-		if(teamOrientation) {
-			fullGenerator = PlayerCharacteristicsManager.getInstanceTeam1();
-		} else {
-			fullGenerator = PlayerCharacteristicsManager.getInstanceTeam2();
-		}
-		
-		paddleGenerator = new PaddleSimplifier(fullGenerator, MAX_PLAYER_VERTEX);
 		
 		playerBodyDef.type = BodyType.DynamicBody;
 		playerBodyDef.position.set(new Vector2(initPosX, initPosY));
 		
 		playerBody = world.createBody(playerBodyDef);
 		
-		PolygonGenerator controlPolygonBuilder = paddleGenerator.get(PaddleGenerator.CONTROL_BLOCK_KEY);
-		PolygonGenerator shootPolygonBuilder = paddleGenerator.get(PaddleGenerator.SHOOT_BLOCK_KEY);
+		createPaddleShape(teamFlag);
 		
-		controlShape.set(controlPolygonBuilder.generateVertexesFloat());
-		shootingShape.set(shootPolygonBuilder.generateVertexesFloat());
+		createAttachFixtureForCircle();
+		createAttachFixtureForBox();
 		
-		fixtureForCircle.shape = controlShape;
-		fixtureForCircle.filter.categoryBits = Constants.CATEGORY_PLAYER;
-		fixtureForCircle.filter.maskBits = Constants.CATEGORY_PADDLE | Constants.CATEGORY_BALL;
-		fixtureForBox.shape = shootingShape;
-		fixtureForBox.filter.categoryBits = Constants.CATEGORY_PLAYER;
-		fixtureForBox.filter.maskBits = Constants.CATEGORY_PADDLE | Constants.CATEGORY_BALL;
-		
-		playerBody.createFixture(fixtureForCircle);
-		playerBody.createFixture(fixtureForBox);
-		
-		if(teamOrientation) {
+		if(teamFlag) {
 			playerBody.setTransform(playerBody.getPosition(), (float) (-Math.PI/2));
 		} else {
 			playerBody.setTransform(playerBody.getPosition(), (float) (Math.PI/2));
@@ -86,6 +67,40 @@ public class Player implements PlayerInterface {
 		
 		zIndex = zIndexCounter;
 		zIndexCounter++;
+	}
+	
+	private void createPaddleShape(boolean teamFlag) {
+		
+		PaddleGenerator fullGenerator;
+		if(teamFlag) {
+			fullGenerator = PlayerCharacteristicsManager.getInstanceTeam1();
+		} else {
+			fullGenerator = PlayerCharacteristicsManager.getInstanceTeam2();
+		}
+		
+		paddleGenerator = new PaddleSimplifier(fullGenerator, MAX_PLAYER_VERTEX);
+		
+		PolygonGenerator controlPolygonBuilder = paddleGenerator.get(PaddleGenerator.CONTROL_BLOCK_KEY);
+		PolygonGenerator shootPolygonBuilder = paddleGenerator.get(PaddleGenerator.SHOOT_BLOCK_KEY);
+		
+		controlShape.set(controlPolygonBuilder.generateVertexesFloat());
+		shootingShape.set(shootPolygonBuilder.generateVertexesFloat());
+	}
+	
+	private void createAttachFixtureForCircle() {
+		fixtureForCircle.shape = controlShape;
+		fixtureForCircle.filter.categoryBits = Constants.CATEGORY_PLAYER;
+		fixtureForCircle.filter.maskBits = Constants.CATEGORY_PADDLE | Constants.CATEGORY_BALL;
+		
+		playerBody.createFixture(fixtureForCircle);
+	}
+	
+	private void createAttachFixtureForBox() {
+		fixtureForBox.shape = shootingShape;
+		fixtureForBox.filter.categoryBits = Constants.CATEGORY_PLAYER;
+		fixtureForBox.filter.maskBits = Constants.CATEGORY_PADDLE | Constants.CATEGORY_BALL;
+		
+		playerBody.createFixture(fixtureForBox);
 	}
 	
 	@Override
