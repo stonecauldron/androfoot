@@ -22,6 +22,7 @@ public final class PhysicsWorld implements DrawableWorld {
 	private static final PhysicsWorld PHYSICS_WORLD_INSTANCE = new PhysicsWorld();
 	
 	private World physicsWorld = new World(new Vector2(0, 0), false);
+	private float accumulator = 0f;
 	private TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
 	private Ball ball;
 	private GoalContactListener goalListener;
@@ -81,8 +82,39 @@ public final class PhysicsWorld implements DrawableWorld {
 	 * @param delta The delta number (Frames Per Second).
 	 */
 	public void phyStep(float delta) {
-	    
-	    physicsWorld.step(delta, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
+		//fixed time step
+		//max frame to avoid the spiral of death
+		
+		/* float wholeInteger = (float) (delta + accumulator) * Constants.TIME_STEP;
+		System.out.println(delta);
+		int stepsPerFrame = (int) Math.floor(wholeInteger);
+		accumulator = wholeInteger - stepsPerFrame; */
+		
+		System.out.println("Deltas");
+		System.out.println(delta);
+		System.out.println(accumulator);
+		float correctedDelta = delta + accumulator;
+		System.out.println(correctedDelta);
+		System.out.println("division");
+		System.out.println("time step " + Constants.TIME_STEP);
+		float nbPhysicsStepInFrame =  correctedDelta/Constants.TIME_STEP;
+		System.out.println("nb phy : " + nbPhysicsStepInFrame);
+		int discreteNbPhysicsStepInFrame = (int) Math.floor(nbPhysicsStepInFrame);
+		System.out.println("dis " + discreteNbPhysicsStepInFrame);
+		accumulator = (nbPhysicsStepInFrame-discreteNbPhysicsStepInFrame)*Constants.TIME_STEP;
+		
+		//System.out.println(Constants.TIME_STEP);
+		//System.out.println(accumulator);
+		//System.out.println(delta);
+		//System.out.println(correctedDelta);
+		//System.out.println(nbPhysicsStepInFrame);
+		//System.out.println(discreteNbPhysicsStepInFrame);*/
+		
+		System.out.println("------");
+		
+		for (int i = 0; i < discreteNbPhysicsStepInFrame; i++) {
+			physicsWorld.step(Constants.TIME_STEP, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
+		}
 	}
 
 	@Override
