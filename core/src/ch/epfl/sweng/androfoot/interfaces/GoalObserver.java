@@ -16,5 +16,5 @@ public interface GoalObserver {
      * if isTeamOne is true, the team two won a point.
      * @param isTeamOne
      */
-    public void goal(boolean isTeamOne);
+    void goal(boolean isTeamOne);
 }

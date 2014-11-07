@@ -2,6 +2,7 @@ package ch.epfl.sweng.androfoot.screens;
 
 import ch.epfl.sweng.androfoot.box2dphysics.Ball;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
+import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
@@ -48,10 +49,7 @@ public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver {
 	private boolean mPlayerTwoOldTouched = false;
 	
 	public GameScreen() {
-		PlayerTouchTracker.getInstance().addObserverPlayerOne(this);
-		PlayerTouchTracker.getInstance().addObserverPlayerTwo(this);
-	    PhysicsWorld.getPhysicsWorld().addGoalObserver(this);
-	    PhysicsWorld.getPhysicsWorld().addGoalObserver(SoundEffectManager.getInstance());
+	    EventManager.getEventManager().addGoalObserver(this);
 	}
 
 	@Override
@@ -161,6 +159,7 @@ public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver {
     public void goal(boolean isTeamOne) {
         Ball ball = PhysicsWorld.getPhysicsWorld().getBall();
         ball.setLinearVelocity(0, 0);
+        ball.setBallPosition(Constants.WORLD_SIZE_X / 2, Constants.WORLD_SIZE_Y / 2);
     }
 
 }

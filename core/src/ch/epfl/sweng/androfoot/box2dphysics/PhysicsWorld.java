@@ -25,11 +25,9 @@ public final class PhysicsWorld implements DrawableWorld {
 	private float accumulator = 0f;
 	private TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
 	private Ball ball;
-	private GoalContactListener goalListener;
 	
 	private PhysicsWorld() {
-	    goalListener = new GoalContactListener();
-	    physicsWorld.setContactListener(goalListener);
+	    EventManager.getEventManager().initListener(physicsWorld);
 	    
 		ball = new Ball(physicsWorld, Constants.BALL_INIT_POS_X, Constants.BALL_INIT_POS_Y, Constants.BALL_RADIUS, 
 		        Constants.BALL_DENSITY, Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
@@ -38,14 +36,14 @@ public final class PhysicsWorld implements DrawableWorld {
 		
 		
 		Goal teamOneGoal = new Goal(true, physicsWorld, 500);
-		goalListener.addGoal(teamOneGoal);
+		EventManager.getEventManager().addGoalListener(teamOneGoal);
 		
 		for (GoalBorder goalPart : teamOneGoal.getBorders()) {
 			drawableObjectsSet.add(goalPart);
 		}
 		
 		Goal teamTwoGoal = new Goal(false, physicsWorld, 520);
-		goalListener.addGoal(teamTwoGoal);
+		EventManager.getEventManager().addGoalListener(teamTwoGoal);
         
         for (GoalBorder goalPart : teamTwoGoal.getBorders()) {
             drawableObjectsSet.add(goalPart);
@@ -93,7 +91,8 @@ public final class PhysicsWorld implements DrawableWorld {
 		for (int i = 0; i < discreteNbPhysicsStepInFrame; i++) {
 			physicsWorld.step(Constants.TIME_STEP, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
 		}
-		
+
+        EventManager.getEventManager().throwEvents();
 		checkVelocity(ball);
 	}
 	
@@ -112,8 +111,4 @@ public final class PhysicsWorld implements DrawableWorld {
 		return new Rectangle(Constants.WORLD_ORIGIN_X, Constants.WORLD_ORIGIN_Y, 
 		        Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y);
 	}
-
-    public void addGoalObserver(GoalObserver obs) {
-        goalListener.addObserver(obs);
-    }
 }
