@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
-import ch.epfl.sweng.androfoot.gamelogic.PlayerShapeManager;
+import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
 import ch.epfl.sweng.androfoot.interfaces.PlayerInterface;
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 import ch.epfl.sweng.androfoot.interfaces.PolygonMap;
@@ -51,9 +51,9 @@ public class Player implements PlayerInterface {
 		teamFlag = teamOrientation;
 		PaddleGenerator fullGenerator;
 		if(teamOrientation) {
-			fullGenerator = PlayerShapeManager.getInstanceTeam1();
+			fullGenerator = PlayerCharacteristicsManager.getInstanceTeam1();
 		} else {
-			fullGenerator = PlayerShapeManager.getInstanceTeam2();
+			fullGenerator = PlayerCharacteristicsManager.getInstanceTeam2();
 		}
 		
 		paddleGenerator = new PaddleSimplifier(fullGenerator, MAX_PLAYER_VERTEX);
