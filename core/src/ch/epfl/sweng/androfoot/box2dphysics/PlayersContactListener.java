@@ -31,8 +31,8 @@ public class PlayersContactListener implements ContactListener {
 	@Override
 	public void beginContact(Contact contact) {
 		for (Player player : players) {
-			if ((contact.getFixtureA().getBody() == player.getBody()) ||
-					(contact.getFixtureB().getBody() == player.getBody())) {
+			if ((contact.getFixtureA() == player.getBody().getFixtureList().get(0)) ||
+					(contact.getFixtureB() == player.getBody().getFixtureList().get(0))) {
 				
 				for (PlayerObserver observer : observers) {
 					observer.setBall(player.getTeam());

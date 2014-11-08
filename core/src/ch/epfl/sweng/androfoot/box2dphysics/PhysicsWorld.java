@@ -1,7 +1,9 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
+import java.util.ArrayList;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -24,6 +26,13 @@ public final class PhysicsWorld implements DrawableWorld {
 	private float accumulator = 0f;
 	private TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
 	private Ball ball;
+	
+	//TESTING======================================================
+	private GroupPaddle mPaddlesOnePlayerOne;
+	private GroupPaddle mPaddlesTwoPlayerOne;
+	private GroupPaddle mPaddlesOnePlayerTwo;
+	private GroupPaddle mPaddlesTwoPlayerTwo;
+	
 	
 	private PhysicsWorld() {
 	    EventManager.getEventManager().initListener(physicsWorld);
@@ -49,6 +58,53 @@ public final class PhysicsWorld implements DrawableWorld {
         }
 		
 		new AllBorders(physicsWorld, Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y);
+		
+		//TESTING===================================================================
+		mPaddlesOnePlayerOne = new GroupPaddle(1, 2, 3,
+				physicsWorld, Constants.WORLD_SIZE_Y,
+				true);
+
+		mPaddlesTwoPlayerOne = new GroupPaddle(5, 2, 2,
+				physicsWorld, Constants.WORLD_SIZE_Y,
+				true);
+
+		mPaddlesOnePlayerTwo = new GroupPaddle(7, 2, 3,
+				physicsWorld, Constants.WORLD_SIZE_Y,
+				false);
+
+		mPaddlesTwoPlayerTwo = new GroupPaddle(3, 2, 2,
+				physicsWorld, Constants.WORLD_SIZE_Y,
+				false);
+		
+		for (Player player : getAllPlayers()) {
+			drawableObjectsSet.add(player);
+		}
+		
+		for (Player player : getAllPlayers()) {
+			EventManager.getEventManager().addPlayerListener(player);
+		}
+		
+	}
+	
+	private ArrayList<Player> getAllPlayers() {
+		ArrayList<GroupPaddle> groupPaddleList = new ArrayList<GroupPaddle>();
+		groupPaddleList.add(mPaddlesOnePlayerOne);
+		groupPaddleList.add(mPaddlesOnePlayerTwo);
+		groupPaddleList.add(mPaddlesTwoPlayerOne);
+		groupPaddleList.add(mPaddlesTwoPlayerTwo);
+		
+		ArrayList<Paddle> paddleList = new ArrayList<Paddle>();
+		
+		for (GroupPaddle group : groupPaddleList) {
+			paddleList.addAll(group.getPaddles());
+		}
+		
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		for (Paddle paddle : paddleList) {
+			playerList.add(paddle.getPlayer());
+		}
+		
+		return playerList;
 	}
 	
 	/**
