@@ -5,11 +5,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.badlogic.gdx.physics.box2d.World;
-
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
 
+/**
+ * Manage the events of the physic world. We need that because we can't create, destroy or transform body
+ * during a physic step computation. With this manager, the events are thrown in a secure way.
+ * @author Gilthoniel (Gaylor Bosson)
+ *
+ */
 public class EventManager implements GoalObserver, PlayerObserver {
     
     private static final EventManager manager = new EventManager();
@@ -38,10 +42,10 @@ public class EventManager implements GoalObserver, PlayerObserver {
         return manager;
     }
     
-    public void initListener(World world) {
-        world.setContactListener(goalListener);
+    public void initListener(GlobalContactListener listener) {
+        listener.addListener(goalListener);
         
-        world.setContactListener(playerListener);
+        listener.addListener(playerListener);
     }
     
     public void throwEvents() {

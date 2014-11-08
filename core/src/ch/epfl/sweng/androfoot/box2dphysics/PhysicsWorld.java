@@ -23,6 +23,7 @@ public final class PhysicsWorld implements DrawableWorld {
 	private static final PhysicsWorld PHYSICS_WORLD_INSTANCE = new PhysicsWorld();
 	
 	private World physicsWorld = new World(new Vector2(0, 0), false);
+	private GlobalContactListener listener;
 	private float accumulator = 0f;
 	private TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
 	private Ball ball;
@@ -35,7 +36,9 @@ public final class PhysicsWorld implements DrawableWorld {
 	
 	
 	private PhysicsWorld() {
-	    EventManager.getEventManager().initListener(physicsWorld);
+	    listener = new GlobalContactListener();
+	    physicsWorld.setContactListener(listener);
+	    EventManager.getEventManager().initListener(listener);
 	    
 		ball = new Ball(physicsWorld, Constants.BALL_INIT_POS_X, Constants.BALL_INIT_POS_Y, Constants.BALL_RADIUS, 
 		        Constants.BALL_DENSITY, Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
