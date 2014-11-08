@@ -5,6 +5,7 @@ package ch.epfl.sweng.androfoot.rendering.test;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.SortedSet;
@@ -21,6 +22,7 @@ import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableRectangle;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
+import ch.epfl.sweng.androfoot.interfaces.WorldRenderer;
 import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -33,6 +35,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.physics.box2d.World;
 
 /**
  * @author Guillame Leclerc
@@ -41,8 +44,9 @@ import com.badlogic.gdx.math.Rectangle;
 public class GraphicEngineTest {
 	private static GraphicTester tester;
 	private static final Rectangle WORLD_REGION = new Rectangle(0, 0, 10, 6);
-	private static final Rectangle OUTSIDE_RECTANGLE = new Rectangle(600,0,600,600);
+	private static final Rectangle OUTSIDE_RECTANGLE = new Rectangle(600, 0, 600, 600);
 	private static final Color BACKGROUND_COLOR = new Color(0x303030ff);
+	private static final float DELTA = 0.001f;
 
 	@BeforeClass
 	public static void setup() {
@@ -51,14 +55,13 @@ public class GraphicEngineTest {
 
 	@Test
 	public void testOpenGLandScreenshotTaker() throws InterruptedException {
-		GraphicTester.TestRequest request = new GraphicTester.TestRequest(
-				new Runnable() {
-					@Override
-					public void run() {
-						Gdx.gl.glClearColor(1f, 0f, 1f, 1f);
-						Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-					}
-				});
+		GraphicTester.TestRequest request = new GraphicTester.TestRequest(new Runnable() {
+			@Override
+			public void run() {
+				Gdx.gl.glClearColor(1f, 0f, 1f, 1f);
+				Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			}
+		});
 
 		tester.scheduleTest(request);
 
@@ -81,8 +84,7 @@ public class GraphicEngineTest {
 		colors.remove(Color.BLACK);
 		for (Color c : colors) {
 			c = setAlphaTo(c, 1f);
-			assertTrue("is black or Red (value :" + c.toString() + ")",
-					c.equals(Color.BLACK) || c.equals(Color.RED));
+			assertTrue("is black or Red (value :" + c.toString() + ")", c.equals(Color.BLACK) || c.equals(Color.RED));
 		}
 	}
 
@@ -97,12 +99,11 @@ public class GraphicEngineTest {
 		Pixmap result = request.getResult();
 		Set<Color> colors = getColorsFromPixMap(result);
 		colors.remove(Color.BLACK);
-		for(Color c : colors) {
+		for (Color c : colors) {
 			assertEquals(Color.BLUE, c);
 		}
 	}
-	
-	
+
 	@Test
 	public void testOutOfBounds() {
 		EngineTestRequestBuilder builder = new EngineTestRequestBuilder(WORLD_REGION);
@@ -113,9 +114,56 @@ public class GraphicEngineTest {
 		Pixmap result = request.getResult();
 		Set<Color> colors = getColorsFromPixMap(result);
 		colors.remove(Color.BLACK);
-		for(Color c : colors) {
+		for (Color c : colors) {
 			assertEquals(BACKGROUND_COLOR, c);
 		}
+	}
+
+	@Test
+	public void testPercentageOccupied() {
+		EngineTestRequestBuilder builder = new EngineTestRequestBuilder(WORLD_REGION);
+		builder.addDrawable(new SimpleRectangle(WORLD_REGION, BACKGROUND_COLOR, 0));
+		GraphicTester.TestRequest request = builder.build();
+		tester.scheduleTest(request);
+		Pixmap result = request.getResult();
+		int width = Gdx.graphics.getWidth();
+		int height = Gdx.graphics.getHeight();
+		float screenRatio = width / (float) height;
+		float worldRatio = WORLD_REGION.width / WORLD_REGION.height;
+		float expectedPourcentage = worldRatio / screenRatio;
+		if (screenRatio < worldRatio) {
+			expectedPourcentage = 1 / expectedPourcentage;
+		}
+		expectedPourcentage *= 100;
+		expectedPourcentage = 100 - expectedPourcentage;
+
+		HashMap<Color, Float> colors = getPixelCountPercentage(result);
+
+		System.out.println(expectedPourcentage);
+
+		assertEquals("The pourcentage of borders is not correct", expectedPourcentage, colors.get(Color.BLACK), DELTA);
+	}
+
+	@Test
+	public void testHalfRectangle() {
+		Rectangle halfRectanglePart1 = new Rectangle(0, 0, WORLD_REGION.width / 2, WORLD_REGION.height);
+		Rectangle halfRectanglePart2 = new Rectangle(WORLD_REGION.width / 2, 0, WORLD_REGION.width / 2,
+				WORLD_REGION.height);
+
+		EngineTestRequestBuilder builder = new EngineTestRequestBuilder(WORLD_REGION);
+		builder.addDrawable(new SimpleRectangle(WORLD_REGION, BACKGROUND_COLOR, 0));
+		builder.addDrawable(new SimpleRectangle(halfRectanglePart1, Color.RED, 2));
+		builder.addDrawable(new SimpleRectangle(halfRectanglePart2, Color.BLUE, 1));
+
+		GraphicTester.TestRequest request = builder.build();
+		tester.scheduleTest(request);
+		Pixmap result = request.getResult();
+
+		HashMap<Color, Float> colors = getPixelCountPercentage(result);
+		assertEquals("The two rectangle should have the same area", colors.get(Color.RED), colors.get(Color.BLUE),
+				DELTA);
+		assertFalse("the background should be covered by the two rectangles", 
+				colors.keySet().contains(BACKGROUND_COLOR));
 	}
 
 	private static Color setAlphaTo(Color c, float alpha) {
@@ -134,17 +182,39 @@ public class GraphicEngineTest {
 		return colors;
 	}
 
+	private static HashMap<Color, Float> getPixelCountPercentage(Pixmap image) {
+		HashMap<Color, Float> colors = new HashMap<Color, Float>();
+		for (int i = 0; i < image.getWidth(); i++) {
+			for (int j = 0; j < image.getHeight(); j++) {
+				Color c = new Color(image.getPixel(i, j));
+				c = setAlphaTo(c, 1f);
+				if (colors.containsKey(c)) {
+					colors.put(c, colors.get(c) + 1f);
+				} else {
+					colors.put(c, 1f);
+				}
+			}
+		}
+
+		final int nbPixels = image.getWidth() * image.getHeight();
+
+		for (Color c : colors.keySet()) {
+			colors.put(c, colors.get(c) * 100f / nbPixels);
+		}
+		return colors;
+	}
+
 	@AfterClass
 	public static void tearDown() {
 		tester.dispose();
 	}
 
 	private static class SimpleRectangle implements DrawableRectangle {
-		
+
 		private final int zIndex;
 		private final Color color;
 		private final Rectangle region;
-		
+
 		public SimpleRectangle(Rectangle regionArg, Color colorArg, int zArg) {
 			zIndex = zArg;
 			color = colorArg;
@@ -170,6 +240,6 @@ public class GraphicEngineTest {
 		public Rectangle getShape() {
 			return region;
 		}
-	
+
 	}
 }

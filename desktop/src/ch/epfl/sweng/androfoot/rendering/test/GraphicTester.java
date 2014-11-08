@@ -45,8 +45,8 @@ public class GraphicTester {
 					Pixmap screenshot = ScreenShotTaker.getScreenshot(0, 0, 
 							Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 					request.setResult(screenshot);
-					FileHandle handle = Gdx.files.absolute("C:\\Users\\Guillame Leclerc\\workspacegdx\\androfoot\\" + (testCount++) + "test.png");
-					ScreenShotTaker.saveScreenshot(handle);
+					//FileHandle handle = Gdx.files.absolute("C:\\Users\\Guillame Leclerc\\workspacegdx\\androfoot\\" + (testCount++) + "test.png");
+					//ScreenShotTaker.saveScreenshot(handle);
 				}
 			}
 			
