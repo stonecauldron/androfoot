@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalBorder;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
-import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 
 /**
  * The class that defines the Physics World which will contain all the physical objects and 

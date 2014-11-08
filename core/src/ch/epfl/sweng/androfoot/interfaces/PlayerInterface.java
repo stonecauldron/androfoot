@@ -1,5 +1,7 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
+import com.badlogic.gdx.physics.box2d.Body;
+
 /**
  * Represents an individual player on the field.
  * @author Matvey
@@ -29,6 +31,11 @@ public interface PlayerInterface extends Drawable {
 	 * Gets the player's team. If true the player belongs to team 1, else team 2.
 	 */
 	boolean getTeam();
+	
+	/**
+	 * Gets the physical body of the player
+	 */
+	Body getBody();
 	
 	/**
 	 * Modifies the velocity of the player.

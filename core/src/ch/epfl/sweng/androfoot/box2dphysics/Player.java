@@ -97,6 +97,7 @@ public class Player implements PlayerInterface {
 	
 	private void createAttachFixtureForBox() {
 		fixtureForBox.shape = shootingShape;
+		//fixtureForBox.isSensor = true;
 		fixtureForBox.filter.categoryBits = Constants.CATEGORY_PLAYER;
 		fixtureForBox.filter.maskBits = Constants.CATEGORY_PADDLE | Constants.CATEGORY_BALL;
 		
@@ -131,6 +132,11 @@ public class Player implements PlayerInterface {
 	@Override
 	public boolean getTeam() {
 		return teamFlag;
+	}
+	
+	@Override
+	public Body getBody() {
+		return playerBody;
 	}
 
 	@Override
