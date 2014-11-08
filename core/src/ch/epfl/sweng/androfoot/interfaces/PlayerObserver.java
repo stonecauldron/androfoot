@@ -1,5 +1,7 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
+import ch.epfl.sweng.androfoot.box2dphysics.Player;
+
 /**
  * Event that occurs when the ball hits the back of the player.
  * @author Matvey
@@ -12,5 +14,5 @@ public interface PlayerObserver {
 	 * Sets the ball in fron of the player for easier precision shooting.
 	 * @param Indicates the team of the player. 
 	 */
-	void setBall(boolean teamFlag);
+	void setBall(Player player, boolean teamFlag);
 }

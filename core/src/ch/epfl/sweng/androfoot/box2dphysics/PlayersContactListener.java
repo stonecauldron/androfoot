@@ -35,7 +35,7 @@ public class PlayersContactListener implements ContactListener {
 					(contact.getFixtureB() == player.getBody().getFixtureList().get(0))) {
 				
 				for (PlayerObserver observer : observers) {
-					observer.setBall(player.getTeam());
+					observer.setBall(player, player.getTeam());
 				}
 			}
 		}

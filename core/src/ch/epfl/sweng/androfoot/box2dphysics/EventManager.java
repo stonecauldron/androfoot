@@ -54,7 +54,7 @@ public class EventManager implements GoalObserver, PlayerObserver {
         
         for (PlayerEvent event : playerEvents) {
         	for (PlayerObserver observer : playerObservers) {
-        		observer.setBall(event.getTeam());
+        		observer.setBall(event.getPlayer() ,event.getTeam());
         	}
         }
         playerEvents.clear();
@@ -82,11 +82,9 @@ public class EventManager implements GoalObserver, PlayerObserver {
         goalEvents.add(new GoalEvent(isTeamOne));
     }
     
-    
-    
-    @Override
-	public void setBall(boolean teamFlag) {
-		playerEvents.add(new PlayerEvent(teamFlag));
+	@Override
+	public void setBall(Player player, boolean teamFlag) {
+		playerEvents.add(new PlayerEvent(player, teamFlag));
 	}
     
     class GoalEvent {
@@ -103,13 +101,19 @@ public class EventManager implements GoalObserver, PlayerObserver {
     
     class PlayerEvent {
     	private boolean teamFlag;
+    	private Player player;
     	
-    	public PlayerEvent(boolean team) {
+    	public PlayerEvent(Player playerOfTheEvent, boolean team) {
     		teamFlag = team;
+    		player = playerOfTheEvent;
     	}
     	
     	public boolean getTeam() {
     		return teamFlag;
+    	}
+    	
+    	public Player getPlayer() {
+    		return player;
     	}
     }
 }

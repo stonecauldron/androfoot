@@ -5,6 +5,7 @@ import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
+import ch.epfl.sweng.androfoot.box2dphysics.Player;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
 import ch.epfl.sweng.androfoot.interfaces.TouchTrackerObserver;
@@ -147,7 +148,11 @@ public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver, P
     }
 
 	@Override
-	public void setBall(boolean teamFlag) {
+	public void setBall(Player player, boolean teamFlag) {
 		System.out.println("Yes!");
+		
+		Ball ball = PhysicsWorld.getPhysicsWorld().getBall();
+		ball.setBallPosition(player.getPositionX() + 0.65f, player.getPositionY());
+		ball.setLinearVelocity(0, 0);
 	}
 }
