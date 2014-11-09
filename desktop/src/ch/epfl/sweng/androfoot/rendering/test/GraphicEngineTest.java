@@ -5,6 +5,7 @@ package ch.epfl.sweng.androfoot.rendering.test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +17,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.Request;
 
 import ch.epfl.sweng.androfoot.AndroGame;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
@@ -36,6 +38,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author Guillame Leclerc
@@ -46,6 +50,7 @@ public class GraphicEngineTest {
 	private static final Rectangle WORLD_REGION = new Rectangle(0, 0, 10, 6);
 	private static final Rectangle OUTSIDE_RECTANGLE = new Rectangle(600, 0, 600, 600);
 	private static final Color BACKGROUND_COLOR = new Color(0x303030ff);
+	private static final Color MIDFIELD_COLOR = new Color(0x2B2B2BFF);
 	private static final float DELTA = 0.001f;
 
 	@BeforeClass
@@ -80,7 +85,7 @@ public class GraphicEngineTest {
 		tester.scheduleTest(request);
 		Pixmap screenShot = request.getResult();
 
-		Set<Color> colors = getColorsFromPixMap(screenShot);
+		Set<Color> colors = getColorSet(getAllPixels(screenShot));
 		colors.remove(Color.BLACK);
 		for (Color c : colors) {
 			c = setAlphaTo(c, 1f);
@@ -97,7 +102,7 @@ public class GraphicEngineTest {
 		GraphicTester.TestRequest request = builder.build();
 		tester.scheduleTest(request);
 		Pixmap result = request.getResult();
-		Set<Color> colors = getColorsFromPixMap(result);
+		Set<Color> colors = getColorSet(getAllPixels(result));
 		colors.remove(Color.BLACK);
 		for (Color c : colors) {
 			assertEquals(Color.BLUE, c);
@@ -112,7 +117,7 @@ public class GraphicEngineTest {
 		GraphicTester.TestRequest request = builder.build();
 		tester.scheduleTest(request);
 		Pixmap result = request.getResult();
-		Set<Color> colors = getColorsFromPixMap(result);
+		Set<Color> colors = getColorSet(getAllPixels(result));
 		colors.remove(Color.BLACK);
 		for (Color c : colors) {
 			assertEquals(BACKGROUND_COLOR, c);
@@ -137,11 +142,22 @@ public class GraphicEngineTest {
 		expectedPourcentage *= 100;
 		expectedPourcentage = 100 - expectedPourcentage;
 
-		HashMap<Color, Float> colors = getPixelCountPercentage(result);
-
-		System.out.println(expectedPourcentage);
-
+		HashMap<Color, Float> colors = getPixelCountPercentage(getAllPixels(result));
 		assertEquals("The pourcentage of borders is not correct", expectedPourcentage, colors.get(Color.BLACK), DELTA);
+	}
+
+	@Test
+	public void testEmptyBoardAppearence() {
+		EngineTestRequestBuilder builder = new EngineTestRequestBuilder(WORLD_REGION);
+		GraphicTester.TestRequest request = builder.build();
+		tester.scheduleTest(request);
+		Pixmap result = request.getResult();
+		Set<Color> colors = getColorSet(getVerticalPixels(result,
+				result.getWidth()/2));
+		colors.remove(Color.BLACK);
+		for(Color c : colors) {
+			assertEquals("The color should be the midfield Line", MIDFIELD_COLOR, c );
+		}
 	}
 
 	@Test
@@ -159,47 +175,59 @@ public class GraphicEngineTest {
 		tester.scheduleTest(request);
 		Pixmap result = request.getResult();
 
-		HashMap<Color, Float> colors = getPixelCountPercentage(result);
+		HashMap<Color, Float> colors = getPixelCountPercentage(getAllPixels(result));
 		assertEquals("The two rectangle should have the same area", colors.get(Color.RED), colors.get(Color.BLUE),
 				DELTA);
-		assertFalse("the background should be covered by the two rectangles", 
-				colors.keySet().contains(BACKGROUND_COLOR));
+		assertFalse("the background should be covered by the two rectangles", colors.keySet()
+				.contains(BACKGROUND_COLOR));
 	}
 
 	private static Color setAlphaTo(Color c, float alpha) {
 		return new Color(c.r, c.g, c.b, alpha);
 	}
 
-	private static Set<Color> getColorsFromPixMap(Pixmap image) {
+	private static Set<Color> getColorSet(List<Color> colorsInput) {
 		HashSet<Color> colors = new HashSet<Color>();
-		for (int i = 0; i < image.getWidth(); i++) {
-			for (int j = 0; j < image.getHeight(); j++) {
-				Color c = new Color(image.getPixel(i, j));
-				c = setAlphaTo(c, 1f);
-				colors.add(c);
-			}
+		for (Color c : colorsInput) {
+			c = setAlphaTo(c, 1f);
+			colors.add(c);
 		}
 		return colors;
 	}
 
-	private static HashMap<Color, Float> getPixelCountPercentage(Pixmap image) {
+	private static HashMap<Color, Float> getPixelCountPercentage(List<Color> colorsInput) {
 		HashMap<Color, Float> colors = new HashMap<Color, Float>();
-		for (int i = 0; i < image.getWidth(); i++) {
-			for (int j = 0; j < image.getHeight(); j++) {
-				Color c = new Color(image.getPixel(i, j));
-				c = setAlphaTo(c, 1f);
-				if (colors.containsKey(c)) {
-					colors.put(c, colors.get(c) + 1f);
-				} else {
-					colors.put(c, 1f);
-				}
+		for (Color c : colorsInput) {
+			c = setAlphaTo(c, 1f);
+			if (colors.containsKey(c)) {
+				colors.put(c, colors.get(c) + 1f);
+			} else {
+				colors.put(c, 1f);
 			}
 		}
 
-		final int nbPixels = image.getWidth() * image.getHeight();
+		final int nbPixels = colorsInput.size();
 
 		for (Color c : colors.keySet()) {
 			colors.put(c, colors.get(c) * 100f / nbPixels);
+		}
+		return colors;
+	}
+
+	private static List<Color> getVerticalPixels(Pixmap image, int x) {
+		List<Color> colors = new ArrayList<Color>();
+		for (int y = 0; y < image.getHeight(); y++) {
+			colors.add(new Color(image.getPixel(x, y)));
+		}
+		return colors;
+	}
+
+	private static List<Color> getAllPixels(Pixmap image) {
+		List<Color> colors = new ArrayList<Color>();
+		for (int x = 0; x < image.getWidth(); x++) {
+			for (int y = 0; y < image.getHeight(); y++) {
+				colors.add(new Color(image.getPixel(x, y)));
+			}
 		}
 		return colors;
 	}
