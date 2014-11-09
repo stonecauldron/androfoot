@@ -33,6 +33,7 @@ allprojects {
 project(":desktop") {
     apply plugin: "java"
 
+    sourceSets.test.java.srcDirs = ["test/"]
 
     dependencies {
         compile project(":core")
@@ -40,6 +41,7 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+        testCompile "junit:junit:+"
     }
 }
 
@@ -86,7 +88,8 @@ project(":html") {
 
 project(":core") {
     apply plugin: "java"
-
+    
+    sourceSets.test.java.srcDirs = ["test/"]
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
