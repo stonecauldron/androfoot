@@ -36,7 +36,7 @@ public class CircleGeneratorTest {
 	public void testRoundCircle() {
 		CircleGenerator generator = new CircleGenerator(SEGMENTS);
 		float[] vertexes = generator.generateVertexesFloat();
-		assertEquals("The amount of vertex is false", SEGMENTS + 1, (vertexes.length) / 2);
+		assertEquals("The amount of vertex is false", SEGMENTS + 2, (vertexes.length) / 2);
 		assertEquals("The last vertex is not the same as the first one", vertexes[0], vertexes[SEGMENTS*2], DELTA);
 		assertEquals("The last vertex is not the same as the first one", vertexes[1], vertexes[SEGMENTS*2 + 1], DELTA);
 	}
