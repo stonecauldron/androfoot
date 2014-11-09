@@ -12,4 +12,14 @@ To compile the project from the command line just navigate to the root of the pr
 - `./gradlew tasks` to see all the tasks that gradle can execute.
 
 ###Prototype
-An apk of the prototype is in the prototypeBuilds folder. You can install it through adb by typing `adb install -r prototype.apk`.
+An apk of the prototype is in the prototypeBuilds folder.
+You can install it through adb by typing `adb install -r prototype.apk`.
+
+###Testing
+To test the project through the command line type the following:
+- `./gradlew core:test` to test the unit tests in the core project.
+- `./gradlew desktop:test`to test the unit tests in the desktop project.
+
+Tests should be placed in the core project unless they interact with
+platform specific classes. (GraphicEngine tests need the desktop launcher
+for example)
