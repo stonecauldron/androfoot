@@ -26,6 +26,8 @@ public class Paddle implements PaddleInterface {
     private List<EdgeShape> areasShape;
     private FixtureDef areaFixture;
     
+    private float posX;
+    
     private Player player;
     
     /**
@@ -38,6 +40,7 @@ public class Paddle implements PaddleInterface {
      */
     public Paddle(World world, float x, float y, float width, float height, boolean facingRight) {
         areasShape = new ArrayList<EdgeShape>();
+        posX = x;
         
         // Static definition for the 4 egdes
         areaBodyDef = new BodyDef();
@@ -85,6 +88,10 @@ public class Paddle implements PaddleInterface {
     public Player getPlayer() {
         return player;
     }
+    
+    private float getPosX() {
+    	return posX;
+    }
 
     @Override
     public void setVelocity(float x, float y) {
@@ -93,7 +100,14 @@ public class Paddle implements PaddleInterface {
 
 	@Override
 	public boolean isAbleToControlBall() {
-		// TODO implement this method 
-		return false;
+		
+		float ballPositionX = PhysicsWorld.getPhysicsWorld().getBall().getPositionX();
+		float ballRadius = Constants.BALL_RADIUS;
+		
+		if (ballPositionX >= (getPosX() + ballRadius)) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 }
