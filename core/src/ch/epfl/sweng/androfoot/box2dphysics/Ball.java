@@ -58,6 +58,16 @@ public class Ball implements Drawable, BallInterface {
 		
 		ballBody.setLinearVelocity(new Vector2(-3, 0)); //For testing purposes
 	}
+	
+	/**
+	 * Creates a ball at the initial position.
+	 * @return the newly created ball.
+	 */
+	public static Ball createBall() {
+		return new Ball(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), Constants.BALL_INIT_POS_X,
+				Constants.BALL_INIT_POS_Y, Constants.BALL_RADIUS, Constants.BALL_DENSITY,
+				Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
+	}
 
 	@Override
 	public void accept(Visitor visitor) {
