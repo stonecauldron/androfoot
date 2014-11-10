@@ -24,19 +24,19 @@ public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver {
 	private final static float Y_SPEED_RATIO = (float) 0.75;
 
 	private GroupPaddle mPaddlesOnePlayerOne = new GroupPaddle(1, 2, 3,
-			PhysicsWorld.getPhysicsWorld().getWorld(), Constants.WORLD_SIZE_Y,
+			PhysicsWorld.getPhysicsWorld().getBox2DWorld(), Constants.WORLD_SIZE_Y,
 			true);
 
 	private GroupPaddle mPaddlesTwoPlayerOne = new GroupPaddle(5, 2, 2,
-			PhysicsWorld.getPhysicsWorld().getWorld(), Constants.WORLD_SIZE_Y,
+			PhysicsWorld.getPhysicsWorld().getBox2DWorld(), Constants.WORLD_SIZE_Y,
 			true);
 
 	private GroupPaddle mPaddlesOnePlayerTwo = new GroupPaddle(7, 2, 3,
-			PhysicsWorld.getPhysicsWorld().getWorld(), Constants.WORLD_SIZE_Y,
+			PhysicsWorld.getPhysicsWorld().getBox2DWorld(), Constants.WORLD_SIZE_Y,
 			false);
 
 	private GroupPaddle mPaddlesTwoPlayerTwo = new GroupPaddle(3, 2, 2,
-			PhysicsWorld.getPhysicsWorld().getWorld(), Constants.WORLD_SIZE_Y,
+			PhysicsWorld.getPhysicsWorld().getBox2DWorld(), Constants.WORLD_SIZE_Y,
 			false);
 
 	private float mPlayerOneOldX = 0;

@@ -61,7 +61,7 @@ public final class PhysicsWorld implements DrawableWorld {
 		return PHYSICS_WORLD_INSTANCE;
 	}
 	
-	public World getWorld() {
+	public World getBox2DWorld() {
 	    return physicsWorld;
 	}
 	
