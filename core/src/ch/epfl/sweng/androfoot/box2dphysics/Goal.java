@@ -15,7 +15,7 @@ import ch.epfl.sweng.androfoot.interfaces.DrawableRectangle;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
 /**
- * 
+ * Class that defines the goals as physical objects.
  * @author Gilthoniel (Gaylor Bosson)
  *
  */
@@ -31,6 +31,12 @@ public class Goal {
     private final EdgeShape goalShape;
     private final FixtureDef goalFixture;
     
+    /**
+     * Constructor of a physical goal object.
+     * @param teamOne The team flag, true for team one, otherwise false.
+     * @param physicsWorld The physics world to which the goal belongs.
+     * @param zIndex The Z Index of the goal for rendering.
+     */
     public Goal(boolean teamOne, World physicsWorld, int zIndex) {
         zIndexIncrement = zIndex;
         isTeamOne = teamOne;

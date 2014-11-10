@@ -69,6 +69,10 @@ public class Player implements PlayerInterface {
 		zIndexCounter++;
 	}
 	
+	/**
+	 * Auxiliary method used to create the paddle shape using the PolygonGenerator.
+	 * @param teamFlag True for team one, else false.
+	 */
 	private void createPaddleShape(boolean teamFlag) {
 		
 		PaddleGenerator fullGenerator;
@@ -87,6 +91,9 @@ public class Player implements PlayerInterface {
 		shootingShape.set(shootPolygonBuilder.generateVertexesFloat());
 	}
 	
+	/**
+	 * Creates and attaches the circular fixture to the player object.
+	 */
 	private void createAttachFixtureForCircle() {
 		fixtureForCircle.shape = controlShape;
 		fixtureForCircle.filter.categoryBits = Constants.CATEGORY_PLAYER;
@@ -95,6 +102,9 @@ public class Player implements PlayerInterface {
 		playerBody.createFixture(fixtureForCircle);
 	}
 	
+	/**
+	 * Creates and attaches the rectangular fixture to the player object.
+	 */
 	private void createAttachFixtureForBox() {
 		fixtureForBox.shape = shootingShape;
 		fixtureForBox.filter.categoryBits = Constants.CATEGORY_PLAYER;

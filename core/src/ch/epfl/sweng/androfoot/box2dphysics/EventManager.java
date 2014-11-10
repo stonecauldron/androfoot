@@ -22,7 +22,7 @@ public class EventManager implements GoalObserver, PlayerObserver {
     private Set<GoalObserver> goalObservers;
     private List<GoalEvent> goalEvents;
     
-    private PlayersContactListener playerListener;
+    private PlayerContactListener playerListener;
     private Set<PlayerObserver> playerObservers;
     private List<PlayerEvent> playerEvents;
     
@@ -32,7 +32,7 @@ public class EventManager implements GoalObserver, PlayerObserver {
         goalObservers = new HashSet<GoalObserver>();
         goalEvents = new ArrayList<GoalEvent>();
         
-        playerListener = new PlayersContactListener();
+        playerListener = new PlayerContactListener();
         playerListener.addObserver(this);
         playerObservers = new HashSet<PlayerObserver>();
         playerEvents = new ArrayList<PlayerEvent>();
@@ -72,18 +72,22 @@ public class EventManager implements GoalObserver, PlayerObserver {
         goalObservers.add(obs);
     }
     
+    @Override
+    public void goal(boolean isTeamOne) {
+        goalEvents.add(new GoalEvent(isTeamOne));
+    }
+    
     //Player
+    /**
+     * Adds 
+     * @param player
+     */
     public void addPlayerListener(Player player) {
     	playerListener.addPlayer(player);
     }
     
     public void addPlayerObserver(PlayerObserver observer) {
     	playerObservers.add(observer);
-    }
-
-    @Override
-    public void goal(boolean isTeamOne) {
-        goalEvents.add(new GoalEvent(isTeamOne));
     }
     
 	@Override

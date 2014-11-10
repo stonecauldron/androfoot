@@ -10,20 +10,36 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
-public class PlayersContactListener implements ContactListener {
+/**
+ * Defines the contact listener for the ball-player interactions.
+ * @author Matvey
+ *
+ */
+public class PlayerContactListener implements ContactListener {
 	
 	private Set<Player> players;
 	private Set<PlayerObserver> observers;
 	
-	public PlayersContactListener() {
+	/**
+	 * Constructor for the {@link PlayerContactListener} class.
+	 */
+	public PlayerContactListener() {
 		players = new HashSet<Player>();
 		observers = new HashSet<PlayerObserver>();
 	}
 	
+	/**
+	 * Adds the specified player to the list of the players for the contact listener.
+	 * @param player Player to be added.
+	 */
 	public void addPlayer(Player player) {
 		players.add(player);
 	}
 	
+	/**
+	 * Adds the specified observer to the list of the observers for the contact listener.
+	 * @param observer
+	 */
 	public void addObserver(PlayerObserver observer) {
 		observers.add(observer);
 	}
@@ -31,8 +47,8 @@ public class PlayersContactListener implements ContactListener {
 	@Override
 	public void beginContact(Contact contact) {
 		for (Player player : players) {
-			if ((contact.getFixtureA() == player.getBody().getFixtureList().get(0)) ||
-					(contact.getFixtureB() == player.getBody().getFixtureList().get(0))) {
+			if ((contact.getFixtureA() == player.getBody().getFixtureList().get(0)) 
+					|| (contact.getFixtureB() == player.getBody().getFixtureList().get(0))) {
 				
 				for (PlayerObserver observer : observers) {
 					observer.setBall(player, player.getTeam());
@@ -43,19 +59,19 @@ public class PlayersContactListener implements ContactListener {
 
 	@Override
 	public void endContact(Contact contact) {
-		// TODO Auto-generated method stub
+		// Does nothing.
 
 	}
 
 	@Override
 	public void preSolve(Contact contact, Manifold oldManifold) {
-		// TODO Auto-generated method stub
+		// Does nothing
 
 	}
 
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
-		// TODO Auto-generated method stub
+		// Does nothing.
 
 	}
 

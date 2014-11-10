@@ -152,7 +152,15 @@ public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver, P
 		System.out.println("Yes!");
 		
 		Ball ball = PhysicsWorld.getPhysicsWorld().getBall();
-		ball.setBallPosition(player.getPositionX() + 0.65f, player.getPositionY());
-		ball.setLinearVelocity(0, 0);
+		
+		if (teamFlag) {
+			ball.setBallPosition(player.getPositionX() + Constants.BALL_CONTROL_OFFSET,
+					player.getPositionY());
+			ball.setLinearVelocity(0, 0);
+		} else {
+			ball.setBallPosition(player.getPositionX() - Constants.BALL_CONTROL_OFFSET,
+					player.getPositionY());
+			ball.setLinearVelocity(0, 0);
+		}
 	}
 }
