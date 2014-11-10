@@ -37,6 +37,8 @@ public class Player implements PlayerInterface {
 	private PolygonMap paddleGenerator;
 	private boolean teamFlag;
 	
+	private final Paddle parent;
+	
 	private int zIndex;
 	
 	/**
@@ -45,8 +47,10 @@ public class Player implements PlayerInterface {
 	 * @param initPosX x coordinate of the initial position of the player.
 	 * @param initPosY y coordinate of the initial position of the player.
 	 * @param teamOrientation If true the player is facing right, otherwise player is facing left.
+	 * @param paddle 
 	 */
-	public Player(World world, float initPosX, float initPosY, boolean teamOrientation) {
+	public Player(World world, float initPosX, float initPosY, boolean teamOrientation, Paddle paddle) {
+		parent = paddle;
 		teamFlag = teamOrientation;
 		
 		playerBodyDef.type = BodyType.DynamicBody;

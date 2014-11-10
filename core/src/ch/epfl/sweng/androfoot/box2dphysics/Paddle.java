@@ -74,7 +74,7 @@ public class Paddle implements PaddleInterface {
             edge.dispose();
         }
         
-        player = new Player(world, x + (width / 2), y + (height / 2), facingRight);
+        player = new Player(world, x + (width / 2), y + (height / 2), facingRight, this);
         //PhysicsWorld.getPhysicsWorld().addToDrawableObjectsSet(player);
     }
     
