@@ -102,16 +102,18 @@ public class Paddle implements PaddleInterface {
 	public boolean isAbleToControlBall() {
 		boolean res = true;
 		
-		float ballPositionX = PhysicsWorld.getPhysicsWorld().getBall().getPositionX();
 		float ballRadius = Constants.BALL_RADIUS;
+		float paddleCenterX = posX + (widthOfThePaddle / 2);
 		
-		if(teamFlag) {
-			if (ballPositionX >= (posX + widthOfThePaddle/2 + ballRadius)) {
+		if (teamFlag) {
+			if ((player.getPositionX() + Constants.BALL_CONTROL_OFFSET) >= 
+					(paddleCenterX + widthOfThePaddle/2 + ballRadius)) {
 				res = false;
 			}
 			
 		} else {
-			if(ballPositionX <= (posX - widthOfThePaddle/2 - ballRadius)); {
+			if ((player.getPositionX() - Constants.BALL_CONTROL_OFFSET) <=
+					(paddleCenterX - widthOfThePaddle/2 - ballRadius)) {
 				res = false;
 			}
 		}
