@@ -21,9 +21,9 @@ import ch.epfl.sweng.androfoot.interfaces.Visitor;
 public class Ball implements Drawable, BallInterface {
 	
 	private Body ballBody;
-	private BodyDef bodyDef = new BodyDef();
-	private CircleShape circle = new CircleShape();
-	private FixtureDef fixture = new FixtureDef();
+	private final BodyDef bodyDef = new BodyDef();
+	private final CircleShape circle = new CircleShape();
+	private final FixtureDef fixture = new FixtureDef();
 	private float ballRadius;
 	
 	/**

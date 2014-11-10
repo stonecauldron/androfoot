@@ -79,13 +79,17 @@ public class EventManager implements GoalObserver, PlayerObserver {
     
     //Player
     /**
-     * Adds 
-     * @param player
+     * Adds a player to the list of the Player Contact Listener.
+     * @param player Player to add.
      */
     public void addPlayerListener(Player player) {
     	playerListener.addPlayer(player);
     }
     
+    /**
+     * Adds a Player Observer to the player observer list.
+     * @param observer Observer to be added.
+     */
     public void addPlayerObserver(PlayerObserver observer) {
     	playerObservers.add(observer);
     }
@@ -107,19 +111,37 @@ public class EventManager implements GoalObserver, PlayerObserver {
         }
     }
     
+    /**
+     * Class that defines the player event.
+     * @author Matvey
+     *
+     */
     class PlayerEvent {
     	private boolean teamFlag;
     	private Player player;
     	
+    	/**
+    	 * Contructor of the PlayerEvent class.
+    	 * @param playerOfTheEvent The player which is the object of the event.
+    	 * @param team The team of the player.
+    	 */
     	public PlayerEvent(Player playerOfTheEvent, boolean team) {
     		teamFlag = team;
     		player = playerOfTheEvent;
     	}
     	
+    	/**
+    	 * Return the team of the player.
+    	 * @return True if on team one, else false.
+    	 */
     	public boolean getTeam() {
     		return teamFlag;
     	}
     	
+    	/**
+    	 * Returns the player involved in the event.
+    	 * @return Player of the event.
+    	 */
     	public Player getPlayer() {
     		return player;
     	}

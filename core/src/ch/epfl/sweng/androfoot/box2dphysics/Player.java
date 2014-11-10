@@ -27,13 +27,13 @@ public class Player implements PlayerInterface {
 	private static final int MAX_PLAYER_VERTEX = 11;
 	private static int zIndexCounter = 1;
 	private Body playerBody;
-	private BodyDef playerBodyDef = new BodyDef();
+	private final BodyDef playerBodyDef = new BodyDef();
 	
-	private FixtureDef fixtureForCircle = new FixtureDef();
-	private FixtureDef fixtureForBox = new FixtureDef();
+	private final FixtureDef fixtureForCircle = new FixtureDef();
+	private final FixtureDef fixtureForBox = new FixtureDef();
 	
-	private PolygonShape controlShape = new PolygonShape();
-	private PolygonShape shootingShape = new PolygonShape(); 
+	private final PolygonShape controlShape = new PolygonShape();
+	private final PolygonShape shootingShape = new PolygonShape(); 
 	
 	private PolygonMap paddleGenerator;
 	private boolean teamFlag;
