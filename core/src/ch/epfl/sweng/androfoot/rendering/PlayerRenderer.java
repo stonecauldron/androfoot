@@ -10,6 +10,8 @@ import ch.epfl.sweng.androfoot.polygongenerator.PaddleGenerator;
 
 public class PlayerRenderer implements MeshRenderer{
 	
+	private static final Color CANT_CONTROL_COLOR = Color.RED;
+	
 	private final PolygonRenderer shootPartRenderer;
 	private final PolygonRenderer controlPartRenderer;
 	
@@ -27,6 +29,9 @@ public class PlayerRenderer implements MeshRenderer{
 	private void setControlColor() {
 		if(canControl) {
 			controlPartRenderer.setColor(currentColor);
+		} else {
+			controlPartRenderer.setColor(CANT_CONTROL_COLOR);
+			System.out.println("cant control");
 		}
 	}
 	
@@ -56,8 +61,8 @@ public class PlayerRenderer implements MeshRenderer{
 
 	@Override
 	public void setRotation(float angle) {
-		// TODO Auto-generated method stub
-		
+		shootPartRenderer.setRotation(angle);
+		controlPartRenderer.setRotation(angle);
 	}
 
 	@Override

@@ -38,8 +38,8 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	private final ScoreRenderer scoreRenderer = new ScoreRenderer(SCORE_COLOR);
 	private final BoardRenderer boardRenderer = new BoardRenderer();
 	private final RectangleRenderer rectangleRenderer = new RectangleRenderer();
-	private final AbstractMeshRenderer playerT1Renderer;
-	private final AbstractMeshRenderer playerT2Renderer;
+	private final PlayerRenderer playerT1Renderer;
+	private final PlayerRenderer playerT2Renderer;
 	
 	private DrawableWorld world = null;
 	private Rectangle worldRegion = null;
@@ -52,9 +52,9 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	private int screenHeight = DEFAULT_SCREEN_HEIGHT;
 	
 	private GraphicEngine() {
-		playerT1Renderer = new PolygonRenderer(PlayerCharacteristicsManager.getInstanceTeam1());
+		playerT1Renderer = new PlayerRenderer(PlayerCharacteristicsManager.getInstanceTeam1());
 		playerT1Renderer.setColor(PlayerCharacteristicsManager.getColorTeam1());
-		playerT2Renderer = new PolygonRenderer(PlayerCharacteristicsManager.getInstanceTeam1());
+		playerT2Renderer = new PlayerRenderer(PlayerCharacteristicsManager.getInstanceTeam1());
 		playerT2Renderer.setColor(PlayerCharacteristicsManager.getColorTeam2());
 	}
 	
@@ -110,7 +110,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	
 	@Override
 	public void visit(PlayerInterface player) {
-		AbstractMeshRenderer pr;
+		PlayerRenderer pr;
 		if(player.getTeam())
 		{
 			pr = playerT1Renderer;
@@ -119,6 +119,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 		}
 		pr.setPosition(player.getPositionX(), player.getPositionY());
 		pr.setScale(1);
+		pr.setCanControl(player.isAbleToControlBall());
 		pr.setRotation(player.getPlayerAngle());
 		pr.render(batch, renderer);
 	}
