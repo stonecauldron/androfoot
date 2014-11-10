@@ -13,7 +13,7 @@ import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
 public abstract class AbstractPlayer {
 	
 	// offset between the paddles
-	private static final float PADDLE_OFFSET = Constants.WORLD_SIZE_X/5.0f;
+	private static final float PADDLE_OFFSET = Constants.WORLD_SIZE_X;
 	// number of defensors
 	private static final int DEFENSOR_NUMBER = 3;
 	// number of attackers
@@ -39,24 +39,16 @@ public abstract class AbstractPlayer {
 	}
 	
 	private void initialisePaddleLayout() {
-		// TODO create createPaddleGroup method in the physics Engine
-		// will not have references to physics world and physics world height
-		// createPaddleGroupOffense(x coordinate)
-		// createPaddleGroupdDefense(x coordinate)
-		
-		// TODO BoardFactory
-		// Creates a board object and defines wich actual player instances will
-		// be created.
 		float defenseXCoordinate = 0f;
 		float attackXCoordinate = 0f;
 		
 		if (playerNumber == PlayerNumber.ONE) {
-			defenseXCoordinate = PADDLE_OFFSET;
-			attackXCoordinate = PADDLE_OFFSET * 3;
+			defenseXCoordinate = PADDLE_OFFSET * 1.0f/6.0f;
+			attackXCoordinate = PADDLE_OFFSET * 4.0f/6.0f;
 		}
 		else if (playerNumber == PlayerNumber.TWO) {
-			defenseXCoordinate = PADDLE_OFFSET * 4;
-			attackXCoordinate = PADDLE_OFFSET * 2;
+			defenseXCoordinate = PADDLE_OFFSET * 5.0f/6.0f;
+			attackXCoordinate = PADDLE_OFFSET * 2.0f/6.0f;
 		}
 		GroupPaddle.createGroupPaddle(defenseXCoordinate, DEFENSOR_NUMBER, playerNumber);
 		GroupPaddle.createGroupPaddle(attackXCoordinate, ATTACKER_NUMBER, playerNumber);

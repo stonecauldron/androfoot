@@ -62,7 +62,8 @@ public class GroupPaddle implements GroupPaddleInterface {
     	if (playerNumber == PlayerNumber.ONE) {
     		facingRight = true;
     	}
-    	return new GroupPaddle(x, Constants.PADDLE_WIDTH, number, PhysicsWorld.getPhysicsWorld().getBox2DWorld(),
+    	return new GroupPaddle(x - Constants.PADDLE_WIDTH/2,
+    			Constants.PADDLE_WIDTH, number, PhysicsWorld.getPhysicsWorld().getBox2DWorld(),
     			Constants.WORLD_SIZE_Y, facingRight);
     }
 

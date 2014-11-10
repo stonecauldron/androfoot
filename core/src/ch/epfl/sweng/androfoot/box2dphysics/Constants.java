@@ -28,7 +28,7 @@ public class Constants {
     public static final float PADDLE_DENSITY = 1.0f;
     public static final float PADDLE_FRICTION = 1.0f;
     public static final float PADDLE_RESTITUTION = 0.0f;
-    public static final float PADDLE_WIDTH = 1.5f;
+    public static final float PADDLE_WIDTH = 1f;
     
     /* Border */
     public static final float SCREENOFFSET = 0.1f;

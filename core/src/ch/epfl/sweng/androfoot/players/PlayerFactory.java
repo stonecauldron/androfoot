@@ -32,9 +32,11 @@ public class PlayerFactory {
 		default:
 			throw new IllegalArgumentException();
 		}
-		// get next player number
-		playerNumber = PlayerNumber.values()[playerNumber.ordinal() + 1];
 		
+		if (playerNumber == playerNumber.ONE) {
+			// get next player number
+			playerNumber = playerNumber.TWO;
+		}
 		return player;
 	}
 }
