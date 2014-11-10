@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
+import ch.epfl.sweng.androfoot.interfaces.PaddleInterface;
 import ch.epfl.sweng.androfoot.interfaces.PlayerInterface;
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 import ch.epfl.sweng.androfoot.interfaces.PolygonMap;
@@ -37,7 +38,7 @@ public class Player implements PlayerInterface {
 	private PolygonMap paddleGenerator;
 	private boolean teamFlag;
 	
-	private final Paddle parent;
+	private final PaddleInterface parent;
 	
 	private int zIndex;
 	
@@ -155,6 +156,11 @@ public class Player implements PlayerInterface {
 	@Override
 	public int getZIndex() {
 		return zIndex;
+	}
+
+	@Override
+	public boolean isAbleToControlBall() {
+		return parent.isAbleToControlBall();
 	}
 
 }

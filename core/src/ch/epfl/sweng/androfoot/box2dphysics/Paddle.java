@@ -90,4 +90,10 @@ public class Paddle implements PaddleInterface {
     public void setVelocity(float x, float y) {
         player.setPlayerVelocity(x, y);
     }
+
+	@Override
+	public boolean isAbleToControlBall() {
+		// TODO implement this method 
+		return false;
+	}
 }

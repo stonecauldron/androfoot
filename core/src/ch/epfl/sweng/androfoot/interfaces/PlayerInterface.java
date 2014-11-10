@@ -43,4 +43,10 @@ public interface PlayerInterface extends Drawable {
 	 * @param y y component of the velocity vector.
 	 */
 	void setPlayerVelocity(float x, float y);
+	
+	/**
+	 * Say if this player can controll the ball
+	 * @return
+	 */
+	boolean isAbleToControlBall();
 }

@@ -18,4 +18,10 @@ public interface PaddleInterface {
      * @param y composant of the velocity
      */
     void setVelocity(float x, float y);
+    
+	/**
+	 * Say if this paddle is in range to control the paddle
+	 * @return
+	 */
+	boolean isAbleToControlBall();
 }
