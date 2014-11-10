@@ -118,17 +118,30 @@ public final class PhysicsWorld implements DrawableWorld {
 		return PHYSICS_WORLD_INSTANCE;
 	}
 	
+	/**
+	 * Returns the Box2D world.
+	 * @return Box2D world.
+	 */
 	public World getBox2DWorld() {
 	    return physicsWorld;
 	}
 	
+	/**
+	 * Returns the ball of the game.
+	 * @return Ball of the game.
+	 */
 	public Ball getBall() {
 	    return ball;
 	}
 	
+	/**
+	 * Adds a Drawable object to the Drawable objects set.
+	 * @param object Drawable object to be added.
+	 */
 	public void addToDrawableObjectsSet(Drawable object) {
 		drawableObjectsSet.add(object);
 	}
+	
 	@Override
 	public SortedSet<Drawable> toDraw() {
 		return drawableObjectsSet;
@@ -154,6 +167,11 @@ public final class PhysicsWorld implements DrawableWorld {
 		checkVelocity(ball);
 	}
 	
+	/**
+	 * Checks the velocity of the ball and limits it if the velocity of the ball is bigger
+	 * thatn the maximum allowed.
+	 * @param ball Ball to be checked.
+	 */
 	public void checkVelocity(Ball ball) {
 		Vector2 ballVelocity = ball.getLinearVelocity();
 		

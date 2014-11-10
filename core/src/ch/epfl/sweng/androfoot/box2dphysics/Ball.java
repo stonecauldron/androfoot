@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import ch.epfl.sweng.androfoot.interfaces.BallInterface;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
-import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
 /**
