@@ -2,17 +2,12 @@ package ch.epfl.sweng.androfoot.rendering;
 
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 import ch.epfl.sweng.androfoot.polygongenerator.ImmutablePoint;
-import ch.epfl.sweng.androfoot.polygongenerator.PolygonTranslater;
 import ch.epfl.sweng.androfoot.rendering.shaders.BasicShaderBuilder;
 import ch.epfl.sweng.androfoot.rendering.shaders.SimpleShaderBuilder;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
