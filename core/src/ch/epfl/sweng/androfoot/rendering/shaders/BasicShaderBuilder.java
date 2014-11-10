@@ -1,7 +1,5 @@
 package ch.epfl.sweng.androfoot.rendering.shaders;
 
-import ch.epfl.sweng.androfoot.rendering.ShaderBuilder;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
@@ -12,18 +10,15 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
  * @author Guillame Leclerc
  *
  */
-public class UniformShaderBuilder implements ShaderBuilder{
+public class BasicShaderBuilder implements SimpleShaderBuilder{
 	
 	private final ShaderProgram shader;
 	private final int projMatrixPosition;
 	private final int colorPosition;
 	private final int transfoMatrixPosition;
 	
-	/**
-	 * Instanciate a new {@link UniformShaderBuilder}
-	 */
-	public UniformShaderBuilder() {
-		String vertexShader = 
+	protected String getVertexShader() {
+		return 
 				"#ifdef GL_ES\n" 
                 + "precision mediump float;\n"  
                 + "#endif\n" 
@@ -36,8 +31,10 @@ public class UniformShaderBuilder implements ShaderBuilder{
 				+ "v_color = u_color;"
 				+ "gl_Position = u_projMatrix * u_transMatrix * a_position;"
 				+ "}";
-		
-		String fragmentShader = 
+	}
+	
+	protected String getFragmentShader() {
+		return 
 				"#ifdef GL_ES\n" 
                 + "precision mediump float;\n"  
                 + "#endif\n" 
@@ -45,6 +42,15 @@ public class UniformShaderBuilder implements ShaderBuilder{
 				+ "void main() {"
 				+ "gl_FragColor = v_color;"
 				+ "}";
+	}
+	
+	/**
+	 * Instanciate a new {@link BasicShaderBuilder}
+	 */
+	public BasicShaderBuilder() {
+		String vertexShader = getVertexShader();
+		
+		String fragmentShader = getFragmentShader();
 		
 		shader = new ShaderProgram(vertexShader, fragmentShader);
 		if( ! shader.isCompiled()) {
@@ -55,32 +61,35 @@ public class UniformShaderBuilder implements ShaderBuilder{
 		transfoMatrixPosition = shader.getUniformLocation("u_transMatrix");
 	}
 	
-	/**
-	 * Set the color of the mesh rendered
-	 * @param c the color
+	/* (non-Javadoc)
+	 * @see ch.epfl.sweng.androfoot.rendering.shaders.SimpleShaderBuilder#setColor(com.badlogic.gdx.graphics.Color)
 	 */
+	@Override
 	public void setColor(Color c) {
 		shader.setUniformf(colorPosition, c);
 	}
 	
-	/**
-	 * Set the projection matrix
+	/* (non-Javadoc)
+	 * @see ch.epfl.sweng.androfoot.rendering.shaders.SimpleShaderBuilder#setProjMatrix(com.badlogic.gdx.math.Matrix4)
 	 */
+	@Override
 	public void setProjMatrix(Matrix4 m) {
 		shader.setUniformMatrix(projMatrixPosition, m);
 	}
 	
-	/**
-	 * Set the transform matrix
-	 * @param m the matrix
+	/* (non-Javadoc)
+	 * @see ch.epfl.sweng.androfoot.rendering.shaders.SimpleShaderBuilder#setTransfoMatrix(com.badlogic.gdx.math.Matrix4)
 	 */
+	@Override
 	public void setTransfoMatrix(Matrix4 m) {
 		shader.setUniformMatrix(transfoMatrixPosition, m);
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.epfl.sweng.androfoot.rendering.shaders.SimpleShaderBuilder#render()
+	 */
 	@Override
 	public ShaderProgram build() {
 		return shader;
 	}
-
 }

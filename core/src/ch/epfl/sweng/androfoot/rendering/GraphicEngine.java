@@ -15,14 +15,10 @@ import ch.epfl.sweng.androfoot.interfaces.BallInterface;
 import ch.epfl.sweng.androfoot.interfaces.DrawableRectangle;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 import ch.epfl.sweng.androfoot.interfaces.PlayerInterface;
-import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 import ch.epfl.sweng.androfoot.interfaces.ScoreDisplayer;
 import ch.epfl.sweng.androfoot.interfaces.Visitable;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 import ch.epfl.sweng.androfoot.interfaces.WorldRenderer;
-import ch.epfl.sweng.androfoot.polygongenerator.CircleGenerator;
-import ch.epfl.sweng.androfoot.polygongenerator.PaddleGenerator;
-import ch.epfl.sweng.androfoot.polygongenerator.PaddleSimplifier;
 
 public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	
@@ -42,8 +38,8 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	private final ScoreRenderer scoreRenderer = new ScoreRenderer(SCORE_COLOR);
 	private final BoardRenderer boardRenderer = new BoardRenderer();
 	private final RectangleRenderer rectangleRenderer = new RectangleRenderer();
-	private final PolygonRenderer playerT1Renderer;
-	private final PolygonRenderer playerT2Renderer;
+	private final AbstractMeshRenderer playerT1Renderer;
+	private final AbstractMeshRenderer playerT2Renderer;
 	
 	private DrawableWorld world = null;
 	private Rectangle worldRegion = null;
@@ -56,10 +52,10 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	private int screenHeight = DEFAULT_SCREEN_HEIGHT;
 	
 	private GraphicEngine() {
-		playerT1Renderer = new PolygonRenderer(PlayerCharacteristicsManager.getInstanceTeam1(),
-				PlayerCharacteristicsManager.getColorTeam1());
-		playerT2Renderer = new PolygonRenderer(PlayerCharacteristicsManager.getInstanceTeam1(),
-				PlayerCharacteristicsManager.getColorTeam2());
+		playerT1Renderer = new PolygonRenderer(PlayerCharacteristicsManager.getInstanceTeam1());
+		playerT1Renderer.setColor(PlayerCharacteristicsManager.getColorTeam1());
+		playerT2Renderer = new PolygonRenderer(PlayerCharacteristicsManager.getInstanceTeam1());
+		playerT2Renderer.setColor(PlayerCharacteristicsManager.getColorTeam2());
 	}
 	
 	public static GraphicEngine getEngine() {
@@ -114,7 +110,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor{
 	
 	@Override
 	public void visit(PlayerInterface player) {
-		PolygonRenderer pr;
+		AbstractMeshRenderer pr;
 		if(player.getTeam())
 		{
 			pr = playerT1Renderer;
