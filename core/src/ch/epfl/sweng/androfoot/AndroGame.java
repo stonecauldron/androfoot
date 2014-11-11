@@ -1,17 +1,17 @@
 package ch.epfl.sweng.androfoot;
 
-import ch.epfl.sweng.androfoot.screens.GameScreen;
+import ch.epfl.sweng.androfoot.screens.MainMenuScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class AndroGame extends Game {
 	SpriteBatch batch;
 	
-	GameScreen gameScreen;
+	private MainMenuScreen mainMenuScreen;
 	
 	@Override
-	public void create () {
-		gameScreen = new GameScreen();
-		setScreen(gameScreen);
+	public void create() {
+		mainMenuScreen = new MainMenuScreen();
+		setScreen(mainMenuScreen);
 	}
 }
