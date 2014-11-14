@@ -37,16 +37,14 @@ public class EventManager {
 
         playerObservers = new HashSet<PlayerObserver>();
         playerEvents = new ArrayList<PlayerEvent>();
+        
+        GlobalContactListener.addListener(GoalContactListener.getInstance());
+        GlobalContactListener.addListener(PaddleContactListener.getInstance());
+        GlobalContactListener.addListener(PlayerContactListener.getInstance());
     }
     
     public static EventManager getEventManager() {
         return manager;
-    }
-    
-    public void initListener() {
-        GlobalContactListener.addListener(GoalContactListener.getInstance());
-        GlobalContactListener.addListener(PaddleContactListener.getInstance());
-        GlobalContactListener.addListener(PlayerContactListener.getInstance());
     }
     
     public void throwEvents() {

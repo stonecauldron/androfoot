@@ -3,8 +3,6 @@ package ch.epfl.sweng.androfoot.box2dphysics;
 import java.util.HashSet;
 import java.util.Set;
 
-import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
-
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;

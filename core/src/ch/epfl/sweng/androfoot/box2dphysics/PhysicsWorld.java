@@ -36,9 +36,7 @@ public final class PhysicsWorld implements DrawableWorld {
 	
 	
 	private PhysicsWorld() {
-	    listener = new GlobalContactListener();
-	    physicsWorld.setContactListener(listener);
-	    EventManager.getEventManager().initListener();
+	    physicsWorld.setContactListener(GlobalContactListener.getInstance());
 	    
 		ball = new Ball(physicsWorld, Constants.BALL_INIT_POS_X, Constants.BALL_INIT_POS_Y, Constants.BALL_RADIUS, 
 		        Constants.BALL_DENSITY, Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);

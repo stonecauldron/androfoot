@@ -1,8 +1,14 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
+import ch.epfl.sweng.androfoot.interfaces.DrawableRectangle;
+import ch.epfl.sweng.androfoot.interfaces.Visitor;
+
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -12,30 +18,73 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
  * @author Matvey
  *
  */
-public class Border {
+public class Border implements DrawableRectangle {
 
-	private BodyDef borderDef = new BodyDef();
-	private Body borderBody;
-	private PolygonShape borderShape = new PolygonShape();
+    private int zIndexIncrement;
+    private int zIndex;
+    private boolean isTeamOne;
+    private final Body borderBody;
+    private final BodyDef borderBodyDef;
+    private final PolygonShape shape;
+    private final Rectangle rectangle;
+    private final FixtureDef fixture;
 	
 	/**
-	 * Constructor of the Border class.
-	 * @param world World which will contain the border.
-	 * @param posX x coordinate of the polygon centre.
-	 * @param posY y coordinate of the polygon centre.
-	 * @param thicknessX Thickness of the polygon along the x axis.
-	 * @param thicknessY Thickness of the polygon along the y axis.
+	 * Represent a border of the board
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param teta
 	 */
-	public Border(World world, float posX, float posY, float thicknessX, float thicknessY) {
+	public Border(float x, float y, float width, float height, float teta, boolean teamOne) {
 		
-		borderDef.type = BodyType.StaticBody;
-		borderDef.position.set(new Vector2(posX, posY));
-		
-		borderBody = world.createBody(borderDef);
-		
-		borderShape.setAsBox(thicknessX/2, thicknessY/2);
-		borderBody.createFixture(borderShape, 0.0f);
-		
-		borderShape.dispose();
+	    zIndex = zIndexIncrement;
+        zIndexIncrement++;
+        isTeamOne = teamOne;
+        
+        borderBodyDef = new BodyDef();
+        borderBodyDef.type = BodyType.StaticBody;
+        // Position of the center of the rectangle
+        borderBodyDef.position.set(x + (width / 2), y + (height / 2));
+        
+        borderBody = PhysicsWorld.getPhysicsWorld().getWorld().createBody(borderBodyDef);
+        
+        fixture = new FixtureDef();
+        fixture.density = Constants.GOAL_DENSITY;
+        fixture.restitution = Constants.GOAL_RESTITUTION;
+        
+        shape = new PolygonShape();
+        shape.setAsBox(width / 2, height / 2, new Vector2(0, 0), (float) Math.toRadians(teta));
+        fixture.shape = shape;
+        borderBody.createFixture(fixture);
+        shape.dispose();
+        
+        // For the graphic engine
+        rectangle = new Rectangle(x, y, width, height);
 	}
+	
+	@Override
+    public int getZIndex() {
+        return zIndex;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+    public Color getColor() {
+        if (isTeamOne) {
+            return Constants.GOAL_COLOR_TEAM1;
+        } else {
+            return Constants.GOAL_COLOR_TEAM2;
+        }
+    }
+
+    @Override
+    public Rectangle getShape() {
+        return rectangle;
+    }
 }
