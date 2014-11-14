@@ -5,7 +5,6 @@ import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -14,7 +13,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 /**
  * Class that defines each individual border of the playfield.
- * @author Matvey
+ * @author Gaylor
  *
  */
 public class Border implements DrawableRectangle {
@@ -36,7 +35,7 @@ public class Border implements DrawableRectangle {
 	 * @param height
 	 * @param teta
 	 */
-	public Border(float x, float y, float width, float height, float teta, boolean teamOne) {
+	public Border(float x, float y, float width, float height, boolean teamOne) {
 		
 	    zIndex = zIndexIncrement;
         zIndexIncrement++;
@@ -54,7 +53,7 @@ public class Border implements DrawableRectangle {
         fixture.restitution = Constants.GOAL_RESTITUTION;
         
         shape = new PolygonShape();
-        shape.setAsBox(width / 2, height / 2, new Vector2(0, 0), (float) Math.toRadians(teta));
+        shape.setAsBox(width / 2, height / 2);
         fixture.shape = shape;
         borderBody.createFixture(fixture);
         shape.dispose();

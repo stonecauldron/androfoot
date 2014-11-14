@@ -1,6 +1,7 @@
 package ch.epfl.sweng.androfoot.board;
 
 import ch.epfl.sweng.androfoot.box2dphysics.Ball;
+import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.players.AbstractPlayer;
 
 /**
@@ -35,7 +36,7 @@ public class Board {
 		playerOneScore = 0;
 		playerTwoScore = 0;
 		
-		ball = Ball.createBall();
+		//ball = PhysicsWorld.createBall();
 	}
 	
 	/**

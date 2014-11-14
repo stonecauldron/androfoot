@@ -4,6 +4,7 @@ import java.util.List;
 
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
+import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 
 /**
  * Abstract class encapsulating functionality common to all the players.
@@ -50,7 +51,7 @@ public abstract class AbstractPlayer {
 			defenseXCoordinate = PADDLE_OFFSET * 5.0f/6.0f;
 			attackXCoordinate = PADDLE_OFFSET * 2.0f/6.0f;
 		}
-		GroupPaddle.createGroupPaddle(defenseXCoordinate, DEFENSOR_NUMBER, playerNumber);
-		GroupPaddle.createGroupPaddle(attackXCoordinate, ATTACKER_NUMBER, playerNumber);
+		//PhysicsWorld.createPaddle(defenseXCoordinate, DEFENSOR_NUMBER, playerNumber == PlayerNumber.ONE);
+		//PhysicsWorld.createPaddle(attackXCoordinate, ATTACKER_NUMBER, playerNumber == PlayerNumber.TWO);
 	}
 }

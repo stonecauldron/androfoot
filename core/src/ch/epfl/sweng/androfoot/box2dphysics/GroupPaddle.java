@@ -3,10 +3,7 @@ package ch.epfl.sweng.androfoot.box2dphysics;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.physics.box2d.World;
-
 import ch.epfl.sweng.androfoot.interfaces.GroupPaddleInterface;
-import ch.epfl.sweng.androfoot.players.PlayerNumber;
 
 /**
  * @see GroupPaddleInterface
@@ -24,13 +21,11 @@ public class GroupPaddle implements GroupPaddleInterface {
      * @param number of paddles
      * @param worldHeight height of the world
      */
-    public GroupPaddle(float x, float width, int number,float worldHeight, boolean facingRight) {
+    public GroupPaddle(float x, float width, int number, boolean facingRight) {
         paddles = new ArrayList<Paddle>();
         
-        World world = PhysicsWorld.getPhysicsWorld().getBox2DWorld();
-        
         for (int i = 0; i < number; i++) {
-            float height = worldHeight / number;
+            float height = Constants.WORLD_SIZE_Y / number;
             float y = i * height;
             
             paddles.add(new Paddle(x, y, width, height, facingRight));
@@ -49,22 +44,6 @@ public class GroupPaddle implements GroupPaddleInterface {
         for (Paddle paddle : paddles) {
             paddle.setVelocity(x, y);
         }
-    }
-    
-    /**
-     * Create a groupPaddle
-     * @param x the x coordinate of the group
-     * @param number the number of players in the group
-     * @param playerNumber whether the player is player one or player two
-     * @return the newly created GroupPaddle
-     */
-    public static GroupPaddle createGroupPaddle(float x, int number, PlayerNumber playerNumber) {
-    	boolean facingRight = false;
-    	if (playerNumber == PlayerNumber.ONE) {
-    		facingRight = true;
-    	}
-    	return new GroupPaddle(x - Constants.PADDLE_WIDTH/2,
-    			Constants.PADDLE_WIDTH, number, Constants.WORLD_SIZE_Y, facingRight);
     }
 
 }

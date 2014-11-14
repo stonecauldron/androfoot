@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.Array;
 
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.Paddle;
-import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import junit.framework.TestCase;
 
 public class PaddleTest extends TestCase {

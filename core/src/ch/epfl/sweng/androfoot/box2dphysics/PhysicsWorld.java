@@ -1,6 +1,5 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
-import java.util.ArrayList;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -8,7 +7,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
-import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalBorder;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 
@@ -25,7 +23,7 @@ public final class PhysicsWorld implements DrawableWorld {
 	private World physicsWorld = new World(new Vector2(0, 0), false);
 	private float accumulator = 0f;
 	private static boolean isRunning = false;
-	private TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
+	private static TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
 	
 	/* World's object */
 	private static Ball ball;
@@ -46,18 +44,49 @@ public final class PhysicsWorld implements DrawableWorld {
 	    isRunning = true;
 	}
 	
-	public static void stopWorld() {
+	public static void pauseWorld() {
 	    isRunning = false;
 	}
 	
-	public static void createBall(float x, float y, float radius) {
-	    stopWorld();
+	public static Ball createBall(float x, float y, float radius) {
+	    pauseWorld();
 	    ball = new Ball(x, y, radius, Constants.BALL_DENSITY, Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
+	    drawableObjectsSet.add(ball);
 	    startWorld();
+	    
+	    return ball;
 	}
 	
 	public static Ball getBall() {
 	    return ball;
+	}
+	
+	public static GroupPaddle createPaddle(float x, float width, int number, boolean facingRight) {
+	    pauseWorld();
+	    GroupPaddle groupPaddle = new GroupPaddle(x, width, number, facingRight);
+	    for (Paddle paddle : groupPaddle.getPaddles()) {
+	        drawableObjectsSet.add(paddle.getPlayer());
+	    }
+	    startWorld();
+	    
+	    return groupPaddle;
+	}
+	
+	public static Border createBorder(float x, float y, float width, float height, boolean teamOne) {
+	    pauseWorld();
+	    Border border = new Border(x, y, width, height, teamOne);
+	    drawableObjectsSet.add(border);
+	    startWorld();
+	    
+	    return border;
+	}
+	
+	public static Goal createGoal(boolean teamOne) {
+	    pauseWorld();
+	    Goal goal = new Goal(teamOne);
+	    startWorld();
+	    
+	    return goal;
 	}
 	
 	/**
@@ -66,14 +95,6 @@ public final class PhysicsWorld implements DrawableWorld {
 	 */
 	public World getBox2DWorld() {
 	    return physicsWorld;
-	}
-	
-	/**
-	 * Adds a Drawable object to the Drawable objects set.
-	 * @param object Drawable object to be added.
-	 */
-	public void addToDrawableObjectsSet(Drawable object) {
-		drawableObjectsSet.add(object);
 	}
 	
 	@Override
