@@ -1,5 +1,6 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
+
 /**
  * @author Ahaeflig
  * Implement this interface to start observing user touch inputs.
@@ -13,4 +14,6 @@ public interface TouchTrackerObserver {
 	 * @param touched if player is currently touching its area of the screen
 	 */
 	void update(int playerId, float posX, float posY, boolean touched);
+	void updatePlayerOne(int playerId, float posX, float posY, boolean touched);
+	void updatePlayerTwo(int playerId, float posX, float posY, boolean touched);
 }
