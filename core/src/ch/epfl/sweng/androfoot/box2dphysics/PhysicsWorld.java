@@ -38,19 +38,19 @@ public final class PhysicsWorld implements DrawableWorld {
 	private PhysicsWorld() {
 	    physicsWorld.setContactListener(GlobalContactListener.getInstance());
 	    
-		ball = new Ball(physicsWorld, Constants.BALL_INIT_POS_X, Constants.BALL_INIT_POS_Y, Constants.BALL_RADIUS, 
+		ball = new Ball(Constants.BALL_INIT_POS_X, Constants.BALL_INIT_POS_Y, Constants.BALL_RADIUS, 
 		        Constants.BALL_DENSITY, Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
 		
 		addToDrawableObjectsSet(ball);
 		
 		
-		Goal teamOneGoal = new Goal(true, physicsWorld, 500);
+		Goal teamOneGoal = new Goal(true, 500);
 		
 		for (GoalBorder goalPart : teamOneGoal.getBorders()) {
 			drawableObjectsSet.add(goalPart);
 		}
 		
-		Goal teamTwoGoal = new Goal(false, physicsWorld, 520);
+		Goal teamTwoGoal = new Goal(false, 520);
         
         for (GoalBorder goalPart : teamTwoGoal.getBorders()) {
             drawableObjectsSet.add(goalPart);
@@ -58,19 +58,19 @@ public final class PhysicsWorld implements DrawableWorld {
 		
 		//TESTING===================================================================
 		mPaddlesOnePlayerOne = new GroupPaddle(1, 2, 3,
-				physicsWorld, Constants.WORLD_SIZE_Y,
+				Constants.WORLD_SIZE_Y,
 				true);
 
 		mPaddlesTwoPlayerOne = new GroupPaddle(5, 2, 2,
-				physicsWorld, Constants.WORLD_SIZE_Y,
+				Constants.WORLD_SIZE_Y,
 				true);
 
 		mPaddlesOnePlayerTwo = new GroupPaddle(7, 2, 3,
-				physicsWorld, Constants.WORLD_SIZE_Y,
+				Constants.WORLD_SIZE_Y,
 				false);
 
 		mPaddlesTwoPlayerTwo = new GroupPaddle(3, 2, 2,
-				physicsWorld, Constants.WORLD_SIZE_Y,
+				Constants.WORLD_SIZE_Y,
 				false);
 		
 		for (Player player : getAllPlayers()) {

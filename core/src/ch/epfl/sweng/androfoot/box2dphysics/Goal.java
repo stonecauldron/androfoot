@@ -34,10 +34,12 @@ public class Goal {
     /**
      * Constructor of a physical goal object.
      * @param teamOne The team flag, true for team one, otherwise false.
-     * @param physicsWorld The physics world to which the goal belongs.
      * @param zIndex The Z Index of the goal for rendering.
      */
-    public Goal(boolean teamOne, World physicsWorld, int zIndex) {
+    public Goal(boolean teamOne, int zIndex) {
+    	//Retrieve the instance of the Physics World.
+    	World physicsWorld = PhysicsWorld.getPhysicsWorld().getBox2DWorld();
+    	
         zIndexIncrement = zIndex;
         isTeamOne = teamOne;
         world = physicsWorld;

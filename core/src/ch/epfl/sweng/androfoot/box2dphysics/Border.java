@@ -48,7 +48,7 @@ public class Border implements DrawableRectangle {
         // Position of the center of the rectangle
         borderBodyDef.position.set(x + (width / 2), y + (height / 2));
         
-        borderBody = PhysicsWorld.getPhysicsWorld().getWorld().createBody(borderBodyDef);
+        borderBody = PhysicsWorld.getPhysicsWorld().getBox2DWorld().createBody(borderBodyDef);
         
         fixture = new FixtureDef();
         fixture.density = Constants.GOAL_DENSITY;

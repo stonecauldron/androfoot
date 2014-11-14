@@ -27,7 +27,6 @@ public class Ball implements Drawable, BallInterface {
 	
 	/**
 	 * Contructor of the Ball class.
-	 * @param world World to which the ball will be attached.
 	 * @param initPosX Initial x coordinate of the ball.
 	 * @param initPosY Initial y coordinate of the ball.
 	 * @param radius Radius of the ball.
@@ -35,8 +34,11 @@ public class Ball implements Drawable, BallInterface {
 	 * @param friction Friction of the ball.
 	 * @param restitution Restitution coefficient of the ball.
 	 */
-	public Ball(World world, float initPosX, float initPosY, float radius,
+	public Ball(float initPosX, float initPosY, float radius,
 					float density, float friction, float restitution) {
+		//Get the instance of the physics world.
+		World world = PhysicsWorld.getPhysicsWorld().getBox2DWorld();
+		
 		bodyDef.type = BodyType.DynamicBody;
 		bodyDef.position.set(initPosX, initPosY);
 		

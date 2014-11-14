@@ -22,17 +22,18 @@ public class GroupPaddle implements GroupPaddleInterface {
      * @param x position
      * @param width of the limited area
      * @param number of paddles
-     * @param world the physic world
      * @param worldHeight height of the world
      */
-    public GroupPaddle(float x, float width, int number, World world, float worldHeight, boolean facingRight) {
+    public GroupPaddle(float x, float width, int number,float worldHeight, boolean facingRight) {
         paddles = new ArrayList<Paddle>();
+        
+        World world = PhysicsWorld.getPhysicsWorld().getBox2DWorld();
         
         for (int i = 0; i < number; i++) {
             float height = worldHeight / number;
             float y = i * height;
             
-            paddles.add(new Paddle(world, x, y, width, height, facingRight));
+            paddles.add(new Paddle(x, y, width, height, facingRight));
         }
     }
     

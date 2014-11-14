@@ -34,13 +34,15 @@ public class Paddle implements PaddleInterface {
     
     /**
      * Constructor
-     * @param world the physic world
      * @param x position
      * @param y position
      * @param width of the limited area
      * @param height of the limited area
      */
-    public Paddle(World world, float x, float y, float width, float height, boolean facingRight) {
+    public Paddle(float x, float y, float width, float height, boolean facingRight) {
+    	//Retrieve the instance of the physics world.
+    	World world = PhysicsWorld.getPhysicsWorld().getBox2DWorld();
+    	
         areasShape = new ArrayList<EdgeShape>();
         posX = x;
         widthOfThePaddle = width;
@@ -81,7 +83,7 @@ public class Paddle implements PaddleInterface {
             edge.dispose();
         }
         
-        player = new Player(world, x + (width / 2), y + (height / 2), facingRight, this);
+        player = new Player(x + (width / 2), y + (height / 2), facingRight, this);
         //PhysicsWorld.getPhysicsWorld().addToDrawableObjectsSet(player);
     }
     

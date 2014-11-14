@@ -44,13 +44,14 @@ public class Player implements PlayerInterface {
 	
 	/**
 	 * Constructor of an individual player.
-	 * @param world Instance of the physics world to which the player will be attached.
 	 * @param initPosX x coordinate of the initial position of the player.
 	 * @param initPosY y coordinate of the initial position of the player.
 	 * @param teamOrientation If true the player is facing right, otherwise player is facing left.
 	 * @param paddle 
 	 */
-	public Player(World world, float initPosX, float initPosY, boolean teamOrientation, Paddle paddle) {
+	public Player(float initPosX, float initPosY, boolean teamOrientation, Paddle paddle) {
+		World world = PhysicsWorld.getPhysicsWorld().getBox2DWorld();
+		
 		parent = paddle;
 		teamFlag = teamOrientation;
 		
@@ -74,7 +75,7 @@ public class Player implements PlayerInterface {
 		zIndexCounter++;
 		
 		PaddleContactListener.addPlayer(this);
-		PlayersContactListener.addPlayer(this);
+		PlayerContactListener.addPlayer(this);
 	}
 	
 	/**
