@@ -65,8 +65,6 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 			} else {
 				move(0,0);
 			}
-
-
 			mOldX = posX;
 			mOldY = posY;
 			mOldTouched = touched;
