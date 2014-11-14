@@ -72,6 +72,9 @@ public class Player implements PlayerInterface {
 		
 		zIndex = zIndexCounter;
 		zIndexCounter++;
+		
+		PaddleContactListener.addPlayer(this);
+		PlayersContactListener.addPlayer(this);
 	}
 	
 	/**

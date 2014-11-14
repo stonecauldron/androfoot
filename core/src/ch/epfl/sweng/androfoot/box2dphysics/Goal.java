@@ -62,8 +62,10 @@ public class Goal {
         goalBody.createFixture(goalFixture);
         goalShape.dispose();
         
+        GoalContactListener.addGoal(this);
+        
         /* Borders */
-        goalBorders = new GoalBorder[4];
+        goalBorders = new GoalBorder[2];
         float y = Constants.WORLD_SIZE_Y - Constants.GOAL_HEIGHT;
         if (isTeamOne) {
             goalBorders[0] = new GoalBorder(Constants.WORLD_ORIGIN_X, Constants.WORLD_ORIGIN_Y, 
@@ -74,20 +76,6 @@ public class Goal {
             float x = Constants.WORLD_SIZE_X - Constants.GOAL_WIDTH;
             goalBorders[0] = new GoalBorder(x, 0, Constants.GOAL_WIDTH, Constants.GOAL_HEIGHT, 0);
             goalBorders[1] = new GoalBorder(x, y, Constants.GOAL_WIDTH, Constants.GOAL_HEIGHT, 0);
-        }
-        
-        /* Corner */
-        if (isTeamOne) {
-            goalBorders[2] = new GoalBorder(Constants.WORLD_ORIGIN_X, Constants.WORLD_SIZE_Y - Constants.GOAL_WIDTH,
-                    Constants.GOAL_WIDTH * 2, Constants.GOAL_WIDTH * 2, -45);
-            goalBorders[3] = new GoalBorder(Constants.WORLD_ORIGIN_X, - Constants.GOAL_WIDTH,
-                    Constants.GOAL_WIDTH * 2, Constants.GOAL_WIDTH * 2, 45);
-        } else {
-            float width = Constants.GOAL_WIDTH * 2;
-            goalBorders[2] = new GoalBorder(Constants.WORLD_SIZE_X - width, Constants.WORLD_SIZE_Y - width / 2,
-                    width, width, 45);
-            goalBorders[3] = new GoalBorder(Constants.WORLD_SIZE_X - width, - Constants.GOAL_WIDTH,
-                    width, width, -45);
         }
     }
     

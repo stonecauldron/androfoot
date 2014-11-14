@@ -20,7 +20,7 @@ public class PaddleTest extends TestCase {
     
     @Test
     public final void testPaddleCreation() {
-        World worldTest = PhysicsWorld.getPhysicsWorld().getWorld();
+        World worldTest = new World(new Vector2(0, 0), false);
         
         Paddle paddle = new Paddle(worldTest, 1, 1, 1, 1, true);
         
@@ -36,7 +36,7 @@ public class PaddleTest extends TestCase {
     
     @Test
     public final void testPaddleLimit() throws InterruptedException {
-        World worldTest = PhysicsWorld.getPhysicsWorld().getWorld();
+        World worldTest = new World(new Vector2(0, 0), false);
         @SuppressWarnings("unused")
         Paddle paddle = new Paddle(worldTest, 1, 1, 3, 3, true);
         
@@ -63,7 +63,7 @@ public class PaddleTest extends TestCase {
         circle.setLinearVelocity(0, -0.5f);
         
         for (int i = 0; i < 50; i++) {
-            PhysicsWorld.getPhysicsWorld().phyStep(60);
+            worldTest.step(1, 1, 1);
         }
         
         assertTrue("Bottom limit : position x", circle.getPosition().x >= 1 && circle.getPosition().x <= 4);
@@ -72,7 +72,7 @@ public class PaddleTest extends TestCase {
         circle.setLinearVelocity(0, 0.5f);
         
         for (int i = 0; i < 50; i++) {
-            PhysicsWorld.getPhysicsWorld().phyStep(60);
+            worldTest.step(5, 1, 1);
         }
         
         assertTrue("Top limit : position x", circle.getPosition().x >= 1 && circle.getPosition().x <= 4);
@@ -81,7 +81,7 @@ public class PaddleTest extends TestCase {
         circle.setLinearVelocity(0.5f, 0);
         
         for (int i = 0; i < 50; i++) {
-            PhysicsWorld.getPhysicsWorld().phyStep(60);
+            worldTest.step(5, 1, 1);
         }
         
         assertTrue("Right limit : position x", circle.getPosition().x >= 3.7 && circle.getPosition().x <= 4);
@@ -90,7 +90,7 @@ public class PaddleTest extends TestCase {
         circle.setLinearVelocity(-0.5f, 0);
         
         for (int i = 0; i < 50; i++) {
-            PhysicsWorld.getPhysicsWorld().phyStep(60);
+            worldTest.step(5, 1, 1);
         }
         
         assertTrue("Left limit : position x", circle.getPosition().x >= 1 && circle.getPosition().x <= 1.3);
@@ -99,7 +99,7 @@ public class PaddleTest extends TestCase {
     
     @Test
     public void testPlayerInteractionWithLimit() {
-        World worldTest = PhysicsWorld.getPhysicsWorld().getWorld();
+        World worldTest = new World(new Vector2(0, 0), false);
         
         // Not in the same place than the other paddle
         Paddle paddle = new Paddle(worldTest, 5, 1, 3, 3, true);
@@ -107,7 +107,7 @@ public class PaddleTest extends TestCase {
         // Top limit
         paddle.setVelocity(0.0f, 1.0f);
         for(int i = 0; i < 50; i++) {
-            PhysicsWorld.getPhysicsWorld().phyStep(30);
+            worldTest.step(5, 1, 1);
         }
         
         assertTrue("Player top position y limit", paddle.getPlayer().getPositionY() >= 3.9 - Constants.CIRCLERADIUS && 
@@ -116,7 +116,7 @@ public class PaddleTest extends TestCase {
         // Bottom limit
         paddle.setVelocity(0.0f, -1.0f);
         for(int i = 0; i < 50; i++) {
-            PhysicsWorld.getPhysicsWorld().phyStep(30);
+            worldTest.step(5, 1, 1);
         }
         
         assertTrue("Player bottom position y limit", paddle.getPlayer().getPositionY() >= 1.0 && 
@@ -125,7 +125,7 @@ public class PaddleTest extends TestCase {
         // Left limit
         paddle.setVelocity(-1.0f, 0.0f);
         for(int i = 0; i < 50; i++) {
-            PhysicsWorld.getPhysicsWorld().phyStep(30);
+            worldTest.step(5, 1, 1);
         }
         
         assertTrue("Player left position x limit", paddle.getPlayer().getPositionX() >= 5.0 && 
@@ -134,7 +134,7 @@ public class PaddleTest extends TestCase {
         // Right limit
         paddle.setVelocity(1.0f, 0.0f);
         for(int i = 0; i < 50; i++) {
-            PhysicsWorld.getPhysicsWorld().phyStep(30);
+            worldTest.step(5, 1, 1);
         }
         
         assertTrue("Player right position x limit", paddle.getPlayer().getPositionX() >= 7.9 - Constants.CIRCLERADIUS && 

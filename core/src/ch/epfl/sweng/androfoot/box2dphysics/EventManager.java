@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
+import ch.epfl.sweng.androfoot.interfaces.PaddleContactObserver;
 import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
 
 /**
@@ -14,26 +15,26 @@ import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
  * @author Gilthoniel (Gaylor Bosson)
  *
  */
-public class EventManager implements GoalObserver, PlayerObserver {
+public class EventManager {
     
     private static final EventManager manager = new EventManager();
-    
-    private GoalContactListener goalListener;
+
     private Set<GoalObserver> goalObservers;
     private List<GoalEvent> goalEvents;
     
-    private PlayerContactListener playerListener;
+    private Set<PaddleContactObserver> paddleObservers;
+    private List<PaddleContactEvent> paddleEvents;
+
     private Set<PlayerObserver> playerObservers;
     private List<PlayerEvent> playerEvents;
     
     private EventManager() {
-        goalListener = new GoalContactListener();
-        goalListener.addObserver(this);
         goalObservers = new HashSet<GoalObserver>();
         goalEvents = new ArrayList<GoalEvent>();
         
-        playerListener = new PlayerContactListener();
-        playerListener.addObserver(this);
+        paddleObservers = new HashSet<PaddleContactObserver>();
+        paddleEvents = new ArrayList<PaddleContactEvent>();
+
         playerObservers = new HashSet<PlayerObserver>();
         playerEvents = new ArrayList<PlayerEvent>();
     }
@@ -42,10 +43,10 @@ public class EventManager implements GoalObserver, PlayerObserver {
         return manager;
     }
     
-    public void initListener(GlobalContactListener listener) {
-        listener.addListener(goalListener);
-        
-        listener.addListener(playerListener);
+    public void initListener() {
+        GlobalContactListener.addListener(GoalContactListener.getInstance());
+        GlobalContactListener.addListener(PaddleContactListener.getInstance());
+        GlobalContactListener.addListener(PlayerContactListener.getInstance());
     }
     
     public void throwEvents() {
@@ -56,6 +57,13 @@ public class EventManager implements GoalObserver, PlayerObserver {
         }
         goalEvents.clear();
         
+        for (PaddleContactEvent event : paddleEvents) {
+            for (PaddleContactObserver observer : paddleObservers) {
+                observer.paddleContact();
+            }
+        }
+        paddleEvents.clear();
+        
         for (PlayerEvent event : playerEvents) {
         	for (PlayerObserver observer : playerObservers) {
         		observer.setBall(event.getPlayer() ,event.getTeam());
@@ -64,26 +72,14 @@ public class EventManager implements GoalObserver, PlayerObserver {
         playerEvents.clear();
     }
     
-    public void addGoalListener(Goal goal) {
-        goalListener.addGoal(goal);
-    }
-    
+    // Goal
     public void addGoalObserver(GoalObserver obs) {
         goalObservers.add(obs);
     }
     
-    @Override
-    public void goal(boolean isTeamOne) {
-        goalEvents.add(new GoalEvent(isTeamOne));
-    }
-    
     //Player
-    /**
-     * Adds a player to the list of the Player Contact Listener.
-     * @param player Player to add.
-     */
-    public void addPlayerListener(Player player) {
-    	playerListener.addPlayer(player);
+    public void addPaddleContactObserver(PaddleContactObserver obs) {
+        paddleObservers.add(obs);
     }
     
     /**
@@ -93,12 +89,24 @@ public class EventManager implements GoalObserver, PlayerObserver {
     public void addPlayerObserver(PlayerObserver observer) {
     	playerObservers.add(observer);
     }
+
+    public void addEventGoal(boolean isTeamOne) {
+        goalEvents.add(new GoalEvent(isTeamOne));
+    }
     
-	@Override
-	public void setBall(Player player, boolean teamFlag) {
-		playerEvents.add(new PlayerEvent(player, teamFlag));
+	public void addEventPlayers(Player player, boolean team) {
+	    playerEvents.add(new PlayerEvent(player, team));
+	}
+	
+	public void addEventPaddle() {
+	    paddleEvents.add(new PaddleContactEvent());
 	}
     
+	/** 
+	 * Event when a goal occured
+	 * @author Gaylor
+	 *
+	 */
     class GoalEvent {
         private boolean isTeamOne;
         
@@ -145,5 +153,9 @@ public class EventManager implements GoalObserver, PlayerObserver {
     	public Player getPlayer() {
     		return player;
     	}
+    }
+    
+    class PaddleContactEvent {
+        
     }
 }

@@ -17,31 +17,26 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  */
 public class PlayerContactListener implements ContactListener {
 	
-	private Set<Player> players;
-	private Set<PlayerObserver> observers;
+    private static final PlayerContactListener instance = new PlayerContactListener();
+	private static Set<Player> players;
 	
 	/**
 	 * Constructor for the {@link PlayerContactListener} class.
 	 */
-	public PlayerContactListener() {
+	private PlayerContactListener() {
 		players = new HashSet<Player>();
-		observers = new HashSet<PlayerObserver>();
 	}
+	
+	public static PlayerContactListener getInstance() {
+        return instance;
+    }
 	
 	/**
 	 * Adds the specified player to the list of the players for the contact listener.
 	 * @param player Player to be added.
 	 */
-	public void addPlayer(Player player) {
+	public static void addPlayer(Player player) {
 		players.add(player);
-	}
-	
-	/**
-	 * Adds the specified observer to the list of the observers for the contact listener.
-	 * @param observer
-	 */
-	public void addObserver(PlayerObserver observer) {
-		observers.add(observer);
 	}
 
 	@Override
@@ -50,9 +45,7 @@ public class PlayerContactListener implements ContactListener {
 			if ((contact.getFixtureA() == player.getBody().getFixtureList().get(0)) 
 					|| (contact.getFixtureB() == player.getBody().getFixtureList().get(0))) {
 				
-				for (PlayerObserver observer : observers) {
-					observer.setBall(player, player.getTeam());
-				}
+				EventManager.getEventManager().addEventPlayers(player, player.getTeam());
 			}
 		}
 	}

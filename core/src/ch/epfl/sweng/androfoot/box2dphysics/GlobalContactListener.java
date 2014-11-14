@@ -16,13 +16,13 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  */
 public class GlobalContactListener implements ContactListener {
     
-    private Set<ContactListener> listeners;
+    private static Set<ContactListener> listeners;
     
     public GlobalContactListener() {
         listeners = new HashSet<ContactListener>();
     }
     
-    public void addListener(ContactListener listener) {
+    public static void addListener(ContactListener listener) {
         listeners.add(listener);
     }
 

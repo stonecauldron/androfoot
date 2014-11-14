@@ -38,7 +38,7 @@ public final class PhysicsWorld implements DrawableWorld {
 	private PhysicsWorld() {
 	    listener = new GlobalContactListener();
 	    physicsWorld.setContactListener(listener);
-	    EventManager.getEventManager().initListener(listener);
+	    EventManager.getEventManager().initListener();
 	    
 		ball = new Ball(physicsWorld, Constants.BALL_INIT_POS_X, Constants.BALL_INIT_POS_Y, Constants.BALL_RADIUS, 
 		        Constants.BALL_DENSITY, Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
@@ -47,20 +47,16 @@ public final class PhysicsWorld implements DrawableWorld {
 		
 		
 		Goal teamOneGoal = new Goal(true, physicsWorld, 500);
-		EventManager.getEventManager().addGoalListener(teamOneGoal);
 		
 		for (GoalBorder goalPart : teamOneGoal.getBorders()) {
 			drawableObjectsSet.add(goalPart);
 		}
 		
 		Goal teamTwoGoal = new Goal(false, physicsWorld, 520);
-		EventManager.getEventManager().addGoalListener(teamTwoGoal);
         
         for (GoalBorder goalPart : teamTwoGoal.getBorders()) {
             drawableObjectsSet.add(goalPart);
         }
-		
-		new AllBorders(physicsWorld, Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y);
 		
 		//TESTING===================================================================
 		mPaddlesOnePlayerOne = new GroupPaddle(1, 2, 3,
@@ -81,10 +77,6 @@ public final class PhysicsWorld implements DrawableWorld {
 		
 		for (Player player : getAllPlayers()) {
 			drawableObjectsSet.add(player);
-		}
-		
-		for (Player player : getAllPlayers()) {
-			EventManager.getEventManager().addPlayerListener(player);
 		}
 		
 	}
