@@ -19,4 +19,12 @@ public interface Controllable {
 	 * @param deltaY variation of position on the y axis
 	 */
 	public void moveVertically(float deltaY);
+	
+
+	/**
+	 * Move vertically in function of deltaY
+	 * @param deltaX variation of position on the x axis
+	 * @param deltaY variation of position on the y axis
+	 */
+	public void move(float deltaX, float deltaY);
 }

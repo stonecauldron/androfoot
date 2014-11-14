@@ -42,36 +42,30 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 
 	@Override
 	public void moveHorizontally(float deltaX) {
-	/*	Iterator<GroupPaddle> iterator = super.getPaddles().iterator();
-		while (iterator.hasNext()) {
-			GroupPaddle paddle = (GroupPaddle) iterator.next();
-			paddle.setVelocity(deltaX * X_SPEED_RATIO, 0);
-		}
-	*/
 	}
 
 	@Override
 	public void moveVertically(float deltaY) {
-	/*	Iterator<GroupPaddle> iterator = super.getPaddles().iterator();
+	}
+	
+	@Override
+	public void move(float deltaX, float deltaY) {
+		Iterator<GroupPaddle> iterator = super.getPaddles().iterator();
 		while (iterator.hasNext()) {
 			GroupPaddle paddle = (GroupPaddle) iterator.next();
-			paddle.setVelocity(0, deltaY * Y_SPEED_RATIO);
-		}*/
+			paddle.setVelocity(deltaX * X_SPEED_RATIO , deltaY * Y_SPEED_RATIO);
+		}
+		
 	}
 
 	private void applyMoveCondition(float posX, float posY, boolean touched) {
 		if (mOldTouched == true && touched == true) {
-			if (Math.abs(posX - mOldX) > 2) {
-				moveHorizontally(posX - mOldX);
+			if (Math.abs(posX - mOldX) > 2 || Math.abs(mOldY - posY) > 2) {
+				move(posX - mOldX, mOldY - posY);
 			} else {
-				moveHorizontally(0);
+				move(0,0);
 			}
 
-			if (Math.abs(mOldY - posY) > 2) {
-				moveVertically(posY - mOldY);
-			} else {
-				moveVertically(0);
-			}
 
 			mOldX = posX;
 			mOldY = posY;
@@ -81,7 +75,7 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 			mOldX = posX;
 			mOldY = posY;
 		} else {
-			moveHorizontally(0);
+			move(0,0);
 			mOldTouched = false;
 		}
 	}
@@ -101,5 +95,6 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 	@Override
 	public void update(int playerId, float posX, float posY, boolean touched) {
 	}
+
 
 }

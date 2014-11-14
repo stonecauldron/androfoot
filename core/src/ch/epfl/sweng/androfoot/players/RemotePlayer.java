@@ -26,4 +26,10 @@ public class RemotePlayer extends AbstractPlayer implements Controllable {
 
 	}
 
+	@Override
+	public void move(float deltaX, float deltaY) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
