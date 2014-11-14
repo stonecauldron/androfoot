@@ -23,5 +23,11 @@ public class AIPlayer extends AbstractPlayer implements Controllable {
 	public void moveVertically(float deltaY) {
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	public void move(float deltaX, float deltaY) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

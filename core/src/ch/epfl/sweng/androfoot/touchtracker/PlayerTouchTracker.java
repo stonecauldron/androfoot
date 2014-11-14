@@ -5,12 +5,14 @@ import java.util.List;
 
 import ch.epfl.sweng.androfoot.interfaces.ObservableTouchTracker;
 import ch.epfl.sweng.androfoot.interfaces.TouchTrackerObserver;
+import ch.epfl.sweng.androfoot.players.PlayerNumber;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 
 /**
  * @author Ahaeflig
+ * 
  * Singleton implementation of two player touch input tracking.
  * Add yourself to the tracker's observer list to start observing the touch input
  * by implementing the TouchTrackerObserver interface 
@@ -20,13 +22,9 @@ public enum PlayerTouchTracker implements InputProcessor, ObservableTouchTracker
 	INSTANCE;
 	
 	private final static int NO_POINTER = -1;
-	private final static int PLAYER_ONE = 0;
-	private final static int PLAYER_TWO = 1;
 	
 	private List<TouchTrackerObserver> observersPlayerOne = new ArrayList<TouchTrackerObserver>();
-	
 	private List<TouchTrackerObserver> observersPlayerTwo = new ArrayList<TouchTrackerObserver>();
-
 
 	private TouchInfo mPlayerOneTouch = new TouchInfo();
 	private TouchInfo mPlayerTwoTouch = new TouchInfo();
@@ -45,16 +43,20 @@ public enum PlayerTouchTracker implements InputProcessor, ObservableTouchTracker
 	
 	private void updatePlayerOne() {
 		for (TouchTrackerObserver obs: observersPlayerOne) {
-			obs.update(PLAYER_ONE, mPlayerOneTouch.touchX, mPlayerOneTouch.touchY, mPlayerOneTouch.touched);
+			obs.updatePlayerOne(PlayerNumber.ONE.ordinal(), mPlayerOneTouch.touchX, mPlayerOneTouch.touchY, mPlayerOneTouch.touched);
 		}
 	}
 	
 	private void updatePlayerTwo() {
 		for (TouchTrackerObserver obs: observersPlayerTwo) {
-			obs.update(PLAYER_TWO, mPlayerTwoTouch.touchX, mPlayerTwoTouch.touchY, mPlayerTwoTouch.touched);
+			obs.updatePlayerTwo(PlayerNumber.TWO.ordinal(), mPlayerTwoTouch.touchX, mPlayerTwoTouch.touchY, mPlayerTwoTouch.touched);
 		}
 	}
 	
+	/**
+	 * @goal Call this method everytime the screen is resized
+	 * @param screenWidth = the size of the new screen
+	 */
 	public void setNewScreenWidth(int screenWidth) {
 		this.mScreenWidth = screenWidth;
 	}

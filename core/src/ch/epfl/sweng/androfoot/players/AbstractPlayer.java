@@ -1,5 +1,6 @@
 package ch.epfl.sweng.androfoot.players;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
@@ -28,6 +29,8 @@ public abstract class AbstractPlayer {
 	public AbstractPlayer(PlayerNumber number) {
 		playerNumber = number;
 		
+		paddles = new ArrayList<GroupPaddle>();
+		
 		initialisePaddleLayout();
 	}
 	
@@ -51,7 +54,8 @@ public abstract class AbstractPlayer {
 			defenseXCoordinate = PADDLE_OFFSET * 5.0f/6.0f;
 			attackXCoordinate = PADDLE_OFFSET * 2.0f/6.0f;
 		}
-		//PhysicsWorld.createPaddle(defenseXCoordinate, DEFENSOR_NUMBER, playerNumber == PlayerNumber.ONE);
-		//PhysicsWorld.createPaddle(attackXCoordinate, ATTACKER_NUMBER, playerNumber == PlayerNumber.TWO);
+		
+		paddles.add(PhysicsWorld.createPaddle(defenseXCoordinate, Constants.PADDLE_WIDTH, DEFENSOR_NUMBER, playerNumber == PlayerNumber.ONE));
+		paddles.add(PhysicsWorld.createPaddle(attackXCoordinate, Constants.PADDLE_WIDTH, ATTACKER_NUMBER, playerNumber == PlayerNumber.ONE));
 	}
 }

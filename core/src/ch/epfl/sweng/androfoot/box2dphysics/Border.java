@@ -18,7 +18,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
  */
 public class Border implements DrawableRectangle {
 
-    private int zIndexIncrement;
+    private static int zIndexIncrement = 500;
     private int zIndex;
     private boolean isTeamOne;
     private final Body borderBody;
