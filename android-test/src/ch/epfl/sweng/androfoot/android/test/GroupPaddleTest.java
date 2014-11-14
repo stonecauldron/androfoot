@@ -17,12 +17,10 @@ public class GroupPaddleTest extends TestCase {
     
     @Test
     public void testGroupPaddleCreation() {
-        World worldTest = PhysicsWorld.getPhysicsWorld().getWorld();
-        
-        GroupPaddle paddles = new GroupPaddle(0, 1, 2, worldTest, Constants.WORLD_SIZE_Y, true);
+        GroupPaddle paddles = new GroupPaddle(0, 1, 2, Constants.WORLD_SIZE_Y, true);
         
         Array<Body> bodies = new Array<Body>();
-        worldTest.getBodies(bodies);
+        PhysicsWorld.getPhysicsWorld().getBox2DWorld().getBodies(bodies);
         
         // World must contains the body
         for (Paddle paddle : paddles.getPaddles()) {

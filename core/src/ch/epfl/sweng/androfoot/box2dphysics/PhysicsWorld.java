@@ -23,81 +23,15 @@ public final class PhysicsWorld implements DrawableWorld {
 	private static final PhysicsWorld PHYSICS_WORLD_INSTANCE = new PhysicsWorld();
 	
 	private World physicsWorld = new World(new Vector2(0, 0), false);
-	private GlobalContactListener listener;
 	private float accumulator = 0f;
+	private static boolean isRunning = false;
 	private TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
-	private Ball ball;
 	
-	//TESTING======================================================
-	private GroupPaddle mPaddlesOnePlayerOne;
-	private GroupPaddle mPaddlesTwoPlayerOne;
-	private GroupPaddle mPaddlesOnePlayerTwo;
-	private GroupPaddle mPaddlesTwoPlayerTwo;
-	
+	/* World's object */
+	private static Ball ball;
 	
 	private PhysicsWorld() {
 	    physicsWorld.setContactListener(GlobalContactListener.getInstance());
-	    
-		ball = new Ball(Constants.BALL_INIT_POS_X, Constants.BALL_INIT_POS_Y, Constants.BALL_RADIUS, 
-		        Constants.BALL_DENSITY, Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
-		
-		addToDrawableObjectsSet(ball);
-		
-		
-		Goal teamOneGoal = new Goal(true, 500);
-		
-		for (GoalBorder goalPart : teamOneGoal.getBorders()) {
-			drawableObjectsSet.add(goalPart);
-		}
-		
-		Goal teamTwoGoal = new Goal(false, 520);
-        
-        for (GoalBorder goalPart : teamTwoGoal.getBorders()) {
-            drawableObjectsSet.add(goalPart);
-        }
-		
-		//TESTING===================================================================
-		mPaddlesOnePlayerOne = new GroupPaddle(1, 2, 3,
-				Constants.WORLD_SIZE_Y,
-				true);
-
-		mPaddlesTwoPlayerOne = new GroupPaddle(5, 2, 2,
-				Constants.WORLD_SIZE_Y,
-				true);
-
-		mPaddlesOnePlayerTwo = new GroupPaddle(7, 2, 3,
-				Constants.WORLD_SIZE_Y,
-				false);
-
-		mPaddlesTwoPlayerTwo = new GroupPaddle(3, 2, 2,
-				Constants.WORLD_SIZE_Y,
-				false);
-		
-		for (Player player : getAllPlayers()) {
-			drawableObjectsSet.add(player);
-		}
-		
-	}
-	
-	private ArrayList<Player> getAllPlayers() {
-		ArrayList<GroupPaddle> groupPaddleList = new ArrayList<GroupPaddle>();
-		groupPaddleList.add(mPaddlesOnePlayerOne);
-		groupPaddleList.add(mPaddlesOnePlayerTwo);
-		groupPaddleList.add(mPaddlesTwoPlayerOne);
-		groupPaddleList.add(mPaddlesTwoPlayerTwo);
-		
-		ArrayList<Paddle> paddleList = new ArrayList<Paddle>();
-		
-		for (GroupPaddle group : groupPaddleList) {
-			paddleList.addAll(group.getPaddles());
-		}
-		
-		ArrayList<Player> playerList = new ArrayList<Player>();
-		for (Paddle paddle : paddleList) {
-			playerList.add(paddle.getPlayer());
-		}
-		
-		return playerList;
 	}
 	
 	/**
@@ -108,20 +42,30 @@ public final class PhysicsWorld implements DrawableWorld {
 		return PHYSICS_WORLD_INSTANCE;
 	}
 	
+	public static void startWorld() {
+	    isRunning = true;
+	}
+	
+	public static void stopWorld() {
+	    isRunning = false;
+	}
+	
+	public static void createBall(float x, float y, float radius) {
+	    stopWorld();
+	    ball = new Ball(x, y, radius, Constants.BALL_DENSITY, Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
+	    startWorld();
+	}
+	
+	public static Ball getBall() {
+	    return ball;
+	}
+	
 	/**
 	 * Returns the Box2D world.
 	 * @return Box2D world.
 	 */
 	public World getBox2DWorld() {
 	    return physicsWorld;
-	}
-	
-	/**
-	 * Returns the ball of the game.
-	 * @return Ball of the game.
-	 */
-	public Ball getBall() {
-	    return ball;
 	}
 	
 	/**
@@ -142,19 +86,22 @@ public final class PhysicsWorld implements DrawableWorld {
 	 * @param delta The delta number (Frames Per Second).
 	 */
 	public void phyStep(float delta) {
-		//fixed time step
-		
-		float correctedDelta = delta + accumulator;
-		float nbPhysicsStepInFrame =  correctedDelta/Constants.TIME_STEP;
-		int discreteNbPhysicsStepInFrame = (int) Math.floor(nbPhysicsStepInFrame);
-		accumulator = (nbPhysicsStepInFrame-discreteNbPhysicsStepInFrame)*Constants.TIME_STEP;
-		
-		for (int i = 0; i < discreteNbPhysicsStepInFrame; i++) {
-			physicsWorld.step(Constants.TIME_STEP, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
-		}
-
-        EventManager.getEventManager().throwEvents();
-		checkVelocity(ball);
+	    if (isRunning) {
+    		//fixed time step
+    		float correctedDelta = delta + accumulator;
+    		float nbPhysicsStepInFrame =  correctedDelta/Constants.TIME_STEP;
+    		int discreteNbPhysicsStepInFrame = (int) Math.floor(nbPhysicsStepInFrame);
+    		accumulator = (nbPhysicsStepInFrame-discreteNbPhysicsStepInFrame)*Constants.TIME_STEP;
+    		
+    		for (int i = 0; i < discreteNbPhysicsStepInFrame; i++) {
+    			physicsWorld.step(Constants.TIME_STEP, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
+    		}
+    
+            EventManager.getEventManager().throwEvents();
+            if (ball != null) {
+                checkVelocity(ball);
+            }
+	    }
 	}
 	
 	/**

@@ -67,9 +67,8 @@ public class Ball implements Drawable, BallInterface {
 	 * @return the newly created ball.
 	 */
 	public static Ball createBall() {
-		return new Ball(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), Constants.BALL_INIT_POS_X,
-				Constants.BALL_INIT_POS_Y, Constants.BALL_RADIUS, Constants.BALL_DENSITY,
-				Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
+		return new Ball(Constants.BALL_INIT_POS_X, Constants.BALL_INIT_POS_Y, Constants.BALL_RADIUS, 
+		        Constants.BALL_DENSITY, Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
 	}
 
 	@Override

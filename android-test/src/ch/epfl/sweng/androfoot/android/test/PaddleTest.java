@@ -22,7 +22,7 @@ public class PaddleTest extends TestCase {
     public final void testPaddleCreation() {
         World worldTest = new World(new Vector2(0, 0), false);
         
-        Paddle paddle = new Paddle(worldTest, 1, 1, 1, 1, true);
+        Paddle paddle = new Paddle(1, 1, 1, 1, true);
         
         Array<Body> bodies = new Array<Body>();
         worldTest.getBodies(bodies);
@@ -38,7 +38,7 @@ public class PaddleTest extends TestCase {
     public final void testPaddleLimit() throws InterruptedException {
         World worldTest = new World(new Vector2(0, 0), false);
         @SuppressWarnings("unused")
-        Paddle paddle = new Paddle(worldTest, 1, 1, 3, 3, true);
+        Paddle paddle = new Paddle(1, 1, 3, 3, true);
         
         Body circle;
         BodyDef bodyDef = new BodyDef();
@@ -102,7 +102,7 @@ public class PaddleTest extends TestCase {
         World worldTest = new World(new Vector2(0, 0), false);
         
         // Not in the same place than the other paddle
-        Paddle paddle = new Paddle(worldTest, 5, 1, 3, 3, true);
+        Paddle paddle = new Paddle(5, 1, 3, 3, true);
         
         // Top limit
         paddle.setVelocity(0.0f, 1.0f);

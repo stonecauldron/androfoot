@@ -21,7 +21,7 @@ import com.badlogic.gdx.Screen;
  * @author Guillame Leclerc
  *
  */
-public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver, PlayerObserver {
+public class GameScreen implements Screen, TouchTrackerObserver, PlayerObserver {
 
 	private final static float X_SPEED_RATIO = (float) 0.75;
 	private final static float Y_SPEED_RATIO = (float) 0.75;
@@ -36,7 +36,6 @@ public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver, P
 	
 
 	public GameScreen() {
-	    EventManager.getEventManager().addGoalObserver(this);
 	    EventManager.getEventManager().addPlayerObserver(this);
 	}
 
@@ -140,18 +139,11 @@ public class GameScreen implements Screen, TouchTrackerObserver, GoalObserver, P
 	public void dispose() {
 	}
 
-    @Override
-    public void goal(boolean isTeamOne) {
-        Ball ball = PhysicsWorld.getPhysicsWorld().getBall();
-        ball.setBallPosition(Constants.WORLD_SIZE_X / 2, Constants.WORLD_SIZE_Y / 2);
-        ball.setLinearVelocity(3, 0);
-    }
-
 	@Override
 	public void setBall(Player player, boolean teamFlag) {
 		System.out.println("Yes!");
 		
-		Ball ball = PhysicsWorld.getPhysicsWorld().getBall();
+        Ball ball = PhysicsWorld.getBall();
 		
 		if (teamFlag) {
 			ball.setBallPosition(player.getPositionX() + Constants.BALL_CONTROL_OFFSET,

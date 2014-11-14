@@ -64,8 +64,7 @@ public class GroupPaddle implements GroupPaddleInterface {
     		facingRight = true;
     	}
     	return new GroupPaddle(x - Constants.PADDLE_WIDTH/2,
-    			Constants.PADDLE_WIDTH, number, PhysicsWorld.getPhysicsWorld().getBox2DWorld(),
-    			Constants.WORLD_SIZE_Y, facingRight);
+    			Constants.PADDLE_WIDTH, number, Constants.WORLD_SIZE_Y, facingRight);
     }
 
 }
