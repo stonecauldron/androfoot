@@ -20,6 +20,7 @@ import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
 public class Board implements GoalObserver {
 
 	private static final String ERROR_MESSAGE = "Board was not created.";
+	private final float INITIAL_BALL_SPEED = 2f;
 
 	private static Board mInstance;
 
@@ -76,10 +77,12 @@ public class Board implements GoalObserver {
 		if (isTeamOne) {
 			// player 2 scored
 			incrementScore(PlayerNumber.TWO);
+			resetBall(PlayerNumber.TWO);
 		}
 		else {
 			// player 1 scored
 			incrementScore(PlayerNumber.ONE);
+			resetBall(PlayerNumber.ONE);
 		}
 	}
 
@@ -143,5 +146,19 @@ public class Board implements GoalObserver {
 		}
 		// update score counter on screen
 		GraphicEngine.getEngine().setScore(playerOneScore, playerTwoScore);
+	}
+	
+	private void resetBall(PlayerNumber playerNumber) {
+		ball.setBallPosition(Constants.WORLD_SIZE_X/2, Constants.WORLD_SIZE_Y/2);
+		
+		// change speed in relation to who scored a goal
+		if (playerNumber == PlayerNumber.ONE) {
+			// give ball to player two
+			ball.setLinearVelocity(-INITIAL_BALL_SPEED, INITIAL_BALL_SPEED);
+		}
+		else if (playerNumber == PlayerNumber.TWO) {
+			// give ball to player one
+			ball.setLinearVelocity(INITIAL_BALL_SPEED, INITIAL_BALL_SPEED);
+		}
 	}
 }
