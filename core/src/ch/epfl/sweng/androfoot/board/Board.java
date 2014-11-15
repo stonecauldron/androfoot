@@ -6,6 +6,8 @@ import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.players.AbstractPlayer;
+import ch.epfl.sweng.androfoot.players.PlayerNumber;
+import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
 
 /**
  * Class to represent the board object. It will contain all the elements
@@ -18,6 +20,7 @@ import ch.epfl.sweng.androfoot.players.AbstractPlayer;
 public class Board implements GoalObserver {
 
 	private static final String ERROR_MESSAGE = "Board was not created.";
+	private final float INITIAL_BALL_SPEED = 2f;
 
 	private static Board mInstance;
 
@@ -71,7 +74,16 @@ public class Board implements GoalObserver {
 
 	@Override
 	public void goal(boolean isTeamOne) {
-		ball.setBallPosition(2, 2);
+		if (isTeamOne) {
+			// player 2 scored
+			incrementScore(PlayerNumber.TWO);
+			resetBall(PlayerNumber.TWO);
+		}
+		else {
+			// player 1 scored
+			incrementScore(PlayerNumber.ONE);
+			resetBall(PlayerNumber.ONE);
+		}
 	}
 
 	/* FIXME Method does not work as supposed
@@ -123,5 +135,30 @@ public class Board implements GoalObserver {
 	private void setUpGoals() {
 		PhysicsWorld.createGoal(true);
 		PhysicsWorld.createGoal(false);
+	}
+	
+	private void incrementScore(PlayerNumber playerNumber) {
+		if (playerNumber == PlayerNumber.ONE) {
+			playerOneScore = playerOneScore + 1;
+		}
+		else if (playerNumber == PlayerNumber.TWO) {
+			playerTwoScore = playerTwoScore + 1;
+		}
+		// update score counter on screen
+		GraphicEngine.getEngine().setScore(playerOneScore, playerTwoScore);
+	}
+	
+	private void resetBall(PlayerNumber playerNumber) {
+		ball.setBallPosition(Constants.WORLD_SIZE_X/2, Constants.WORLD_SIZE_Y/2);
+		
+		// change speed in relation to who scored a goal
+		if (playerNumber == PlayerNumber.ONE) {
+			// give ball to player two
+			ball.setLinearVelocity(-INITIAL_BALL_SPEED, INITIAL_BALL_SPEED);
+		}
+		else if (playerNumber == PlayerNumber.TWO) {
+			// give ball to player one
+			ball.setLinearVelocity(INITIAL_BALL_SPEED, INITIAL_BALL_SPEED);
+		}
 	}
 }
