@@ -1,14 +1,10 @@
 package ch.epfl.sweng.androfoot.board;
 
-import com.badlogic.gdx.physics.box2d.World;
-
 import ch.epfl.sweng.androfoot.box2dphysics.Ball;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
-import ch.epfl.sweng.androfoot.box2dphysics.Player;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
-import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
 import ch.epfl.sweng.androfoot.players.AbstractPlayer;
 
 /**
