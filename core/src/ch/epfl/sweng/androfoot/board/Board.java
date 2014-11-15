@@ -6,6 +6,8 @@ import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.players.AbstractPlayer;
+import ch.epfl.sweng.androfoot.players.PlayerNumber;
+import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
 
 /**
  * Class to represent the board object. It will contain all the elements
@@ -73,11 +75,11 @@ public class Board implements GoalObserver {
 	public void goal(boolean isTeamOne) {
 		if (isTeamOne) {
 			// player 2 scored
-			playerTwoScore = playerTwoScore + 1;
+			incrementScore(PlayerNumber.TWO);
 		}
 		else {
 			// player 1 scored
-			playerOneScore = playerOneScore + 1;
+			incrementScore(PlayerNumber.ONE);
 		}
 	}
 
@@ -130,5 +132,16 @@ public class Board implements GoalObserver {
 	private void setUpGoals() {
 		PhysicsWorld.createGoal(true);
 		PhysicsWorld.createGoal(false);
+	}
+	
+	private void incrementScore(PlayerNumber playerNumber) {
+		if (playerNumber == PlayerNumber.ONE) {
+			playerOneScore = playerOneScore + 1;
+		}
+		else if (playerNumber == PlayerNumber.TWO) {
+			playerTwoScore = playerTwoScore + 1;
+		}
+		// update score counter on screen
+		GraphicEngine.getEngine().setScore(playerOneScore, playerTwoScore);
 	}
 }
