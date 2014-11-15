@@ -13,6 +13,7 @@ import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
  * Class to represent a human player on the local machine.
  * 
  * @author Pedro Caldeira <pedrocaldeira>
+ * @author Ahaeflig
  *
  */
 public class LocalPlayer extends AbstractPlayer implements Controllable,
@@ -58,6 +59,22 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 		
 	}
 
+	@Override
+	public void updatePlayerOne(int playerId, float posX, float posY,
+			boolean touched) {
+		applyMoveCondition(posX, posY, touched);
+	}
+
+	@Override
+	public void updatePlayerTwo(int playerId, float posX, float posY,
+			boolean touched) {
+		applyMoveCondition(posX, posY, touched);
+	}
+
+	@Override
+	public void update(int playerId, float posX, float posY, boolean touched) {
+	}
+
 	private void applyMoveCondition(float posX, float posY, boolean touched) {
 		if (mOldTouched == true && touched == true) {
 			if (Math.abs(posX - mOldX) > 2 || Math.abs(mOldY - posY) > 2) {
@@ -76,22 +93,6 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 			move(0,0);
 			mOldTouched = false;
 		}
-	}
-
-	@Override
-	public void updatePlayerOne(int playerId, float posX, float posY,
-			boolean touched) {
-		applyMoveCondition(posX, posY, touched);
-	}
-
-	@Override
-	public void updatePlayerTwo(int playerId, float posX, float posY,
-			boolean touched) {
-		applyMoveCondition(posX, posY, touched);
-	}
-
-	@Override
-	public void update(int playerId, float posX, float posY, boolean touched) {
 	}
 
 
