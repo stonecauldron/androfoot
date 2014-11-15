@@ -71,7 +71,14 @@ public class Board implements GoalObserver {
 
 	@Override
 	public void goal(boolean isTeamOne) {
-		ball.setBallPosition(2, 2);
+		if (isTeamOne) {
+			// player 2 scored
+			playerTwoScore = playerTwoScore + 1;
+		}
+		else {
+			// player 1 scored
+			playerOneScore = playerOneScore + 1;
+		}
 	}
 
 	/* FIXME Method does not work as supposed
