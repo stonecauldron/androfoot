@@ -13,12 +13,13 @@ import ch.epfl.sweng.androfoot.players.AbstractPlayer;
 
 /**
  * Class to represent the board object. It will contain all the elements
- * necessary for a game.
+ * necessary for a game. It is a modified singleton where the BoardFactory
+ * can set the correct instance of the class.
  * 
  * @author Pedro Caldeira <pedrocaldeira>
  *
  */
-public class Board implements GoalObserver, PlayerObserver {
+public class Board implements GoalObserver {
 
 	private static final String ERROR_MESSAGE = "Board was not created.";
 
@@ -35,10 +36,9 @@ public class Board implements GoalObserver, PlayerObserver {
 	/**
 	 * Board constructor
 	 * 
-	 * @param p1
-	 *            reference to the first player.
+	 * @param p1 reference to the first player.
 	 * @param p2
-	 *            reference to the second player.
+	 *           reference to the second player.
 	 */
 	Board(AbstractPlayer p1, AbstractPlayer p2) {
 		playerOne = p1;
@@ -46,33 +46,15 @@ public class Board implements GoalObserver, PlayerObserver {
 
 		playerOneScore = 0;
 		playerTwoScore = 0;
-		ball = PhysicsWorld.createBall(Constants.WORLD_SIZE_X / 2,
-				Constants.WORLD_SIZE_Y / 2, Constants.BALL_RADIUS);
-
-		PhysicsWorld.createBorder(0, 0, Constants.GOAL_WIDTH,
-				Constants.GOAL_HEIGHT, true);
-		PhysicsWorld.createBorder(0, Constants.WORLD_SIZE_Y
-				- Constants.GOAL_HEIGHT, Constants.GOAL_WIDTH,
-				Constants.GOAL_HEIGHT, true);
-
-		PhysicsWorld.createBorder(
-				Constants.WORLD_SIZE_X - Constants.GOAL_WIDTH, 0,
-				Constants.GOAL_WIDTH, Constants.GOAL_HEIGHT, false);
-		PhysicsWorld.createBorder(
-				Constants.WORLD_SIZE_X - Constants.GOAL_WIDTH,
-				Constants.WORLD_SIZE_Y - Constants.GOAL_HEIGHT,
-				Constants.GOAL_WIDTH, Constants.GOAL_HEIGHT, false);
-
-		PhysicsWorld.createBorder(0, -Constants.GOAL_WIDTH,
-				Constants.WORLD_SIZE_X, Constants.GOAL_WIDTH, true);
-		PhysicsWorld.createBorder(0, Constants.WORLD_SIZE_Y,
-				Constants.WORLD_SIZE_X, Constants.GOAL_WIDTH, true);
-
+		
+		setUpBall();
+		
+		setUpUpperAndLowerWalls();
+		setUpLeftAndRightWalls();
+		setUpGoals();
+		
+		// start observing goal events
 		EventManager.getEventManager().addGoalObserver(this);
-		EventManager.getEventManager().addPlayerObserver(this);
-
-		PhysicsWorld.createGoal(true);
-		PhysicsWorld.createGoal(false);
 	}
 
 	/**
@@ -96,6 +78,7 @@ public class Board implements GoalObserver, PlayerObserver {
 		ball.setBallPosition(2, 2);
 	}
 
+	/* FIXME Method does not work as supposed
 	@Override
 	public void setBall(Player player, boolean teamFlag) {
 		System.out.println("Yes!");
@@ -111,5 +94,38 @@ public class Board implements GoalObserver, PlayerObserver {
 			ball.setLinearVelocity(0, 0);
 		}
 	}
+	*/
+	
+	private void setUpBall() {
+		ball = PhysicsWorld.createBall(Constants.WORLD_SIZE_X / 2,
+				Constants.WORLD_SIZE_Y / 2, Constants.BALL_RADIUS);
+	}
+	
+	private void setUpUpperAndLowerWalls() {
+		PhysicsWorld.createBorder(0, 0, Constants.GOAL_WIDTH,
+				Constants.GOAL_HEIGHT, true);
+		PhysicsWorld.createBorder(0, Constants.WORLD_SIZE_Y
+				- Constants.GOAL_HEIGHT, Constants.GOAL_WIDTH,
+				Constants.GOAL_HEIGHT, true);
+	}
+	
+	private void setUpLeftAndRightWalls() {
+		PhysicsWorld.createBorder(
+				Constants.WORLD_SIZE_X - Constants.GOAL_WIDTH, 0,
+				Constants.GOAL_WIDTH, Constants.GOAL_HEIGHT, false);
+		PhysicsWorld.createBorder(
+				Constants.WORLD_SIZE_X - Constants.GOAL_WIDTH,
+				Constants.WORLD_SIZE_Y - Constants.GOAL_HEIGHT,
+				Constants.GOAL_WIDTH, Constants.GOAL_HEIGHT, false);
 
+		PhysicsWorld.createBorder(0, -Constants.GOAL_WIDTH,
+				Constants.WORLD_SIZE_X, Constants.GOAL_WIDTH, true);
+		PhysicsWorld.createBorder(0, Constants.WORLD_SIZE_Y,
+				Constants.WORLD_SIZE_X, Constants.GOAL_WIDTH, true);
+	}
+	
+	private void setUpGoals() {
+		PhysicsWorld.createGoal(true);
+		PhysicsWorld.createGoal(false);
+	}
 }
