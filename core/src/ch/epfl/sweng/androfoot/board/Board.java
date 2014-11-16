@@ -1,7 +1,5 @@
 package ch.epfl.sweng.androfoot.board;
 
-import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer.Random;
-
 import ch.epfl.sweng.androfoot.box2dphysics.Ball;
 import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;

@@ -3,9 +3,12 @@ package ch.epfl.sweng.androfoot.box2dphysics;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+
+import ch.epfl.sweng.androfoot.accelerometer.AccelerometerTracker;
 import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
@@ -24,6 +27,8 @@ public final class PhysicsWorld implements DrawableWorld {
 	private float accumulator = 0f;
 	private static boolean isRunning = false;
 	private static TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
+	
+	private float accelerometerTime = 0;
 	
 	/* World's object */
 	private static Ball ball;
@@ -160,7 +165,14 @@ public final class PhysicsWorld implements DrawableWorld {
     		for (int i = 0; i < discreteNbPhysicsStepInFrame; i++) {
     			physicsWorld.step(Constants.TIME_STEP, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
     		}
-    
+    		
+    		//For Accelerometer polling
+    		accelerometerTime += correctedDelta;
+    		if(accelerometerTime > 1.0f && AccelerometerTracker.getInstance().isShaking()) {
+        		accelerometerTime = 0;
+        		//TODO Ball impulse here
+    		} 	
+    		
             EventManager.getEventManager().throwEvents();
             if (ball != null) {
                 checkVelocity(ball);
@@ -170,7 +182,7 @@ public final class PhysicsWorld implements DrawableWorld {
 	
 	/**
 	 * Checks the velocity of the ball and limits it if the velocity of the ball is bigger
-	 * thatn the maximum allowed.
+	 * than the maximum allowed.
 	 * @param ball Ball to be checked.
 	 */
 	public void checkVelocity(Ball ball) {
