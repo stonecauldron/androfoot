@@ -83,6 +83,7 @@ public class EventManager {
                 observer.borderContact(event.getType());
             }
         }
+        borderEvents.clear();
     }
     
     /**
