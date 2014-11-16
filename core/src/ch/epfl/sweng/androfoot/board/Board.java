@@ -1,6 +1,9 @@
 package ch.epfl.sweng.androfoot.board;
 
+import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer.Random;
+
 import ch.epfl.sweng.androfoot.box2dphysics.Ball;
+import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
@@ -107,29 +110,33 @@ public class Board implements GoalObserver {
 	private void setUpBall() {
 		ball = PhysicsWorld.createBall(Constants.WORLD_SIZE_X / 2,
 				Constants.WORLD_SIZE_Y / 2, Constants.BALL_RADIUS);
+		
+		java.util.Random random = new java.util.Random();
+		float x = (float) Math.pow(-1, random.nextInt(2));
+		ball.setLinearVelocity(3 * x, 0);
 	}
 	
 	private void setUpUpperAndLowerWalls() {
 		PhysicsWorld.createBorder(0, 0, Constants.GOAL_WIDTH,
-				Constants.GOAL_HEIGHT, true);
+				Constants.GOAL_HEIGHT, BorderType.TEAM_ONE);
 		PhysicsWorld.createBorder(0, Constants.WORLD_SIZE_Y
 				- Constants.GOAL_HEIGHT, Constants.GOAL_WIDTH,
-				Constants.GOAL_HEIGHT, true);
+				Constants.GOAL_HEIGHT, BorderType.TEAM_ONE);
 	}
 	
 	private void setUpLeftAndRightWalls() {
 		PhysicsWorld.createBorder(
 				Constants.WORLD_SIZE_X - Constants.GOAL_WIDTH, 0,
-				Constants.GOAL_WIDTH, Constants.GOAL_HEIGHT, false);
+				Constants.GOAL_WIDTH, Constants.GOAL_HEIGHT, BorderType.TEAM_TWO);
 		PhysicsWorld.createBorder(
 				Constants.WORLD_SIZE_X - Constants.GOAL_WIDTH,
 				Constants.WORLD_SIZE_Y - Constants.GOAL_HEIGHT,
-				Constants.GOAL_WIDTH, Constants.GOAL_HEIGHT, false);
+				Constants.GOAL_WIDTH, Constants.GOAL_HEIGHT, BorderType.TEAM_TWO);
 
 		PhysicsWorld.createBorder(0, -Constants.GOAL_WIDTH,
-				Constants.WORLD_SIZE_X, Constants.GOAL_WIDTH, true);
+				Constants.WORLD_SIZE_X, Constants.GOAL_WIDTH, BorderType.NO_TEAM);
 		PhysicsWorld.createBorder(0, Constants.WORLD_SIZE_Y,
-				Constants.WORLD_SIZE_X, Constants.GOAL_WIDTH, true);
+				Constants.WORLD_SIZE_X, Constants.GOAL_WIDTH, BorderType.NO_TEAM);
 	}
 	
 	private void setUpGoals() {

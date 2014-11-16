@@ -1,4 +1,4 @@
-package ch.epfl.sweng.androfoot.android.test;
+package test.ch.epfl.sweng.androfoot.box2dphysics;
 
 import org.junit.Test;
 
@@ -15,7 +15,7 @@ public class GroupPaddleTest extends TestCase {
     
     @Test
     public void testGroupPaddleCreation() {
-        GroupPaddle paddles = new GroupPaddle(0, 1, 2, true);
+        GroupPaddle paddles = PhysicsWorld.createPaddle(0, 1, 2, true);
         
         Array<Body> bodies = new Array<Body>();
         PhysicsWorld.getPhysicsWorld().getBox2DWorld().getBodies(bodies);

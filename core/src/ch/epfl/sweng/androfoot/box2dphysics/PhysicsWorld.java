@@ -6,7 +6,7 @@ import java.util.TreeSet;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-
+import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 
@@ -40,16 +40,33 @@ public final class PhysicsWorld implements DrawableWorld {
 		return PHYSICS_WORLD_INSTANCE;
 	}
 	
+	/**
+	 * Run the physic world
+	 */
 	public static void startWorld() {
 	    isRunning = true;
 	}
 	
+	/**
+	 * Set the world in pause mode
+	 */
 	public static void pauseWorld() {
 	    isRunning = false;
 	}
 	
+	/**
+	 * Create a ball in the world.
+	 * @param x position
+	 * @param y position
+	 * @param radius of the ball
+	 * @return
+	 */
 	public static Ball createBall(float x, float y, float radius) {
 	    pauseWorld();
+	    if (ball != null) {
+	        PHYSICS_WORLD_INSTANCE.getBox2DWorld().destroyBody(ball.getBody());
+	        drawableObjectsSet.remove(ball);
+	    }
 	    ball = new Ball(x, y, radius, Constants.BALL_DENSITY, Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
 	    drawableObjectsSet.add(ball);
 	    startWorld();
@@ -57,10 +74,22 @@ public final class PhysicsWorld implements DrawableWorld {
 	    return ball;
 	}
 	
+	/**
+	 * Get the ball
+	 * @return
+	 */
 	public static Ball getBall() {
 	    return ball;
 	}
 	
+	/**
+	 * Create a paddle in the world
+	 * @param x position of the left bottom corner
+	 * @param width of the paddle
+	 * @param number of players in the paddle
+	 * @param facingRight true if the paddle is right oriented
+	 * @return
+	 */
 	public static GroupPaddle createPaddle(float x, float width, int number, boolean facingRight) {
 	    pauseWorld();
 	    GroupPaddle groupPaddle = new GroupPaddle(x, width, number, facingRight);
@@ -72,15 +101,29 @@ public final class PhysicsWorld implements DrawableWorld {
 	    return groupPaddle;
 	}
 	
-	public static Border createBorder(float x, float y, float width, float height, boolean teamOne) {
+	/**
+	 * Create a border
+	 * @param x position of the bottom left corner
+	 * @param y position of the bottom left corner
+	 * @param width of the border
+	 * @param height of the border
+	 * @param teamOne true if the border is colored with teamOne parameter
+	 * @return
+	 */
+	public static Border createBorder(float x, float y, float width, float height, BorderType type) {
 	    pauseWorld();
-	    Border border = new Border(x, y, width, height, teamOne);
+	    Border border = new Border(x, y, width, height, type);
 	    drawableObjectsSet.add(border);
 	    startWorld();
 	    
 	    return border;
 	}
 	
+	/**
+	 * Create the goal of team one or two
+	 * @param teamOne true for team one
+	 * @return
+	 */
 	public static Goal createGoal(boolean teamOne) {
 	    pauseWorld();
 	    Goal goal = new Goal(teamOne);

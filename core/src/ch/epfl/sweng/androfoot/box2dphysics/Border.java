@@ -17,10 +17,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
  *
  */
 public class Border implements DrawableRectangle {
+    
+    public enum BorderType { TEAM_ONE, TEAM_TWO, NO_TEAM };
 
     private static int zIndexIncrement = 500;
     private int zIndex;
-    private boolean isTeamOne;
+    private BorderType borderType;
     private final Body borderBody;
     private final BodyDef borderBodyDef;
     private final PolygonShape shape;
@@ -35,11 +37,11 @@ public class Border implements DrawableRectangle {
 	 * @param height
 	 * @param teta
 	 */
-	public Border(float x, float y, float width, float height, boolean teamOne) {
+	public Border(float x, float y, float width, float height, BorderType type) {
 		
 	    zIndex = zIndexIncrement;
         zIndexIncrement++;
-        isTeamOne = teamOne;
+        borderType = type;
         
         borderBodyDef = new BodyDef();
         borderBodyDef.type = BodyType.StaticBody;
@@ -60,6 +62,16 @@ public class Border implements DrawableRectangle {
         
         // For the graphic engine
         rectangle = new Rectangle(x, y, width, height);
+        
+        BorderContactListener.addBorder(this);
+	}
+	
+	public Body getBody() {
+	    return borderBody;
+	}
+	
+	public BorderType getType() {
+	    return borderType;
 	}
 	
 	@Override
@@ -74,10 +86,15 @@ public class Border implements DrawableRectangle {
 
     @Override
     public Color getColor() {
-        if (isTeamOne) {
+        switch (borderType) {
+        case TEAM_ONE:
             return Constants.GOAL_COLOR_TEAM1;
-        } else {
+        case TEAM_TWO:
             return Constants.GOAL_COLOR_TEAM2;
+        case NO_TEAM:
+            return new Color(0, 0, 0, 1);
+        default:
+            return new Color(0, 0, 0, 1);
         }
     }
 

@@ -27,7 +27,7 @@ public class Paddle implements PaddleInterface {
     private FixtureDef areaFixture;
     
     private float posX;
-    private float widthOfThePaddle;
+    private float widthPaddle;
     private boolean teamFlag;
     
     private Player player;
@@ -45,7 +45,7 @@ public class Paddle implements PaddleInterface {
     	
         areasShape = new ArrayList<EdgeShape>();
         posX = x;
-        widthOfThePaddle = width;
+        widthPaddle = width;
         teamFlag = facingRight;
         
         // Static definition for the 4 egdes
@@ -104,17 +104,17 @@ public class Paddle implements PaddleInterface {
 		boolean res = true;
 		
 		float ballRadius = Constants.BALL_RADIUS;
-		float paddleCenterX = posX + (widthOfThePaddle / 2);
+		float paddleCenterX = posX + (widthPaddle / 2);
 		
 		if (teamFlag) {
 			if ((player.getPositionX() + Constants.BALL_CONTROL_OFFSET) >= 
-					(paddleCenterX + widthOfThePaddle/2 + ballRadius)) {
+					(paddleCenterX + widthPaddle/2 + ballRadius)) {
 				res = false;
 			}
 			
 		} else {
 			if ((player.getPositionX() - Constants.BALL_CONTROL_OFFSET) <=
-					(paddleCenterX - widthOfThePaddle/2 - ballRadius)) {
+					(paddleCenterX - widthPaddle/2 - ballRadius)) {
 				res = false;
 			}
 		}

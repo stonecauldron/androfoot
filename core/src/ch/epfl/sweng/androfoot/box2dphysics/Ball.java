@@ -58,8 +58,7 @@ public class Ball implements Drawable, BallInterface {
 		circle.dispose();
 		
 		PaddleContactListener.addBall(this);
-		
-		ballBody.setLinearVelocity(new Vector2(-3, 0)); //For testing purposes
+		BorderContactListener.addBall(this);
 	}
 
 	@Override

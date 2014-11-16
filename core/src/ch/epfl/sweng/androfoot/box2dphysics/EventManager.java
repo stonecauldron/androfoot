@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
+import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.interfaces.PaddleContactObserver;
 import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
@@ -28,6 +30,9 @@ public class EventManager {
     private Set<PlayerObserver> playerObservers;
     private List<PlayerEvent> playerEvents;
     
+    private Set<BorderObserver> borderObservers;
+    private List<BorderContactEvent> borderEvents;
+    
     private EventManager() {
         goalObservers = new HashSet<GoalObserver>();
         goalEvents = new ArrayList<GoalEvent>();
@@ -38,9 +43,13 @@ public class EventManager {
         playerObservers = new HashSet<PlayerObserver>();
         playerEvents = new ArrayList<PlayerEvent>();
         
+        borderObservers = new HashSet<BorderObserver>();
+        borderEvents = new ArrayList<BorderContactEvent>();
+        
         GlobalContactListener.addListener(GoalContactListener.getInstance());
         GlobalContactListener.addListener(PaddleContactListener.getInstance());
         GlobalContactListener.addListener(PlayerContactListener.getInstance());
+        GlobalContactListener.addListener(BorderContactListener.getInstance());
     }
     
     public static EventManager getEventManager() {
@@ -55,7 +64,7 @@ public class EventManager {
         }
         goalEvents.clear();
         
-        for (PaddleContactEvent event : paddleEvents) {
+        for (@SuppressWarnings("unused") PaddleContactEvent event : paddleEvents) {
             for (PaddleContactObserver observer : paddleObservers) {
                 observer.paddleContact();
             }
@@ -68,14 +77,26 @@ public class EventManager {
         	}
         }
         playerEvents.clear();
+        
+        for (BorderContactEvent event : borderEvents) {
+            for (BorderObserver observer : borderObservers) {
+                observer.borderContact(event.getType());
+            }
+        }
     }
     
-    // Goal
+    /**
+     * Add an observer to the goal event
+     * @param obs
+     */
     public void addGoalObserver(GoalObserver obs) {
         goalObservers.add(obs);
     }
     
-    //Player
+    /**
+     * Add an observer to the paddle contact event
+     * @param obs
+     */
     public void addPaddleContactObserver(PaddleContactObserver obs) {
         paddleObservers.add(obs);
     }
@@ -86,6 +107,14 @@ public class EventManager {
      */
     public void addPlayerObserver(PlayerObserver observer) {
     	playerObservers.add(observer);
+    }
+    
+    /**
+     * Add an observer to the border contact event
+     * @param observer
+     */
+    public void addBorderContactObserver(BorderObserver observer) {
+        borderObservers.add(observer);
     }
 
     public void addEventGoal(boolean isTeamOne) {
@@ -98,6 +127,10 @@ public class EventManager {
 	
 	public void addEventPaddle() {
 	    paddleEvents.add(new PaddleContactEvent());
+	}
+	
+	public void addEventBorder(BorderType type) {
+	    borderEvents.add(new BorderContactEvent(type));
 	}
     
 	/** 
@@ -155,5 +188,17 @@ public class EventManager {
     
     class PaddleContactEvent {
         
+    }
+    
+    class BorderContactEvent {
+        private BorderType type;
+        
+        public BorderContactEvent(BorderType type) {
+            this.type = type;
+        }
+        
+        public BorderType getType() {
+            return type;
+        }
     }
 }
