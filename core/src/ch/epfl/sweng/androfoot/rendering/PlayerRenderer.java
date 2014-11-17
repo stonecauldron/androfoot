@@ -31,7 +31,6 @@ public class PlayerRenderer implements MeshRenderer{
 			controlPartRenderer.setColor(currentColor);
 		} else {
 			controlPartRenderer.setColor(CANT_CONTROL_COLOR);
-			System.out.println("cant control");
 		}
 	}
 	

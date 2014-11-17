@@ -6,7 +6,9 @@ import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
+import ch.epfl.sweng.androfoot.box2dphysics.Player;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
+import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
 import ch.epfl.sweng.androfoot.players.AbstractPlayer;
 import ch.epfl.sweng.androfoot.players.PlayerNumber;
 import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
@@ -19,7 +21,7 @@ import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
  * @author Pedro Caldeira <pedrocaldeira>
  *
  */
-public class Board implements GoalObserver {
+public class Board implements GoalObserver, PlayerObserver {
 
 	private static final String ERROR_MESSAGE = "Board was not created.";
 	private final float INITIAL_BALL_SPEED = 2f;
@@ -56,6 +58,7 @@ public class Board implements GoalObserver {
 		
 		// start observing goal events
 		EventManager.getEventManager().addGoalObserver(this);
+		EventManager.getEventManager().addPlayerObserver(this);
 	}
 
 	/**
@@ -88,23 +91,25 @@ public class Board implements GoalObserver {
 		}
 	}
 
-	/* FIXME Method does not work as supposed
+	
 	@Override
 	public void setBall(Player player, boolean teamFlag) {
 		System.out.println("Yes!");
 
-		Ball ball = PhysicsWorld.getBall();
-		if (teamFlag) {
-			ball.setBallPosition(player.getPositionX()
-					+ Constants.BALL_CONTROL_OFFSET, player.getPositionY());
-			ball.setLinearVelocity(0, 0);
-		} else {
-			ball.setBallPosition(player.getPositionX()
-					- Constants.BALL_CONTROL_OFFSET, player.getPositionY());
-			ball.setLinearVelocity(0, 0);
-		}
+		if (player.isAbleToControlBall()) {
+			Ball ball = PhysicsWorld.getBall();
+			if (teamFlag) {
+				ball.setBallPosition(player.getPositionX()
+						+ Constants.BALL_CONTROL_OFFSET - Constants.BALL_RADIUS/2, player.getPositionY());
+				ball.setLinearVelocity(0, 0);
+			} else {
+				ball.setBallPosition(player.getPositionX()
+						- Constants.BALL_CONTROL_OFFSET + Constants.BALL_RADIUS/2, player.getPositionY());
+				ball.setLinearVelocity(0, 0);
+			}
+		}	
 	}
-	*/
+	
 	
 	private void setUpBall() {
 		ball = PhysicsWorld.createBall(Constants.WORLD_SIZE_X / 2,

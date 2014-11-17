@@ -3,8 +3,6 @@ package ch.epfl.sweng.androfoot.box2dphysics;
 import java.util.HashSet;
 import java.util.Set;
 
-import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
-
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -42,8 +40,7 @@ public class PlayerContactListener implements ContactListener {
 	@Override
 	public void beginContact(Contact contact) {
 		for (Player player : players) {
-			if ((contact.getFixtureA() == player.getBody().getFixtureList().get(0)) 
-					|| (contact.getFixtureB() == player.getBody().getFixtureList().get(0))) {
+			if (checkBallHitsPlayerBack(contact, player)) {
 				
 				EventManager.getEventManager().addEventPlayers(player, player.getTeam());
 			}
@@ -66,6 +63,21 @@ public class PlayerContactListener implements ContactListener {
 	public void postSolve(Contact contact, ContactImpulse impulse) {
 		// Does nothing.
 
+	}
+	
+	/**
+	 * Auxiliary method that checks if it's the ball that hits the back of the player in
+	 * the collision event.
+	 * @param contact Contact that occurs.
+	 * @param player Player in the collision.
+	 * @return True if there's contact between ball and the back of the player.
+	 */
+	private boolean checkBallHitsPlayerBack(Contact contact, Player player) {
+		
+		return (((contact.getFixtureA() == player.getBody().getFixtureList().get(0)) 
+					&& (contact.getFixtureB().getFilterData().categoryBits == Constants.CATEGORY_BALL))
+					|| ((contact.getFixtureA().getFilterData().categoryBits == Constants.CATEGORY_BALL) 
+					&& (contact.getFixtureB() == player.getBody().getFixtureList().get(0))));
 	}
 
 }
