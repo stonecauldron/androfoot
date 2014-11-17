@@ -1,6 +1,7 @@
 package ch.epfl.sweng.androfoot.rendering;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,10 +23,13 @@ public class ShockwaveManager implements DrawableRenderer{
 	}
 	
 	public void age(float delta) {
-		for(ShockWave wave : shockwaves) {
-			wave.age(delta);
-			if(wave.isEnded()) {
-				//shockwaves.remove(wave);
+		Iterator<ShockWave> iterator = shockwaves.iterator();
+		while(iterator.hasNext())
+		{
+			ShockWave w = iterator.next();
+			w.age(delta);
+			if(w.isEnded()) {
+				iterator.remove();
 			}
 		}
 	}

@@ -62,5 +62,4 @@ public class ShockwaveShader extends ConcreteSimpleShaderBuilder {
 	public void setRadius(float radius) {
 		shader.setUniformf(radiusArgPosition, radius);
 	}
-
 }
