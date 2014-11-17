@@ -18,7 +18,7 @@ public class Constants {
 	
 	/* Goals */
 	public static final float GOAL_WIDTH = 2f;
-	public static final float GOAL_OFFSET = 0.2f;
+	public static final float GOAL_OFFSET = 0.0f;
 	public static final float GOAL_HEIGHT = 2f;
 	public static final int GOAL_COLOR_TEAM1_HEX = 0x2ECC71FF;
 	public static final int GOAL_COLOR_TEAM2_HEX = 0xBF55ECFF;
@@ -41,7 +41,7 @@ public class Constants {
     /* Ball */
     public static final float BALL_RESTITUTION = 1.0f;
     public static final float BALL_FRICTION = 0.0f;
-    public static final float BALL_DENSITY = 0.001f;
+    public static final float BALL_DENSITY = 0.000001f;
     public static final float BALL_RADIUS = 0.2f;
     public static final float BALL_INIT_POS_Y = 3.4f;
     public static final float BALL_INIT_POS_X = 5.0f;
