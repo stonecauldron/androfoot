@@ -3,6 +3,8 @@
  */
 package ch.epfl.sweng.androfoot.network;
 
+import java.util.ArrayList;
+
 /**
  * @author Sidney Barthe
  * 
@@ -12,8 +14,10 @@ package ch.epfl.sweng.androfoot.network;
  */
 public interface NetworkConnection {
 	public void host();
-	public void connect(Object host);
+	public ArrayList<String> getHosts();
+	public void connect(int hostNumber);
 	public int getState();
 	public void send(String message); // Message objects will have to be converted to strings
 	public String read(); // ...and vice versa
+	
 }

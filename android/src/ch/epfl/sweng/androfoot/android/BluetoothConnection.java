@@ -3,7 +3,7 @@ package ch.epfl.sweng.androfoot.android;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Set;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import org.json.JSONObject;
@@ -12,9 +12,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
-
-// TODO : change this class so it implements a NetworkConnection (from the network package)
-// in order to be able to use it in the core project
+import ch.epfl.sweng.androfoot.network.NetworkConnection;
 
 /**
  * @author Congelateur This class provides an interface for establishing a
@@ -22,7 +20,7 @@ import android.bluetooth.BluetoothSocket;
  *         methods to send and receive messages over the connection . Requires
  *         permissions BLUETOOTH and BLUETOOTH_ADMIN
  */
-public class BluetoothConnection {
+public class BluetoothConnection implements NetworkConnection {
 	private BluetoothAdapter mAdapter = null;
 	private BluetoothSocket mBluetoothSocket = null;
 	// buffers
@@ -45,13 +43,13 @@ public class BluetoothConnection {
 	public static final int STATE_ATTEMPTING_CONNECTION = 2;
 	public static final int STATE_CONNECTED = 3;
 	private int mCurrentState;
-	private BluetoothDevice mConnectedDevice;
 
-	//
+	private BluetoothDevice mConnectedDevice;
+	private ArrayList<BluetoothDevice> mPairedHostList = null;
 
 	public BluetoothConnection() {
 		mAdapter = BluetoothAdapter.getDefaultAdapter();
-		mCurrentState = 0;
+		mCurrentState = STATE_EXISTING;
 	}
 
 	/**
@@ -74,7 +72,7 @@ public class BluetoothConnection {
 	/**
 	 * Activates Bluetooth on the device without asking for user permission
 	 */
-	public void activateBluetooth() {
+	private void activateBluetooth() {
 		mAdapter.enable();
 	}
 
@@ -97,14 +95,6 @@ public class BluetoothConnection {
 		mConnectingThread = new ConnectingThread(device);
 		mCurrentState = STATE_ATTEMPTING_CONNECTION;
 		mConnectingThread.start();
-	}
-
-	/**
-	 * 
-	 * @return A set of BluetoothDevices bonded to the device
-	 */
-	public Set<BluetoothDevice> getPairedDevices() {
-		return mAdapter.getBondedDevices();
 	}
 
 	/**
@@ -287,4 +277,74 @@ public class BluetoothConnection {
 			}
 		}
 	}
+
+	/**
+	 * Setup the bluetooth emmiter by activating it
+	 * 
+	 * @throws Exception
+	 */
+	private void initialize() throws Exception {
+		if (!deviceHasBluetooth()) {
+			throw new Exception("Device has no bluetooth emitter");
+		} else if (!bluetoothIsActivated()) {
+			activateBluetooth();
+			mPairedHostList = new ArrayList<BluetoothDevice>(
+					mAdapter.getBondedDevices());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.epfl.sweng.androfoot.network.NetworkConnection#host()
+	 */
+	@Override
+	public void host() {
+		try {
+			initialize();
+			connect();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.epfl.sweng.androfoot.network.NetworkConnection#connect(java.lang.Object
+	 * )
+	 */
+	@Override
+	public void connect(int hostNumber) {
+		if ((hostNumber < 0) || (mPairedHostList.size() <= hostNumber)) {
+			throw new IllegalArgumentException();
+		} else {
+			try {
+				initialize();
+				connect(mPairedHostList.get(hostNumber));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.epfl.sweng.androfoot.network.NetworkConnection#getHosts()
+	 */
+	@Override
+	public ArrayList<String> getHosts() {
+		mPairedHostList = new ArrayList<BluetoothDevice>(
+				mAdapter.getBondedDevices());
+		ArrayList<String> hostsAsString = new ArrayList<String>();
+		for (int i = 0; i < mPairedHostList.size(); i++) {
+			hostsAsString.add(mPairedHostList.get(i).toString());
+		}
+		return hostsAsString;
+	}
+
 };
