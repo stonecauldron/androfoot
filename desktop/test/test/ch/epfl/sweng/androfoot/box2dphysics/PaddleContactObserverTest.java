@@ -35,7 +35,9 @@ public class PaddleContactObserverTest implements PaddleContactObserver {
     
     private void multiplePhyStep() {
         for (int i = 0; i < 50; i++) {
-            world.phyStep(1);
+            world.getBox2DWorld().step(1, 1, 1);
+            
+            EventManager.getEventManager().throwEvents();
         }
     }
 }

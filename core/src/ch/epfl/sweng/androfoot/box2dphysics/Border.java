@@ -18,9 +18,14 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
  */
 public class Border implements DrawableRectangle {
     
+    /**
+     * Represent the type of the border
+     * @author Gaylor
+     *
+     */
     public enum BorderType { TEAM_ONE, TEAM_TWO, NO_TEAM };
 
-    private static int zIndexIncrement = 500;
+    private static int zIndexIncrement = Constants.BORDER_Z_INDEX;
     private int zIndex;
     private BorderType borderType;
     private final Body borderBody;
@@ -51,8 +56,8 @@ public class Border implements DrawableRectangle {
         borderBody = PhysicsWorld.getPhysicsWorld().getBox2DWorld().createBody(borderBodyDef);
         
         fixture = new FixtureDef();
-        fixture.density = Constants.GOAL_DENSITY;
-        fixture.restitution = Constants.GOAL_RESTITUTION;
+        fixture.density = Constants.BORDER_DENSITY;
+        fixture.restitution = Constants.BORDER_RESTITUTION;
         
         shape = new PolygonShape();
         shape.setAsBox(width / 2, height / 2);
@@ -87,14 +92,14 @@ public class Border implements DrawableRectangle {
     @Override
     public Color getColor() {
         switch (borderType) {
-        case TEAM_ONE:
-            return Constants.GOAL_COLOR_TEAM1;
-        case TEAM_TWO:
-            return Constants.GOAL_COLOR_TEAM2;
-        case NO_TEAM:
-            return new Color(0, 0, 0, 1);
-        default:
-            return new Color(0, 0, 0, 1);
+            case TEAM_ONE:
+                return Constants.GOAL_COLOR_TEAM1;
+            case TEAM_TWO:
+                return Constants.GOAL_COLOR_TEAM2;
+            case NO_TEAM:
+                return new Color(0, 0, 0, 1);
+            default:
+                return new Color(0, 0, 0, 1);
         }
     }
 

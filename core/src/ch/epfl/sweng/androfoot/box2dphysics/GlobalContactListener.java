@@ -14,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  * @author Gilthoniel (Gaylor Bosson)
  *
  */
-public class GlobalContactListener implements ContactListener {
+public final class GlobalContactListener implements ContactListener {
     
     private static GlobalContactListener instance = new GlobalContactListener();
     private static Set<ContactListener> listeners;

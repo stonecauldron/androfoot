@@ -1,5 +1,7 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
+import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
+
 /**
  * Event when a ball enter in a goal.
  * 
@@ -16,5 +18,5 @@ public interface GoalObserver {
      * if isTeamOne is true, the team two won a point.
      * @param isTeamOne
      */
-    void goal(boolean isTeamOne);
+    void goal(GoalTeam team);
 }

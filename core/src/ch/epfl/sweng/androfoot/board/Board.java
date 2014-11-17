@@ -4,6 +4,7 @@ import ch.epfl.sweng.androfoot.box2dphysics.Ball;
 import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
+import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.players.AbstractPlayer;
@@ -74,8 +75,8 @@ public class Board implements GoalObserver {
 	}
 
 	@Override
-	public void goal(boolean isTeamOne) {
-		if (isTeamOne) {
+	public void goal(GoalTeam team) {
+		if (team == GoalTeam.ONE) {
 			// player 2 scored
 			incrementScore(PlayerNumber.TWO);
 			resetBall(PlayerNumber.TWO);
@@ -115,31 +116,35 @@ public class Board implements GoalObserver {
 	}
 	
 	private void setUpUpperAndLowerWalls() {
-		PhysicsWorld.createBorder(0, 0, Constants.GOAL_WIDTH,
+		PhysicsWorld.createBorder(0, 0, Constants.BORDER_WIDTH,
 				Constants.GOAL_HEIGHT, BorderType.TEAM_ONE);
 		PhysicsWorld.createBorder(0, Constants.WORLD_SIZE_Y
-				- Constants.GOAL_HEIGHT, Constants.GOAL_WIDTH,
+				- Constants.GOAL_HEIGHT, Constants.BORDER_WIDTH,
 				Constants.GOAL_HEIGHT, BorderType.TEAM_ONE);
 	}
 	
 	private void setUpLeftAndRightWalls() {
 		PhysicsWorld.createBorder(
-				Constants.WORLD_SIZE_X - Constants.GOAL_WIDTH, 0,
-				Constants.GOAL_WIDTH, Constants.GOAL_HEIGHT, BorderType.TEAM_TWO);
+				Constants.WORLD_SIZE_X - Constants.BORDER_WIDTH, 0,
+				Constants.BORDER_WIDTH, Constants.GOAL_HEIGHT, BorderType.TEAM_TWO);
 		PhysicsWorld.createBorder(
-				Constants.WORLD_SIZE_X - Constants.GOAL_WIDTH,
+				Constants.WORLD_SIZE_X - Constants.BORDER_WIDTH,
 				Constants.WORLD_SIZE_Y - Constants.GOAL_HEIGHT,
-				Constants.GOAL_WIDTH, Constants.GOAL_HEIGHT, BorderType.TEAM_TWO);
+				Constants.BORDER_WIDTH, Constants.GOAL_HEIGHT, BorderType.TEAM_TWO);
 
-		PhysicsWorld.createBorder(0, -Constants.GOAL_WIDTH,
-				Constants.WORLD_SIZE_X, Constants.GOAL_WIDTH, BorderType.NO_TEAM);
+		PhysicsWorld.createBorder(0, -Constants.BORDER_WIDTH,
+				Constants.WORLD_SIZE_X, Constants.BORDER_WIDTH, BorderType.NO_TEAM);
 		PhysicsWorld.createBorder(0, Constants.WORLD_SIZE_Y,
-				Constants.WORLD_SIZE_X, Constants.GOAL_WIDTH, BorderType.NO_TEAM);
+				Constants.WORLD_SIZE_X, Constants.BORDER_WIDTH, BorderType.NO_TEAM);
 	}
 	
 	private void setUpGoals() {
-		PhysicsWorld.createGoal(true);
-		PhysicsWorld.createGoal(false);
+	    float xTeamOne = Constants.WORLD_ORIGIN_X - Constants.GOAL_WIDTH - Constants.GOAL_OFFSET;
+	    float yTeamOne = Constants.WORLD_ORIGIN_Y;
+		PhysicsWorld.createGoal(xTeamOne, yTeamOne, Constants.GOAL_WIDTH, Constants.WORLD_SIZE_Y, GoalTeam.ONE);
+		
+		float xTeamTwo = Constants.WORLD_SIZE_X + Constants.GOAL_WIDTH + Constants.GOAL_OFFSET;
+		PhysicsWorld.createGoal(xTeamTwo, yTeamOne, Constants.GOAL_WIDTH, Constants.WORLD_SIZE_Y, GoalTeam.TWO);
 	}
 	
 	private void incrementScore(PlayerNumber playerNumber) {

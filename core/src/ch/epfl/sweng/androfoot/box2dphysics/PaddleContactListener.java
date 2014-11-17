@@ -8,9 +8,14 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
-public class PaddleContactListener implements ContactListener {
+/**
+ * Occured when a ball touch a player
+ * @author Gaylor
+ *
+ */
+public final class PaddleContactListener implements ContactListener {
 
-    private static final PaddleContactListener instance = new PaddleContactListener();
+    private static PaddleContactListener instance = new PaddleContactListener();
     private static Set<Player> players;
     private static Set<Ball> balls;
     
@@ -34,12 +39,12 @@ public class PaddleContactListener implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
         for (Ball ball : balls) {
-            if (contact.getFixtureA().getBody() == ball.getBody() || 
-                    contact.getFixtureB().getBody() == ball.getBody()) {
+            if (contact.getFixtureA().getBody() == ball.getBody()
+                    || contact.getFixtureB().getBody() == ball.getBody()) {
                 
                 for (Player player : players) {
-                    if (contact.getFixtureA().getBody() == player.getBody() ||
-                            contact.getFixtureB().getBody() == player.getBody()) {
+                    if (contact.getFixtureA().getBody() == player.getBody()
+                            || contact.getFixtureB().getBody() == player.getBody()) {
                         
                         EventManager.getEventManager().addEventPaddle();
                     }

@@ -8,6 +8,7 @@ import ch.epfl.sweng.androfoot.box2dphysics.Ball;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
+import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 
 public class GoalObserverTest implements GoalObserver {
@@ -19,9 +20,9 @@ public class GoalObserverTest implements GoalObserver {
     public void testIfEventOccured() {
         EventManager.getEventManager().addGoalObserver(this);
         
-        PhysicsWorld.createGoal(false);
+        PhysicsWorld.createGoal(10, 0, 0.5f, 6, GoalTeam.TWO);
         Ball ball = PhysicsWorld.createBall(6, Constants.WORLD_SIZE_Y / 2, Constants.BALL_RADIUS);
-        ball.setLinearVelocity(2, 0);
+        ball.setLinearVelocity(Constants.BALL_MAX_VELOCITY, 0);
         
         multiplePhyStep();
         
@@ -29,13 +30,15 @@ public class GoalObserverTest implements GoalObserver {
     }
 
     @Override
-    public void goal(boolean isTeamOne) {
+    public void goal(GoalTeam team) {
         eventOccured = true;
     }
     
     private void multiplePhyStep() {
         for (int i = 0; i < 50; i++) {
-            world.phyStep(1);
+            world.getBox2DWorld().step(1, 1, 1);
+            
+            EventManager.getEventManager().throwEvents();
         }
     }
 }

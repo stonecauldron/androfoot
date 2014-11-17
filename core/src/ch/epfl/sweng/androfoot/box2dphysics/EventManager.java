@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
+import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.interfaces.PaddleContactObserver;
@@ -17,9 +18,9 @@ import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
  * @author Gilthoniel (Gaylor Bosson)
  *
  */
-public class EventManager {
+public final class EventManager {
     
-    private static final EventManager manager = new EventManager();
+    private static final EventManager INSTANCE = new EventManager();
 
     private Set<GoalObserver> goalObservers;
     private List<GoalEvent> goalEvents;
@@ -53,7 +54,7 @@ public class EventManager {
     }
     
     public static EventManager getEventManager() {
-        return manager;
+        return INSTANCE;
     }
     
     public void throwEvents() {
@@ -73,7 +74,7 @@ public class EventManager {
         
         for (PlayerEvent event : playerEvents) {
         	for (PlayerObserver observer : playerObservers) {
-        		observer.setBall(event.getPlayer() ,event.getTeam());
+        		observer.setBall(event.getPlayer(), event.getTeam());
         	}
         }
         playerEvents.clear();
@@ -118,8 +119,8 @@ public class EventManager {
         borderObservers.add(observer);
     }
 
-    public void addEventGoal(boolean isTeamOne) {
-        goalEvents.add(new GoalEvent(isTeamOne));
+    public void addEventGoal(GoalTeam team) {
+        goalEvents.add(new GoalEvent(team));
     }
     
 	public void addEventPlayers(Player player, boolean team) {
@@ -140,14 +141,14 @@ public class EventManager {
 	 *
 	 */
     class GoalEvent {
-        private boolean isTeamOne;
+        private GoalTeam team;
         
-        public GoalEvent(boolean team) {
-            isTeamOne = team;
+        public GoalEvent(GoalTeam t) {
+            team = t;
         }
         
-        public boolean getTeam() {
-            return isTeamOne;
+        public GoalTeam getTeam() {
+            return team;
         }
     }
     
@@ -187,15 +188,25 @@ public class EventManager {
     	}
     }
     
+    /**
+     * When a ball touch a player
+     * @author Gaylor
+     *
+     */
     class PaddleContactEvent {
         
     }
     
+    /**
+     * When a ball touch a border
+     * @author Gaylor
+     *
+     */
     class BorderContactEvent {
         private BorderType type;
         
-        public BorderContactEvent(BorderType type) {
-            this.type = type;
+        public BorderContactEvent(BorderType borderType) {
+            type = borderType;
         }
         
         public BorderType getType() {

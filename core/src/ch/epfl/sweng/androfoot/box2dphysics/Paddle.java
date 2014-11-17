@@ -107,14 +107,14 @@ public class Paddle implements PaddleInterface {
 		float paddleCenterX = posX + (widthPaddle / 2);
 		
 		if (teamFlag) {
-			if ((player.getPositionX() + Constants.BALL_CONTROL_OFFSET) >= 
-					(paddleCenterX + widthPaddle/2 + ballRadius)) {
+			if ((player.getPositionX() + Constants.BALL_CONTROL_OFFSET)
+					>= (paddleCenterX + widthPaddle/2 + ballRadius)) {
 				res = false;
 			}
 			
 		} else {
-			if ((player.getPositionX() - Constants.BALL_CONTROL_OFFSET) <=
-					(paddleCenterX - widthPaddle/2 - ballRadius)) {
+			if ((player.getPositionX() - Constants.BALL_CONTROL_OFFSET)
+					<= (paddleCenterX - widthPaddle/2 - ballRadius)) {
 				res = false;
 			}
 		}

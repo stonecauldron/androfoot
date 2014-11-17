@@ -3,13 +3,13 @@ package ch.epfl.sweng.androfoot.box2dphysics;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
 import ch.epfl.sweng.androfoot.accelerometer.AccelerometerTracker;
 import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
+import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 
@@ -129,9 +129,9 @@ public final class PhysicsWorld implements DrawableWorld {
 	 * @param teamOne true for team one
 	 * @return
 	 */
-	public static Goal createGoal(boolean teamOne) {
+	public static Goal createGoal(float x, float y, float width, float height, GoalTeam team) {
 	    pauseWorld();
-	    Goal goal = new Goal(teamOne);
+	    Goal goal = new Goal(x, y, width, height, team);
 	    startWorld();
 	    
 	    return goal;
@@ -168,9 +168,10 @@ public final class PhysicsWorld implements DrawableWorld {
     		
     		//For Accelerometer polling
     		accelerometerTime += correctedDelta;
-    		if(accelerometerTime > 1.0f && AccelerometerTracker.getInstance().isShaking()) {
+    		if (accelerometerTime > 1.0f && AccelerometerTracker.getInstance().isShaking()) {
         		accelerometerTime = 0;
-        		//TODO Ball impulse here
+
+        		ball.setLinearVelocity(ball.getLinearVelocity().x, 3);
     		} 	
     		
             EventManager.getEventManager().throwEvents();
@@ -183,15 +184,18 @@ public final class PhysicsWorld implements DrawableWorld {
 	/**
 	 * Checks the velocity of the ball and limits it if the velocity of the ball is bigger
 	 * than the maximum allowed.
-	 * @param ball Ball to be checked.
+	 * @param testedBall Ball to be checked.
 	 */
-	public void checkVelocity(Ball ball) {
-		Vector2 ballVelocity = ball.getLinearVelocity();
+	public void checkVelocity(Ball testedBall) {
+		Vector2 ballVelocity = testedBall.getLinearVelocity();
 		
-		if((ballVelocity.x > Constants.BALL_MAX_VELOCITY) || 
-				(ballVelocity.y > Constants.BALL_MAX_VELOCITY)) {
+		if (ballVelocity.x > Constants.BALL_MAX_VELOCITY) {
 			
-			ball.setLinearVelocity(Constants.BALL_MAX_VELOCITY, Constants.BALL_MAX_VELOCITY);
+			testedBall.setLinearVelocity(Constants.BALL_MAX_VELOCITY, ballVelocity.y);
+		}
+		
+		if (ballVelocity.y > Constants.BALL_MAX_VELOCITY) {
+		    testedBall.setLinearVelocity(ballVelocity.x, Constants.BALL_MAX_VELOCITY);
 		}
 	}
 

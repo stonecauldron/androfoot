@@ -13,9 +13,9 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  * @author Gaylor
  *
  */
-public class GoalContactListener implements ContactListener {
+public final class GoalContactListener implements ContactListener {
     
-    private static final GoalContactListener instance = new GoalContactListener();
+    private static GoalContactListener instance = new GoalContactListener();
     private static Set<Goal> goals;
     
     private GoalContactListener() {
@@ -36,7 +36,7 @@ public class GoalContactListener implements ContactListener {
             if (contact.getFixtureA().getBody() == goal.getBody()
                     || contact.getFixtureB().getBody() == goal.getBody()) {
                 
-                EventManager.getEventManager().addEventGoal(goal.isTeamOne());
+                EventManager.getEventManager().addEventGoal(goal.getTeam());
             }
         }
     }

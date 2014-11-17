@@ -2,12 +2,12 @@ package test.ch.epfl.sweng.androfoot.box2dphysics;
 
 import org.junit.Test;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 
 import ch.epfl.sweng.androfoot.box2dphysics.Ball;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
+import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
 import ch.epfl.sweng.androfoot.box2dphysics.Paddle;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
@@ -80,20 +80,21 @@ public class PaddleTest extends TestCase {
     public void testInteractionWithBallandPlayer() {
         groupPaddle.setVelocity(0, 0);
         
-        Ball ball = PhysicsWorld.createBall(paddle.getPlayer().getPositionX() + Constants.CIRCLERADIUS + 1, 
+        Ball ball = PhysicsWorld.createBall(paddle.getPlayer().getPositionX() + Constants.CIRCLERADIUS + 1.0f, 
                 paddle.getPlayer().getPositionY(), Constants.BALL_RADIUS);
         
-        ball.setLinearVelocity(-3, 0);
+        ball.setLinearVelocity(-4.0f, 0);
         
         multiplePhyStep();
         
-        assertEquals(ball.getLinearVelocity().x, 3, 0.1);
         assertEquals(ball.getLinearVelocity().y, 0, 0.1);
     }
     
     private void multiplePhyStep() {
         for (int i = 0; i < 50; i++) {
-            world.phyStep(1);
+            world.getBox2DWorld().step(1, 10, 10);
+            
+            EventManager.getEventManager().throwEvents();
         }
     }
 }

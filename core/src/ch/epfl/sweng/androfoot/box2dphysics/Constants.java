@@ -9,12 +9,17 @@ import com.badlogic.gdx.math.Vector2;
  *
  */
 public class Constants {
+    
+    /* Border */
+    public static final float BORDER_WIDTH = 0.2f;
+    public static final int BORDER_Z_INDEX = 500;
+    public static final float BORDER_DENSITY = 1.0f;
+    public static final float BORDER_RESTITUTION = 1.0f;
 	
 	/* Goals */
-	public static final float GOAL_WIDTH = 0.2f;
+	public static final float GOAL_WIDTH = 2f;
+	public static final float GOAL_OFFSET = 0.2f;
 	public static final float GOAL_HEIGHT = 2f;
-	public static final float GOAL_DENSITY = 1.0f;
-	public static final float GOAL_RESTITUTION = 1.0f;
 	public static final int GOAL_COLOR_TEAM1_HEX = 0x2ECC71FF;
 	public static final int GOAL_COLOR_TEAM2_HEX = 0xBF55ECFF;
 	public static final Color GOAL_COLOR_TEAM1 = new Color(GOAL_COLOR_TEAM1_HEX);
@@ -36,17 +41,17 @@ public class Constants {
     /* Ball */
     public static final float BALL_RESTITUTION = 1.0f;
     public static final float BALL_FRICTION = 0.0f;
-    public static final float BALL_DENSITY = 0.00001f;
+    public static final float BALL_DENSITY = 0.001f;
     public static final float BALL_RADIUS = 0.2f;
     public static final float BALL_INIT_POS_Y = 3.4f;
     public static final float BALL_INIT_POS_X = 5.0f;
-    public static final float BALL_MAX_VELOCITY = 6.0f; //Too fast?
+    public static final float BALL_MAX_VELOCITY = 4.0f; //Too fast?
     public static final float BALL_CONTROL_OFFSET = 0.65f;
     
     /* PhysicsWorld */
     public static final int POSITION_ITERATIONS = 6;
     public static final int VELOCITY_ITERATIONS = 2;
-    public static final float TIME_STEP = 1/60f;
+    public static final float TIME_STEP = 1 / 60.0f;
     public static final float WORLD_ORIGIN_Y = 0;
     public static final float WORLD_ORIGIN_X = 0;
     public static final float WORLD_SIZE_Y = 6.0f;
@@ -58,7 +63,7 @@ public class Constants {
     public static final float BOXHALFLENGTH = 0.6f;
     public static final Vector2 OFFSETFACINGRIGHT = new Vector2(-0.3f, 0);
     public static final Vector2 OFFSETFACINGLEFT = new Vector2(0.3f, 0);
-    public static final float PLAYERDENSITY = 10000000.0f;
-    public static final float PLAYERFRICTION = 500.0f;
+    public static final float PLAYERDENSITY = 1.0f;
+    public static final float PLAYERFRICTION = 1.0f;
     public static final float PLAYERRESTITUTION = 0.0f;
 }

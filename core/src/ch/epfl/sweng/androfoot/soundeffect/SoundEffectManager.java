@@ -4,6 +4,7 @@ import java.util.Random;
 
 import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
 import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
+import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.interfaces.PaddleContactObserver;
@@ -69,7 +70,7 @@ public enum SoundEffectManager implements GoalObserver, PaddleContactObserver,
 	}
 
 	@Override
-	public void goal(boolean isTeamOne) {
+	public void goal(GoalTeam team) {
 		mGoalPlayerOne.play((float) 0.3, 1, 0);
 	}
 

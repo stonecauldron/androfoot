@@ -8,7 +8,12 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
-public class BorderContactListener implements ContactListener {
+/**
+ * Occured when a ball touch a border
+ * @author Gaylor
+ *
+ */
+public final class BorderContactListener implements ContactListener {
     
     private static BorderContactListener instance = new BorderContactListener();
     private static Set<Ball> balls;
@@ -34,12 +39,12 @@ public class BorderContactListener implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
         for (Ball ball : balls) {
-            if (contact.getFixtureA().getBody() == ball.getBody() ||
-                    contact.getFixtureB().getBody() == ball.getBody()) {
+            if (contact.getFixtureA().getBody() == ball.getBody()
+                   || contact.getFixtureB().getBody() == ball.getBody()) {
                 
                 for (Border border : borders) {
-                    if (contact.getFixtureA().getBody() == border.getBody() || 
-                            contact.getFixtureB().getBody() == border.getBody()) {
+                    if (contact.getFixtureA().getBody() == border.getBody()
+                           || contact.getFixtureB().getBody() == border.getBody()) {
                         
                         EventManager.getEventManager().addEventBorder(border.getType());
                     }
@@ -50,19 +55,16 @@ public class BorderContactListener implements ContactListener {
 
     @Override
     public void endContact(Contact contact) {
-        // TODO Auto-generated method stub
         
     }
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
-        // TODO Auto-generated method stub
         
     }
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-        // TODO Auto-generated method stub
         
     }
 
