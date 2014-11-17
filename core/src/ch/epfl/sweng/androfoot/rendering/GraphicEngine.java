@@ -1,6 +1,7 @@
 package ch.epfl.sweng.androfoot.rendering;
 
 import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
+import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
 import ch.epfl.sweng.androfoot.interfaces.BallInterface;
@@ -177,11 +178,11 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 	}
 
 	@Override
-	public void goal(boolean isTeamOne) {
+	public void goal(GoalTeam team) {
 		float posX = PhysicsWorld.getBall().getPositionX();
 		float posY = PhysicsWorld.getBall().getPositionY();
 		Color c;
-		if(isTeamOne){
+		if(team == GoalTeam.ONE){
 			c = PlayerCharacteristicsManager.getColorTeam1();
 		} else {
 			c = PlayerCharacteristicsManager.getColorTeam2();
