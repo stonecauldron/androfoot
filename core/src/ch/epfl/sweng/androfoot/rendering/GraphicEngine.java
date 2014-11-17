@@ -70,8 +70,6 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 		playerT2Renderer.setColor(PlayerCharacteristicsManager.getColorTeam2());
 		batch.enableBlending();
 		EventManager.getEventManager().addGoalObserver(this);
-		shockwaveManager.addShockWave(new ShockWave(new Vector2(1, 1), new Color(1.0f, 0f, 0f, 0.3f), 100f, 9f));
-		shockwaveManager.addShockWave(new ShockWave(new Vector2(3, 0), new Color(1.0f, 0f, 0f, 0.3f), 100f, 9f));
 	}
 
 	/**
