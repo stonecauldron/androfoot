@@ -94,8 +94,6 @@ public class Board implements GoalObserver, PlayerObserver {
 	
 	@Override
 	public void setBall(Player player, boolean teamFlag) {
-		System.out.println("Yes!");
-
 		if (player.isAbleToControlBall()) {
 			Ball ball = PhysicsWorld.getBall();
 			if (teamFlag) {
