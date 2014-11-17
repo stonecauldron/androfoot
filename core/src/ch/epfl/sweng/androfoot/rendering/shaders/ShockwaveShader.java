@@ -50,7 +50,7 @@ public class ShockwaveShader extends ConcreteSimpleShaderBuilder {
 				+ "vec4 resu = v_color;"
 				//+ "resu.a*=(-5.0 * (x-u_radius)*(x-u_radius) + 1);
 				+"float comp = clamp((-0.1 / (x-u_radius)),0.1,1.0);"
-				+ "resu.a*=comp;"
+				+ "resu.a*=comp * (cos(50 * x - u_radius)+1)/2;"
 				+ "resu.a -= 8.0/256.0;"
 				+ "gl_FragColor = resu;"
 				+ "}";
