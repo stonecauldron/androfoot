@@ -22,6 +22,11 @@ import ch.epfl.sweng.androfoot.rendering.shaders.BlurTextureTransformer;
 import ch.epfl.sweng.androfoot.rendering.shaders.ConcreteDrawToTexture;
 import ch.epfl.sweng.androfoot.rendering.shaders.TextureTransformer;
 
+/**
+ * Class to render MeshRenderer
+ * @author Guillame Leclerc
+ *
+ */
 public class PlayerRenderer implements MeshRenderer{
 	
 	private static final Color CANT_CONTROL_COLOR = Color.RED;
@@ -32,6 +37,10 @@ public class PlayerRenderer implements MeshRenderer{
 	private Color currentColor = new Color();
 	private boolean canControl = true;
 	
+	/**
+	 * Init the renderer from a paddle ({@link PolygonMap})
+	 * @param generator the paddle generator
+	 */
 	public PlayerRenderer(PolygonMap generator) {
 		PolygonGenerator shootGenerator = generator.get(PaddleGenerator.SHOOT_BLOCK_KEY);
 		PolygonGenerator controlGenerator = generator.get(PaddleGenerator.CONTROL_BLOCK_KEY);
@@ -40,6 +49,9 @@ public class PlayerRenderer implements MeshRenderer{
 		controlPartRenderer = new PolygonRenderer(controlGenerator);
 	}
 	
+	/**
+	 * Set the color according to the control state
+	 */
 	private void setControlColor() {
 		if(canControl) {
 			controlPartRenderer.setColor(currentColor);
@@ -48,6 +60,10 @@ public class PlayerRenderer implements MeshRenderer{
 		}
 	}
 	
+	/**
+	 * Set the CanControl state
+	 * @param canControlArg
+	 */
 	public void setCanControl(boolean canControlArg){
 		canControl = canControlArg;
 		setControlColor();
@@ -97,5 +113,4 @@ public class PlayerRenderer implements MeshRenderer{
 		shootPartRenderer.setZindex(z);
 		controlPartRenderer.setZindex(z);
 	}
-
 }
