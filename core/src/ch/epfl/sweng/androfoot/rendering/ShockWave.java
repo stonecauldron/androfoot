@@ -1,7 +1,5 @@
 package ch.epfl.sweng.androfoot.rendering;
 
-import java.awt.peer.LightweightPeer;
-
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
@@ -22,7 +20,6 @@ public class ShockWave implements DrawableRenderer{
 
 	private final Vector2 origin;
 	private final Color color;
-	private final Color blendedColor;
 	private final float lifeTime;
 	private final Renderer renderer;
 	private final float speed;
@@ -33,9 +30,8 @@ public class ShockWave implements DrawableRenderer{
 		speed = speedArg;
 		lifeTime = lifTimeArg;
 		color = colorArg;
-		blendedColor = new Color(color);
 		origin = originArg;
-		renderer = new Renderer(new RectangleGenerator(PhysicsWorld.getPhysicsWorld().regionToDraw()), lifTimeArg);
+		renderer = new Renderer(new RectangleGenerator(PhysicsWorld.getPhysicsWorld().regionToDraw()));
 		renderer.setZindex(10);
 		renderer.setColor(color);
 		renderer.setPosition(0, 0);
@@ -46,14 +42,12 @@ public class ShockWave implements DrawableRenderer{
 	
 	private static class Renderer extends PolygonRenderer {
 		
-		private ShockwaveShader shader;
-		private Vector2 origin = new Vector2();
-		private float radius = 0f;
-		private final float lifetime;
+		ShockwaveShader shader;
+		Vector2 origin = new Vector2();
+		float radius = 0f;
 
-		public Renderer(PolygonGenerator generator, float lifetimeArg) {
+		public Renderer(PolygonGenerator generator) {
 			super(generator);
-			lifetime= lifetimeArg;
 		}
 		
 		@Override
@@ -86,13 +80,11 @@ public class ShockWave implements DrawableRenderer{
 	
 	public void age(float delta) {
 		age += delta*speed;
-		blendedColor.a = color.a * (1f/(age-lifeTime-1) + 1);
 	}
 	
 	@Override
 	public void render(SpriteBatch batch , ShapeRenderer shapeRender) {
 		GraphicEngine.getEngine().enableBlending();
-		renderer.setColor(blendedColor);
 		renderer.setCenter(origin);
 		renderer.setRadius(age/1);
 		renderer.render(batch, shapeRender);

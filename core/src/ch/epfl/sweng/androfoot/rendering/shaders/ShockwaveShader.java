@@ -51,6 +51,7 @@ public class ShockwaveShader extends ConcreteSimpleShaderBuilder {
 				//+ "resu.a*=(-5.0 * (x-u_radius)*(x-u_radius) + 1);
 				+"float comp = clamp((-0.1 / (x-u_radius)),0.1,1.0);"
 				+ "resu.a*=comp;"
+				+ "resu.a -= 8.0/256.0;"
 				+ "gl_FragColor = resu;"
 				+ "}";
 	}
