@@ -1,6 +1,7 @@
 package ch.epfl.sweng.androfoot.rendering.shaders;
 
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
+import ch.epfl.sweng.androfoot.rendering.shaders.MeshBuilder;
 
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;

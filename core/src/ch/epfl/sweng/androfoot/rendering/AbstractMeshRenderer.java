@@ -2,7 +2,7 @@ package ch.epfl.sweng.androfoot.rendering;
 
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 import ch.epfl.sweng.androfoot.polygongenerator.ImmutablePoint;
-import ch.epfl.sweng.androfoot.rendering.shaders.BasicShaderBuilder;
+import ch.epfl.sweng.androfoot.rendering.shaders.ConcreteSimpleShaderBuilder;
 import ch.epfl.sweng.androfoot.rendering.shaders.SimpleShaderBuilder;
 
 import com.badlogic.gdx.graphics.Color;
@@ -45,7 +45,7 @@ public class AbstractMeshRenderer implements DrawableRenderer, MeshRenderer {
 		color = DEFAULT_COLOR;	
 	}
 	protected SimpleShaderBuilder getShader() {
-		return new BasicShaderBuilder();
+		return new ConcreteSimpleShaderBuilder();
 	}
 	
 	/* (non-Javadoc)
@@ -85,24 +85,26 @@ public class AbstractMeshRenderer implements DrawableRenderer, MeshRenderer {
 	 */
 	@Override
 	public void setZindex(float z) {
-		zPos = z;
+		zPos = -z;
 	}
 	
 	private void generateMatrix() {
 		transformationMatrix.idt().scl(scale).translate(postition.x, postition.y, zPos).mul(rotationMatrix);
 	}
+	
+	protected void setShaderArguments(SimpleShaderBuilder shaderArg) {
+		shaderBuilder.setColor(color);
+		shaderBuilder.setTransfoMatrix(transformationMatrix);
+	}
 
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapes) {
 		generateMatrix();
-		batch.end();
 		shaderBuilder.build().begin();
-		shaderBuilder.setColor(color);
 		shaderBuilder.setProjMatrix(batch.getProjectionMatrix());
-		shaderBuilder.setTransfoMatrix(transformationMatrix);
+		setShaderArguments(shaderBuilder);
 		mesh.render(shaderBuilder.build(), GL20.GL_TRIANGLE_FAN);
 		shaderBuilder.build().end();
-		batch.begin();
 	}
 
 }

@@ -45,7 +45,7 @@ public class BasicShaderBuilder implements SimpleShaderBuilder{
 	}
 	
 	/**
-	 * Instanciate a new {@link BasicShaderBuilder}
+	 * Instanciate a new {@link ConcreteSimpleShaderBuilder}
 	 */
 	public BasicShaderBuilder() {
 		String vertexShader = getVertexShader();

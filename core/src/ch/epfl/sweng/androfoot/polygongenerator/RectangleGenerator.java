@@ -38,7 +38,7 @@ public class RectangleGenerator extends AbstractPolygonGenerator {
 		vertexes[2] = vertexes[0]+ rectangle.width;
 		vertexes[3] = vertexes[1];
 		vertexes[4] = vertexes[2];
-		vertexes[5] = vertexes[3] - rectangle.height;
+		vertexes[5] = vertexes[3] + rectangle.height;
 		vertexes[6] = vertexes[0];
 		vertexes[7] = vertexes[5];
 		

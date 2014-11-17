@@ -20,14 +20,11 @@ public class BoardRenderer implements DrawableRenderer {
 
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapes) {
-		batch.end();
 		shapes.setColor(MIDFIELD_COLOR);
 		shapes.begin(ShapeType.Filled);
 		shapes.rect(worldSize.width/2 - MIDFIELD_THICKNESS/2, 0,
 				MIDFIELD_THICKNESS, worldSize.height);
 		shapes.end();
-		batch.begin();
-
 	}
 
 }

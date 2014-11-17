@@ -17,7 +17,7 @@ public interface WorldRenderer {
 	/**
 	 * Render the world on the screen
 	 */
-	public void render();
+	void render(float delta);
 	
 	/**
 	 * define the screen size usable by this renderer
@@ -25,5 +25,7 @@ public interface WorldRenderer {
 	 * @param height the screen height
 	 */
 	public void setScreenSize(int width, int height);
+
+
 
 }

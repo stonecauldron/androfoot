@@ -23,7 +23,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		PhysicsWorld.getPhysicsWorld().phyStep(delta);
-		GraphicEngine.getEngine().render();
+		GraphicEngine.getEngine().render(delta);
 	}
 
 	@Override

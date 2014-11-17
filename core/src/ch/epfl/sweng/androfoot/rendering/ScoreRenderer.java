@@ -26,8 +26,11 @@ public class ScoreRenderer implements DrawableRenderer {
 
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapes) {
+		batch.begin();
+		batch.enableBlending();
 		font.draw(batch, String.valueOf(scoreA), 2, 4.5f);	
 		font.draw(batch, String.valueOf(scoreB), 7, 4.5f);	
+		batch.end();
 	}
 
 }

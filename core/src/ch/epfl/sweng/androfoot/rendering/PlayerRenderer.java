@@ -1,12 +1,26 @@
 package ch.epfl.sweng.androfoot.rendering;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.Gdx2DPixmap;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.utils.ScreenUtils;
 
+import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 import ch.epfl.sweng.androfoot.interfaces.PolygonMap;
 import ch.epfl.sweng.androfoot.polygongenerator.PaddleGenerator;
+import ch.epfl.sweng.androfoot.rendering.shaders.BlurTextureTransformer;
+import ch.epfl.sweng.androfoot.rendering.shaders.ConcreteDrawToTexture;
+import ch.epfl.sweng.androfoot.rendering.shaders.TextureTransformer;
 
 public class PlayerRenderer implements MeshRenderer{
 	
@@ -31,7 +45,6 @@ public class PlayerRenderer implements MeshRenderer{
 			controlPartRenderer.setColor(currentColor);
 		} else {
 			controlPartRenderer.setColor(CANT_CONTROL_COLOR);
-			System.out.println("cant control");
 		}
 	}
 	
@@ -39,11 +52,19 @@ public class PlayerRenderer implements MeshRenderer{
 		canControl = canControlArg;
 		setControlColor();
 	}
+	ConcreteDrawToTexture texturer = new ConcreteDrawToTexture(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapes) {
-		shootPartRenderer.render(batch, shapes);
 		controlPartRenderer.render(batch, shapes);
+		shootPartRenderer.render(batch, shapes);
+		/*texturer.beginCapture();
+		GraphicEngine.getEngine().getViewPort().apply();
+		texturer.endCapture();
+		TextureRegion texture = texturer.getOutput();
+		//texture = transformer.transform(texture);
+		batch.draw(texture.getTexture(), 0, 0, Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y, 0, 0, texture.getRegionWidth(), texture.getRegionHeight(), false, true);
+		GraphicEngine.getEngine().getViewPort().apply();*/
 	}
 
 	@Override

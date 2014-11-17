@@ -20,14 +20,10 @@ public class RectangleRenderer implements DrawableRenderer{
 
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapes) {
-		batch.end();
-
 		shapes.begin(ShapeType.Filled);
 		shapes.setColor(color);
 		shapes.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 		shapes.end();
-		
-		batch.begin();
 	}
 
 }

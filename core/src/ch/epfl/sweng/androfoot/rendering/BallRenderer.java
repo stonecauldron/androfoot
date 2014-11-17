@@ -54,7 +54,6 @@ public class BallRenderer implements DrawableRenderer {
 			.setTranslation(ball.getPositionX(), ball.getPositionY(), 0)
 			.scl(ball.getRadius() + ball.getRadius());
 		
-		batch.end();
 		Array<Mesh> meshes = sphere.meshes;
 
 		Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -68,7 +67,6 @@ public class BallRenderer implements DrawableRenderer {
 			m.render(currentBasicShader, GL20.GL_TRIANGLES);
 		}
 		Gdx.gl.glDisable(GL20.GL_BLEND);
-		batch.begin();
 	}
 	
 	public BallRenderer setBall(BallInterface ballArg) {
