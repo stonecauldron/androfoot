@@ -17,8 +17,8 @@ import com.badlogic.gdx.Screen;
  */
 public class GameScreen implements Screen {
 
-	public GameScreen() {
-	    BoardFactory.setupBoard(PlayerType.LOCAL_PLAYER, PlayerType.AI_PLAYER);
+	public GameScreen(PlayerType secondPlayer) {
+	    BoardFactory.setupBoard(PlayerType.LOCAL_PLAYER, secondPlayer);
 	}
 
 	@Override
