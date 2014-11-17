@@ -143,7 +143,7 @@ public class Board implements GoalObserver {
 	    float yTeamOne = Constants.WORLD_ORIGIN_Y;
 		PhysicsWorld.createGoal(xTeamOne, yTeamOne, Constants.GOAL_WIDTH, Constants.WORLD_SIZE_Y, GoalTeam.ONE);
 		
-		float xTeamTwo = Constants.WORLD_SIZE_X + Constants.GOAL_WIDTH + Constants.GOAL_OFFSET;
+		float xTeamTwo = Constants.WORLD_SIZE_X + Constants.GOAL_OFFSET;
 		PhysicsWorld.createGoal(xTeamTwo, yTeamOne, Constants.GOAL_WIDTH, Constants.WORLD_SIZE_Y, GoalTeam.TWO);
 	}
 	

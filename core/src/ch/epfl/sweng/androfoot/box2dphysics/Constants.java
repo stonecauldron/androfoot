@@ -18,7 +18,7 @@ public class Constants {
 	
 	/* Goals */
 	public static final float GOAL_WIDTH = 2f;
-	public static final float GOAL_OFFSET = 0.0f;
+	public static final float GOAL_OFFSET = 0.2f;
 	public static final float GOAL_HEIGHT = 2f;
 	public static final int GOAL_COLOR_TEAM1_HEX = 0x2ECC71FF;
 	public static final int GOAL_COLOR_TEAM2_HEX = 0xBF55ECFF;
