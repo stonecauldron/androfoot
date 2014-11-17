@@ -60,6 +60,9 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 
 	private final ShockwaveManager shockwaveManager = new ShockwaveManager(MAX_SHOCKWAVES);
 
+	/**
+	 * Init the singleton engine
+	 */
 	private GraphicEngine() {
 		playerT1Renderer = new PlayerRenderer(PlayerCharacteristicsManager.getInstanceTeam1());
 		playerT1Renderer.setColor(PlayerCharacteristicsManager.getColorTeam1());
@@ -71,10 +74,19 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 		shockwaveManager.addShockWave(new ShockWave(new Vector2(3, 0), new Color(1.0f, 0f, 0f, 0.3f), 100f, 9f));
 	}
 
+	/**
+	 * Get the engine
+	 * Singleton pattern
+	 * @return the engine
+	 */
 	public static GraphicEngine getEngine() {
 		return instance;
 	}
 
+	/**
+	 * get the currentViewport
+	 * @return the viewport
+	 */
 	Viewport getViewPort() {
 		return viewport;
 	}
@@ -90,6 +102,9 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 		initCamera();
 	}
 
+	/**
+	 * Enable simple alpha blending
+	 */
 	public void enableBlending() {
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendEquation(GL20.GL_FUNC_ADD);
@@ -151,6 +166,9 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 		scoreRenderer.setScore(player1, player2);
 	}
 
+	/**
+	 * Init the camera and the viewport according the the settings of the world
+	 */
 	private void initCamera() {
 		viewport = new FitViewport(worldRegion.width, worldRegion.height);
 		camera = new OrthographicCamera(worldRegion.width, worldRegion.height);
