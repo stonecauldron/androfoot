@@ -2,6 +2,11 @@ package ch.epfl.sweng.androfoot.rendering;
 
 import com.badlogic.gdx.graphics.Color;
 
+/**
+ * Represent a class able to render a mesh
+ * @author Guillame Leclerc
+ *
+ */
 public interface MeshRenderer extends DrawableRenderer{
 
 	/**
