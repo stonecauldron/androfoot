@@ -29,7 +29,6 @@ public class ShockwaveManager implements DrawableRenderer{
 			ShockWave w = iterator.next();
 			w.age(delta);
 			if(w.isEnded()) {
-				System.out.println("ended");
 				iterator.remove();
 			}
 		}
