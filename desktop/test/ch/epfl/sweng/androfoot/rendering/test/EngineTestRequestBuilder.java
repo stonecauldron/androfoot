@@ -12,6 +12,8 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class EngineTestRequestBuilder {
 	
+	private static final float DELTA_RENDER = 0.16f;
+	
 	private final SortedSet<Drawable> toRender = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
 	private final Rectangle region;
 	
@@ -43,7 +45,7 @@ public class EngineTestRequestBuilder {
 				GraphicEngine engine = GraphicEngine.getEngine();
 				engine.bindToWorld(world);
 				engine.setScreenSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-				engine.render();
+				engine.render(DELTA_RENDER);
 			}
 		};
 		
