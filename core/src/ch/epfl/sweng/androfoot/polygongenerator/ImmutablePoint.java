@@ -39,7 +39,6 @@ public class ImmutablePoint<T> {
 
 	@Override
 	public boolean equals(Object arg0) {
-		System.out.println("test equality");
 		if (arg0 == null) {
 			return false;
 		} else if (!(arg0 instanceof ImmutablePoint<?>)) {
