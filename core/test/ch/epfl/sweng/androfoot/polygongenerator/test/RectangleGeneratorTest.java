@@ -63,8 +63,8 @@ public class RectangleGeneratorTest {
 			yPos.add(generated[2*i + 1]);
 		}
 		Collections.sort(yPos);
-		assertEquals("the minimum value for y is invalid", yPos.get(0), y-height, DELTA);
-		assertEquals("the maximum value for y is invalid", yPos.get(yPos.size()-1), y, DELTA);
+		assertEquals("the minimum value for y is invalid", yPos.get(0), y, DELTA);
+		assertEquals("the maximum value for y is invalid", yPos.get(yPos.size()-1), y+height, DELTA);
 		assertEquals("the height is incorrect", yPos.get(yPos.size()-1)-yPos.get(0), height, DELTA);
 	}
 
