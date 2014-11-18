@@ -21,8 +21,7 @@ import ch.epfl.sweng.androfoot.polygongenerator.RawPolygonGenerator;
  *
  */
 public class NotCyclicPolygonGeneratorTest {
-	private final static int NB_VERTEXES = 3;
-	private final static double DELTA = 0.0001;
+	private final static int NB_VERTEXES = 100;
 
 	@Test
 	public void testConstructorWithCyclic() {
