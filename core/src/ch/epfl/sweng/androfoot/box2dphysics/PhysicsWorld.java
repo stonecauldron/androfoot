@@ -97,7 +97,7 @@ public final class PhysicsWorld implements DrawableWorld {
 	 */
 	public static GroupPaddle createPaddle(float x, float width, int number, boolean facingRight) {
 	    pauseWorld();
-	    GroupPaddle groupPaddle = new GroupPaddle(x, width, number, facingRight);
+	    GroupPaddle groupPaddle = new GroupPaddle(x - width/2, width, number, facingRight);
 	    for (Paddle paddle : groupPaddle.getPaddles()) {
 	        drawableObjectsSet.add(paddle.getPlayer());
 	    }
