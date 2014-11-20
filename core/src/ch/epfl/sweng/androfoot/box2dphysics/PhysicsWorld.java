@@ -168,10 +168,10 @@ public final class PhysicsWorld implements DrawableWorld {
     		
     		//For Accelerometer polling
     		accelerometerTime += correctedDelta;
-    		if (accelerometerTime > 1.0f && AccelerometerTracker.getInstance().isShaking()) {
+    		if (accelerometerTime > Constants.SHAKE_TIMER && AccelerometerTracker.getInstance().isShaking()) {
         		accelerometerTime = 0;
-
-        		ball.setLinearVelocity(ball.getLinearVelocity().x, 3);
+        		
+        		ball.setLinearVelocity(- AccelerometerTracker.getInstance().getmYGrav() * Constants.SHAKE_BOOST_RATIO, AccelerometerTracker.getInstance().getmXGrav() * Constants.SHAKE_BOOST_RATIO);
     		} 	
     		
             EventManager.getEventManager().throwEvents();
@@ -190,7 +190,6 @@ public final class PhysicsWorld implements DrawableWorld {
 		Vector2 ballVelocity = testedBall.getLinearVelocity();
 		
 		if (ballVelocity.x > Constants.BALL_MAX_VELOCITY) {
-			
 			testedBall.setLinearVelocity(Constants.BALL_MAX_VELOCITY, ballVelocity.y);
 		}
 		
