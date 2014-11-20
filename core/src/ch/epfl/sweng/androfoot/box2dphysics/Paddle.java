@@ -95,9 +95,19 @@ public class Paddle implements PaddleInterface {
     }
 
     @Override
-    public void setVelocity(float x, float y) {
+    public void setPlayerVelocity(float x, float y) {
         player.setPlayerVelocity(x, y);
     }
+    
+	@Override
+	public void setPlayerXVelocity(float x) {
+		player.setPlayerVelocity(x, player.getPlayerVelocity().y);
+	}
+
+	@Override
+	public void setPlayerYVelocity(float y) {
+		player.setPlayerVelocity(player.getPlayerVelocity().x, y);
+	}
 
 	@Override
 	public boolean isAbleToControlBall() {

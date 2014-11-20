@@ -1,5 +1,6 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 /**
@@ -36,6 +37,12 @@ public interface PlayerInterface extends Drawable {
 	 * Gets the physical body of the player
 	 */
 	Body getBody();
+	
+	/**
+	 * Returns the player velocity in the form of a vector.
+	 * @return The player velocity vector.
+	 */
+	Vector2 getPlayerVelocity();
 	
 	/**
 	 * Modifies the velocity of the player.

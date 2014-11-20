@@ -17,7 +17,19 @@ public interface PaddleInterface {
      * @param x composant of the velocity
      * @param y composant of the velocity
      */
-    void setVelocity(float x, float y);
+    void setPlayerVelocity(float x, float y);
+    
+    /**
+     * Sets the player velocity along the x axis only.
+     * @param x New velocity along the x axis.
+     */
+    void setPlayerXVelocity(float x);
+    
+    /**
+     * Sets the player velocity along the y axis only.
+     * @param y New velocity along the y axis.
+     */
+    void setPlayerYVelocity(float y);
     
 	/**
 	 * Say if this paddle is in range to control the paddle

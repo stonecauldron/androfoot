@@ -42,8 +42,22 @@ public class GroupPaddle implements GroupPaddleInterface {
     @Override
     public void setVelocity(float x, float y) {
         for (Paddle paddle : paddles) {
-            paddle.setVelocity(x, y);
+            paddle.setPlayerVelocity(x, y);
         }
     }
+
+	@Override
+	public void setXVelocity(float x) {
+		for (Paddle paddle : paddles) {
+			paddle.setPlayerXVelocity(x);
+		}
+	}
+
+	@Override
+	public void setYVelocity(float y) {
+		for (Paddle paddle : paddles) {
+			paddle.setPlayerYVelocity(y);
+		}
+	}
 
 }
