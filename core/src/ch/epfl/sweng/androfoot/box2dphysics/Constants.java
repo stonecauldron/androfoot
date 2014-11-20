@@ -48,11 +48,12 @@ public class Constants {
     public static final float BALL_INIT_POS_Y = 3.4f;
     public static final float BALL_INIT_POS_X = 5.0f;
     public static final float BALL_MAX_VELOCITY = 4.0f; //Too fast?
+    public static final float BALL_MIN_VELOCITY = 0.0f;
     public static final float BALL_CONTROL_OFFSET = 0.65f;
     
     /* PhysicsWorld */
-    public static final int POSITION_ITERATIONS = 6;
-    public static final int VELOCITY_ITERATIONS = 2;
+    public static final int POSITION_ITERATIONS = 10;
+    public static final int VELOCITY_ITERATIONS = 4;
     public static final float TIME_STEP = 1 / 60.0f;
     public static final float WORLD_ORIGIN_Y = 0;
     public static final float WORLD_ORIGIN_X = 0;

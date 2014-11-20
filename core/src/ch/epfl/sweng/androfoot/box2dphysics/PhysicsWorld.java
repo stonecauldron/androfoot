@@ -164,6 +164,9 @@ public final class PhysicsWorld implements DrawableWorld {
     		
     		for (int i = 0; i < discreteNbPhysicsStepInFrame; i++) {
     			physicsWorld.step(Constants.TIME_STEP, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
+    			if (ball != null) {
+    				checkVelocity(ball);
+    			}
     		}
     		
     		//For Accelerometer polling
@@ -175,9 +178,6 @@ public final class PhysicsWorld implements DrawableWorld {
     		} 	
     		
             EventManager.getEventManager().throwEvents();
-            if (ball != null) {
-                checkVelocity(ball);
-            }
 	    }
 	}
 	
@@ -188,14 +188,10 @@ public final class PhysicsWorld implements DrawableWorld {
 	 */
 	public void checkVelocity(Ball testedBall) {
 		Vector2 ballVelocity = testedBall.getLinearVelocity();
+		ballVelocity = ballVelocity.clamp(Constants.BALL_MIN_VELOCITY, Constants.BALL_MAX_VELOCITY);
+		testedBall.setLinearVelocity(ballVelocity.x, ballVelocity.y);
+		System.out.println(ballVelocity);
 		
-		if (ballVelocity.x > Constants.BALL_MAX_VELOCITY) {
-			testedBall.setLinearVelocity(Constants.BALL_MAX_VELOCITY, ballVelocity.y);
-		}
-		
-		if (ballVelocity.y > Constants.BALL_MAX_VELOCITY) {
-		    testedBall.setLinearVelocity(ballVelocity.x, Constants.BALL_MAX_VELOCITY);
-		}
 	}
 
 	@Override
