@@ -1,5 +1,7 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
+import ch.epfl.sweng.androfoot.accelerometer.AccelerometerTracker;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
@@ -66,4 +68,10 @@ public class Constants {
     public static final float PLAYERDENSITY = 1.0f;
     public static final float PLAYERFRICTION = 1.0f;
     public static final float PLAYERRESTITUTION = 0.0f;
+    
+    /* Accelerometer */
+	public static final float SHAKE_TIMER = 1.0f;
+	public static final float SHAKE_BOOST_RATIO = 2;
+	
+	
 }
