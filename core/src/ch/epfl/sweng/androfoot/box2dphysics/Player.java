@@ -136,6 +136,11 @@ public class Player implements PlayerInterface {
 	public float getPositionY() {
 		return playerBody.getPosition().y;
 	}
+	
+	@Override
+	public Vector2 getPlayerVelocity() {
+		return playerBody.getLinearVelocity();
+	}
 
 	@Override
 	public void setPlayerVelocity(float x, float y) {

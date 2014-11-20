@@ -17,4 +17,8 @@ public interface GroupPaddleInterface {
      * @param y composant of the velocity
      */
     void setVelocity(float x, float y);
+    
+    void setXVelocity(float x);
+    
+    void setYVelocity(float y);
 }
