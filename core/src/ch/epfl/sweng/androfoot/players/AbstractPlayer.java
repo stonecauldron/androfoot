@@ -15,7 +15,7 @@ import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 public abstract class AbstractPlayer {
 	
 	// offset between the paddles
-	private static final float PADDLE_OFFSET = Constants.WORLD_SIZE_X;
+	private static final float W_SIZE_X = Constants.WORLD_SIZE_X;
 	// number of defensors
 	private static final int DEFENSOR_NUMBER = 3;
 	// number of attackers
@@ -47,12 +47,12 @@ public abstract class AbstractPlayer {
 		float attackXCoordinate = 0f;
 		
 		if (playerNumber == PlayerNumber.ONE) {
-			defenseXCoordinate = PADDLE_OFFSET * 1.0f/6.0f;
-			attackXCoordinate = PADDLE_OFFSET * 4.0f/6.0f;
+			defenseXCoordinate = W_SIZE_X * 1.0f/6.0f;
+			attackXCoordinate = W_SIZE_X * 4.0f/6.0f;
 		}
 		else if (playerNumber == PlayerNumber.TWO) {
-			defenseXCoordinate = PADDLE_OFFSET * 5.0f/6.0f;
-			attackXCoordinate = PADDLE_OFFSET * 2.0f/6.0f;
+			defenseXCoordinate = W_SIZE_X * 5.0f/6.0f;
+			attackXCoordinate = W_SIZE_X * 2.0f/6.0f;
 		}
 		
 		paddles.add(PhysicsWorld.createPaddle(defenseXCoordinate, Constants.PADDLE_WIDTH, DEFENSOR_NUMBER, playerNumber == PlayerNumber.ONE));
