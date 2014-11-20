@@ -18,7 +18,7 @@ public class PlayerFactory {
 		switch(playerType) {
 		
 		case AI_PLAYER:
-			player = new AIPlayer(playerNumber);
+			player = new AbstractAIPlayer(playerNumber);
 			break;
 			
 		case LOCAL_PLAYER:
