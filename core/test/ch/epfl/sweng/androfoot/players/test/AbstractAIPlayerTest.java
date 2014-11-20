@@ -2,11 +2,14 @@ package ch.epfl.sweng.androfoot.players.test;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sweng.androfoot.players.AbstractAIPlayer;
 import ch.epfl.sweng.androfoot.players.PlayerNumber;
+import ch.epfl.sweng.androfoot.players.ai.AIState;
 import ch.epfl.sweng.androfoot.utils.CoRoutine;
 import ch.epfl.sweng.androfoot.utils.Timer;
 
@@ -44,6 +47,11 @@ public class AbstractAIPlayerTest {
 		public void execute() {
 			wasCoRoutineCalled = true;
 		}
+
+		@Override
+		public List<AIState> getStatesWhereCoRoutineIsExecutable() {
+			return null;
+		}
 	};
 
 	private static CoRoutine failCoRoutine = new CoRoutine() {
@@ -51,6 +59,11 @@ public class AbstractAIPlayerTest {
 		@Override
 		public void execute() {
 			fail("This coroutine should have been removed");
+		}
+
+		@Override
+		public List<AIState> getStatesWhereCoRoutineIsExecutable() {
+			return null;
 		}
 	};
 

@@ -6,6 +6,7 @@ import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
 import ch.epfl.sweng.androfoot.interfaces.Controllable;
 import ch.epfl.sweng.androfoot.players.ai.AIEngine;
 import ch.epfl.sweng.androfoot.players.ai.AIObserver;
+import ch.epfl.sweng.androfoot.players.ai.AIState;
 import ch.epfl.sweng.androfoot.utils.CoRoutine;
 import ch.epfl.sweng.androfoot.utils.Timer;
 
@@ -21,24 +22,31 @@ public class AbstractAIPlayer extends AbstractPlayer implements Controllable,
 	// HashMap linking Timers with CoRoutines
 	private HashMap<Timer, CoRoutine> coRoutinesMap;
 
+	// current state of the AI
+	private AIState mState;
+
 	public AbstractAIPlayer(PlayerNumber number) {
 		super(number);
 
 		// start observing AIEngine
 		AIEngine.getInstance().addAIObserver(this);
-		
+
 		// initialize HashMap
 		coRoutinesMap = new HashMap<Timer, CoRoutine>();
 	}
 
 	@Override
 	public void moveHorizontally(float deltaX) {
-		// TODO Auto-generated method stub
+		for (GroupPaddle paddles : getPaddles()) {
+			paddles.setXVelocity(deltaX);
+		}
 	}
 
 	@Override
 	public void moveVertically(float deltaY) {
-		// TODO Auto-generated method stub
+		for (GroupPaddle paddles : getPaddles()) {
+			paddles.setYVelocity(deltaY);
+		}
 	}
 
 	@Override
@@ -53,11 +61,14 @@ public class AbstractAIPlayer extends AbstractPlayer implements Controllable,
 		// iterate over the list of timers
 		for (Timer timer : coRoutinesMap.keySet()) {
 			timer.updateTimer(deltaTime);
-			
+
 			// if a timer ticks
 			if (timer.checkTimer()) {
-				// execute coRoutine associated with timer
-				coRoutinesMap.get(timer).execute();
+				// execute coRoutine if state of the AI coincides
+				if (coRoutinesMap.get(timer)
+						.getStatesWhereCoRoutineIsExecutable().contains(mState)) {
+					coRoutinesMap.get(timer).execute();
+				}
 			}
 		}
 	}
@@ -68,6 +79,10 @@ public class AbstractAIPlayer extends AbstractPlayer implements Controllable,
 
 	protected void removeFromCoRoutines(Timer timer) {
 		coRoutinesMap.remove(timer);
+	}
+
+	protected void setState(AIState state) {
+		mState = state;
 	}
 
 }
