@@ -1,7 +1,10 @@
 package ch.epfl.sweng.androfoot.players.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -27,6 +30,9 @@ public class AbstractAIPlayerTest {
 			addToCoRoutines(timer3, failCoRoutine);
 
 			removeFromCoRoutines(timer3);
+			
+			// put mockAI in default static
+			super.setState(AIState.DEFAULT);
 		}
 	}
 
@@ -50,7 +56,9 @@ public class AbstractAIPlayerTest {
 
 		@Override
 		public List<AIState> getStatesWhereCoRoutineIsExecutable() {
-			return null;
+			List<AIState> list = new ArrayList<AIState>();
+			list.add(AIState.DEFAULT);
+			return list;
 		}
 	};
 
