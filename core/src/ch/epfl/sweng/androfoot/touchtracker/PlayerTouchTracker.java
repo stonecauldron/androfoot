@@ -13,75 +13,128 @@ import com.badlogic.gdx.InputProcessor;
 /**
  * @author Ahaeflig
  * 
- * Singleton implementation of two player touch input tracking.
- * Add yourself to the tracker's observer list to start observing the touch input
- * by implementing the TouchTrackerObserver interface 
- * In our project this list will probably contain only one Object.
+ *         Singleton implementation of two player touch input tracking. Add
+ *         yourself to the tracker's observer list to start observing the touch
+ *         input by implementing the TouchTrackerObserver interface In our
+ *         project this list will probably contain only one Object.
  */
-public enum PlayerTouchTracker implements InputProcessor, ObservableTouchTracker {
+public enum PlayerTouchTracker implements InputProcessor,
+		ObservableTouchTracker {
 	INSTANCE;
-	
+
 	private final static int NO_POINTER = -1;
-	
-	private List<TouchTrackerObserver> observersPlayerOne = new ArrayList<TouchTrackerObserver>();
-	private List<TouchTrackerObserver> observersPlayerTwo = new ArrayList<TouchTrackerObserver>();
+	private final static float CM_TRESHOLD = 0.015f;
 
-	private TouchInfo mPlayerOneTouch = new TouchInfo();
-	private TouchInfo mPlayerTwoTouch = new TouchInfo();
+	private List<TouchTrackerObserver> observersPlayerOne;
+	private List<TouchTrackerObserver> observersPlayerTwo;
 
-	private int mScreenWidth = Gdx.graphics.getWidth();
+	private TouchInfo mPlayerOneTouch;
+	private TouchInfo mPlayerTwoTouch;
+
+	private int mScreenWidth;
+	private int mScreenHeigth;
+
 	private int mPlayerOneCurrentPointer = NO_POINTER;
 	private int mPlayerTwoCurrentPointer = NO_POINTER;
 
+	public int getmPlayerOneCurrentPointer() {
+		return mPlayerOneCurrentPointer;
+	}
+
+	public int getmPlayerTwoCurrentPointer() {
+		return mPlayerTwoCurrentPointer;
+	}
+
+	private float mMoveTresholdX;
+	private float mMoveTresholdY;
+
 	private PlayerTouchTracker() {
 		Gdx.input.setInputProcessor(this);
+		setNewScreenWidth(Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
+
+		observersPlayerOne = new ArrayList<TouchTrackerObserver>();
+		observersPlayerTwo = new ArrayList<TouchTrackerObserver>();
+		mPlayerOneTouch = new TouchInfo();
+		mPlayerTwoTouch = new TouchInfo();
 	}
-	
+
 	public static PlayerTouchTracker getInstance() {
 		return INSTANCE;
 	}
-	
+
 	private void updatePlayerOne() {
-		for (TouchTrackerObserver obs: observersPlayerOne) {
-			obs.updatePlayerOne(PlayerNumber.ONE.ordinal(), mPlayerOneTouch.touchX, mPlayerOneTouch.touchY, mPlayerOneTouch.touched);
+		for (TouchTrackerObserver obs : observersPlayerOne) {
+			obs.updatePlayerOne(1,
+					mPlayerOneTouch.touchX, mPlayerOneTouch.touchY,
+					mPlayerOneTouch.touched);
 		}
 	}
-	
+
 	private void updatePlayerTwo() {
-		for (TouchTrackerObserver obs: observersPlayerTwo) {
-			obs.updatePlayerTwo(PlayerNumber.TWO.ordinal(), mPlayerTwoTouch.touchX, mPlayerTwoTouch.touchY, mPlayerTwoTouch.touched);
+		for (TouchTrackerObserver obs : observersPlayerTwo) {
+			obs.updatePlayerTwo(2,
+					mPlayerTwoTouch.touchX, mPlayerTwoTouch.touchY,
+					mPlayerTwoTouch.touched);
 		}
 	}
-	
+
 	/**
 	 * @goal Call this method everytime the screen is resized
-	 * @param screenWidth = the size of the new screen
+	 * @param screenWidth
+	 *            = the size of the new screen
 	 */
-	public void setNewScreenWidth(int screenWidth) {
+	public void setNewScreenWidth(int screenWidth, int screenHeight) {
 		this.mScreenWidth = screenWidth;
+		this.mScreenHeigth = screenHeight;
+		updateTreshold(screenWidth, screenHeight);
 	}
-	
+
+	public float getmMoveTresholdX() {
+		return mMoveTresholdX;
+	}
+
+	public float getmMoveTresholdY() {
+		return mMoveTresholdY;
+	}
+
+	/**
+	 * Call this method when the screen is resized to update new correct
+	 * treshold value
+	 * @param screenHeight 
+	 * @param screenWidth 
+	 */
+	public void updateTreshold(int screenWidth, int screenHeight) {
+
+		float xPixelPerCentimeter = Gdx.graphics.getPpcX();
+		float yPixelPerCentimeter = Gdx.graphics.getPpcY();
+		
+		mMoveTresholdX = xPixelPerCentimeter * CM_TRESHOLD * (((float)screenWidth / xPixelPerCentimeter) / 10);
+		mMoveTresholdY = yPixelPerCentimeter * CM_TRESHOLD * (((float)screenHeight / yPixelPerCentimeter) / 6);
+
+		Gdx.app.log("TRESH HOlD VAL X", " " + mMoveTresholdX + "SCRREN WIDHT " + screenWidth);
+		Gdx.app.log("TRESH HOlD VAL Y", " " + mMoveTresholdY);
+	}
+
 	@Override
 	public void addObserverPlayerOne(TouchTrackerObserver obs) {
 		observersPlayerOne.add(obs);
 	}
-	
+
 	@Override
 	public boolean removeObserverPlayerOne(TouchTrackerObserver obs) {
 		return observersPlayerOne.remove(obs);
 	}
-	
+
 	@Override
 	public void addObserverPlayerTwo(TouchTrackerObserver obs) {
-		observersPlayerTwo.add(obs);	
+		observersPlayerTwo.add(obs);
 	}
 
 	@Override
 	public boolean removeObserverPlayerTwo(TouchTrackerObserver obs) {
 		return observersPlayerOne.remove(obs);
 	}
-	
-	
+
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub
@@ -103,19 +156,17 @@ public enum PlayerTouchTracker implements InputProcessor, ObservableTouchTracker
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-		if (mPlayerOneCurrentPointer == pointer
-				|| mPlayerOneCurrentPointer == NO_POINTER) {
+		if (mPlayerOneCurrentPointer == NO_POINTER) {
 			if (screenX <= mScreenWidth / 2) {
 				mPlayerOneCurrentPointer = pointer;
 				mPlayerOneTouch.touchX = screenX;
 				mPlayerOneTouch.touchY = screenY;
 				mPlayerOneTouch.touched = true;
 				updatePlayerOne();
-			} 
+			}
 		}
-		
-		if (mPlayerTwoCurrentPointer == pointer
-				|| mPlayerTwoCurrentPointer == NO_POINTER) {
+
+		if ( mPlayerTwoCurrentPointer == NO_POINTER) {
 			if (screenX > mScreenWidth / 2) {
 				mPlayerTwoCurrentPointer = pointer;
 				mPlayerTwoTouch.touchX = screenX;
@@ -129,7 +180,7 @@ public enum PlayerTouchTracker implements InputProcessor, ObservableTouchTracker
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		
+
 		if (mPlayerOneCurrentPointer == pointer) {
 			mPlayerOneCurrentPointer = NO_POINTER;
 			mPlayerOneTouch.touched = false;
@@ -162,14 +213,13 @@ public enum PlayerTouchTracker implements InputProcessor, ObservableTouchTracker
 				updatePlayerOne();
 			}
 		}
-		
+
 		if (mPlayerTwoCurrentPointer == pointer) {
 			if (screenX > mScreenWidth / 2) {
 				mPlayerTwoCurrentPointer = pointer;
 				mPlayerTwoTouch.touchX = screenX;
 				mPlayerTwoTouch.touchY = screenY;
 				mPlayerTwoTouch.touched = true;
-				
 				updatePlayerTwo();
 			} else {
 				mPlayerTwoTouch.touched = false;
@@ -177,7 +227,7 @@ public enum PlayerTouchTracker implements InputProcessor, ObservableTouchTracker
 			}
 		}
 		return true;
-		
+
 	}
 
 	@Override
