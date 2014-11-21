@@ -190,8 +190,6 @@ public final class PhysicsWorld implements DrawableWorld {
 		Vector2 ballVelocity = testedBall.getLinearVelocity();
 		ballVelocity = ballVelocity.clamp(Constants.BALL_MIN_VELOCITY, Constants.BALL_MAX_VELOCITY);
 		testedBall.setLinearVelocity(ballVelocity.x, ballVelocity.y);
-		System.out.println(ballVelocity);
-		
 	}
 
 	@Override
