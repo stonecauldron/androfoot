@@ -74,5 +74,7 @@ public class Constants {
 	public static final float SHAKE_TIMER = 1.0f;
 	public static final float SHAKE_BOOST_RATIO = 2;
 	
+	/* Touch Tracker */
+	public static final float TOUCH_EVENT_TIMER = 0.02f;
 	
 }
