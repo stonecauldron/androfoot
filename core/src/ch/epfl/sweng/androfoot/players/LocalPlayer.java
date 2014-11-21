@@ -95,34 +95,38 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 		float moveTresholdY = touchTracker.getmMoveTresholdY();
 
 		if (mOldTouched == true && touched == true) {
-			/*
-			 * if (Math.abs(deltaX) > moveTresholdX && Math.abs(deltaY) >
-			 * moveTresholdY) { move(deltaX, -(deltaY)); } else if
-			 * (Math.abs(deltaX) > moveTresholdX) { moveHorizontally(deltaX);
-			 * moveVertically(0); } else if (Math.abs(deltaY) > moveTresholdY){
-			 * moveHorizontally(0); moveVertically(-deltaY); } else { move(0,0);
-			 * }
-			 */
-			if (posX != -1 && posY != -1) {
-				move(deltaX, -deltaY);
-				mOldX = posX;
-				mOldY = posY;
-				mOldTouched = touched;
 
-				switch (playerId) {
-				case 1:
-					physicWorld.getTouchEventTimerPlayerOne().resetTimer();
-					break;
-				case 2:
-					physicWorld.getTouchEventTimerPlayerTwo().resetTimer();
-					break;
-				default:
-				}
-
+			if (Math.abs(deltaX) > moveTresholdX
+					&& Math.abs(deltaY) > moveTresholdY) {
+				move(deltaX, -(deltaY));
+			} else if (Math.abs(deltaX) > moveTresholdX) {
+				moveHorizontally(deltaX);
+				moveVertically(0);
+			} else if (Math.abs(deltaY) > moveTresholdY) {
+				moveHorizontally(0);
+				moveVertically(-deltaY);
 			} else {
-				// Case where we want to speed down paddle because of inactivity
 				move(0, 0);
 			}
+
+			// if (posX != -1 && posY != -1) {
+			// move(deltaX, -deltaY);
+			mOldX = posX;
+			mOldY = posY;
+			mOldTouched = touched;
+
+			/*
+			 * if (playerId == 1)
+			 * physicWorld.getTouchEventTimerPlayerOne().resetTimer();
+			 * 
+			 * if(playerId == 2)
+			 * physicWorld.getTouchEventTimerPlayerTwo().resetTimer();
+			 */
+			//
+			// } else {
+			// Case where we want to speed down paddle because of inactivity
+			// move(0, 0);
+			// }
 
 		} else if (touched) {
 			mOldTouched = touched;

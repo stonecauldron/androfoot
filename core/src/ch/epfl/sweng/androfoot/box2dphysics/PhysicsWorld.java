@@ -37,6 +37,7 @@ public final class PhysicsWorld implements DrawableWorld {
 	private float accelerometerTime = 0;
 	private Timer touchEventTimerPlayerOne = new Timer(
 			Constants.TOUCH_EVENT_TIMER);
+	
 	private Timer touchEventTimerPlayerTwo = new Timer(
 			Constants.TOUCH_EVENT_TIMER);
 
@@ -247,16 +248,14 @@ public final class PhysicsWorld implements DrawableWorld {
 			 * no more event happens but a speed is set
 			 */
 			if (touchEventTimerPlayerOne.checkTimer()) {
-				int playerOnePointer = touchTrackerInstance
-						.getmPlayerOneCurrentPointer();
-				touchTrackerInstance.touchDragged(-1, -1, playerOnePointer);
+				//touchTrackerInstance.touchDragged(-1, -1, touchTrackerInstance
+					//	.getmPlayerOneCurrentPointer());
 			}
 			touchEventTimerPlayerOne.updateTimer(correctedDelta);
 
 			if (touchEventTimerPlayerTwo.checkTimer()) {
-				int playerTwoPointer = touchTrackerInstance
-						.getmPlayerTwoCurrentPointer();
-				touchTrackerInstance.touchDragged(-1, -1, playerTwoPointer);
+			//	touchTrackerInstance.touchDragged(-1, -1, touchTrackerInstance
+				//		.getmPlayerTwoCurrentPointer());
 			}
 			touchEventTimerPlayerTwo.updateTimer(correctedDelta);
 
