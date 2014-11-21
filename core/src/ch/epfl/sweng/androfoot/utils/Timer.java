@@ -33,6 +33,13 @@ public class Timer {
 	public void updateTimer(float deltaTime) {
 		currentTimeCount += deltaTime;
 	}
+	
+	/**
+	 * resets the timer
+	 */
+	public void resetTimer() {
+		currentTimeCount = 0.f;
+	}
 
 	/**
 	 * checks if the Timer should signal a tick.
