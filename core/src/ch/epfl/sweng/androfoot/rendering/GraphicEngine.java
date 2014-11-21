@@ -179,7 +179,6 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 
 	@Override
 	public void setScreenSize(int width, int height) {
-		System.out.println("screen set");
 		screenHeight = height;
 		screenWidth = width;
 		if (isBoundToWorld) {
