@@ -2,7 +2,7 @@ package ch.epfl.sweng.androfoot.interfaces;
 
 /**
  * Represents an paddle alone.
- * @see GroupPaddleInterface for multiple paddles group
+ * @see DefaultGroupPaddle for multiple paddles group
  * 
  * The position of a paddle is the bottom left vertex
  * 
@@ -10,7 +10,7 @@ package ch.epfl.sweng.androfoot.interfaces;
  * @author Gilthoniel (Gaylor Bosson)
  *
  */
-public interface PaddleInterface {
+public interface DefaultPaddle {
     
     /**
      * Give a velocity to the paddle

@@ -9,7 +9,7 @@ package ch.epfl.sweng.androfoot.interfaces;
  * @author Gilthoniel (Gaylor Bosson)
  *
  */
-public interface GroupPaddleInterface {
+public interface DefaultGroupPaddle {
     
     /**
      * Set the velocity of all paddle inside the group

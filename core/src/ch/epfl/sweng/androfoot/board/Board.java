@@ -7,6 +7,8 @@ import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.box2dphysics.Player;
+import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
+import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
 import ch.epfl.sweng.androfoot.players.AbstractPlayer;
@@ -59,6 +61,7 @@ public class Board implements GoalObserver, PlayerObserver {
 		// start observing goal events
 		EventManager.getEventManager().addGoalObserver(this);
 		EventManager.getEventManager().addPlayerObserver(this);
+		
 	}
 
 	/**
@@ -78,8 +81,8 @@ public class Board implements GoalObserver, PlayerObserver {
 	}
 
 	@Override
-	public void goal(GoalTeam team) {
-		if (team == GoalTeam.ONE) {
+	public void goal(DefaultGoal goal, DefaultBall ball) {
+		if (goal.getTeam() == GoalTeam.ONE) {
 			// player 2 scored
 			incrementScore(PlayerNumber.TWO);
 			resetBall(PlayerNumber.TWO);

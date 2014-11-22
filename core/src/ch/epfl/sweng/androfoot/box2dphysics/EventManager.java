@@ -5,11 +5,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
-import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
+import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
+import ch.epfl.sweng.androfoot.interfaces.BorderInterface;
 import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
+import ch.epfl.sweng.androfoot.interfaces.DefaultEventManager;
+import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.interfaces.PaddleContactObserver;
+import ch.epfl.sweng.androfoot.interfaces.DefaultPlayer;
 import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
 
 /**
@@ -20,7 +23,7 @@ import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
  * @author Gilthoniel (Gaylor Bosson)
  *
  */
-public final class EventManager {
+public final class EventManager implements DefaultEventManager {
 
 	private static final EventManager INSTANCE = new EventManager();
 
@@ -49,6 +52,9 @@ public final class EventManager {
 		borderObservers = new HashSet<BorderObserver>();
 		borderEvents = new ArrayList<BorderContactEvent>();
 
+		PaddleContactListener.setEventManager(this);
+		GoalContactListener.setEventManager(this);
+		BorderContactListener.setEventManager(this);
 		GlobalContactListener.addListener(GoalContactListener.getInstance());
 		GlobalContactListener.addListener(PaddleContactListener.getInstance());
 		GlobalContactListener.addListener(PlayerContactListener.getInstance());
@@ -62,14 +68,14 @@ public final class EventManager {
 	public void throwEvents() {
         for (GoalEvent event : goalEvents) {
             for (GoalObserver observer : goalObservers) {
-                observer.goal(event.getTeam());
+                observer.goal(event.getGoal(), event.getBall());
             }
         }
         goalEvents.clear();
         
-        for (@SuppressWarnings("unused") PaddleContactEvent event : paddleEvents) {
+        for (PaddleContactEvent event : paddleEvents) {
             for (PaddleContactObserver observer : paddleObservers) {
-                observer.paddleContact();
+                observer.paddleContact(event.getPlayer(), event.getBall());
             }
         }
         paddleEvents.clear();
@@ -83,7 +89,7 @@ public final class EventManager {
         
         for (BorderContactEvent event : borderEvents) {
             for (BorderObserver observer : borderObservers) {
-                observer.borderContact(event.getType());
+                observer.borderContact(event.getBorder(), event.getBall());
             }
         }
         borderEvents.clear();
@@ -126,20 +132,29 @@ public final class EventManager {
 		borderObservers.add(observer);
 	}
 
-	public void addEventGoal(GoalTeam team) {
-		goalEvents.add(new GoalEvent(team));
+	public void addEventGoal(DefaultGoal goal, DefaultBall ball) {
+	    goal = goal.clone();
+	    ball = ball.clone();
+	    
+		goalEvents.add(new GoalEvent(ball, goal));
 	}
 
 	public void addEventPlayers(Player player, boolean team) {
 		playerEvents.add(new PlayerEvent(player, team));
 	}
 
-	public void addEventPaddle() {
-		paddleEvents.add(new PaddleContactEvent());
+	public void addEventPaddle(DefaultPlayer player, DefaultBall ball) {
+	    player = player.clone();
+	    ball = ball.clone();
+	    
+		paddleEvents.add(new PaddleContactEvent(player, ball));
 	}
 
-	public void addEventBorder(BorderType type) {
-		borderEvents.add(new BorderContactEvent(type));
+	public void addEventBorder(BorderInterface border, DefaultBall ball) {
+	    border = border.clone();
+	    ball = ball.clone();
+	    
+		borderEvents.add(new BorderContactEvent(border, ball));
 	}
 
 	/**
@@ -149,14 +164,20 @@ public final class EventManager {
 	 *
 	 */
 	class GoalEvent {
-		private GoalTeam team;
+		private DefaultGoal goal;
+		private DefaultBall ball;
 
-		public GoalEvent(GoalTeam t) {
-			team = t;
+		public GoalEvent(DefaultBall b, DefaultGoal g) {
+			goal = g;
+			ball = b;
 		}
 
-		public GoalTeam getTeam() {
-			return team;
+		public DefaultGoal getGoal() {
+			return goal;
+		}
+		
+		public DefaultBall getBall() {
+		    return ball;
 		}
 	}
 
@@ -169,7 +190,6 @@ public final class EventManager {
 	class PlayerEvent {
 		private boolean teamFlag;
 		private Player player;
-		private boolean touched;
 
 		/**
 		 * Contructor of the PlayerEvent class.
@@ -211,7 +231,21 @@ public final class EventManager {
 	 *
 	 */
 	class PaddleContactEvent {
-
+	    private DefaultPlayer player;
+	    private DefaultBall ball;
+	    
+	    public PaddleContactEvent(DefaultPlayer p, DefaultBall b) {
+	        player = p;
+	        ball = b;
+	    }
+	    
+	    public DefaultPlayer getPlayer() {
+	        return player;
+	    }
+	    
+	    public DefaultBall getBall() {
+	        return ball;
+	    }
 	}
 
 	/**
@@ -221,14 +255,20 @@ public final class EventManager {
 	 *
 	 */
 	class BorderContactEvent {
-		private BorderType type;
+		private BorderInterface border;
+		private DefaultBall ball;
 
-		public BorderContactEvent(BorderType borderType) {
-			type = borderType;
+		public BorderContactEvent(BorderInterface b, DefaultBall ba) {
+			border = b;
+			ball = ba;
 		}
 
-		public BorderType getType() {
-			return type;
+		public BorderInterface getBorder() {
+		    return border;
+		}
+		
+		public DefaultBall getBall() {
+		    return ball;
 		}
 	}
 }

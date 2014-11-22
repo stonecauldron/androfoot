@@ -1,7 +1,5 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
-import ch.epfl.sweng.androfoot.accelerometer.AccelerometerTracker;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 

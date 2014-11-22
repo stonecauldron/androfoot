@@ -3,6 +3,8 @@ package ch.epfl.sweng.androfoot.box2dphysics;
 import java.util.HashSet;
 import java.util.Set;
 
+import ch.epfl.sweng.androfoot.interfaces.DefaultEventManager;
+
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -16,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 public final class BorderContactListener implements ContactListener {
     
     private static BorderContactListener instance = new BorderContactListener();
+    private static DefaultEventManager manager;
     private static Set<Ball> balls;
     private static Set<Border> borders;
     
@@ -35,6 +38,10 @@ public final class BorderContactListener implements ContactListener {
     public static void addBorder(Border border) {
         borders.add(border);
     }
+    
+    public static void setEventManager(DefaultEventManager eventManager) {
+        manager = eventManager;
+    }
 
     @Override
     public void beginContact(Contact contact) {
@@ -46,7 +53,9 @@ public final class BorderContactListener implements ContactListener {
                     if (contact.getFixtureA().getBody() == border.getBody()
                            || contact.getFixtureB().getBody() == border.getBody()) {
                         
-                        EventManager.getEventManager().addEventBorder(border.getType());
+                        if (manager != null) {
+                            manager.addEventBorder(border, ball);
+                        }
                     }
                 }
             }

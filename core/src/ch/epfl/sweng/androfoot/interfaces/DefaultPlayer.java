@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
  * @author Matvey
  *
  */
-public interface PlayerInterface extends Drawable {
+public interface DefaultPlayer extends Drawable {
 
 	/**
 	 * Recovers the x position of the player.
@@ -56,4 +56,10 @@ public interface PlayerInterface extends Drawable {
 	 * @return
 	 */
 	boolean isAbleToControlBall();
+	
+	/**
+	 * Clone the actual state
+	 * @return
+	 */
+	DefaultPlayer clone();
 }

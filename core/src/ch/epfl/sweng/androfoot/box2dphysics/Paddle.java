@@ -11,14 +11,14 @@ import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
-import ch.epfl.sweng.androfoot.interfaces.PaddleInterface;
+import ch.epfl.sweng.androfoot.interfaces.DefaultPaddle;
 
 /**
- * @see PaddleInterface
+ * @see DefaultPaddle
  * @author Gilthoniel (Gaylor Bosson)
  *
  */
-public class Paddle implements PaddleInterface {
+public class Paddle implements DefaultPaddle {
     
     // Limited area definition
     private Body limitedArea;
@@ -39,9 +39,7 @@ public class Paddle implements PaddleInterface {
      * @param width of the limited area
      * @param height of the limited area
      */
-    public Paddle(float x, float y, float width, float height, boolean facingRight) {
-    	//Retrieve the instance of the physics world.
-    	World world = PhysicsWorld.getPhysicsWorld().getBox2DWorld();
+    public Paddle(World world, float x, float y, float width, float height, boolean facingRight) {
     	
         areasShape = new ArrayList<EdgeShape>();
         posX = x;
@@ -83,7 +81,7 @@ public class Paddle implements PaddleInterface {
             edge.dispose();
         }
         
-        player = new Player(x + (width / 2), y + (height / 2), facingRight, this);
+        player = new Player(world, x + (width / 2), y + (height / 2), facingRight, this);
     }
     
     public Body getLimitedArea() {
@@ -92,6 +90,10 @@ public class Paddle implements PaddleInterface {
     
     public Player getPlayer() {
         return player;
+    }
+    
+    public Body getBody() {
+        return limitedArea;
     }
 
     @Override

@@ -1,22 +1,25 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
+import ch.epfl.sweng.androfoot.interfaces.BorderInterface;
 import ch.epfl.sweng.androfoot.interfaces.DrawableRectangle;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.World;
 
 /**
  * Class that defines each individual border of the playfield.
  * @author Gaylor
  *
  */
-public class Border implements DrawableRectangle {
+public class Border implements DrawableRectangle, BorderInterface {
     
     /**
      * Represent the type of the border
@@ -42,7 +45,7 @@ public class Border implements DrawableRectangle {
 	 * @param height
 	 * @param teta
 	 */
-	public Border(float x, float y, float width, float height, BorderType type) {
+	public Border(World world, float x, float y, float width, float height, BorderType type) {
 		
 	    zIndex = zIndexIncrement;
         zIndexIncrement++;
@@ -53,7 +56,7 @@ public class Border implements DrawableRectangle {
         // Position of the center of the rectangle
         borderBodyDef.position.set(x + (width / 2), y + (height / 2));
         
-        borderBody = PhysicsWorld.getPhysicsWorld().getBox2DWorld().createBody(borderBodyDef);
+        borderBody = world.createBody(borderBodyDef);
         
         fixture = new FixtureDef();
         fixture.density = Constants.BORDER_DENSITY;
@@ -75,6 +78,12 @@ public class Border implements DrawableRectangle {
 	    return borderBody;
 	}
 	
+	@Override
+	public Vector2 getPosition() {
+	    return borderBody.getPosition();
+	}
+	
+	@Override
 	public BorderType getType() {
 	    return borderType;
 	}
@@ -106,5 +115,29 @@ public class Border implements DrawableRectangle {
     @Override
     public Rectangle getShape() {
         return rectangle;
+    }
+    
+    @Override
+    public BorderInterface clone() {
+        return new BorderInterface() {
+            private BorderType type = borderType;
+            private Vector2 position = borderBody.getPosition();
+
+            @Override
+            public BorderType getType() {
+                return type;
+            }
+
+            @Override
+            public Vector2 getPosition() {
+                return position;
+            }
+
+            @Override
+            public BorderInterface clone() {
+                throw new UnsupportedOperationException();
+            }
+            
+        };
     }
 }

@@ -1,10 +1,13 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
 import ch.epfl.sweng.androfoot.accelerometer.AccelerometerTracker;
@@ -32,9 +35,14 @@ public final class PhysicsWorld implements DrawableWorld {
 	
 	/* World's object */
 	private static Ball ball;
+	private static Set<Drawable> drawableToDestroy;
+	private static Set<Body> bodyToDestroy;
 	
 	private PhysicsWorld() {
 	    physicsWorld.setContactListener(GlobalContactListener.getInstance());
+	    
+	    drawableToDestroy = new HashSet<Drawable>();
+	    bodyToDestroy = new HashSet<Body>();
 	}
 	
 	/**
@@ -72,7 +80,8 @@ public final class PhysicsWorld implements DrawableWorld {
 	        PHYSICS_WORLD_INSTANCE.getBox2DWorld().destroyBody(ball.getBody());
 	        drawableObjectsSet.remove(ball);
 	    }
-	    ball = new Ball(x, y, radius, Constants.BALL_DENSITY, Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
+	    ball = new Ball(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, radius, Constants.BALL_DENSITY, 
+	                        Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
 	    drawableObjectsSet.add(ball);
 	    startWorld();
 	    
@@ -97,7 +106,8 @@ public final class PhysicsWorld implements DrawableWorld {
 	 */
 	public static GroupPaddle createPaddle(float x, float width, int number, boolean facingRight) {
 	    pauseWorld();
-	    GroupPaddle groupPaddle = new GroupPaddle(x - width/2, width, number, facingRight);
+	    GroupPaddle groupPaddle = new GroupPaddle(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x - width/2, width, 
+	                                                number, facingRight);
 	    for (Paddle paddle : groupPaddle.getPaddles()) {
 	        drawableObjectsSet.add(paddle.getPlayer());
 	    }
@@ -117,7 +127,7 @@ public final class PhysicsWorld implements DrawableWorld {
 	 */
 	public static Border createBorder(float x, float y, float width, float height, BorderType type) {
 	    pauseWorld();
-	    Border border = new Border(x, y, width, height, type);
+	    Border border = new Border(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, width, height, type);
 	    drawableObjectsSet.add(border);
 	    startWorld();
 	    
@@ -131,10 +141,34 @@ public final class PhysicsWorld implements DrawableWorld {
 	 */
 	public static Goal createGoal(float x, float y, float width, float height, GoalTeam team) {
 	    pauseWorld();
-	    Goal goal = new Goal(x, y, width, height, team);
+	    Goal goal = new Goal(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, width, height, team);
 	    startWorld();
 	    
 	    return goal;
+	}
+	
+	public static void destroy(Ball ballToDestroy) {
+	    bodyToDestroy.add(ballToDestroy.getBody());
+	    drawableToDestroy.add(ballToDestroy);
+	}
+	
+	public static void destroy(Goal goal) {
+	    bodyToDestroy.add(goal.getBody());
+	}
+	
+	public static void destroy(GroupPaddle paddle) {
+	    for (Body body : paddle.getBodies()) {
+	        bodyToDestroy.add(body);
+	    }
+	    
+	    for (Paddle pad : paddle.getPaddles()) {
+	        drawableToDestroy.add(pad.getPlayer());
+	    }
+	}
+	
+	public static void destroy(Border border) {
+	    bodyToDestroy.add(border.getBody());
+	    drawableToDestroy.add(border);
 	}
 	
 	/**
@@ -174,10 +208,20 @@ public final class PhysicsWorld implements DrawableWorld {
     		if (accelerometerTime > Constants.SHAKE_TIMER && AccelerometerTracker.getInstance().isShaking()) {
         		accelerometerTime = 0;
         		
-        		ball.setLinearVelocity(- AccelerometerTracker.getInstance().getmYGrav() * Constants.SHAKE_BOOST_RATIO, AccelerometerTracker.getInstance().getmXGrav() * Constants.SHAKE_BOOST_RATIO);
+        		ball.setLinearVelocity(-AccelerometerTracker.getInstance().getmYGrav() * Constants.SHAKE_BOOST_RATIO, 
+        		        AccelerometerTracker.getInstance().getmXGrav() * Constants.SHAKE_BOOST_RATIO);
     		} 	
     		
             EventManager.getEventManager().throwEvents();
+            
+            for (Drawable object : drawableToDestroy) {
+                drawableObjectsSet.remove(object);
+            }
+            drawableToDestroy.clear();
+            for (Body body : bodyToDestroy) {
+                physicsWorld.destroyBody(body);
+            }
+            bodyToDestroy.clear();
 	    }
 	}
 	

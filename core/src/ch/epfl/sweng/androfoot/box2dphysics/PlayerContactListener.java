@@ -13,9 +13,9 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  * @author Matvey
  *
  */
-public class PlayerContactListener implements ContactListener {
+public final class PlayerContactListener implements ContactListener {
 	
-    private static final PlayerContactListener instance = new PlayerContactListener();
+    private static PlayerContactListener instance = new PlayerContactListener();
 	private static Set<Player> players;
 	
 	/**
@@ -74,10 +74,10 @@ public class PlayerContactListener implements ContactListener {
 	 */
 	private boolean checkBallHitsPlayerBack(Contact contact, Player player) {
 		
-		return (((contact.getFixtureA() == player.getBody().getFixtureList().get(0)) 
+		return ((contact.getFixtureA() == player.getBody().getFixtureList().get(0)) 
 					&& (contact.getFixtureB().getFilterData().categoryBits == Constants.CATEGORY_BALL))
 					|| ((contact.getFixtureA().getFilterData().categoryBits == Constants.CATEGORY_BALL) 
-					&& (contact.getFixtureB() == player.getBody().getFixtureList().get(0))));
+					&& (contact.getFixtureB() == player.getBody().getFixtureList().get(0)));
 	}
 
 }

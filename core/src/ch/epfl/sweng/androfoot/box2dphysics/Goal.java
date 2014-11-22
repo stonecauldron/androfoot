@@ -1,5 +1,8 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
+import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
+
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -12,7 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
  * @author Gilthoniel (Gaylor Bosson)
  *
  */
-public class Goal {
+public class Goal implements DefaultGoal {
     /**
      * Team of the goal
      * @author Gaylor
@@ -21,7 +24,6 @@ public class Goal {
     public enum GoalTeam {ONE, TWO};
     
     private final GoalTeam team;
-    private World world;
     
     private final Body goalBody;
     private final BodyDef goalBodyDef;
@@ -33,12 +35,9 @@ public class Goal {
      * @param teamOne The team flag, true for team one, otherwise false.
      * @param zIndex The Z Index of the goal for rendering.
      */
-    public Goal(float x, float y, float width, float height, GoalTeam goalTeam) {
-    	//Retrieve the instance of the Physics World.
-    	World physicsWorld = PhysicsWorld.getPhysicsWorld().getBox2DWorld();
+    public Goal(World world, float x, float y, float width, float height, GoalTeam goalTeam) {
     	
         team = goalTeam;
-        world = physicsWorld;
         
         /* Goal */
         goalBodyDef = new BodyDef();
@@ -65,5 +64,32 @@ public class Goal {
     
     public GoalTeam getTeam() {
         return team;
+    }
+    
+    @Override
+    public Vector2 getPosition() {
+        return goalBody.getPosition();
+    }
+    
+    @Override
+    public DefaultGoal clone() {
+        return new DefaultGoal() {
+            private GoalTeam teamGoal = team;
+            private Vector2 position = goalBody.getPosition();
+            
+            @Override
+            public GoalTeam getTeam() {
+                return teamGoal;
+            }
+
+            @Override
+            public Vector2 getPosition() {
+                return position;
+            }
+            
+            public DefaultGoal clone() {
+                return null;
+            }
+        };
     }
 }

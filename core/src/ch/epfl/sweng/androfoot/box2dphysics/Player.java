@@ -9,8 +9,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
-import ch.epfl.sweng.androfoot.interfaces.PaddleInterface;
-import ch.epfl.sweng.androfoot.interfaces.PlayerInterface;
+import ch.epfl.sweng.androfoot.interfaces.DefaultPaddle;
+import ch.epfl.sweng.androfoot.interfaces.DefaultPlayer;
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 import ch.epfl.sweng.androfoot.interfaces.PolygonMap;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
@@ -22,7 +22,7 @@ import ch.epfl.sweng.androfoot.polygongenerator.PaddleSimplifier;
  * @author Matvey
  *
  */
-public class Player implements PlayerInterface {
+public class Player implements DefaultPlayer {
 	
 	private static final int MAX_PLAYER_VERTEX = 11;
 	private static int zIndexCounter = 1;
@@ -38,7 +38,7 @@ public class Player implements PlayerInterface {
 	private PolygonMap paddleGenerator;
 	private boolean teamFlag;
 	
-	private final PaddleInterface parent;
+	private final DefaultPaddle parent;
 	
 	private int zIndex;
 	
@@ -49,8 +49,7 @@ public class Player implements PlayerInterface {
 	 * @param teamOrientation If true the player is facing right, otherwise player is facing left.
 	 * @param paddle 
 	 */
-	public Player(float initPosX, float initPosY, boolean teamOrientation, Paddle paddle) {
-		World world = PhysicsWorld.getPhysicsWorld().getBox2DWorld();
+	public Player(World world, float initPosX, float initPosY, boolean teamOrientation, Paddle paddle) {
 		
 		parent = paddle;
 		teamFlag = teamOrientation;
@@ -59,13 +58,14 @@ public class Player implements PlayerInterface {
 		playerBodyDef.position.set(new Vector2(initPosX, initPosY));
 		
 		playerBody = world.createBody(playerBodyDef);
+		playerBody.setLinearVelocity(0, 0);
 		
 		createPaddleShape(teamFlag);
 		
 		createAttachFixtureForCircle();
 		createAttachFixtureForBox();
 		
-		if(teamFlag) {
+		if (teamFlag) {
 			playerBody.setTransform(playerBody.getPosition(), (float) (-Math.PI/2));
 		} else {
 			playerBody.setTransform(playerBody.getPosition(), (float) (Math.PI/2));
@@ -80,12 +80,12 @@ public class Player implements PlayerInterface {
 	
 	/**
 	 * Auxiliary method used to create the paddle shape using the PolygonGenerator.
-	 * @param teamFlag True for team one, else false.
+	 * @param team True for team one, else false.
 	 */
-	private void createPaddleShape(boolean teamFlag) {
+	private void createPaddleShape(boolean team) {
 		
 		PaddleGenerator fullGenerator;
-		if(teamFlag) {
+		if (team) {
 			fullGenerator = PlayerCharacteristicsManager.getInstanceTeam1();
 		} else {
 			fullGenerator = PlayerCharacteristicsManager.getInstanceTeam2();
@@ -170,6 +170,74 @@ public class Player implements PlayerInterface {
 	@Override
 	public boolean isAbleToControlBall() {
 		return parent.isAbleToControlBall();
+	}
+	
+	@Override
+	public DefaultPlayer clone() {
+	    return new DefaultPlayer() {
+	        private Vector2 position = playerBody.getPosition().cpy();
+	        private Vector2 velocity = playerBody.getLinearVelocity().cpy();
+	        private float angle = getPlayerAngle();
+	        private boolean team = teamFlag;
+	        
+            @Override
+            public int getZIndex() {
+                // Forgotten
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void accept(Visitor visitor) {
+                // Forgotten
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public float getPositionX() {
+                return position.x;
+            }
+
+            @Override
+            public float getPositionY() {
+                return position.y;
+            }
+
+            @Override
+            public float getPlayerAngle() {
+                return angle;
+            }
+
+            @Override
+            public boolean getTeam() {
+                return team;
+            }
+
+            @Override
+            public Body getBody() {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public Vector2 getPlayerVelocity() {
+                return velocity;
+            }
+
+            @Override
+            public void setPlayerVelocity(float x, float y) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public boolean isAbleToControlBall() {
+                return parent.isAbleToControlBall();
+            }
+
+            @Override
+            public DefaultPlayer clone() {
+                throw new UnsupportedOperationException();
+            }
+	        
+	    };
 	}
 
 }
