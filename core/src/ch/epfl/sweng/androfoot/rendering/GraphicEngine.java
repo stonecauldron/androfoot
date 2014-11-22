@@ -4,11 +4,12 @@ import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
-import ch.epfl.sweng.androfoot.interfaces.BallInterface;
+import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DrawableRectangle;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
+import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
-import ch.epfl.sweng.androfoot.interfaces.PlayerInterface;
+import ch.epfl.sweng.androfoot.interfaces.DefaultPlayer;
 import ch.epfl.sweng.androfoot.interfaces.ScoreDisplayer;
 import ch.epfl.sweng.androfoot.interfaces.Visitable;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
@@ -134,7 +135,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 	}
 
 	@Override
-	public void visit(BallInterface ball) {
+	public void visit(DefaultBall ball) {
 		ballRenderer.setBall(ball).render(batch, renderer);
 	}
 
@@ -145,7 +146,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 	}
 
 	@Override
-	public void visit(PlayerInterface player) {
+	public void visit(DefaultPlayer player) {
 		PlayerRenderer pr;
 		if (player.getTeam()) {
 			pr = playerT1Renderer;
@@ -194,11 +195,11 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 	}
 
 	@Override
-	public void goal(GoalTeam team) {
-		float posX = PhysicsWorld.getBall().getPositionX();
-		float posY = PhysicsWorld.getBall().getPositionY();
+	public void goal(DefaultGoal goal, DefaultBall ball) {
+		float posX = ball.getPositionX();
+		float posY = ball.getPositionY();
 		Color c;
-		if(team == GoalTeam.ONE){
+		if(goal.getTeam() == GoalTeam.ONE){
 			c = PlayerCharacteristicsManager.getColorTeam1();
 		} else {
 			c = PlayerCharacteristicsManager.getColorTeam2();

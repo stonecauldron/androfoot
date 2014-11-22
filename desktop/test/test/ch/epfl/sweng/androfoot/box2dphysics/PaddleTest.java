@@ -2,28 +2,27 @@ package test.ch.epfl.sweng.androfoot.box2dphysics;
 
 import org.junit.Test;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 import ch.epfl.sweng.androfoot.box2dphysics.Ball;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
-import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
 import ch.epfl.sweng.androfoot.box2dphysics.Paddle;
-import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import junit.framework.TestCase;
 
 public class PaddleTest extends TestCase {
     
-    private PhysicsWorld world = PhysicsWorld.getPhysicsWorld();
-    private GroupPaddle groupPaddle = PhysicsWorld.createPaddle(1, 2, 3, true);
+    private World world = new World(new Vector2(0, 0), false);
+    private GroupPaddle groupPaddle = new GroupPaddle(world, 1, 2, 3, true);
     Paddle paddle = groupPaddle.getPaddles().get(1);
     
     @Test
     public final void testPaddleCreation() {
-        
         Array<Body> bodies = new Array<Body>();
-        world.getBox2DWorld().getBodies(bodies);
+        world.getBodies(bodies);
         
         // World must contains the body
         assertTrue(bodies.contains(groupPaddle.getPaddles().get(0).getLimitedArea(), true));
@@ -38,7 +37,7 @@ public class PaddleTest extends TestCase {
         
         float bottomY = Constants.WORLD_SIZE_Y / 3;
         
-        multiplePhyStep();
+        multiplePhyStep(world);
         
         assertEquals(paddle.getPlayer().getPositionY(), bottomY, Constants.CIRCLERADIUS);
     }
@@ -49,7 +48,7 @@ public class PaddleTest extends TestCase {
         
         float topY = Constants.WORLD_SIZE_Y * 2 / 3;
         
-        multiplePhyStep();
+        multiplePhyStep(world);
         
         assertEquals(paddle.getPlayer().getPositionY(), topY, Constants.CIRCLERADIUS);
     }
@@ -60,7 +59,7 @@ public class PaddleTest extends TestCase {
         
         float rightX = 3;
         
-        multiplePhyStep();
+        multiplePhyStep(world);
         
         assertEquals(paddle.getPlayer().getPositionX(), rightX, Constants.CIRCLERADIUS);
     }
@@ -71,7 +70,7 @@ public class PaddleTest extends TestCase {
         
         float leftX = 1;
         
-        multiplePhyStep();
+        multiplePhyStep(world);
         
         assertEquals(paddle.getPlayer().getPositionX(), leftX, Constants.CIRCLERADIUS);
     }
@@ -80,21 +79,22 @@ public class PaddleTest extends TestCase {
     public void testInteractionWithBallandPlayer() {
         groupPaddle.setVelocity(0, 0);
         
-        Ball ball = PhysicsWorld.createBall(paddle.getPlayer().getPositionX() + Constants.CIRCLERADIUS + 1.0f, 
-                paddle.getPlayer().getPositionY(), Constants.BALL_RADIUS);
+        Ball ball = new Ball(world, paddle.getPlayer().getPositionX() + Constants.CIRCLERADIUS + 1.0f, 
+                paddle.getPlayer().getPositionY(), Constants.BALL_RADIUS, 0.000001f, 0.0f, 1.0f);
         
         ball.setLinearVelocity(-4.0f, 0);
         
-        multiplePhyStep();
+        multiplePhyStep(world);
         
         assertEquals(ball.getLinearVelocity().y, 0, 0.1);
+        assertEquals(ball.getLinearVelocity().x, 4, 0.1);
     }
     
-    private void multiplePhyStep() {
-        for (int i = 0; i < 50; i++) {
-            world.getBox2DWorld().step(1, 10, 10);
+    public static void multiplePhyStep(World world) {
+        for (int i = 0; i < 200; i++) {
+            world.step(1 / 60.0f, 4, 10);
             
-            EventManager.getEventManager().throwEvents();
+            EventManagerTester.getEventManager().throwEvents();
         }
     }
 }

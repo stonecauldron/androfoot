@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
-import ch.epfl.sweng.androfoot.interfaces.BallInterface;
+import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
@@ -17,7 +17,7 @@ import ch.epfl.sweng.androfoot.interfaces.Visitor;
  * @author Matvey
  *
  */
-public class Ball implements Drawable, BallInterface {
+public class Ball implements Drawable, DefaultBall {
 	
 	private Body ballBody;
 	private final BodyDef bodyDef = new BodyDef();
@@ -34,10 +34,8 @@ public class Ball implements Drawable, BallInterface {
 	 * @param friction Friction of the ball.
 	 * @param restitution Restitution coefficient of the ball.
 	 */
-	public Ball(float initPosX, float initPosY, float radius,
+	public Ball(World world, float initPosX, float initPosY, float radius,
 					float density, float friction, float restitution) {
-		//Get the instance of the physics world.
-		World world = PhysicsWorld.getPhysicsWorld().getBox2DWorld();
 		
 		bodyDef.type = BodyType.DynamicBody;
 		bodyDef.position.set(initPosX, initPosY);
@@ -59,6 +57,7 @@ public class Ball implements Drawable, BallInterface {
 		
 		PaddleContactListener.addBall(this);
 		BorderContactListener.addBall(this);
+		GoalContactListener.addBall(this);
 	}
 
 	@Override
@@ -103,6 +102,58 @@ public class Ball implements Drawable, BallInterface {
 	@Override
 	public int getZIndex() {
 		return 0;
+	}
+	
+	@Override
+	public DefaultBall clone() {
+	    return new DefaultBall() {
+	        private Vector2 position = new Vector2(ballBody.getPosition().x, ballBody.getPosition().y);
+	        private Vector2 velocity = ballBody.getLinearVelocity();
+	        private float radius = getRadius();
+
+            @Override
+            public void accept(Visitor visitor) {
+                // Do nothing
+            }
+
+            @Override
+            public float getPositionX() {
+                return position.x;
+            }
+
+            @Override
+            public float getPositionY() {
+                return position.y;
+            }
+
+            @Override
+            public float getRadius() {
+                return radius;
+            }
+
+            @Override
+            public void setBallPosition(float x, float y) {
+                // Forgotten
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void setLinearVelocity(float x, float y) {
+                // Forgotten
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public Vector2 getLinearVelocity() {
+                return velocity;
+            }
+
+            @Override
+            public DefaultBall clone() {
+                return null;
+            }
+	        
+	    };
 	}
 
 }

@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
  * @author Matvey
  *
  */
-public interface BallInterface extends Visitable{
+public interface DefaultBall extends Visitable{
 
 	/**
 	 * Recovers the x position of the ball.
@@ -38,4 +38,10 @@ public interface BallInterface extends Visitable{
 	 * Get the velocity of the ball.
 	 */
 	Vector2 getLinearVelocity();
+	
+	/**
+	 * Clone the actual state of the ball
+	 * @return
+	 */
+	DefaultBall clone();
 }

@@ -1,6 +1,6 @@
 package ch.epfl.sweng.androfoot.rendering;
 
-import ch.epfl.sweng.androfoot.interfaces.BallInterface;
+import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -36,7 +36,7 @@ public class BallRenderer implements DrawableRenderer {
 	private final ShaderProgram currentBasicShader = getSimpleShader();
 	private final Model sphere;
 
-	private BallInterface ball = null;
+	private DefaultBall ball = null;
 	
 	public BallRenderer() {
 		ModelBuilder builder = new ModelBuilder();
@@ -69,7 +69,7 @@ public class BallRenderer implements DrawableRenderer {
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}
 	
-	public BallRenderer setBall(BallInterface ballArg) {
+	public BallRenderer setBall(DefaultBall ballArg) {
 		ball = ballArg;
 		return this;
 	}
