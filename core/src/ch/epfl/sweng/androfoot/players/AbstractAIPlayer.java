@@ -33,6 +33,9 @@ public class AbstractAIPlayer extends AbstractPlayer implements Controllable,
 
 		// initialize HashMap
 		coRoutinesMap = new HashMap<Timer, CoRoutine>();
+		
+		// set AI to default state
+		mState = AIState.DEFAULT;
 	}
 
 	@Override
