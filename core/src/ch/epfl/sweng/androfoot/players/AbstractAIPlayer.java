@@ -16,7 +16,7 @@ import ch.epfl.sweng.androfoot.utils.Timer;
  * @author Pedro Caldeira <pedrocaldeira>
  *
  */
-public class AbstractAIPlayer extends AbstractPlayer implements Controllable,
+public abstract class AbstractAIPlayer extends AbstractPlayer implements Controllable,
 		AIObserver {
 
 	// HashMap linking Timers with CoRoutines
@@ -33,7 +33,7 @@ public class AbstractAIPlayer extends AbstractPlayer implements Controllable,
 
 		// initialize HashMap
 		coRoutinesMap = new HashMap<Timer, CoRoutine>();
-		
+
 		// set AI to default state
 		mState = AIState.DEFAULT;
 	}
@@ -61,6 +61,17 @@ public class AbstractAIPlayer extends AbstractPlayer implements Controllable,
 
 	@Override
 	public void update(float deltaTime) {
+		updateTimers(deltaTime);
+	}
+
+	/**
+	 * Updates all the timers associated with coroutines and execute them if
+	 * given timers tick.
+	 * 
+	 * @param deltaTime
+	 *            the time elapsed since the last frame call
+	 */
+	public void updateTimers(float deltaTime) {
 		// iterate over the list of timers
 		for (Timer timer : coRoutinesMap.keySet()) {
 			timer.updateTimer(deltaTime);
