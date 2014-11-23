@@ -3,10 +3,11 @@ package ch.epfl.sweng.androfoot.box2dphysics;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.epfl.sweng.androfoot.interfaces.DefaultGroupPaddle;
+
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-
-import ch.epfl.sweng.androfoot.interfaces.DefaultGroupPaddle;
 
 /**
  * @see DefaultGroupPaddle
@@ -54,8 +55,11 @@ public class GroupPaddle implements DefaultGroupPaddle {
      */
     @Override
     public void setVelocity(float x, float y) {
+    	Vector2 velocityVector = new Vector2(x, y);
+    	velocityVector.clamp(Constants.PADDLE_MIN_VELOCITY, Constants.PADDLE_MAX_VELOCITY);
+    	
         for (Paddle paddle : paddles) {
-            paddle.setPlayerVelocity(x, y);
+            paddle.setPlayerVelocity(velocityVector.x, velocityVector.y);
         }
     }
 
