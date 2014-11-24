@@ -14,7 +14,6 @@ public class BoomShockwave extends ShockWave {
 	
 	@Override
 	protected ShockwaveShader createShader() {
-		// TODO Auto-generated method stub
 		return new BoomShockwaveShader();
 	}
 

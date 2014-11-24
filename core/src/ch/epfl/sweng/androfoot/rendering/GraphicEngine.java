@@ -1,9 +1,12 @@
 package ch.epfl.sweng.androfoot.rendering;
 
+import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
+import ch.epfl.sweng.androfoot.interfaces.BorderInterface;
+import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DrawableRectangle;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
@@ -27,7 +30,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, GoalObserver {
+public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, GoalObserver, BorderObserver {
 
 	private static final int MAX_SHOCKWAVES = 10;
 	private static final int DEFAULT_SCREEN_WIDTH = 300;
@@ -71,6 +74,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 		playerT2Renderer.setColor(PlayerCharacteristicsManager.getColorTeam2());
 		batch.enableBlending();
 		EventManager.getEventManager().addGoalObserver(this);
+		EventManager.getEventManager().addBorderContactObserver(this);
 	}
 
 	/**
@@ -207,5 +211,14 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 		c.a = 0.4f;
 		
 		shockwaveManager.addShockWave(new ShockWave(new Vector2(posX, posY), c, 12, 9));
+	}
+
+	@Override
+	public void borderContact(BorderInterface border, DefaultBall ball) {
+		float posX = ball.getPositionX();
+		float posY = ball.getPositionY();
+		Color c = BallRenderer.BALL_COLOR;
+		
+		shockwaveManager.addShockWave(new BoomShockwave(new Vector2(posX, posY), c, 3, 4));
 	}
 }

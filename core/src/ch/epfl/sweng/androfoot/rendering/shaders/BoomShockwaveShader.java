@@ -18,6 +18,7 @@ public class BoomShockwaveShader extends ShockwaveShader {
 				+ "float x = distance(ref, op);"
 				+ "vec4 resu = v_color;"
 				+ "float comp = clamp((-0.1 / (x-u_radius)),0.1,1.0);"
+				+ "resu.a*=comp ;"
 				+ "resu.a -= 8.0/256.0;"
 				+ "gl_FragColor = resu;"
 				+ "}";
