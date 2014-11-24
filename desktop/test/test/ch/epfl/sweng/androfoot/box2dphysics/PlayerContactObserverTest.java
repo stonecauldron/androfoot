@@ -41,26 +41,14 @@ public class PlayerContactObserverTest extends TestCase implements
 				Constants.PADDLE_WIDTH, 1, true);
 
 		ball.setLinearVelocity(-Constants.BALL_MAX_VELOCITY, 0f);
+		
+		PlayerContactListener.addPlayer(paddleFacingRight.getPaddles().get(0).getPlayer());
 
 		multipleStep(200);
 
 		assertFalse(eventOcurred);
 	}
 
-	@Test
-	public void testIfPlayerEventOcurredOnBack() {
-		EventManagerTester.getEventManager().addPlayerObserver(this);
-
-		GroupPaddle paddleFacingLeft = new GroupPaddle(world, 1.0f, Constants.PADDLE_WIDTH, 3, false);
-		
-		ball.setBallPosition(Constants.BALL_INIT_POS_X * 1.5f,
-				Constants.BALL_INIT_POS_Y);
-		ball.setLinearVelocity(-Constants.BALL_MAX_VELOCITY, 0f);
-
-		multipleStep(200);
-
-		assertTrue(eventOcurred);
-	}
 
 	@Override
 	public void setBall(Player player, boolean teamFlag) {
