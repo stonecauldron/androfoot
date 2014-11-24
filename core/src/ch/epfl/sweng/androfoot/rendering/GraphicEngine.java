@@ -219,6 +219,6 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 		float posY = ball.getPositionY();
 		Color c = BallRenderer.BALL_COLOR;
 		
-		shockwaveManager.addShockWave(new BoomShockwave(new Vector2(posX, posY), c, 3, 4));
+		shockwaveManager.addShockWave(new BoomShockwave(new Vector2(posX, posY), c, 2, 8));
 	}
 }

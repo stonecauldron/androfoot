@@ -16,5 +16,12 @@ public class BoomShockwave extends ShockWave {
 	protected ShockwaveShader createShader() {
 		return new BoomShockwaveShader();
 	}
+	
+	@Override
+	protected Color getColorNow() {
+		Color c = new Color(super.getColorNow());
+		c.a *= (1-getLiferatio()); 
+		return c;
+	}
 
 }

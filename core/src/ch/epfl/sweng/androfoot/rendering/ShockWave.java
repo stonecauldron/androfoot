@@ -43,7 +43,6 @@ public class ShockWave implements DrawableRenderer{
 		return new ShockwaveShader();
 	}
 	
-	
 	private class Renderer extends PolygonRenderer {
 		
 		ShockwaveShader shader;
@@ -86,9 +85,18 @@ public class ShockWave implements DrawableRenderer{
 		age += delta*speed;
 	}
 	
+	protected Color getColorNow() {
+		return color;
+	}
+	
+	protected float getLiferatio() {
+		return age/lifeTime;
+	}
+	
 	@Override
 	public void render(SpriteBatch batch , ShapeRenderer shapeRender) {
 		GraphicEngine.getEngine().enableBlending();
+		renderer.setColor(getColorNow());
 		renderer.setCenter(origin);
 		renderer.setRadius(age/1);
 		renderer.render(batch, shapeRender);
