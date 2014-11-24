@@ -3,11 +3,9 @@ package ch.epfl.sweng.androfoot.players;
 import java.util.Iterator;
 
 import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
-import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.interfaces.Controllable;
 import ch.epfl.sweng.androfoot.interfaces.TouchTrackerObserver;
 import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
-import ch.epfl.sweng.androfoot.utils.Timer;
 
 /**
  * Class to represent a human player on the local machine.
@@ -25,8 +23,6 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 	private float mOldX = 0;
 	private float mOldY = 0;
 	private boolean mOldTouched = false;
-
-	private PhysicsWorld physicWorld = PhysicsWorld.getPhysicsWorld();
 
 	LocalPlayer(PlayerNumber playerNumber) {
 		super(playerNumber);
@@ -109,24 +105,9 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 				move(0, 0);
 			}
 
-			// if (posX != -1 && posY != -1) {
-			// move(deltaX, -deltaY);
 			mOldX = posX;
 			mOldY = posY;
 			mOldTouched = touched;
-
-			/*
-			 * if (playerId == 1)
-			 * physicWorld.getTouchEventTimerPlayerOne().resetTimer();
-			 * 
-			 * if(playerId == 2)
-			 * physicWorld.getTouchEventTimerPlayerTwo().resetTimer();
-			 */
-			//
-			// } else {
-			// Case where we want to speed down paddle because of inactivity
-			// move(0, 0);
-			// }
 
 		} else if (touched) {
 			mOldTouched = touched;

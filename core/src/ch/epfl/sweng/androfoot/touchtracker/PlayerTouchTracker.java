@@ -108,8 +108,8 @@ public enum PlayerTouchTracker implements InputProcessor,
 		float xPixelPerCentimeter = Gdx.graphics.getPpcX();
 		float yPixelPerCentimeter = Gdx.graphics.getPpcY();
 		
-		mMoveTresholdX = xPixelPerCentimeter * CM_TRESHOLD * (((float)screenWidth / xPixelPerCentimeter) / 5);
-		mMoveTresholdY = yPixelPerCentimeter * CM_TRESHOLD * (((float)screenHeight / yPixelPerCentimeter) / 3);
+		mMoveTresholdX = xPixelPerCentimeter * CM_TRESHOLD;
+		mMoveTresholdY = yPixelPerCentimeter * CM_TRESHOLD;
 
 		Gdx.app.log("TRESH HOlD VAL X", " " + mMoveTresholdX + "SCRREN WIDHT " + screenWidth);
 		Gdx.app.log("TRESH HOlD VAL Y", " " + mMoveTresholdY);
