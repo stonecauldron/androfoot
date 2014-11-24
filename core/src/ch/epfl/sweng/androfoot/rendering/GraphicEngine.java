@@ -5,9 +5,9 @@ import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
-import ch.epfl.sweng.androfoot.interfaces.BorderInterface;
 import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
+import ch.epfl.sweng.androfoot.interfaces.DefaultBorder;
 import ch.epfl.sweng.androfoot.interfaces.DrawableRectangle;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
@@ -214,7 +214,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 	}
 
 	@Override
-	public void borderContact(BorderInterface border, DefaultBall ball) {
+	public void borderContact(DefaultBorder border, DefaultBall ball) {
 		float posX = ball.getPositionX();
 		float posY = ball.getPositionY();
 		Color c = BallRenderer.BALL_COLOR;
