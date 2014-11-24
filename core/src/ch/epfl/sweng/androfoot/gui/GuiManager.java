@@ -128,7 +128,7 @@ public class GuiManager {
 				((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen(PlayerType.LOCAL_PLAYER));
 				break;
 			case startAI:
-				((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen(PlayerType.AI_PLAYER));
+				((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen(PlayerType.RANDOM_AI_PLAYER));
 				break;
 			case subScoreLimit:
 				break;

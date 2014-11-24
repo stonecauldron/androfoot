@@ -17,8 +17,8 @@ public class PlayerFactory {
 		
 		switch(playerType) {
 		
-		case AI_PLAYER:
-			player = new AIPlayer(playerNumber);
+		case RANDOM_AI_PLAYER:
+			player = new RandomAI(playerNumber);
 			break;
 			
 		case LOCAL_PLAYER:

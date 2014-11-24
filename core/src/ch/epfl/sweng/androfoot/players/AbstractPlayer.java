@@ -27,6 +27,11 @@ public abstract class AbstractPlayer {
 	private PlayerNumber playerNumber;
 	
 	public AbstractPlayer(PlayerNumber number) {
+		// HACK to create a mock Player object for testing purposes
+		if (number == PlayerNumber.MOCK) {
+			return;
+		}
+		
 		playerNumber = number;
 		
 		paddles = new ArrayList<GroupPaddle>();
