@@ -5,6 +5,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+/**
+ *Display the score of the game
+ * <b> the code does not take the size of the world in parameter !! be carefull </b>
+ * @author Guillame Leclerc
+ *
+ */
 public class ScoreRenderer implements DrawableRenderer {
 	
 	private int scoreA = 0;
@@ -12,6 +18,10 @@ public class ScoreRenderer implements DrawableRenderer {
 	
 	private final BitmapFont font;
 	
+	/**
+	 * Init the {@link ScoreRenderer} with a color
+	 * @param textColor the color to draw the score with
+	 */
 	public ScoreRenderer(Color textColor) {
 		font = new BitmapFont();
 		font.setColor(textColor);
@@ -19,6 +29,11 @@ public class ScoreRenderer implements DrawableRenderer {
 		font.setScale(0.1f, 0.2f);
 	}
 	
+	/**
+	 * Set the score
+	 * @param player1 the score of the player 1
+	 * @param player2 the score of the player 2
+	 */
 	public void setScore(int player1, int player2) {
 		scoreA = player1;
 		scoreB = player2;
