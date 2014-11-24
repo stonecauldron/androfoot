@@ -3,17 +3,15 @@ package ch.epfl.sweng.androfoot.box2dphysics;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
-
 import ch.epfl.sweng.androfoot.accelerometer.AccelerometerTracker;
 import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
-import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
-import ch.epfl.sweng.androfoot.utils.Timer;
+
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 
 /**
  * The class that defines the Physics World which will contain all the physical
@@ -32,38 +30,13 @@ public final class PhysicsWorld implements DrawableWorld {
 	private static TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(
 			Drawable.DRAWABLE_COMPARATOR);
 
-	private PlayerTouchTracker touchTrackerInstance = PlayerTouchTracker
-			.getInstance();
 	private float accelerometerTime = 0;
-	private Timer touchEventTimerPlayerOne = new Timer(
-			Constants.TOUCH_EVENT_TIMER);
-	
-	private Timer touchEventTimerPlayerTwo = new Timer(
-			Constants.TOUCH_EVENT_TIMER);
 
 	/* World's object */
 	private static Ball ball;
 
 	private PhysicsWorld() {
 		physicsWorld.setContactListener(GlobalContactListener.getInstance());
-	}
-
-	/**
-	 * Timer for player one of the touch event
-	 * 
-	 * @return Timer
-	 */
-	public Timer getTouchEventTimerPlayerOne() {
-		return touchEventTimerPlayerOne;
-	}
-
-	/**
-	 * Timer for player two of the touch event
-	 * 
-	 * @return Timer
-	 */
-	public Timer getTouchEventTimerPlayerTwo() {
-		return touchEventTimerPlayerTwo;
 	}
 
 	/**
@@ -241,23 +214,6 @@ public final class PhysicsWorld implements DrawableWorld {
 						AccelerometerTracker.getInstance().getmXGrav()
 								* Constants.SHAKE_BOOST_RATIO);
 			}
-
-			/*
-			 * For touch event if timer is elapsed we throw a new update with
-			 * touch up to reset ball speed, this ensures paddles don't move if
-			 * no more event happens but a speed is set
-			 */
-			if (touchEventTimerPlayerOne.checkTimer()) {
-				//touchTrackerInstance.touchDragged(-1, -1, touchTrackerInstance
-					//	.getmPlayerOneCurrentPointer());
-			}
-			touchEventTimerPlayerOne.updateTimer(correctedDelta);
-
-			if (touchEventTimerPlayerTwo.checkTimer()) {
-			//	touchTrackerInstance.touchDragged(-1, -1, touchTrackerInstance
-				//		.getmPlayerTwoCurrentPointer());
-			}
-			touchEventTimerPlayerTwo.updateTimer(correctedDelta);
 
 			EventManager.getEventManager().throwEvents();
 		}
