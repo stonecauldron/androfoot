@@ -38,6 +38,9 @@ public class BallRenderer implements DrawableRenderer {
 
 	private DefaultBall ball = null;
 	
+	/**
+	 * Init the {@link BallRenderer}
+	 */
 	public BallRenderer() {
 		ModelBuilder builder = new ModelBuilder();
 		sphere = builder.createSphere(UNIT_VECTOR_VALUE, UNIT_VECTOR_VALUE, UNIT_VECTOR_VALUE,
@@ -75,7 +78,7 @@ public class BallRenderer implements DrawableRenderer {
 	}
 	
 	/**
-	 * 
+	 *  Build and compile the {@link ShaderProgram}
 	 */
 	private static void generateShaders() {
 		String vertexShader = "" +
@@ -120,6 +123,10 @@ public class BallRenderer implements DrawableRenderer {
 		basicShaderScaleMatrix = basicShader.getUniformLocation("u_scaleMatrix");
 	}
 	
+	/**
+	 * Return (and build if necessary the shader for a ball)
+	 * @return the unique shader (Singleton design pattern)
+	 */
 	private static ShaderProgram getSimpleShader() {
 		if(basicShader == null) {
 			generateShaders();
