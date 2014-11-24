@@ -17,6 +17,7 @@ You can install it through adb by typing `adb install -r prototype.apk`.
 
 ###Testing
 To test the project through the command line type the following:
+- `./gradlew test`to run all tests.
 - `./gradlew core:test` to test the unit tests in the core project.
 - `./gradlew desktop:test`to test the unit tests in the desktop project.
 
