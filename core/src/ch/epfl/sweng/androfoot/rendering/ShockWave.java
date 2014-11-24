@@ -39,8 +39,11 @@ public class ShockWave implements DrawableRenderer{
 		renderer.setScale(1);
 	}
 	
+	protected ShockwaveShader createShader() {
+		return new ShockwaveShader();
+	}
 	
-	private static class Renderer extends PolygonRenderer {
+	private class Renderer extends PolygonRenderer {
 		
 		ShockwaveShader shader;
 		Vector2 origin = new Vector2();
@@ -52,7 +55,7 @@ public class ShockWave implements DrawableRenderer{
 		
 		@Override
 		protected SimpleShaderBuilder getShader() {
-			shader = new ShockwaveShader();
+			shader = createShader();
 			return shader;
 		}
 		
@@ -82,9 +85,18 @@ public class ShockWave implements DrawableRenderer{
 		age += delta*speed;
 	}
 	
+	protected Color getColorNow() {
+		return color;
+	}
+	
+	protected float getLiferatio() {
+		return age/lifeTime;
+	}
+	
 	@Override
 	public void render(SpriteBatch batch , ShapeRenderer shapeRender) {
 		GraphicEngine.getEngine().enableBlending();
+		renderer.setColor(getColorNow());
 		renderer.setCenter(origin);
 		renderer.setRadius(age/1);
 		renderer.render(batch, shapeRender);

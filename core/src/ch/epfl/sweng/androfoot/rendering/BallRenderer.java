@@ -22,7 +22,7 @@ public class BallRenderer implements DrawableRenderer {
 	private static final int NB_SEGMENTS = 100;
 	private static final int BALL_COLOR_HEXA = 0x1BBAFEFF;
 	private static final int UNIT_VECTOR_VALUE = 1;
-	private static final Color BALL_COLOR = new Color(BALL_COLOR_HEXA);
+	public static final Color BALL_COLOR = new Color(BALL_COLOR_HEXA);
 	private static final float SHADOW_SCALE = 1.5f;
 
 	private static ShaderProgram basicShader = null;
