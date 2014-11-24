@@ -19,10 +19,6 @@ import ch.epfl.sweng.androfoot.interfaces.DefaultWorldObject;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
-
 /**
  * The class that defines the Physics World which will contain all the physical objects and 
  * manage their interactions and movements.
@@ -36,13 +32,10 @@ public final class PhysicsWorld implements DrawableWorld {
 	private World physicsWorld = new World(new Vector2(0, 0), false);
 	private float accumulator = 0f;
 	private static boolean isRunning = false;
+	private static TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
 	
-	
-	private static TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(
-			Drawable.DRAWABLE_COMPARATOR);
-
 	private float accelerometerTime = 0;
-
+	
 	/* World's object */
 	private static Ball ball;
 	private static Set<DefaultWorldObject> objectsToDestroy;
@@ -52,7 +45,7 @@ public final class PhysicsWorld implements DrawableWorld {
 	    
 	    objectsToDestroy = new HashSet<DefaultWorldObject>();
 	}
-
+	
 	/**
 	 * Returns the singleton instance of the PhysicsWorld.
 	 * @return The instance of PhysicsWorld.
@@ -240,7 +233,6 @@ public final class PhysicsWorld implements DrawableWorld {
             objectsToDestroy.clear();
 	    }
 	}
-	    
 	
 	/**
 	 * Checks the velocity of the ball and limits it if the velocity of the ball is bigger
