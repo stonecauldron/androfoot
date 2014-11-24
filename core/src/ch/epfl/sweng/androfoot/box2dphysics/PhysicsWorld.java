@@ -1,6 +1,7 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -9,10 +10,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 import ch.epfl.sweng.androfoot.accelerometer.AccelerometerTracker;
 import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
+import ch.epfl.sweng.androfoot.interfaces.DefaultWorldObject;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 
@@ -35,14 +38,12 @@ public final class PhysicsWorld implements DrawableWorld {
 	
 	/* World's object */
 	private static Ball ball;
-	private static Set<Drawable> drawableToDestroy;
-	private static Set<Body> bodyToDestroy;
+	private static Set<DefaultWorldObject> objectsToDestroy;
 	
 	private PhysicsWorld() {
 	    physicsWorld.setContactListener(GlobalContactListener.getInstance());
 	    
-	    drawableToDestroy = new HashSet<Drawable>();
-	    bodyToDestroy = new HashSet<Body>();
+	    objectsToDestroy = new HashSet<DefaultWorldObject>();
 	}
 	
 	/**
@@ -147,28 +148,37 @@ public final class PhysicsWorld implements DrawableWorld {
 	    return goal;
 	}
 	
-	public static void destroy(Ball ballToDestroy) {
-	    bodyToDestroy.add(ballToDestroy.getBody());
-	    drawableToDestroy.add(ballToDestroy);
+	public static void destroy(DefaultWorldObject object) {
+	    objectsToDestroy.add(object);
+	    GlobalContactListener.getInstance().removeBody(object.getBody());
 	}
 	
-	public static void destroy(Goal goal) {
-	    bodyToDestroy.add(goal.getBody());
+	public static void destroy(GroupPaddle group) {
+	    Iterator<Paddle> iterator = group.getPaddles().iterator();
+	    while (iterator.hasNext()) {
+	        Paddle paddle = iterator.next();
+	        
+	        destroy(paddle);
+	    }
 	}
 	
-	public static void destroy(GroupPaddle paddle) {
-	    for (Body body : paddle.getBodies()) {
-	        bodyToDestroy.add(body);
+	public static void destroy(Paddle paddle) {
+	    destroy(paddle.getPlayer());
+	    destroy(paddle);
+	}
+	
+	public static void clear() {
+	    drawableObjectsSet.clear();
+	    
+	    Array<Body> bodies = new Array<Body>();
+	    PhysicsWorld.getPhysicsWorld().getBox2DWorld().getBodies(bodies);
+	    
+	    for (Body body : bodies) {
+	        PhysicsWorld.getPhysicsWorld().getBox2DWorld().destroyBody(body);
+	        GlobalContactListener.getInstance().removeBody(body);
 	    }
 	    
-	    for (Paddle pad : paddle.getPaddles()) {
-	        drawableToDestroy.add(pad.getPlayer());
-	    }
-	}
-	
-	public static void destroy(Border border) {
-	    bodyToDestroy.add(border.getBody());
-	    drawableToDestroy.add(border);
+	    objectsToDestroy.clear();
 	}
 	
 	/**
@@ -214,14 +224,13 @@ public final class PhysicsWorld implements DrawableWorld {
     		
             EventManager.getEventManager().throwEvents();
             
-            for (Drawable object : drawableToDestroy) {
+            // Clear the body in a secure way
+            for (DefaultWorldObject object : objectsToDestroy) {
+                physicsWorld.destroyBody(object.getBody());
                 drawableObjectsSet.remove(object);
+                GlobalContactListener.getInstance().removeBody(object.getBody());
             }
-            drawableToDestroy.clear();
-            for (Body body : bodyToDestroy) {
-                physicsWorld.destroyBody(body);
-            }
-            bodyToDestroy.clear();
+            objectsToDestroy.clear();
 	    }
 	}
 	

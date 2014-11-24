@@ -12,7 +12,7 @@ import ch.epfl.sweng.androfoot.box2dphysics.PaddleContactListener;
 import ch.epfl.sweng.androfoot.box2dphysics.Player;
 import ch.epfl.sweng.androfoot.box2dphysics.PlayerContactListener;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
-import ch.epfl.sweng.androfoot.interfaces.BorderInterface;
+import ch.epfl.sweng.androfoot.interfaces.DefaultBorder;
 import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultEventManager;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
@@ -145,7 +145,7 @@ public class EventManagerTester implements DefaultEventManager {
         paddleEvents.add(new PaddleContactEvent(player, ball));
     }
 
-    public void addEventBorder(BorderInterface border, DefaultBall ball) {
+    public void addEventBorder(DefaultBorder border, DefaultBall ball) {
         border = border.clone();
         ball = ball.clone();
         
@@ -250,15 +250,15 @@ public class EventManagerTester implements DefaultEventManager {
      *
      */
     class BorderContactEvent {
-        private BorderInterface border;
+        private DefaultBorder border;
         private DefaultBall ball;
 
-        public BorderContactEvent(BorderInterface b, DefaultBall ba) {
+        public BorderContactEvent(DefaultBorder b, DefaultBall ba) {
             border = b;
             ball = ba;
         }
 
-        public BorderInterface getBorder() {
+        public DefaultBorder getBorder() {
             return border;
         }
         

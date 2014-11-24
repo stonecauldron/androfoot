@@ -1,13 +1,15 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
+import ch.epfl.sweng.androfoot.interfaces.DefaultContactListener;
 import ch.epfl.sweng.androfoot.interfaces.DefaultEventManager;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 /**
@@ -15,7 +17,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  * @author Gaylor
  *
  */
-public final class PaddleContactListener implements ContactListener {
+public final class PaddleContactListener implements DefaultContactListener {
 
     private static PaddleContactListener instance = new PaddleContactListener();
     private static DefaultEventManager manager;
@@ -41,6 +43,25 @@ public final class PaddleContactListener implements ContactListener {
     
     public static void setEventManager(DefaultEventManager eventManager) {
         manager = eventManager;
+    }
+    
+    @Override
+    public void removeBody(Body body) {
+        Iterator<Ball> ballIterator = balls.iterator();
+        while (ballIterator.hasNext()) {
+            Ball ball = ballIterator.next();
+            if (ball.getBody() == body) {
+                ballIterator.remove();
+            }
+        }
+        
+        Iterator<Player> playerIterator = players.iterator();
+        while (playerIterator.hasNext()) {
+            Player player = playerIterator.next();
+            if (player.getBody() == body) {
+                playerIterator.remove();
+            }
+        }
     }
     
     @Override

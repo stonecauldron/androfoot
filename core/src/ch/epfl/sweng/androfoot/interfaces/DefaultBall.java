@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
  * @author Matvey
  *
  */
-public interface DefaultBall extends Visitable{
+public interface DefaultBall extends Visitable, DefaultWorldObject {
 
 	/**
 	 * Recovers the x position of the ball.

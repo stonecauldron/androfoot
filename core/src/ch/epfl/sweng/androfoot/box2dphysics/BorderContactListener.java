@@ -1,13 +1,15 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
+import ch.epfl.sweng.androfoot.interfaces.DefaultContactListener;
 import ch.epfl.sweng.androfoot.interfaces.DefaultEventManager;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 /**
@@ -15,7 +17,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  * @author Gaylor
  *
  */
-public final class BorderContactListener implements ContactListener {
+public final class BorderContactListener implements DefaultContactListener {
     
     private static BorderContactListener instance = new BorderContactListener();
     private static DefaultEventManager manager;
@@ -75,6 +77,25 @@ public final class BorderContactListener implements ContactListener {
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
         
+    }
+
+    @Override
+    public void removeBody(Body body) {
+        Iterator<Ball> ballIterator = balls.iterator();
+        while (ballIterator.hasNext()) {
+            Ball ball = ballIterator.next();
+            if (ball.getBody() == body) {
+                ballIterator.remove();
+            }
+        }
+        
+        Iterator<Border> borderIterator = borders.iterator();
+        while (borderIterator.hasNext()) {
+            Border border = borderIterator.next();
+            if (border.getBody() == body) {
+                borderIterator.remove();
+            }
+        }
     }
 
 }

@@ -14,7 +14,7 @@ import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
 import ch.epfl.sweng.androfoot.box2dphysics.BorderContactListener;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
-import ch.epfl.sweng.androfoot.interfaces.BorderInterface;
+import ch.epfl.sweng.androfoot.interfaces.DefaultBorder;
 import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 
 public class BorderContactObserverTest implements BorderObserver {
@@ -44,7 +44,7 @@ public class BorderContactObserverTest implements BorderObserver {
     }
 
     @Override
-    public void borderContact(BorderInterface border, DefaultBall ball) {
+    public void borderContact(DefaultBorder border, DefaultBall ball) {
         eventOccured = true;
     }
 }
