@@ -10,7 +10,7 @@ package ch.epfl.sweng.androfoot.interfaces;
  * @author Gilthoniel (Gaylor Bosson)
  *
  */
-public interface DefaultPaddle {
+public interface DefaultPaddle extends DefaultWorldObject {
     
     /**
      * Give a velocity to the paddle

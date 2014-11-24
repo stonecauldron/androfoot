@@ -1,6 +1,7 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
+import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -90,6 +91,31 @@ public class Goal implements DefaultGoal {
             public DefaultGoal clone() {
                 return null;
             }
+
+            @Override
+            public Body getBody() {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public int getZIndex() {
+                return -1;
+            }
+
+            @Override
+            public void accept(Visitor visitor) {
+                visitor.visit(this);
+            }
         };
+    }
+
+    @Override
+    public int getZIndex() {
+        return -1;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }

@@ -61,7 +61,6 @@ public class Board implements GoalObserver, PlayerObserver {
 		// start observing goal events
 		EventManager.getEventManager().addGoalObserver(this);
 		EventManager.getEventManager().addPlayerObserver(this);
-		
 	}
 
 	/**

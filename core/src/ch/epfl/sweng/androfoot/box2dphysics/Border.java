@@ -1,6 +1,6 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
-import ch.epfl.sweng.androfoot.interfaces.BorderInterface;
+import ch.epfl.sweng.androfoot.interfaces.DefaultBorder;
 import ch.epfl.sweng.androfoot.interfaces.DrawableRectangle;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
@@ -19,7 +19,7 @@ import com.badlogic.gdx.physics.box2d.World;
  * @author Gaylor
  *
  */
-public class Border implements DrawableRectangle, BorderInterface {
+public class Border implements DrawableRectangle, DefaultBorder {
     
     /**
      * Represent the type of the border
@@ -118,8 +118,8 @@ public class Border implements DrawableRectangle, BorderInterface {
     }
     
     @Override
-    public BorderInterface clone() {
-        return new BorderInterface() {
+    public DefaultBorder clone() {
+        return new DefaultBorder() {
             private BorderType type = borderType;
             private Vector2 position = borderBody.getPosition();
 
@@ -134,7 +134,23 @@ public class Border implements DrawableRectangle, BorderInterface {
             }
 
             @Override
-            public BorderInterface clone() {
+            public DefaultBorder clone() {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public Body getBody() {
+                // TODO Auto-generated method stub
+                return null;
+            }
+
+            @Override
+            public int getZIndex() {
+                return -1;
+            }
+
+            @Override
+            public void accept(Visitor visitor) {
                 throw new UnsupportedOperationException();
             }
             

@@ -52,7 +52,8 @@ public class Constants {
     /* PhysicsWorld */
     public static final int POSITION_ITERATIONS = 10;
     public static final int VELOCITY_ITERATIONS = 4;
-    public static final float TIME_STEP = 1 / 60.0f;
+    public static final float INTEGER_STEP = 60.0f;
+    public static final float TIME_STEP = 1 / INTEGER_STEP;
     public static final float WORLD_ORIGIN_Y = 0;
     public static final float WORLD_ORIGIN_X = 0;
     public static final float WORLD_SIZE_Y = 6.0f;

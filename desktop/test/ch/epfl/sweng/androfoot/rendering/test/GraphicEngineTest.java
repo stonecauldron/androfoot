@@ -234,7 +234,10 @@ public class GraphicEngineTest {
 
 	@AfterClass
 	public static void tearDown() {
-		tester.dispose();
+	    /**
+	     * TODO : this line provocs the bug
+	     */
+		//tester.dispose();
 	}
 
 	private static class SimpleRectangle implements DrawableRectangle {

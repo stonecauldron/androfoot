@@ -9,22 +9,22 @@ import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
  * @author Gaylor
  *
  */
-public interface DefaultGoal {
+public interface DefaultGoal extends DefaultWorldObject {
     /**
      * Get the team of the goal
      * @return
      */
-    public GoalTeam getTeam();
+    GoalTeam getTeam();
     
     /**
      * Get the position of the middle of the goal
      * @return
      */
-    public Vector2 getPosition();
+    Vector2 getPosition();
     
     /**
      * Clone the actual state of the goal
      * @return
      */
-    public DefaultGoal clone();
+    DefaultGoal clone();
 }
