@@ -1,5 +1,10 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
+/**
+ * Occured when the ball begins a contact with a border
+ * @author Gaylor
+ *
+ */
 public interface BorderObserver {
-    void borderContact(BorderInterface border, DefaultBall ball);
+    void borderContact(DefaultBorder border, DefaultBall ball);
 }

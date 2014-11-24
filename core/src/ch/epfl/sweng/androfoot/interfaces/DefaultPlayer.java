@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
  * @author Matvey
  *
  */
-public interface DefaultPlayer extends Drawable {
+public interface DefaultPlayer extends DefaultWorldObject {
 
 	/**
 	 * Recovers the x position of the player.

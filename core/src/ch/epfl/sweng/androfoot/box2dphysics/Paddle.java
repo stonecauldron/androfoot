@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
 import ch.epfl.sweng.androfoot.interfaces.DefaultPaddle;
+import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
 /**
  * @see DefaultPaddle
@@ -133,4 +134,14 @@ public class Paddle implements DefaultPaddle {
 		
 		return res;
 	}
+
+    @Override
+    public int getZIndex() {
+        return -1;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 }

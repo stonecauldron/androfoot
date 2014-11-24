@@ -1,11 +1,15 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
+import ch.epfl.sweng.androfoot.interfaces.DefaultContactListener;
+import ch.epfl.sweng.androfoot.interfaces.DefaultEventManager;
+
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 /**
@@ -13,9 +17,10 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  * @author Matvey
  *
  */
-public final class PlayerContactListener implements ContactListener {
+public final class PlayerContactListener implements DefaultContactListener {
 	
     private static PlayerContactListener instance = new PlayerContactListener();
+    private static DefaultEventManager manager;
 	private static Set<Player> players;
 	
 	/**
@@ -25,6 +30,10 @@ public final class PlayerContactListener implements ContactListener {
 		players = new HashSet<Player>();
 	}
 	
+	/**
+	 * Returns the instance of the PlayerContactListener class.
+	 * @return
+	 */
 	public static PlayerContactListener getInstance() {
         return instance;
     }
@@ -36,13 +45,30 @@ public final class PlayerContactListener implements ContactListener {
 	public static void addPlayer(Player player) {
 		players.add(player);
 	}
+	
+	@Override
+	public void removeBody(Body body) {
+	    Iterator<Player> playerIterator = players.iterator();
+        while (playerIterator.hasNext()) {
+            Player player = playerIterator.next();
+            if (player.getBody() == body) {
+                playerIterator.remove();
+            }
+        }
+	}
+
+	public static void setEventManager(DefaultEventManager eventManager) {
+		manager = eventManager;
+	}
 
 	@Override
 	public void beginContact(Contact contact) {
 		for (Player player : players) {
 			if (checkBallHitsPlayerBack(contact, player)) {
 				
-				EventManager.getEventManager().addEventPlayers(player, player.getTeam());
+				if (manager != null) {
+					manager.addEventPlayers(player, player.getTeam());
+				}
 			}
 		}
 	}

@@ -152,6 +152,16 @@ public class Ball implements Drawable, DefaultBall {
             public DefaultBall clone() {
                 return null;
             }
+
+            @Override
+            public int getZIndex() {
+                return -1;
+            }
+
+            @Override
+            public Body getBody() {
+                throw new UnsupportedOperationException();
+            }
 	        
 	    };
 	}

@@ -3,6 +3,9 @@ package ch.epfl.sweng.androfoot.box2dphysics;
 import java.util.HashSet;
 import java.util.Set;
 
+import ch.epfl.sweng.androfoot.interfaces.DefaultContactListener;
+
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -14,21 +17,28 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  * @author Gilthoniel (Gaylor Bosson)
  *
  */
-public final class GlobalContactListener implements ContactListener {
+public final class GlobalContactListener implements DefaultContactListener {
     
     private static GlobalContactListener instance = new GlobalContactListener();
-    private static Set<ContactListener> listeners;
+    private static Set<DefaultContactListener> listeners;
     
     private GlobalContactListener() {
-        listeners = new HashSet<ContactListener>();
+        listeners = new HashSet<DefaultContactListener>();
     }
     
     public static GlobalContactListener getInstance() {
         return instance;
     }
     
-    public static void addListener(ContactListener listener) {
+    public static void addListener(DefaultContactListener listener) {
         listeners.add(listener);
+    }
+    
+    @Override
+    public void removeBody(Body body) {
+        for (DefaultContactListener listener : listeners) {
+            listener.removeBody(body);
+        }
     }
 
     @Override

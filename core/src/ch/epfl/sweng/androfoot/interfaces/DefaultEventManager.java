@@ -63,5 +63,5 @@ public interface DefaultEventManager {
      * @param border
      * @param ball
      */
-    void addEventBorder(BorderInterface border, DefaultBall ball);
+    void addEventBorder(DefaultBorder border, DefaultBall ball);
 }

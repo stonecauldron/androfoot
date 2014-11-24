@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
-import ch.epfl.sweng.androfoot.interfaces.BorderInterface;
+import ch.epfl.sweng.androfoot.interfaces.DefaultBorder;
 import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultEventManager;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
@@ -55,6 +55,7 @@ public final class EventManager implements DefaultEventManager {
 		PaddleContactListener.setEventManager(this);
 		GoalContactListener.setEventManager(this);
 		BorderContactListener.setEventManager(this);
+		PlayerContactListener.setEventManager(this);
 		GlobalContactListener.addListener(GoalContactListener.getInstance());
 		GlobalContactListener.addListener(PaddleContactListener.getInstance());
 		GlobalContactListener.addListener(PlayerContactListener.getInstance());
@@ -150,7 +151,7 @@ public final class EventManager implements DefaultEventManager {
 		paddleEvents.add(new PaddleContactEvent(player, ball));
 	}
 
-	public void addEventBorder(BorderInterface border, DefaultBall ball) {
+	public void addEventBorder(DefaultBorder border, DefaultBall ball) {
 	    border = border.clone();
 	    ball = ball.clone();
 	    
@@ -255,15 +256,15 @@ public final class EventManager implements DefaultEventManager {
 	 *
 	 */
 	class BorderContactEvent {
-		private BorderInterface border;
+		private DefaultBorder border;
 		private DefaultBall ball;
 
-		public BorderContactEvent(BorderInterface b, DefaultBall ba) {
+		public BorderContactEvent(DefaultBorder b, DefaultBall ba) {
 			border = b;
 			ball = ba;
 		}
 
-		public BorderInterface getBorder() {
+		public DefaultBorder getBorder() {
 		    return border;
 		}
 		

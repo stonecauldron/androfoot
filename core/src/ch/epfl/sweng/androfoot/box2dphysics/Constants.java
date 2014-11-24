@@ -34,6 +34,8 @@ public class Constants {
     public static final float PADDLE_FRICTION = 1.0f;
     public static final float PADDLE_RESTITUTION = 0.0f;
     public static final float PADDLE_WIDTH = 1f;
+    public static final float PADDLE_MIN_VELOCITY = 0.0f;
+    public static final float PADDLE_MAX_VELOCITY = 10.0f;
     
     /* Border */
     public static final float SCREENOFFSET = 0.1f;
@@ -52,7 +54,8 @@ public class Constants {
     /* PhysicsWorld */
     public static final int POSITION_ITERATIONS = 10;
     public static final int VELOCITY_ITERATIONS = 4;
-    public static final float TIME_STEP = 1 / 60.0f;
+    public static final float INTEGER_STEP = 60.0f;
+    public static final float TIME_STEP = 1 / INTEGER_STEP;
     public static final float WORLD_ORIGIN_Y = 0;
     public static final float WORLD_ORIGIN_X = 0;
     public static final float WORLD_SIZE_Y = 6.0f;

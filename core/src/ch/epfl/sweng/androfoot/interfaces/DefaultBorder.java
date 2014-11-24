@@ -4,10 +4,15 @@ import com.badlogic.gdx.math.Vector2;
 
 import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
 
-public interface BorderInterface {
+/**
+ * Represent a border in the world
+ * @author Gaylor
+ *
+ */
+public interface DefaultBorder extends DefaultWorldObject {
     BorderType getType();
     
     Vector2 getPosition();
     
-    BorderInterface clone();
+    DefaultBorder clone();
 }

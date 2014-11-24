@@ -80,12 +80,12 @@ public class Player implements DefaultPlayer {
 	
 	/**
 	 * Auxiliary method used to create the paddle shape using the PolygonGenerator.
-	 * @param team True for team one, else false.
+	 * @param teamOne True for team one, else false.
 	 */
-	private void createPaddleShape(boolean team) {
+	private void createPaddleShape(boolean teamOne) {
 		
 		PaddleGenerator fullGenerator;
-		if (team) {
+		if (teamOne) {
 			fullGenerator = PlayerCharacteristicsManager.getInstanceTeam1();
 		} else {
 			fullGenerator = PlayerCharacteristicsManager.getInstanceTeam2();
