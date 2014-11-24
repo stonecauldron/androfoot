@@ -55,6 +55,7 @@ public final class EventManager implements DefaultEventManager {
 		PaddleContactListener.setEventManager(this);
 		GoalContactListener.setEventManager(this);
 		BorderContactListener.setEventManager(this);
+		PlayerContactListener.setEventManager(this);
 		GlobalContactListener.addListener(GoalContactListener.getInstance());
 		GlobalContactListener.addListener(PaddleContactListener.getInstance());
 		GlobalContactListener.addListener(PlayerContactListener.getInstance());
