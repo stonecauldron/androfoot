@@ -39,8 +39,12 @@ public class ShockWave implements DrawableRenderer{
 		renderer.setScale(1);
 	}
 	
+	protected ShockwaveShader createShader() {
+		return new ShockwaveShader();
+	}
 	
-	private static class Renderer extends PolygonRenderer {
+	
+	private class Renderer extends PolygonRenderer {
 		
 		ShockwaveShader shader;
 		Vector2 origin = new Vector2();
@@ -52,7 +56,7 @@ public class ShockWave implements DrawableRenderer{
 		
 		@Override
 		protected SimpleShaderBuilder getShader() {
-			shader = new ShockwaveShader();
+			shader = createShader();
 			return shader;
 		}
 		
