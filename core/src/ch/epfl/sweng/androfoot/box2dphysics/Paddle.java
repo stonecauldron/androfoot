@@ -1,18 +1,8 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
 import ch.epfl.sweng.androfoot.interfaces.DefaultPaddle;
-import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
 /**
  * @see DefaultPaddle
@@ -21,14 +11,10 @@ import ch.epfl.sweng.androfoot.interfaces.Visitor;
  */
 public class Paddle implements DefaultPaddle {
     
-    // Limited area definition
-    private Body limitedArea;
-    private BodyDef areaBodyDef;
-    private List<EdgeShape> areasShape;
-    private FixtureDef areaFixture;
-    
     private float posX;
-    private float widthPaddle;
+    private float posY;
+    private float width;
+    private float height;
     private boolean teamFlag;
     
     private Player player;
@@ -40,61 +26,40 @@ public class Paddle implements DefaultPaddle {
      * @param width of the limited area
      * @param height of the limited area
      */
-    public Paddle(World world, float x, float y, float width, float height, boolean facingRight) {
+    public Paddle(World world, float x, float y, float paddleWidth, float paddleHeight, boolean facingRight) {
     	
-        areasShape = new ArrayList<EdgeShape>();
         posX = x;
-        widthPaddle = width;
+        posY = y;
+        width = paddleWidth;
+        height = paddleHeight;
+        
         teamFlag = facingRight;
         
-        // Static definition for the 4 egdes
-        areaBodyDef = new BodyDef();
-        areaBodyDef.type = BodyType.KinematicBody;
-        areaBodyDef.position.set(new Vector2(x, y));
-        
-        limitedArea = world.createBody(areaBodyDef);
-        
-        // 4 edges for the limited area of the paddle
-        List<Vector2> vertices = new ArrayList<Vector2>();
-        vertices.add(new Vector2(0, 0));
-        vertices.add(new Vector2(0, 0 + height));
-        vertices.add(new Vector2(0 + width, 0 + height));
-        vertices.add(new Vector2(0 + width, 0));
-        
-        areaFixture = new FixtureDef();
-        areaFixture.filter.categoryBits = Constants.CATEGORY_PADDLE;
-        areaFixture.filter.maskBits = Constants.CATEGORY_PLAYER;
-        areaFixture.density = Constants.PADDLE_DENSITY;
-        areaFixture.friction = Constants.PADDLE_FRICTION;
-        // We want the player stops himself after the collision
-        areaFixture.restitution = Constants.PADDLE_RESTITUTION;
-        
-        // Creation of the 4 edges
-        for (int i = 0; i < vertices.size(); i++) {
-            EdgeShape edge = new EdgeShape();
-            areasShape.add(edge);
-            edge.set(vertices.get(i), vertices.get((i + 1) % vertices.size()));
-            
-            areaFixture.shape = edge;
-            
-            limitedArea.createFixture(areaFixture);
-            
-            edge.dispose();
-        }
-        
         player = new Player(world, x + (width / 2), y + (height / 2), facingRight, this);
-    }
-    
-    public Body getLimitedArea() {
-        return limitedArea;
     }
     
     public Player getPlayer() {
         return player;
     }
     
-    public Body getBody() {
-        return limitedArea;
+    public void checkPosition() {
+        if (player.getPositionX() > posX + width) {
+            player.setPlayerVelocity(0, player.getPlayerVelocity().y);
+            player.setPosition(posX + width, player.getPositionY());
+        } else if (player.getPositionX() < posX) {
+            player.setPlayerVelocity(0, player.getPlayerVelocity().y);
+            player.setPosition(posX, player.getPositionY());
+        }
+        
+        if (player.getPositionY() + Constants.CIRCLERADIUS - Constants.OFFSET_CORRECTION > posY + height) {
+            player.setPlayerVelocity(player.getPlayerVelocity().x, 0);
+            player.setPosition(player.getPositionX(), 
+                    posY + height - Constants.CIRCLERADIUS + Constants.OFFSET_CORRECTION);
+        } else if (player.getPositionY() - Constants.CIRCLERADIUS + Constants.OFFSET_CORRECTION < posY) {
+            player.setPlayerVelocity(player.getPlayerVelocity().x, 0);
+            player.setPosition(player.getPositionX(), 
+                    posY + Constants.CIRCLERADIUS - Constants.OFFSET_CORRECTION);
+        }
     }
 
     @Override
@@ -117,31 +82,21 @@ public class Paddle implements DefaultPaddle {
 		boolean res = true;
 		
 		float ballRadius = Constants.BALL_RADIUS;
-		float paddleCenterX = posX + (widthPaddle / 2);
+		float paddleCenterX = posX + (width / 2);
 		
 		if (teamFlag) {
 			if ((player.getPositionX() + Constants.BALL_CONTROL_OFFSET)
-					>= (paddleCenterX + widthPaddle/2 + ballRadius)) {
+					>= (paddleCenterX + width/2 + ballRadius)) {
 				res = false;
 			}
 			
 		} else {
 			if ((player.getPositionX() - Constants.BALL_CONTROL_OFFSET)
-					<= (paddleCenterX - widthPaddle/2 - ballRadius)) {
+					<= (paddleCenterX - width/2 - ballRadius)) {
 				res = false;
 			}
 		}
 		
 		return res;
 	}
-
-    @Override
-    public int getZIndex() {
-        return -1;
-    }
-
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
 }

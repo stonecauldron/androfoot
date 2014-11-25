@@ -43,7 +43,6 @@ public class GroupPaddle implements DefaultGroupPaddle {
     public List<Body> getBodies() {
         List<Body> bodies = new ArrayList<Body>();
         for (Paddle paddle : getPaddles()) {
-            bodies.add(paddle.getBody());
             bodies.add(paddle.getPlayer().getBody());
         }
         

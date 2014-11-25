@@ -60,6 +60,7 @@ public final class EventManager implements DefaultEventManager {
 		GlobalContactListener.addListener(PaddleContactListener.getInstance());
 		GlobalContactListener.addListener(PlayerContactListener.getInstance());
 		GlobalContactListener.addListener(BorderContactListener.getInstance());
+		//GlobalContactListener.addListener(PaddlePlayerContactListener.getInstance());
 	}
 
 	public static EventManager getEventManager() {
