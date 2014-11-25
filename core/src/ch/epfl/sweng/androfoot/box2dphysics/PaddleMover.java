@@ -14,11 +14,15 @@ import com.badlogic.gdx.Gdx;
 public class PaddleMover {
 
 	// TODO MAKE THIS PARAMETER IN THE GAME SETTINGS
-	private final static float X_SPEED_RATIO = (float) 30;
-	private final static float Y_SPEED_RATIO = (float) 30;
+	private final static float X_SPEED_RATIO = (float) 60;
+	private final static float Y_SPEED_RATIO = (float) 60;
+	
+	// nexus 7 tablet screen size in cm
+	private final static float NEXUS_X = 15.253849f;
+	private final static float NEXUS_Y = 8.776713f;
 
 	// TODO MAKE THIS AN PARAMETER IN THE GAME SETTINGS
-	private final static float CM_TRESHOLD = 0.025f;
+	private final static float CM_TRESHOLD = 0.040f;
 	
 	private float mPixelXScreenSize = Gdx.graphics.getWidth();
 	private float mCentimeterXScreenSize = mPixelXScreenSize / X_PIXEL_PER_CENTIMETER;
