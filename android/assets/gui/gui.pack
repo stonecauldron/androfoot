@@ -3,11 +3,31 @@ gui.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-blue_button1
+blue_button_up
   rotate: false
   xy: 1, 1
-  size: 190, 45
-  split: 6, 6, 4, 5
-  orig: 190, 45
+  size: 192, 51
+  orig: 192, 51
+  offset: 0, 0
+  index: -1
+blue_button_down
+  rotate: false
+  xy: 195, 5
+  size: 192, 47
+  orig: 192, 47
+  offset: 0, 0
+  index: -1
+blue_boxCheck
+  rotate: false
+  xy: 389, 14
+  size: 40, 38
+  orig: 40, 38
+  offset: 0, 0
+  index: -1
+boxEmpty
+  rotate: false
+  xy: 431, 14
+  size: 40, 38
+  orig: 40, 38
   offset: 0, 0
   index: -1
