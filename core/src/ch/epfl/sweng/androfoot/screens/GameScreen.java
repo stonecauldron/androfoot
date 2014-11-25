@@ -6,8 +6,12 @@ import ch.epfl.sweng.androfoot.players.PlayerType;
 import ch.epfl.sweng.androfoot.players.ai.AIEngine;
 import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
 import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
+import ch.epfl.sweng.androfoot.gui.GuiManager;
+import ch.epfl.sweng.androfoot.gui.GuiCommand;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input;
 
 /**
  * Display the game
@@ -17,12 +21,15 @@ import com.badlogic.gdx.Screen;
  */
 public class GameScreen implements Screen {
 
-	public GameScreen(PlayerType secondPlayer) {
-	    BoardFactory.setupBoard(PlayerType.LOCAL_PLAYER, secondPlayer);
+	public GameScreen(PlayerType firstPlayer, PlayerType secondPlayer) {
+	    BoardFactory.setupBoard(firstPlayer, secondPlayer);
 	}
 
 	@Override
 	public void render(float delta) {
+		if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+			GuiManager.getInstance().executeCommand(GuiCommand.goToMainMenu);
+		}
 		AIEngine.getInstance().update(delta);
 		PhysicsWorld.getPhysicsWorld().phyStep(delta);
 		GraphicEngine.getEngine().render(delta);
@@ -36,12 +43,12 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
+		Gdx.input.setCatchBackKey(true);
 		GraphicEngine.getEngine().bindToWorld(PhysicsWorld.getPhysicsWorld());
 	}
 
 	@Override
 	public void hide() {
-
 	}
 
 	@Override
