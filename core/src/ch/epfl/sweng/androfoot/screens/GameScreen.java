@@ -38,7 +38,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		GraphicEngine.getEngine().setScreenSize(width, height);
-		PlayerTouchTracker.getInstance().setNewScreenWidth(width);
+		PlayerTouchTracker.getInstance().setNewScreenWidth(width, height);
 	}
 
 	@Override
