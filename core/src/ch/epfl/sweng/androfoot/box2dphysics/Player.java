@@ -54,7 +54,7 @@ public class Player implements DefaultPlayer {
 		parent = paddle;
 		teamFlag = teamOrientation;
 		
-		playerBodyDef.type = BodyType.DynamicBody;
+		playerBodyDef.type = BodyType.KinematicBody;
 		playerBodyDef.position.set(new Vector2(initPosX, initPosY));
 		
 		playerBody = world.createBody(playerBodyDef);
@@ -105,8 +105,6 @@ public class Player implements DefaultPlayer {
 	 */
 	private void createAttachFixtureForCircle() {
 		fixtureForCircle.shape = controlShape;
-		fixtureForCircle.filter.categoryBits = Constants.CATEGORY_PLAYER;
-		fixtureForCircle.filter.maskBits = Constants.CATEGORY_PADDLE | Constants.CATEGORY_BALL;
 		
 		playerBody.createFixture(fixtureForCircle);
 	}
@@ -116,8 +114,6 @@ public class Player implements DefaultPlayer {
 	 */
 	private void createAttachFixtureForBox() {
 		fixtureForBox.shape = shootingShape;
-		fixtureForBox.filter.categoryBits = Constants.CATEGORY_PLAYER;
-		fixtureForBox.filter.maskBits = Constants.CATEGORY_PADDLE | Constants.CATEGORY_BALL;
 		
 		playerBody.createFixture(fixtureForBox);
 	}
@@ -145,6 +141,10 @@ public class Player implements DefaultPlayer {
 	@Override
 	public void setPlayerVelocity(float x, float y) {
 		playerBody.setLinearVelocity(x, y);
+	}
+	
+	public void setPosition(float x, float y) {
+	    playerBody.setTransform(x, y, playerBody.getAngle());
 	}
 
 	@Override

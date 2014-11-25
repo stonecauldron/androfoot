@@ -36,7 +36,7 @@ public class PaddleContactObserverTest implements PaddleContactObserver {
         PaddleContactListener.addBall(ball);
         ball.setLinearVelocity(-2, 0);
         
-        PaddleTest.multiplePhyStep(world);
+        PaddleTest.multiplePhyStep(world, null);
         
         assertTrue(eventOccured);
     }

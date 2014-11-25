@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Constants {
     
     /* Border */
+    public static final float SCREENOFFSET = 0.1f;
     public static final float BORDER_WIDTH = 0.2f;
     public static final int BORDER_Z_INDEX = 500;
     public static final float BORDER_DENSITY = 1.0f;
@@ -30,24 +31,19 @@ public class Constants {
     public static final short CATEGORY_PADDLE = 0x0004;
     public static final short CATEGORY_OTHERS = 0x0002;
     public static final short CATEGORY_BALL = 0x0008;
-    public static final float PADDLE_DENSITY = 1.0f;
-    public static final float PADDLE_FRICTION = 1.0f;
-    public static final float PADDLE_RESTITUTION = 0.0f;
     public static final float PADDLE_WIDTH = 1f;
     public static final float PADDLE_MIN_VELOCITY = 0.0f;
     public static final float PADDLE_MAX_VELOCITY = 10.0f;
-    
-    /* Border */
-    public static final float SCREENOFFSET = 0.1f;
+    public static final float OFFSET_CORRECTION = 0.1f;
     
     /* Ball */
     public static final float BALL_RESTITUTION = 1.0f;
     public static final float BALL_FRICTION = 0.0f;
-    public static final float BALL_DENSITY = 0.000001f;
+    public static final float BALL_DENSITY = 1.0f;
     public static final float BALL_RADIUS = 0.2f;
     public static final float BALL_INIT_POS_Y = 3.4f;
     public static final float BALL_INIT_POS_X = 5.0f;
-    public static final float BALL_MAX_VELOCITY = 4.0f; //Too fast?
+    public static final float BALL_MAX_VELOCITY = 6.0f; //Too fast?
     public static final float BALL_MIN_VELOCITY = 0.0f;
     public static final float BALL_CONTROL_OFFSET = 0.65f;
     

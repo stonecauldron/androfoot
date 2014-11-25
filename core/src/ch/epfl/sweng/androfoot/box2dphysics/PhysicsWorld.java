@@ -38,11 +38,13 @@ public final class PhysicsWorld implements DrawableWorld {
 	
 	/* World's object */
 	private static Ball ball;
+	private static Set<Paddle> paddles;
 	private static Set<DefaultWorldObject> objectsToDestroy;
 	
 	private PhysicsWorld() {
 	    physicsWorld.setContactListener(GlobalContactListener.getInstance());
 	    
+	    paddles = new HashSet<Paddle>();
 	    objectsToDestroy = new HashSet<DefaultWorldObject>();
 	}
 	
@@ -111,6 +113,7 @@ public final class PhysicsWorld implements DrawableWorld {
 	                                                number, facingRight);
 	    for (Paddle paddle : groupPaddle.getPaddles()) {
 	        drawableObjectsSet.add(paddle.getPlayer());
+	        paddles.add(paddle);
 	    }
 	    startWorld();
 	    
@@ -210,6 +213,10 @@ public final class PhysicsWorld implements DrawableWorld {
     			physicsWorld.step(Constants.TIME_STEP, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
     			if (ball != null) {
     				checkVelocity(ball);
+    			}
+    			
+    			for (Paddle paddle : paddles) {
+    			    paddle.checkPosition();
     			}
     		}
     		

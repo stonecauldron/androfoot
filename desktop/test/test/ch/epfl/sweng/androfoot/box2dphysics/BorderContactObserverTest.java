@@ -38,7 +38,7 @@ public class BorderContactObserverTest implements BorderObserver {
         BorderContactListener.addBall(ball);
         ball.setLinearVelocity(0, -2.0f);
         
-        PaddleTest.multiplePhyStep(world);
+        PaddleTest.multiplePhyStep(world, null);
         
         assertTrue(eventOccured);
     }
