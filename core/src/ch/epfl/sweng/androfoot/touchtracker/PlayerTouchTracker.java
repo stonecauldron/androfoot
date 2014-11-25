@@ -5,7 +5,6 @@ import java.util.List;
 
 import ch.epfl.sweng.androfoot.interfaces.ObservableTouchTracker;
 import ch.epfl.sweng.androfoot.interfaces.TouchTrackerObserver;
-import ch.epfl.sweng.androfoot.players.PlayerNumber;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -23,7 +22,6 @@ public enum PlayerTouchTracker implements InputProcessor,
 	INSTANCE;
 
 	private final static int NO_POINTER = -1;
-	private final static float CM_TRESHOLD = 0.015f;
 
 	private List<TouchTrackerObserver> observersPlayerOne;
 	private List<TouchTrackerObserver> observersPlayerTwo;
@@ -32,7 +30,6 @@ public enum PlayerTouchTracker implements InputProcessor,
 	private TouchInfo mPlayerTwoTouch;
 
 	private int mScreenWidth;
-	private int mScreenHeigth;
 
 	private int mPlayerOneCurrentPointer = NO_POINTER;
 	private int mPlayerTwoCurrentPointer = NO_POINTER;
@@ -45,8 +42,6 @@ public enum PlayerTouchTracker implements InputProcessor,
 		return mPlayerTwoCurrentPointer;
 	}
 
-	private float mMoveTresholdX;
-	private float mMoveTresholdY;
 
 	private PlayerTouchTracker() {
 		Gdx.input.setInputProcessor(this);
@@ -85,35 +80,8 @@ public enum PlayerTouchTracker implements InputProcessor,
 	 */
 	public void setNewScreenWidth(int screenWidth, int screenHeight) {
 		this.mScreenWidth = screenWidth;
-		this.mScreenHeigth = screenHeight;
-		updateTreshold(screenWidth, screenHeight);
 	}
 
-	public float getmMoveTresholdX() {
-		return mMoveTresholdX;
-	}
-
-	public float getmMoveTresholdY() {
-		return mMoveTresholdY;
-	}
-
-	/**
-	 * Call this method when the screen is resized to update new correct
-	 * treshold value
-	 * @param screenHeight 
-	 * @param screenWidth 
-	 */
-	public void updateTreshold(int screenWidth, int screenHeight) {
-
-		float xPixelPerCentimeter = Gdx.graphics.getPpcX();
-		float yPixelPerCentimeter = Gdx.graphics.getPpcY();
-		
-		mMoveTresholdX = xPixelPerCentimeter * CM_TRESHOLD;
-		mMoveTresholdY = yPixelPerCentimeter * CM_TRESHOLD;
-
-		Gdx.app.log("TRESH HOlD VAL X", " " + mMoveTresholdX + "SCRREN WIDHT " + screenWidth);
-		Gdx.app.log("TRESH HOlD VAL Y", " " + mMoveTresholdY);
-	}
 
 	@Override
 	public void addObserverPlayerOne(TouchTrackerObserver obs) {
