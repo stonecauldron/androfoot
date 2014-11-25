@@ -9,24 +9,30 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
  *         can be displayed directly on a screen.
  */
 public class GuiLabel extends GuiWidget {
-	private boolean mNewLine;
-	private int mXPadding;
-	private int mYPadding;
-	private Label mLabel;
+	protected boolean mNewLine;
+	protected int[] mPadding;
+	protected Label mLabel;
+	protected int mColSpan;
 	
 	public GuiLabel(Skin skin,
 					boolean lineBreak,
-					int xPadding,
-					int yPadding,
+					int[] padding,
+					int colSpan,
 					String text) {
 		mNewLine = lineBreak;
-		mXPadding = xPadding;
-		mYPadding = yPadding;
+		mPadding = padding;
 		mLabel = new Label(text, skin);
+		mColSpan = colSpan;
 	}
 
 	public void show(Table table) {
-		table.add(mLabel).padBottom(mYPadding).padRight(mXPadding);
+		table.add(mLabel)
+		.colspan(mColSpan)
+		.padRight(mPadding[0])
+		.padTop(mPadding[1])
+		.padLeft(mPadding[2])
+		.padBottom(mPadding[3]);
+		
 		if (mNewLine) {
 			table.row();
 		}
