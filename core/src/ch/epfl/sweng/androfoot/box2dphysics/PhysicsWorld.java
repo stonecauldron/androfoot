@@ -38,11 +38,13 @@ public final class PhysicsWorld implements DrawableWorld {
 	
 	/* World's object */
 	private static Ball ball;
+	private static Set<Paddle> paddles;
 	private static Set<DefaultWorldObject> objectsToDestroy;
 	
 	private PhysicsWorld() {
 	    physicsWorld.setContactListener(GlobalContactListener.getInstance());
 	    
+	    paddles = new HashSet<Paddle>();
 	    objectsToDestroy = new HashSet<DefaultWorldObject>();
 	}
 	
@@ -111,6 +113,7 @@ public final class PhysicsWorld implements DrawableWorld {
 	                                                number, facingRight);
 	    for (Paddle paddle : groupPaddle.getPaddles()) {
 	        drawableObjectsSet.add(paddle.getPlayer());
+	        paddles.add(paddle);
 	    }
 	    startWorld();
 	    
@@ -149,6 +152,10 @@ public final class PhysicsWorld implements DrawableWorld {
 	}
 	
 	public static void destroy(DefaultWorldObject object) {
+	    if (object.getBody().getFixtureList().first().getFilterData().categoryBits == Constants.CATEGORY_BALL) {
+	        ball = null;
+	    }
+	    
 	    objectsToDestroy.add(object);
 	    GlobalContactListener.getInstance().removeBody(object.getBody());
 	}
@@ -156,15 +163,12 @@ public final class PhysicsWorld implements DrawableWorld {
 	public static void destroy(GroupPaddle group) {
 	    Iterator<Paddle> iterator = group.getPaddles().iterator();
 	    while (iterator.hasNext()) {
-	        Paddle paddle = iterator.next();
-	        
-	        destroy(paddle);
+	        destroy(iterator.next());
 	    }
 	}
 	
 	public static void destroy(Paddle paddle) {
 	    destroy(paddle.getPlayer());
-	    destroy(paddle);
 	}
 	
 	public static void clear() {
@@ -179,6 +183,8 @@ public final class PhysicsWorld implements DrawableWorld {
 	    }
 	    
 	    objectsToDestroy.clear();
+	    ball = null;
+	    paddles.clear();
 	}
 	
 	/**
@@ -211,6 +217,10 @@ public final class PhysicsWorld implements DrawableWorld {
     			if (ball != null) {
     				checkVelocity(ball);
     			}
+    			
+    			for (Paddle paddle : paddles) {
+    			    paddle.checkPosition();
+    			}
     		}
     		
     		//For Accelerometer polling
@@ -222,15 +232,11 @@ public final class PhysicsWorld implements DrawableWorld {
         		        AccelerometerTracker.getInstance().getmXGrav() * Constants.SHAKE_BOOST_RATIO);
     		} 	
     		
+    		// Throw the events here because we need to do this outside the physic step
             EventManager.getEventManager().throwEvents();
             
             // Clear the body in a secure way
-            for (DefaultWorldObject object : objectsToDestroy) {
-                physicsWorld.destroyBody(object.getBody());
-                drawableObjectsSet.remove(object);
-                GlobalContactListener.getInstance().removeBody(object.getBody());
-            }
-            objectsToDestroy.clear();
+            throwDestroy();
 	    }
 	}
 	
@@ -243,6 +249,18 @@ public final class PhysicsWorld implements DrawableWorld {
 		Vector2 ballVelocity = testedBall.getLinearVelocity();
 		ballVelocity = ballVelocity.clamp(Constants.BALL_MIN_VELOCITY, Constants.BALL_MAX_VELOCITY);
 		testedBall.setLinearVelocity(ballVelocity.x, ballVelocity.y);
+	}
+	
+	/**
+	 * Destroy all the bodies in the buffer
+	 */
+	public void throwDestroy() {
+	    for (DefaultWorldObject object : objectsToDestroy) {
+            physicsWorld.destroyBody(object.getBody());
+            drawableObjectsSet.remove(object);
+            GlobalContactListener.getInstance().removeBody(object.getBody());
+        }
+        objectsToDestroy.clear();
 	}
 
 	@Override

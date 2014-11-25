@@ -140,8 +140,7 @@ public class Border implements DrawableRectangle, DefaultBorder {
 
             @Override
             public Body getBody() {
-                // TODO Auto-generated method stub
-                return null;
+                throw new UnsupportedOperationException();
             }
 
             @Override

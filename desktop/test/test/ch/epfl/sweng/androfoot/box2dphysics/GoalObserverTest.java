@@ -38,7 +38,7 @@ public class GoalObserverTest implements GoalObserver {
         
         ball.setLinearVelocity(Constants.BALL_MAX_VELOCITY, 0);
         
-        PaddleTest.multiplePhyStep(world);
+        PaddleTest.multiplePhyStep(world, null);
         
         assertTrue(eventOccured);
     }
