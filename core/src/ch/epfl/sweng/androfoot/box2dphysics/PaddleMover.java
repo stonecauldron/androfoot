@@ -16,23 +16,24 @@ public class PaddleMover {
 	// TODO MAKE THIS PARAMETER IN THE GAME SETTINGS
 	private final static float X_SPEED_RATIO = (float) 60;
 	private final static float Y_SPEED_RATIO = (float) 60;
-	
+
 	// nexus 7 tablet screen size in cm
 	private final static float NEXUS_X = 15.253849f;
 	private final static float NEXUS_Y = 8.776713f;
 
 	// TODO MAKE THIS AN PARAMETER IN THE GAME SETTINGS
 	private final static float CM_TRESHOLD = 0.040f;
-	
+
 	private float mPixelXScreenSize = Gdx.graphics.getWidth();
-	private float mCentimeterXScreenSize = mPixelXScreenSize / X_PIXEL_PER_CENTIMETER;
+	private float mCentimeterXScreenSize = mPixelXScreenSize
+			/ X_PIXEL_PER_CENTIMETER;
 
 	private float mPixelYScreenSize = Gdx.graphics.getHeight();
-	private float mCentimeterYScreenSize = mPixelYScreenSize / Y_PIXEL_PER_CENTIMETER;
-	
+	private float mCentimeterYScreenSize = mPixelYScreenSize
+			/ Y_PIXEL_PER_CENTIMETER;
+
 	private final static float X_PIXEL_PER_CENTIMETER = Gdx.graphics.getPpcX();
 	private final static float Y_PIXEL_PER_CENTIMETER = Gdx.graphics.getPpcY();
-	
 
 	private List<GroupPaddle> mPaddleGroup;
 	private float mMoveTresholdX;
@@ -65,9 +66,10 @@ public class PaddleMover {
 	 */
 	public void updateTreshold() {
 		mMoveTresholdX = CM_TRESHOLD
-				* (Constants.WORLD_SIZE_X / mCentimeterXScreenSize);
+				* (Constants.WORLD_SIZE_X / mCentimeterXScreenSize)
+				* (mCentimeterXScreenSize / NEXUS_X);
 		mMoveTresholdY = CM_TRESHOLD
-				* (Constants.WORLD_SIZE_Y / mCentimeterYScreenSize);
+				* (Constants.WORLD_SIZE_Y / mCentimeterYScreenSize) * (mCentimeterYScreenSize / NEXUS_Y);
 	}
 
 	/**
@@ -88,7 +90,8 @@ public class PaddleMover {
 
 	/**
 	 * 
-	 * @param pixelDistance the value in pixel in the x axis to translate to game units
+	 * @param pixelDistance
+	 *            the value in pixel in the x axis to translate to game units
 	 * @return the value in game units
 	 */
 	public float pixelXToGameUnit(float pixelDistance) {
@@ -97,7 +100,8 @@ public class PaddleMover {
 
 	/**
 	 * 
-	 * @param pixelDistance the value in pixel in the y axis to translate to game units
+	 * @param pixelDistance
+	 *            the value in pixel in the y axis to translate to game units
 	 * @return the value in game units
 	 */
 	public float pixelYToGameUnit(float pixelDistance) {
