@@ -62,7 +62,7 @@ public enum AccelerometerTracker implements ObservableAccelerometer {
 	/**
 	 * @return the X axis force of the accelerometer
 	 */
-	float getmXGrav() {
+	public float getmXGrav() {
 		return mXGrav;
 	}
 
