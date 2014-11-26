@@ -12,10 +12,10 @@ import com.badlogic.gdx.InputProcessor;
 /**
  * @author Ahaeflig
  * 
- *         Singleton implementation of two player touch input tracking. Add
- *         yourself to the tracker's observer list to start observing the touch
- *         input by implementing the TouchTrackerObserver interface In our
- *         project this list will probably contain only one Object.
+ *         Singleton class that deal with two player's input. Add yourself to
+ *         the tracker's observer list to start observing the touch input by
+ *         implementing the TouchTrackerObserver interface
+ * 
  */
 public enum PlayerTouchTracker implements InputProcessor,
 		ObservableTouchTracker {
@@ -34,14 +34,29 @@ public enum PlayerTouchTracker implements InputProcessor,
 	private int mPlayerOneCurrentPointer = NO_POINTER;
 	private int mPlayerTwoCurrentPointer = NO_POINTER;
 
+	/**
+	 * 
+	 * @return the singeleton instance of the touch tracker
+	 */
+	public static PlayerTouchTracker getInstance() {
+		return INSTANCE;
+	}
+
+	/**
+	 * 
+	 * @return the current pointer of the first player
+	 */
 	public int getmPlayerOneCurrentPointer() {
 		return mPlayerOneCurrentPointer;
 	}
 
+	/**
+	 * 
+	 * @return the current pointer of the second player
+	 */
 	public int getmPlayerTwoCurrentPointer() {
 		return mPlayerTwoCurrentPointer;
 	}
-
 
 	private PlayerTouchTracker() {
 		Gdx.input.setInputProcessor(this);
@@ -53,23 +68,17 @@ public enum PlayerTouchTracker implements InputProcessor,
 		mPlayerTwoTouch = new TouchInfo();
 	}
 
-	public static PlayerTouchTracker getInstance() {
-		return INSTANCE;
-	}
-
 	private void updatePlayerOne() {
 		for (TouchTrackerObserver obs : observersPlayerOne) {
-			obs.updatePlayerOne(1,
-					mPlayerOneTouch.touchX, mPlayerOneTouch.touchY,
-					mPlayerOneTouch.touched);
+			obs.updatePlayerOne(1, mPlayerOneTouch.touchX,
+					mPlayerOneTouch.touchY, mPlayerOneTouch.touched);
 		}
 	}
 
 	private void updatePlayerTwo() {
 		for (TouchTrackerObserver obs : observersPlayerTwo) {
-			obs.updatePlayerTwo(2,
-					mPlayerTwoTouch.touchX, mPlayerTwoTouch.touchY,
-					mPlayerTwoTouch.touched);
+			obs.updatePlayerTwo(2, mPlayerTwoTouch.touchX,
+					mPlayerTwoTouch.touchY, mPlayerTwoTouch.touched);
 		}
 	}
 
@@ -81,7 +90,6 @@ public enum PlayerTouchTracker implements InputProcessor,
 	public void setNewScreenWidth(int screenWidth, int screenHeight) {
 		this.mScreenWidth = screenWidth;
 	}
-
 
 	@Override
 	public void addObserverPlayerOne(TouchTrackerObserver obs) {
@@ -134,7 +142,7 @@ public enum PlayerTouchTracker implements InputProcessor,
 			}
 		}
 
-		if ( mPlayerTwoCurrentPointer == NO_POINTER) {
+		if (mPlayerTwoCurrentPointer == NO_POINTER) {
 			if (screenX > mScreenWidth / 2) {
 				mPlayerTwoCurrentPointer = pointer;
 				mPlayerTwoTouch.touchX = screenX;
