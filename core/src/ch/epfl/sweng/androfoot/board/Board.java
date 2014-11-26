@@ -11,8 +11,9 @@ import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
-import ch.epfl.sweng.androfoot.players.AbstractPlayer;
+import ch.epfl.sweng.androfoot.players.PlayerFactory;
 import ch.epfl.sweng.androfoot.players.PlayerNumber;
+import ch.epfl.sweng.androfoot.players.PlayerType;
 import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
 
 /**
@@ -30,11 +31,10 @@ public class Board implements GoalObserver, PlayerObserver {
 
 	private static Board mInstance;
 
-	private AbstractPlayer playerOne;
-	private AbstractPlayer playerTwo;
-
 	private int playerOneScore;
 	private int playerTwoScore;
+	
+	private int winningScore;
 
 	private Ball ball;
 
@@ -45,12 +45,15 @@ public class Board implements GoalObserver, PlayerObserver {
 	 * @param p2
 	 *           reference to the second player.
 	 */
-	Board(AbstractPlayer p1, AbstractPlayer p2) {
-		playerOne = p1;
-		playerTwo = p2;
-
+	Board(PlayerType playerOne, PlayerType playerTwo, int winScore) {
+		// create players
+		PlayerFactory.createPlayer(playerOne);
+		PlayerFactory.createPlayer(playerTwo);
+		
 		playerOneScore = 0;
 		playerTwoScore = 0;
+		
+		winningScore = winScore;
 		
 		setUpBall();
 		
