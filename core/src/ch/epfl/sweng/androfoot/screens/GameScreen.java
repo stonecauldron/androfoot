@@ -2,6 +2,7 @@ package ch.epfl.sweng.androfoot.screens;
 
 import ch.epfl.sweng.androfoot.board.BoardFactory;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
+import ch.epfl.sweng.androfoot.configuration.Configuration;
 import ch.epfl.sweng.androfoot.players.PlayerType;
 import ch.epfl.sweng.androfoot.players.ai.AIEngine;
 import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
@@ -22,7 +23,8 @@ import com.badlogic.gdx.Input;
 public class GameScreen implements Screen {
 
 	public GameScreen(PlayerType firstPlayer, PlayerType secondPlayer) {
-	    BoardFactory.setupBoard(firstPlayer, secondPlayer);
+		BoardFactory.setupBoard(firstPlayer, secondPlayer, Configuration
+				.getInstance().getScoreLimit());
 	}
 
 	@Override
