@@ -58,6 +58,7 @@ public class Ball implements DefaultBall {
 		PaddleContactListener.addBall(this);
 		BorderContactListener.addBall(this);
 		GoalContactListener.addBall(this);
+		//PowerUpContactListener.addBall(this);
 	}
 
 	@Override

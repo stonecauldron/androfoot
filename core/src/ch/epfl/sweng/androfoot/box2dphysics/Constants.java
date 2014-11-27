@@ -67,6 +67,10 @@ public class Constants {
     public static final float PLAYERFRICTION = 1.0f;
     public static final float PLAYERRESTITUTION = 0.0f;
     
+    /* PowerUp */
+    public static final float POWERUP_RADIUS = 0.3f;
+    public static final short CATEGORY_POWERUP = 0x0003;
+    
     /* Accelerometer */
 	public static final float SHAKE_TIMER = 1.0f;
 	public static final float SHAKE_BOOST_RATIO = 2;

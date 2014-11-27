@@ -23,7 +23,18 @@ public class PowerUp implements DefaultPowerUp {
 		bodyDef.type = BodyType.StaticBody;
 		bodyDef.position.set(initPosX, initPosY);
 		
+		hitBoxRadius = hBoxRadius;
+		circle.setRadius(hitBoxRadius);
 		
+		fixture.shape = circle;
+		fixture.filter.categoryBits = Constants.CATEGORY_POWERUP;
+		
+		circle.dispose();
+		
+		powerUpBody = world.createBody(bodyDef);
+		powerUpBody.createFixture(fixture);
+		
+		//PowerUpContactListener.addPowerUp(this);
 	}
 
 	@Override
