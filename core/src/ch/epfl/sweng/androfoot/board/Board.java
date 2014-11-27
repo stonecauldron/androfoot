@@ -7,6 +7,8 @@ import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.box2dphysics.Player;
+import ch.epfl.sweng.androfoot.gui.GuiCommand;
+import ch.epfl.sweng.androfoot.gui.GuiManager;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
@@ -85,18 +87,24 @@ public class Board implements GoalObserver, PlayerObserver {
 
 	@Override
 	public void goal(DefaultGoal goal, DefaultBall ball) {
+		PlayerNumber playerThatScored;
 		if (goal.getTeam() == GoalTeam.ONE) {
 			// player 2 scored
-			incrementScore(PlayerNumber.TWO);
-			resetBall(PlayerNumber.TWO);
+			playerThatScored = PlayerNumber.TWO;
 		} else {
 			// player 1 scored
-			incrementScore(PlayerNumber.ONE);
-			resetBall(PlayerNumber.ONE);
+			playerThatScored = PlayerNumber.ONE;
 		}
+		incrementScore(playerThatScored);
+		
+		// check if winning score was reached
 		if (reachedWinningScore()) {
-			// TODO load winning widget
+			// TODO load winning widged
+			// temporary solution to go back in the main menu
+			GuiManager.getInstance().executeCommand(GuiCommand.goToMainMenu);
+			return;
 		}
+		resetBall(playerThatScored);
 	}
 
 	@Override
