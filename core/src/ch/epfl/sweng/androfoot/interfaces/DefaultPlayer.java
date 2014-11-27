@@ -52,7 +52,7 @@ public interface DefaultPlayer extends DefaultWorldObject {
 	void setPlayerVelocity(float x, float y);
 	
 	/**
-	 * Say if this player can controll the ball
+	 * Say if this player can control the ball
 	 * @return
 	 */
 	boolean isAbleToControlBall();
