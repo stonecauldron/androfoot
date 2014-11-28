@@ -6,7 +6,7 @@ package ch.epfl.sweng.androfoot.polygongenerator;
  * @author Guillaume
  *
  */
-final class PolygonUtils {
+public final class PolygonUtils {
 	static final float MIN_ANGLE = 0f;
 	static final float MAX_ANGLE_RADIAN = (float) Math.PI * 2;
 	static final float MAX_ANGLE_DEGREE = 360f;
