@@ -144,6 +144,21 @@ public final class PhysicsWorld implements DrawableWorld {
 	    return goal;
 	}
 	
+	/**
+	 * Creates a power up object.
+	 * @param x X coordinate of the object.
+	 * @param y Y coordinate of the object.
+	 * @param hBoxRadius Radius of the power up hitbox.
+	 * @return Power Up object.
+	 */
+	public static PowerUp createPowerUp(float x, float y, float hBoxRadius) {
+		pauseWorld();
+		PowerUp powerUp = new PowerUp(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, hBoxRadius);
+		startWorld();
+		
+		return powerUp;
+	}
+	
 	public static void destroy(DefaultWorldObject object) {
 	    if (object.getBody().getFixtureList().first().getFilterData().categoryBits == Constants.CATEGORY_BALL) {
 	        ball = null;
