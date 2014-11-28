@@ -114,6 +114,11 @@ public class PowerUp implements DefaultPowerUp {
 			public void setPowerUpPosition(float x, float y) {
 				throw new UnsupportedOperationException();
 			}
+			
+			@Override
+			public DefaultPowerUp clone() {
+				throw new UnsupportedOperationException();
+			}
 		};
 	}
 

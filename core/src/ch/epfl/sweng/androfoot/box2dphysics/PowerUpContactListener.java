@@ -21,7 +21,7 @@ public class PowerUpContactListener implements DefaultContactListener {
 		powerUps = new HashSet<PowerUp>();
 	}
 	
-	public static PowerUpContactListener getInastance() {
+	public static PowerUpContactListener getInstance() {
 		return instance;
 	}
 	
@@ -39,7 +39,7 @@ public class PowerUpContactListener implements DefaultContactListener {
 			if (checkBallHitsPowerUp(contact, powerUp)) {
 				
 				if (manager != null) {
-					manager.addev
+					manager.addEventPowerUp(powerUp);
 				}
 			}
 		}
@@ -47,26 +47,22 @@ public class PowerUpContactListener implements DefaultContactListener {
 
 	@Override
 	public void endContact(Contact contact) {
-		// TODO Auto-generated method stub
-
+		// Does nothing.
 	}
 
 	@Override
 	public void preSolve(Contact contact, Manifold oldManifold) {
-		// TODO Auto-generated method stub
-
+		//Does nothing.
 	}
 
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
-		// TODO Auto-generated method stub
-
+		// Does nothing.
 	}
 
 	@Override
 	public void removeBody(Body body) {
-		// TODO Auto-generated method stub
-
+		// Does nothing.
 	}
 	
 	private boolean checkBallHitsPowerUp(Contact contact, PowerUp powerUp) {
