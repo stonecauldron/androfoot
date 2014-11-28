@@ -30,12 +30,12 @@ public class PowerUp implements DefaultPowerUp {
 		fixture.shape = circle;
 		fixture.filter.categoryBits = Constants.CATEGORY_POWERUP;
 		
-		circle.dispose();
-		
 		powerUpBody = world.createBody(bodyDef);
 		powerUpBody.createFixture(fixture);
 		
-		//PowerUpContactListener.addPowerUp(this);
+		circle.dispose();
+		
+		PowerUpContactListener.addPowerUp(this);
 	}
 
 	@Override
