@@ -20,7 +20,14 @@ public class BoardFactory {
 	 */
 	public static void setupBoard(PlayerType playerOne, PlayerType playerTwo,
 			int winningScore) {
-		Board board = new Board(playerOne, playerTwo, winningScore);
-		Board.setInstance(board);
+		// if a board was already set up
+		if (Board.getInstance() != null) {
+			// instantiate new game without recreating borders
+			Board.getInstance().instantiateNewGame(playerOne, playerTwo,
+					winningScore);
+		} else {
+			Board board = new Board(playerOne, playerTwo, winningScore);
+			Board.setInstance(board);
+		}
 	}
 }
