@@ -31,7 +31,7 @@ public final class PhysicsWorld implements DrawableWorld {
 	
 	private World physicsWorld = new World(new Vector2(0, 0), false);
 	private float accumulator = 0f;
-	private static boolean isRunning = false;
+	private static boolean isRunning = true;
 	private static TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
 	
 	private float accelerometerTime = 0;
@@ -78,15 +78,14 @@ public final class PhysicsWorld implements DrawableWorld {
 	 * @return
 	 */
 	public static Ball createBall(float x, float y, float radius) {
-	    pauseWorld();
 	    if (ball != null) {
 	        PHYSICS_WORLD_INSTANCE.getBox2DWorld().destroyBody(ball.getBody());
 	        drawableObjectsSet.remove(ball);
+	        GlobalContactListener.getInstance().removeBody(ball.getBody());
 	    }
 	    ball = new Ball(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, radius, Constants.BALL_DENSITY, 
 	                        Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
 	    drawableObjectsSet.add(ball);
-	    startWorld();
 	    
 	    return ball;
 	}
@@ -108,14 +107,12 @@ public final class PhysicsWorld implements DrawableWorld {
 	 * @return
 	 */
 	public static GroupPaddle createPaddle(float x, float width, int number, boolean facingRight) {
-	    pauseWorld();
 	    GroupPaddle groupPaddle = new GroupPaddle(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x - width/2, width, 
 	                                                number, facingRight);
 	    for (Paddle paddle : groupPaddle.getPaddles()) {
 	        drawableObjectsSet.add(paddle.getPlayer());
 	        paddles.add(paddle);
 	    }
-	    startWorld();
 	    
 	    return groupPaddle;
 	}
@@ -130,10 +127,8 @@ public final class PhysicsWorld implements DrawableWorld {
 	 * @return
 	 */
 	public static Border createBorder(float x, float y, float width, float height, BorderType type) {
-	    pauseWorld();
 	    Border border = new Border(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, width, height, type);
 	    drawableObjectsSet.add(border);
-	    startWorld();
 	    
 	    return border;
 	}
@@ -144,9 +139,7 @@ public final class PhysicsWorld implements DrawableWorld {
 	 * @return
 	 */
 	public static Goal createGoal(float x, float y, float width, float height, GoalTeam team) {
-	    pauseWorld();
 	    Goal goal = new Goal(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, width, height, team);
-	    startWorld();
 	    
 	    return goal;
 	}
@@ -156,6 +149,7 @@ public final class PhysicsWorld implements DrawableWorld {
 	        ball = null;
 	    }
 	    
+	    drawableObjectsSet.remove(object);
 	    objectsToDestroy.add(object);
 	    GlobalContactListener.getInstance().removeBody(object.getBody());
 	}
@@ -168,6 +162,7 @@ public final class PhysicsWorld implements DrawableWorld {
 	}
 	
 	public static void destroy(Paddle paddle) {
+	    paddles.remove(paddle);
 	    destroy(paddle.getPlayer());
 	}
 	
@@ -257,8 +252,6 @@ public final class PhysicsWorld implements DrawableWorld {
 	public void throwDestroy() {
 	    for (DefaultWorldObject object : objectsToDestroy) {
             physicsWorld.destroyBody(object.getBody());
-            drawableObjectsSet.remove(object);
-            GlobalContactListener.getInstance().removeBody(object.getBody());
         }
         objectsToDestroy.clear();
 	}
