@@ -70,6 +70,7 @@ public class Constants {
     /* PowerUp */
     public static final float POWERUP_RADIUS = 0.3f;
     public static final short CATEGORY_POWERUP = 0x0003;
+    public static final int POWERUP_Z_INDEX = 600;
     
     /* Accelerometer */
 	public static final float SHAKE_TIMER = 1.0f;

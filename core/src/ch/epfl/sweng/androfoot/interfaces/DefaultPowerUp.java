@@ -15,9 +15,15 @@ public interface DefaultPowerUp extends DefaultWorldObject {
 	float getPositionY();
 	
 	/**
+	 * Returns the radius of the hitbox.
+	 * @return
+	 */
+	float getHitBoxRadius();
+	
+	/**
 	 * Sets the position of the Power Up.
 	 */
-	void setPowerUpPosition();
+	void setPowerUpPosition(float x, float y);
 	
 	/**
 	 * Clone the current state of the Power Up object.

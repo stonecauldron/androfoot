@@ -1,5 +1,6 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -39,44 +40,81 @@ public class PowerUp implements DefaultPowerUp {
 
 	@Override
 	public Body getBody() {
-		// TODO Auto-generated method stub
-		return null;
+		return powerUpBody;
 	}
 
 	@Override
 	public int getZIndex() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Constants.POWERUP_Z_INDEX;
 	}
 
 	@Override
 	public void accept(Visitor visitor) {
-		// TODO Auto-generated method stub
-
+		visitor.visit(this);
 	}
 
 	@Override
 	public float getPositionX() {
-		// TODO Auto-generated method stub
-		return 0;
+		return powerUpBody.getPosition().x;
 	}
 
 	@Override
 	public float getPositionY() {
-		// TODO Auto-generated method stub
-		return 0;
+		return powerUpBody.getPosition().y;
+	}
+	
+	@Override
+	public float getHitBoxRadius() {
+		return hitBoxRadius;
 	}
 
 	@Override
-	public void setPowerUpPosition() {
-		// TODO Auto-generated method stub
-
+	public void setPowerUpPosition(float x, float y) {
+		powerUpBody.setTransform(x, y, 0);
 	}
 
 	@Override
 	public DefaultPowerUp clone() {
-		// TODO Auto-generated method stub
-		return null;
+		return new DefaultPowerUp() {
+			
+			private Vector2 position = powerUpBody.getPosition().cpy();
+	        private float radius = getHitBoxRadius();
+			
+			@Override
+			public Body getBody() {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public int getZIndex() {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public void accept(Visitor visitor) {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public float getPositionX() {
+				return position.x;
+			}
+
+			@Override
+			public float getPositionY() {
+				return position.y;
+			}
+			
+			@Override
+			public float getHitBoxRadius() {
+				return radius;
+			}
+
+			@Override
+			public void setPowerUpPosition(float x, float y) {
+				throw new UnsupportedOperationException();
+			}
+		};
 	}
 
 }
