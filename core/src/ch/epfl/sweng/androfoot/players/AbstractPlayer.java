@@ -43,7 +43,7 @@ public abstract class AbstractPlayer {
 	/**
 	 * Destroy all the paddles belonging to the player.
 	 */
-	public void destroyPlayerPhysicsObjects() {
+	public void destroy() {
 		for (GroupPaddle groupPaddle : paddles) {
 			PhysicsWorld.destroy(groupPaddle);
 		}
