@@ -10,6 +10,7 @@ import org.junit.Test;
 import ch.epfl.sweng.androfoot.polygongenerator.AngleType;
 import ch.epfl.sweng.androfoot.polygongenerator.CircleGenerator;
 import ch.epfl.sweng.androfoot.polygongenerator.ImmutablePoint;
+import ch.epfl.sweng.androfoot.polygongenerator.PolygonUtils;
 
 public class CircleGeneratorTest {
 	private static final double DELTA = 0.0001;
@@ -17,19 +18,18 @@ public class CircleGeneratorTest {
 
 	@Test
 	public void testAngleConverter() {
-		assertEquals("The converter failed", Math.PI, CircleGenerator.degreeToRadian(180f), DELTA);
-		assertEquals("The converter failed", 0d, CircleGenerator.degreeToRadian(0f), DELTA);
-		assertEquals("The converter failed", Math.PI/2, CircleGenerator.degreeToRadian(90f), DELTA);
-		assertEquals("The converter failed", 4*Math.PI, CircleGenerator.degreeToRadian(720f), DELTA);
+		assertEquals("The converter failed", Math.PI, PolygonUtils.degreeToRadian(180f), DELTA);
+		assertEquals("The converter failed", 0d, PolygonUtils.degreeToRadian(0f), DELTA);
+		assertEquals("The converter failed", Math.PI/2, PolygonUtils.degreeToRadian(90f), DELTA);
+		assertEquals("The converter failed", 4*Math.PI, PolygonUtils.degreeToRadian(720f), DELTA);
 	}
 	
 	@Test
 	public void testAngleSimplifier() {
-		assertEquals("The simplifier failed", 0d, CircleGenerator.simplifyRadianAngle((float) (Math.PI*8)), DELTA);
-		assertEquals("The simplifier failed", 0d, CircleGenerator.simplifyRadianAngle((float) (Math.PI*4)), DELTA);
-		assertEquals("The simplifier failed", Math.PI, CircleGenerator.simplifyRadianAngle((float) (Math.PI*5)), DELTA);
-		assertEquals("The simplifier failed", Math.PI*3d/2d, CircleGenerator.simplifyRadianAngle((float) (-Math.PI/2)), DELTA);
-		assertEquals("The simplifier failed", Math.PI/2, CircleGenerator.simplifyRadianAngle((float) ((Math.PI*5)/2d)), DELTA);
+		assertEquals("The simplifier failed", 0d, PolygonUtils.simplifyRadianAngle((float) (Math.PI*8)), DELTA);
+		assertEquals("The simplifier failed", 0d, PolygonUtils.simplifyRadianAngle((float) (Math.PI*4)), DELTA);
+		assertEquals("The simplifier failed", Math.PI, PolygonUtils.simplifyRadianAngle((float) (Math.PI*5)), DELTA);
+		assertEquals("The simplifier failed", Math.PI*3d/2d, PolygonUtils.simplifyRadianAngle((float) (-Math.PI/2)), DELTA);
 	}
 	
 	@Test
@@ -95,7 +95,7 @@ public class CircleGeneratorTest {
 				from, to, AngleType.DEGREE);
 
 		CircleGenerator generator2 = new CircleGenerator(SEGMENTS, 
-				CircleGenerator.degreeToRadian(from), CircleGenerator.degreeToRadian(to),
+				PolygonUtils.degreeToRadian(from), PolygonUtils.degreeToRadian(to),
 				AngleType.RADIAN);
 
 		assertArrayEquals("the two arrays are different", 
@@ -109,11 +109,11 @@ public class CircleGeneratorTest {
 		float to = rnd.nextFloat() + rnd.nextInt(360);
 
 		CircleGenerator generator = new CircleGenerator(SEGMENTS, 
-				CircleGenerator.simplifyRadianAngle(from), CircleGenerator.simplifyRadianAngle(to),
+				PolygonUtils.simplifyRadianAngle(from), PolygonUtils.simplifyRadianAngle(to),
 				AngleType.RADIAN);
 
 		CircleGenerator generator2 = new CircleGenerator(SEGMENTS, 
-				CircleGenerator.simplifyRadianAngle(from), CircleGenerator.simplifyRadianAngle(to),
+				PolygonUtils.simplifyRadianAngle(from), PolygonUtils.simplifyRadianAngle(to),
 				AngleType.RADIAN);
 
 		assertArrayEquals("the two arrays are different", 
