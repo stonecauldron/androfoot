@@ -12,12 +12,12 @@ public class NetworkTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-
 		ph = new PlayerHost();
 		ph.listenToClient();
-
 		client = new PlayerClient();
 		client.listenToServer();
+		
+		//Not yet usefull
 	}
 
 	@Test
