@@ -7,30 +7,23 @@ package ch.epfl.sweng.androfoot.kryonetnetworking;
  *         slave client
  */
 public class GameData {
-
 	/*
 	 * BRUTE DATA SECTION
 	 */
 	private float mPlayerOneX;
 	private float mPlayerOneY;
-
+	
 	private float mPlayerTwoX;
 	private float mPlayerTwoY;
 
 	private float mBallX;
 	private float mBallY;
 
-	private int mPlayerOneScore;
-	private int mPlayerTwoScore;
-
 	/*
 	 * EVENT SECTION
 	 */
 	private boolean mPlayerOneHasScored;
 	private boolean mPlayerTwoHasScored;
-
-	private boolean mSoundBallonPaddle;
-	private boolean mSoundBallonWall;
 
 	private boolean mIsShaking;
 
@@ -61,8 +54,6 @@ public class GameData {
 		this.mBallX = ballXPosition;
 		this.mBallY = ballYPosition;
 
-		this.mPlayerOneScore = playerOneScore;
-		this.mPlayerTwoScore = playerTwoScore;
 
 		/*
 		 * EVENTS
@@ -70,8 +61,6 @@ public class GameData {
 		this.mPlayerOneHasScored = playerOneScored;
 		this.mPlayerTwoHasScored = playerTwoScored;
 
-		this.mSoundBallonPaddle = ballOnPaddle;
-		this.mSoundBallonWall = ballOnWall;
 
 		this.mIsShaking = isShaking;
 
@@ -85,13 +74,6 @@ public class GameData {
 		return mPlayerTwoHasScored;
 	}
 
-	public boolean ismSoundBallonPaddle() {
-		return mSoundBallonPaddle;
-	}
-
-	public boolean ismSoundBallonWall() {
-		return mSoundBallonWall;
-	}
 
 	public boolean ismIsShaking() {
 		return mIsShaking;
@@ -119,14 +101,6 @@ public class GameData {
 
 	public float getmBallY() {
 		return mBallY;
-	}
-
-	public float getmPlayerOneScore() {
-		return mPlayerOneScore;
-	}
-
-	public float getmPlayerTwoScore() {
-		return mPlayerTwoScore;
 	}
 
 }

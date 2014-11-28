@@ -42,14 +42,10 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 	}
 
 	@Override
-	public void moveHorizontally(float deltaX) {
-
-	}
+	public void moveHorizontally(float deltaX) {}
 
 	@Override
-	public void moveVertically(float deltaY) {
-
-	}
+	public void moveVertically(float deltaY) {}
 
 	@Override
 	public void move(float deltaX, float deltaY) {

@@ -13,14 +13,11 @@ public class NetworkTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
-		System.setProperty("java.net.preferIPv4Stack", "true");
-		
 		ph = new PlayerHost();
 		ph.listenToClient();
 
 		client = new PlayerClient();
 		client.listenToServer();
-
 	}
 
 	@Test
