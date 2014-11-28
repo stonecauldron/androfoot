@@ -13,6 +13,7 @@ import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
+import ch.epfl.sweng.androfoot.players.AbstractPlayer;
 import ch.epfl.sweng.androfoot.players.PlayerFactory;
 import ch.epfl.sweng.androfoot.players.PlayerNumber;
 import ch.epfl.sweng.androfoot.players.PlayerType;
@@ -28,10 +29,12 @@ import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
  */
 public class Board implements GoalObserver, PlayerObserver {
 
-	private static final String ERROR_MESSAGE = "Board was not created.";
 	private final float INITIAL_BALL_SPEED = 2f;
 
 	private static Board mInstance;
+	
+	private AbstractPlayer mPlayerOne;
+	private AbstractPlayer mPlayerTwo;
 
 	private int playerOneScore;
 	private int playerTwoScore;
@@ -49,17 +52,12 @@ public class Board implements GoalObserver, PlayerObserver {
 	 *            reference to the second player.
 	 */
 	Board(PlayerType playerOne, PlayerType playerTwo, int winScore) {
-		// create players
-		PlayerFactory.createPlayer(playerOne);
-		PlayerFactory.createPlayer(playerTwo);
+		setUpPlayers(playerOne, playerTwo);
 
-		playerOneScore = 0;
-		playerTwoScore = 0;
-
-		winningScore = winScore;
+		setUpScore(winScore);
 
 		setUpBall();
-
+		
 		setUpUpperAndLowerWalls();
 		setUpLeftAndRightWalls();
 		setUpGoals();
@@ -75,14 +73,7 @@ public class Board implements GoalObserver, PlayerObserver {
 	 * @return the active board
 	 */
 	public static Board getInstance() {
-		if (mInstance == null) {
-			throw new UnsupportedOperationException(ERROR_MESSAGE);
-		}
 		return mInstance;
-	}
-
-	static void setInstance(Board instance) {
-		mInstance = instance;
 	}
 
 	@Override
@@ -101,6 +92,7 @@ public class Board implements GoalObserver, PlayerObserver {
 		if (reachedWinningScore()) {
 			// TODO load winning widged
 			// temporary solution to go back in the main menu
+			resetBoard();
 			GuiManager.getInstance().executeCommand(GuiCommand.goToMainMenu);
 			return;
 		}
@@ -125,10 +117,42 @@ public class Board implements GoalObserver, PlayerObserver {
 		}
 	}
 
+	static void setInstance(Board instance) {
+		mInstance = instance;
+	}
+
+	void resetBoard() {
+		
+		// destroy players
+		mPlayerOne.destroy();
+		mPlayerTwo.destroy();
+		
+	}
+	
+	void instantiateNewGame(PlayerType p1, PlayerType p2, int winScore) {
+		setUpScore(winScore);
+		
+		setUpPlayers(p1, p2);
+		
+		setUpBall();
+	}
+	
+	private void setUpPlayers(PlayerType p1, PlayerType p2) {
+		PlayerFactory.resetPlayerNumber();
+		
+		mPlayerOne = PlayerFactory.createPlayer(p1);
+		mPlayerTwo = PlayerFactory.createPlayer(p2);
+	}
+	
+	private void setUpScore(int winScore) {
+		resetScore();
+		winningScore = winScore;
+	}
+
 	private void setUpBall() {
 		ball = PhysicsWorld.createBall(Constants.WORLD_SIZE_X / 2,
 				Constants.WORLD_SIZE_Y / 2, Constants.BALL_RADIUS);
-
+	
 		java.util.Random random = new java.util.Random();
 		float x = (float) Math.pow(-1, random.nextInt(2));
 		ball.setLinearVelocity(3 * x, 0);
@@ -188,7 +212,13 @@ public class Board implements GoalObserver, PlayerObserver {
 			return false;
 		}
 	}
-
+	
+	private void resetScore() {
+		playerOneScore = 0;
+		playerTwoScore = 0;
+		GraphicEngine.getEngine().setScore(0, 0);
+	}
+	
 	private void resetBall(PlayerNumber playerNumber) {
 		ball.setBallPosition(Constants.WORLD_SIZE_X / 2,
 				Constants.WORLD_SIZE_Y / 2);
