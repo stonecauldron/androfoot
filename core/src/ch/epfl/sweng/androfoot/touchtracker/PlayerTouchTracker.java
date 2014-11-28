@@ -108,7 +108,7 @@ public enum PlayerTouchTracker implements InputProcessor,
 
 	@Override
 	public boolean removeObserverPlayerTwo(TouchTrackerObserver obs) {
-		return observersPlayerOne.remove(obs);
+		return observersPlayerTwo.remove(obs);
 	}
 
 	@Override
@@ -131,6 +131,7 @@ public enum PlayerTouchTracker implements InputProcessor,
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		System.out.println("a touch was recorded");
 
 		if (mPlayerOneCurrentPointer == NO_POINTER) {
 			if (screenX <= mScreenWidth / 2) {
