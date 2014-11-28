@@ -18,6 +18,11 @@ public class PolygonRotator extends AbstractPolygonGenerator implements
 	private final double cosA;
 	private final double sinA;
 
+	/**
+	 * Will return a rotated {@link PolygonGenerator}
+	 * @param generatorArg the {@link PolygonGenerator} to rotate
+	 * @param angleArg the angle (IN RADIANS) to rotate the {@link PolygonGenerator}
+	 */
 	public PolygonRotator(PolygonGenerator generatorArg, float angleArg) {
 		generator = generatorArg;
 		cosA = Math.cos(angleArg);
