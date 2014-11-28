@@ -69,7 +69,7 @@ public final class GoalContactListener implements DefaultContactListener {
         for (Ball ball : balls) {
             if (contact.getFixtureA().getBody() == ball.getBody()
                    || contact.getFixtureB().getBody() == ball.getBody()) {
-        
+                
                 for (Goal goal : goals) {
                     if (contact.getFixtureA().getBody() == goal.getBody()
                             || contact.getFixtureB().getBody() == goal.getBody()) {

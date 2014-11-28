@@ -17,6 +17,11 @@ public class PhysicsWorldTest {
 
     @Test
     public void testClearRemoveAllBodies() {
+        PhysicsWorld.createBall(1, 1, 1);
+        PhysicsWorld.createBall(1, 1, 1);
+        PhysicsWorld.createBall(1, 1, 1);
+        PhysicsWorld.createBall(1, 1, 1);
+        PhysicsWorld.createBall(1, 1, 1);
         PhysicsWorld.getPhysicsWorld().getBox2DWorld().getBodies(bodies);
         
         assertTrue(bodies.size > 0);
@@ -26,6 +31,7 @@ public class PhysicsWorldTest {
         PhysicsWorld.getPhysicsWorld().getBox2DWorld().getBodies(bodies);
         
         assertTrue(bodies.size == 0);
+        assertTrue(PhysicsWorld.getPhysicsWorld().toDraw().size() == 0);
     }
     
     @Test
@@ -43,6 +49,7 @@ public class PhysicsWorldTest {
         PhysicsWorld.getPhysicsWorld().throwDestroy();
         PhysicsWorld.getPhysicsWorld().getBox2DWorld().getBodies(bodies);
         assertTrue(bodies.size == 0);
+        assertTrue(!PhysicsWorld.getPhysicsWorld().toDraw().contains(ball));
     }
     
     @Test
@@ -60,5 +67,6 @@ public class PhysicsWorldTest {
         PhysicsWorld.getPhysicsWorld().throwDestroy();
         PhysicsWorld.getPhysicsWorld().getBox2DWorld().getBodies(bodies);
         assertTrue(bodies.size == 0);
+        assertTrue(PhysicsWorld.getPhysicsWorld().toDraw().size() == 0);
     }
 }

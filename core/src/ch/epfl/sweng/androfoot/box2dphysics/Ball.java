@@ -17,7 +17,7 @@ import ch.epfl.sweng.androfoot.interfaces.Visitor;
  * @author Matvey
  *
  */
-public class Ball implements Drawable, DefaultBall {
+public class Ball implements DefaultBall {
 	
 	private Body ballBody;
 	private final BodyDef bodyDef = new BodyDef();
