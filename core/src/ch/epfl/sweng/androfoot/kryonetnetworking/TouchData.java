@@ -10,12 +10,22 @@ public class TouchData {
 
 	private float touchX;
 	private float touchY;
+	
+	private boolean isShaking;
 
-	public TouchData(float touchX, float touchY) {
+	public TouchData(float touchX, float touchY, boolean shake) {
 		this.touchX = touchX;
 		this.touchY = touchY;
+		this.isShaking = shake;
 	}
 
+	/**
+	 * @return X coordinate
+	 */
+	public boolean getIsShaking() {
+		return isShaking;
+	}
+	
 	/**
 	 * @return X coordinate
 	 */
