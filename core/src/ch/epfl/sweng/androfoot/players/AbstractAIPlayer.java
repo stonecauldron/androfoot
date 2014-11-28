@@ -86,6 +86,12 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements Control
 			}
 		}
 	}
+	
+	@Override
+	public void destroy() {
+		super.destroy();
+		AIEngine.getInstance().removeAIObserver(this);
+	}
 
 	protected void addToCoRoutines(Timer timer, CoRoutine coRoutine) {
 		coRoutinesMap.put(timer, coRoutine);
