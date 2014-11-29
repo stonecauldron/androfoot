@@ -14,14 +14,13 @@ public final class Configuration {
 	private static final int DEFAULT_SCORE_LIMIT = 5;
 
 	private static final Configuration ONEINSTANCE = new Configuration();
-	private int mScoreLimit;
-	private int mSensibility;
+	private int scoreLimit;
 
 	private Configuration() {
 		if (ONEINSTANCE != null) {
 			throw new IllegalStateException("Already instantiated");
 		} else {
-			mScoreLimit = DEFAULT_SCORE_LIMIT;
+			scoreLimit = DEFAULT_SCORE_LIMIT;
 		}
 	}
 
@@ -30,25 +29,10 @@ public final class Configuration {
 	}
 
 	public int getScoreLimit() {
-		return mScoreLimit;
+		return scoreLimit;
 	}
 
-	public void addScoreLimit(int x) {
-		mScoreLimit = mScoreLimit + x;
-	}
-
-	public void subScoreLimit(int x) {
-		mScoreLimit = mScoreLimit - x;
-		if(mScoreLimit < 1) {
-			mScoreLimit = 1;
-		}
-	}
-	
-	public void setSensibility(int x) {
-		mSensibility = x;
-	}
-	
-	public int getSensibility() {
-		return mSensibility;
+	public void setScoreLimit(int s) {
+		scoreLimit = s;
 	}
 }
