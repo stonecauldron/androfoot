@@ -1,18 +1,23 @@
 {
-	"com.badlogic.gdx.graphics.g2d.BitmapFont": { // Fonts
-		"standard": { "file": "fonts/tahoma.fnt" },
+	"com.badlogic.gdx.graphics.g2d.BitmapFont": {
+		"standard": { "file": "fonts/tahoma.fnt" }
 	},
-	"com.badlogic.gdx.graphics.Color": { // Colors
+	"com.badlogic.gdx.graphics.Color": {
 		"white": { "r": 1, "g": 1, "b": 1, "a": 1 },
+		"grey": { "r": 0.5, "g": 0.5, "b": 0.5, "a": 1 },
 		"black": { "r": 0, "g": 0, "b": 0, "a": 1 },
 	},
-	"com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": { // Label styles
+	"com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
 		"default": { "font": standard , "fontColor": white },
+		"aux": { "font": standard , "fontColor": grey },
 	},
-	"com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": { // Button styles
-		"default": { "up": blue_button_up , "down": blue_button_down, "font": standard, "pressedOffsetY": -4 }
+	"com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+		"default": { "up": blue_button_up , "down": blue_button_down, "font": standard, "pressedOffsetY": -4 },
 	},
-	"com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": { // CheckBox styles
-		"default": { "checkboxOn": blue_boxCheck, "checkboxOff": boxEmpty, "font": standard, "fontColor": white }
-	}
+	"com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {
+		"default": { "checkboxOn": blue_boxCheck, "checkboxOff": boxEmpty, "font": standard, "fontColor": white },
+	},
+	"com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle": {
+  		"default-horizontal": { "background": blue_button_down, "knob": boxEmpty },
+  	}
 }
