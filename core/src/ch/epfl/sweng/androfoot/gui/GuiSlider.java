@@ -1,54 +1,56 @@
 package ch.epfl.sweng.androfoot.gui;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 /**
  * @author Sidney Barthe
- * This class represents a button with a range of parameters to be able to display it
- * efficiently in different manners.
  */
-public class GuiButton extends GuiWidget {
-	private TextButton mButton;
-	private GuiCommand mCommand;
+public class GuiSlider extends GuiWidget {
+	private Slider mSlider;
 	private boolean mNewLine;
 	private float[] mPadding;
-	private String mText;
-	private float mXSizePerLetter;
+	private float mXSize;
 	private float mYSize;
 	private int mColSpan;
+	private GuiCommand mCommand;
 	
-	public GuiButton(Skin skin,
+	public GuiSlider(Skin skin,
 					 boolean lineBreak,
 					 float[] padding,
-					 String text,
-					 float xSizePerLetter,
+					 float xSize,
 					 float ySize,
 					 int colSpan,
 					 GuiCommand command) {
 		
 		mNewLine = lineBreak;
 		mPadding = padding;
-		mText = text;
-		mButton = new TextButton(mText, skin);
-		mXSizePerLetter = xSizePerLetter;
+		mXSize = xSize;
 		mYSize = ySize;
-		mCommand = command;
+		mSlider = new Slider(1, 1000, 1, false, skin);
 		mColSpan = colSpan;
-		mButton.addListener(new ClickListener() {
+		mCommand = command;
+		mSlider.addListener(new ClickListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				System.out.println(mSlider.getValue());
+				GuiManager.getInstance().executeCommand(mCommand);
+				return true;
+			}
+			@Override
+			public void touchDragged(InputEvent event, float x, float y, int pointer) {
+				System.out.println(mSlider.getValue());
 				GuiManager.getInstance().executeCommand(mCommand);
 			}
 		});
 	}
 
 	public void show(Table table, int width, int height) {
-		table.add(mButton)
-		.size(mText.length() * mXSizePerLetter * width, mYSize * height)
+		table.add(mSlider)
+		.size(mXSize * width, mYSize * height)
 		.colspan(mColSpan)
 		.padRight(mPadding[0] * width)
 		.padTop(mPadding[1] * height)
@@ -58,5 +60,9 @@ public class GuiButton extends GuiWidget {
 		if (mNewLine) {
 			table.row();
 		}
+	}
+	
+	public int getValue() {
+		return (int) mSlider.getValue();
 	}
 }

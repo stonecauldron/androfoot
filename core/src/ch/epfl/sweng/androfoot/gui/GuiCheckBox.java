@@ -15,16 +15,16 @@ public class GuiCheckBox extends GuiWidget {
 	private CheckBox mCheckBox;
 	private GuiCommand mCommand;
 	private boolean mNewLine;
-	private int[] mPadding;
-	private int mXSize;
-	private int mYSize;
+	private float[] mPadding;
+	private float mXSize;
+	private float mYSize;
 	private int mColSpan;
 	
 	public GuiCheckBox(Skin skin,
 					 boolean lineBreak,
-					 int[] padding,
-					 int xSize,
-					 int ySize,
+					 float[] padding,
+					 float xSize,
+					 float ySize,
 					 int colSpan,
 					 GuiCommand command) {
 		
@@ -43,14 +43,17 @@ public class GuiCheckBox extends GuiWidget {
 		});
 	}
 
-	public void show(Table table) {
+	public void show(Table table, int width, int height) {
+		mCheckBox.getImageCell().size(Math.min(mXSize * width, mYSize * height),
+						Math.min(mXSize * width, mYSize * height));
+		
 		table.add(mCheckBox)
-		.size(mXSize, mYSize)
+		.size(Math.min(mXSize * width, mYSize * height), Math.min(mXSize * width, mYSize * height))
 		.colspan(mColSpan)
-		.padRight(mPadding[0])
-		.padTop(mPadding[1])
-		.padLeft(mPadding[2])
-		.padBottom(mPadding[3]);
+		.padRight(mPadding[0] * width)
+		.padTop(mPadding[1] * height)
+		.padLeft(mPadding[2] * width)
+		.padBottom(mPadding[3] * height);
 		
 		if (mNewLine) {
 			table.row();

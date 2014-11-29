@@ -1,35 +1,38 @@
 package ch.epfl.sweng.androfoot.gui;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 /**
- * @author Sidney Barthe This class represents a label, which is a string that
- *         can be displayed directly on a screen.
+ * @author Sidney Barthe
  */
-public class GuiLabel extends GuiWidget {
+public class GuiImage extends GuiWidget {
 	private boolean mNewLine;
 	private float[] mPadding;
-	private Label mLabel;
+	private Image mImage;
 	private int mColSpan;
+	private float mXSize;
+	private float mYSize;
 	
-	public GuiLabel(Skin skin,
+	public GuiImage(Skin skin,
 					String style,
+					float xSize,
+					float ySize,
 					boolean lineBreak,
 					float[] padding,
-					int colSpan,
-					String text) {
+					int colSpan) {
 		mNewLine = lineBreak;
 		mPadding = padding;
-		mLabel = new Label(text, skin, style);
+		mXSize = xSize;
+		mYSize = ySize;
+		mImage = new Image(skin, style);
 		mColSpan = colSpan;
 	}
 
 	public void show(Table table, int width, int height) {
-		//mLabel.setFontScale(1.2f);
-		
-		table.add(mLabel)
+		table.add(mImage)
+		.size(mXSize * width, mYSize * height)
 		.colspan(mColSpan)
 		.padRight(mPadding[0] * width)
 		.padTop(mPadding[1] * height)
@@ -39,9 +42,5 @@ public class GuiLabel extends GuiWidget {
 		if (mNewLine) {
 			table.row();
 		}
-	}
-	
-	public void setText(String text) {
-		mLabel.setText(text);
 	}
 }

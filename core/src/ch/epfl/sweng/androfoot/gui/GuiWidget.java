@@ -9,5 +9,5 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
  * scene2d and additional fields (like x/y padding, skin...) needed to display it.
  */
 abstract public class GuiWidget {
-	abstract void show(Table table);
+	abstract void show(Table table, int width, int height);
 }
