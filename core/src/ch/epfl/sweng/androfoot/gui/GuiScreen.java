@@ -34,13 +34,18 @@ public class GuiScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		mStage.getViewport().update(width, height, true);
+		mStage.clear();
+		mTable.clear();
+		mStage = new Stage();
+		mTable = new Table();
+		mStage.getViewport().update(width, height, false);
+		show();
 	}
 
 	@Override
 	public void show() {
 		for (GuiWidget widget : mWidgets) {
-			widget.show(mTable);
+			widget.show(mTable, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		}
 		mTable.setFillParent(true);
 		mStage.addActor(mTable);
