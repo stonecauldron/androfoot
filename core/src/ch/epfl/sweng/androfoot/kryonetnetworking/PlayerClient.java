@@ -2,51 +2,107 @@ package ch.epfl.sweng.androfoot.kryonetnetworking;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
+import ch.epfl.sweng.androfoot.gui.GuiCommand;
+import ch.epfl.sweng.androfoot.gui.GuiManager;
+import ch.epfl.sweng.androfoot.interfaces.ClientObservable;
+import ch.epfl.sweng.androfoot.interfaces.ClientObserver;
+import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
+
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-public class PlayerClient extends Thread {
+public class PlayerClient implements ClientObservable {
 
-	private Client client;
+	public static Client client;
+	private static boolean gameStarted;
+
+	private ArrayList<ClientObserver> mClientObserver = new ArrayList<ClientObserver>();
 
 	public PlayerClient() {
+	}
 
+	public static void sendClientData(ClientData data) {
+		if (gameStarted) {
+			client.sendTCP(data);
+		}
 	}
 
 	public void listenToServer() throws IOException {
-		Client client = new Client();
+		System.setProperty("java.net.preferIPv4Stack", "true");
+		client = new Client();
+		// TODO Get Lan discovery to WORK T_T
+		String address = discoverHostAddress();
 		client.start();
-		String address = "localhost";
-		client.connect(5000, address, NetworkUtils.TCP_PORT,
-				NetworkUtils.UDP_PORT);
+
+		try {
+			client.connect(5000, address, NetworkUtils.TCP_PORT);
+		} catch (IOException e) {
+			System.exit(1);
+		}
 		
-	    // For consistency, the classes to be sent over the network are
-        // registered by the same method for both the client and server.
+		addClientObserver(PlayerTouchTracker.getInstance());
+
+		// For consistency, the classes to be sent over the network are
+		// registered by the same method for both the client and server.
 		NetworkUtils.register(client);
 
-		client.sendTCP("asd");
-		
+		client.sendTCP(0);
 		client.addListener(new Listener() {
 			public void received(Connection connection, Object object) {
-				if (object instanceof GameData) {
-					GameData response = (GameData) object;
-					updateGfx(response);
-				} else if (object instanceof String) {
-					System.out.println(object);
+				if (object instanceof HostData) {
+					updateGameState((HostData) object);
+				} else if (object instanceof Integer) {
+					System.out
+							.println("Client: Connection established confirmed");
+					gameStarted = true;
+					updateGameStart();
 				}
 			}
+
 		});
 	}
-	
-	protected void updateGfx(GameData response) {
-		//TODO use the gamedata to display the game
-		Gdx.app.log("NETWORK TEST", "x : " + response.getmPlayerOneX() );
+
+	private void updateGameStart() {
+		for (ClientObserver obs : mClientObserver) {
+			obs.gameClientStart();
+		}
 	}
 
-	public InetAddress discoverHost() {
-		return client.discoverHost(NetworkUtils.UDP_PORT, 10000);
+	protected void updateGameState(HostData response) {
+		updateClientObserver(response);
+	}
+
+	public String discoverHostAddress() {
+		String address;
+		InetAddress host = client.discoverHost(NetworkUtils.UDP_PORT, 3000);
+		try {
+			address = host.getHostAddress();
+		} catch (NullPointerException exp) {
+			return "localhost";
+		}
+
+		return address;
+	}
+
+	@Override
+	public void addClientObserver(ClientObserver obs) {
+		mClientObserver.add(obs);
+	}
+
+	@Override
+	public boolean removeClientObserver(ClientObserver obs) {
+		return mClientObserver.remove(obs);
+	}
+
+	@Override
+	public void updateClientObserver(HostData data) {
+		if (gameStarted) {
+			for (ClientObserver obs : mClientObserver) {
+				obs.updateHostData(data);
+			}
+		}
 	}
 }
