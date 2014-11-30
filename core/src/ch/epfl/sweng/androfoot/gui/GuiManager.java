@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import ch.epfl.sweng.androfoot.configuration.Configuration;
 import ch.epfl.sweng.androfoot.players.PlayerType;
 import ch.epfl.sweng.androfoot.screens.GameScreen;
+import ch.epfl.sweng.androfoot.screens.NetworkClientScreen;
+import ch.epfl.sweng.androfoot.screens.NetworkHostScreen;
 
 /**
  * @author Sidney Barthe This singleton class creates all the gui screens and
@@ -25,14 +27,14 @@ public class GuiManager {
 	private static final float CHECKBOX_X_SIZE = 0.1f;
 	private static final float CHECKBOX_Y_SIZE = 0.1f;
 	private static final float BUTTON_Y_SIZE = 0.1f;
-	private final float[] TITLE_PADDING = {0, 0, 0, 0.05f};
-	private final float[] DEFAULT_PADDING = {0.01f, 0.01f, 0.01f, 0.01f};
+	private final float[] TITLE_PADDING = { 0, 0, 0, 0.05f };
+	private final float[] DEFAULT_PADDING = { 0.01f, 0.01f, 0.01f, 0.01f };
 	private TextureAtlas atlas;
 	private Skin blueSkin;
 	private GuiWidget[] mMainMenuWidgets = new GuiWidget[6];
 	private GuiWidget[] mLocalPlayWidgets = new GuiWidget[8];
-	private GuiWidget[] mNetworkPlayWidgets = new GuiWidget[3];
 	private GuiWidget[] mSettingsWidgets = new GuiWidget[8];
+	private GuiWidget[] mNetworkPlayWidgets = new GuiWidget[4];
 	private GuiWidget[] mCreditsWidgets = new GuiWidget[3];
 	private GuiLabel mScoreLimitCounter;
 	private GuiSlider mSensibilityCounter;
@@ -89,9 +91,13 @@ public class GuiManager {
 		// Network Play
 		mNetworkPlayWidgets[0] = new GuiLabel(blueSkin, "default", true, TITLE_PADDING, 1,
 				"Network Play");
-		mNetworkPlayWidgets[1] = new GuiLabel(blueSkin, "default", true, TITLE_PADDING, 1,
-				"Not available for the moment");
+				mNetworkPlayWidgets[1] = new GuiButton(blueSkin, true, DEFAULT_PADDING,
+				"Host Game", BUTTON_X_SIZE_PER_LETTER, BUTTON_Y_SIZE, 2,
+				GuiCommand.goToHostNetwork);
 		mNetworkPlayWidgets[2] = new GuiButton(blueSkin, true, DEFAULT_PADDING,
+				"Join Game", BUTTON_X_SIZE_PER_LETTER, BUTTON_Y_SIZE, 2,
+				GuiCommand.goToClientNetwork);
+		mNetworkPlayWidgets[3] = new GuiButton(blueSkin, true, DEFAULT_PADDING,
 				"Back", BUTTON_X_SIZE_PER_LETTER, BUTTON_Y_SIZE, 1,
 				GuiCommand.goToMainMenu);
 		
@@ -135,48 +141,65 @@ public class GuiManager {
 
 	public void executeCommand(GuiCommand command) {
 		switch (command) {
-			case goToMainMenu:
-				((Game) Gdx.app.getApplicationListener()).setScreen(new GuiScreen(mMainMenuWidgets));
-				break;
-			case addScoreLimit:
-				Configuration.getInstance().addScoreLimit(1);
-				mScoreLimitCounter.setText(Integer.toString(Configuration.getInstance().getScoreLimit()));
-				break;
-			case exit:
-				Gdx.app.exit();
-				break;
-			case goToCredits:
-				((Game) Gdx.app.getApplicationListener()).setScreen(new GuiScreen(mCreditsWidgets));
-				break;
-			case goToNetworkPlay:
-				((Game) Gdx.app.getApplicationListener()).setScreen(new GuiScreen(mNetworkPlayWidgets));
-			case goToGameOver:
-				break;
-			case goToLocalPlay:
-				((Game) Gdx.app.getApplicationListener()).setScreen(new GuiScreen(mLocalPlayWidgets));
-				break;
-			case goToSettings:
-				((Game) Gdx.app.getApplicationListener()).setScreen(new GuiScreen(mSettingsWidgets));
-				break;
-			case startHuman:
-				((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen(
+		case goToMainMenu:
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GuiScreen(
+					mMainMenuWidgets));
+			break;
+		case addScoreLimit:
+			Configuration.getInstance().addScoreLimit(1);
+			mScoreLimitCounter.setText(Integer.toString(Configuration
+					.getInstance().getScoreLimit()));
+			break;
+		case exit:
+			Gdx.app.exit();
+			break;
+		case goToCredits:
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GuiScreen(
+					mCreditsWidgets));
+			break;
+		case goToNetworkPlay:
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GuiScreen(
+					mNetworkPlayWidgets));
+		case goToGameOver:
+			break;
+		case goToLocalPlay:
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GuiScreen(
+					mLocalPlayWidgets));
+			break;
+		case goToSettings:
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GuiScreen(
+					mSettingsWidgets));
+			break;
+		case startHuman:
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen(
 					PlayerType.LOCAL_PLAYER, PlayerType.LOCAL_PLAYER));
-				break;
-			case startAI:
-				((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen(
+			break;
+		case startAI:
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen(
 					PlayerType.LOCAL_PLAYER, PlayerType.RANDOM_AI_PLAYER));
-				break;
-			case subScoreLimit:
-				Configuration.getInstance().subScoreLimit(1);
-				mScoreLimitCounter.setText(Integer.toString(Configuration.getInstance().getScoreLimit()));
-				break;
-			case updateSensibility:
-				Configuration.getInstance().setSensibility(mSensibilityCounter.getValue());
-				break;
-			case nothing:
-				break;
-			default:
-				break;
+			break;
+		case subScoreLimit:
+			Configuration.getInstance().subScoreLimit(1);
+			mScoreLimitCounter.setText(Integer.toString(Configuration
+					.getInstance().getScoreLimit()));
+			break;
+		case updateSensibility:
+			Configuration.getInstance().setSensibility(
+					mSensibilityCounter.getValue());
+			break;
+		case goToClientNetwork:
+			((Game) Gdx.app.getApplicationListener())
+					.setScreen(new NetworkClientScreen());
+			break;
+		case goToHostNetwork:
+			((Game) Gdx.app.getApplicationListener())
+					.setScreen(new NetworkHostScreen());
+			break;
+		case nothing:
+			break;
+		default:
+			break;
+
 		}
 	}
 }

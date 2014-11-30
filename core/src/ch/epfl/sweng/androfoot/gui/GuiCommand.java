@@ -15,6 +15,8 @@ public enum GuiCommand {
 	goToCredits,
 	goToGameOver,
 	goToNetworkPlay,
+	goToClientNetwork,
+	goToHostNetwork,
 	exit,
 	addScoreLimit,
 	subScoreLimit,
