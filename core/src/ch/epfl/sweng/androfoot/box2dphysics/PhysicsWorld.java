@@ -2,6 +2,7 @@ package ch.epfl.sweng.androfoot.box2dphysics;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -154,6 +155,20 @@ public final class PhysicsWorld implements DrawableWorld {
 	public static PowerUp createPowerUp(float x, float y, float hBoxRadius) {
 		pauseWorld();
 		PowerUp powerUp = new PowerUp(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, hBoxRadius);
+		startWorld();
+		
+		return powerUp;
+	}
+	
+	/**
+	 * Creates a power up object in the centre of the field with a random y coordinate.
+	 * @return Power Up object.
+	 */
+	public static PowerUp createRandomPowerUp() {
+		pauseWorld();
+		float posY = (float) (Math.random() * Constants.WORLD_SIZE_Y);
+		PowerUp powerUp = new PowerUp(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), Constants.WORLD_SIZE_X/2,
+				posY, Constants.POWERUP_RADIUS);
 		startWorld();
 		
 		return powerUp;
