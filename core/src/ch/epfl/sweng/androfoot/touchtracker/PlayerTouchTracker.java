@@ -126,7 +126,7 @@ public enum PlayerTouchTracker implements InputProcessor,
 
 	@Override
 	public boolean removeObserverPlayerTwo(TouchTrackerObserver obs) {
-		return observersPlayerTwo.remove(obs);
+		return observersPlayerOne.remove(obs);
 	}
 
 	@Override
@@ -260,4 +260,3 @@ public enum PlayerTouchTracker implements InputProcessor,
 		
 	}
 }
-
