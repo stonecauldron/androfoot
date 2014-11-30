@@ -1,5 +1,6 @@
 package test.ch.epfl.sweng.androfoot.box2dphysics;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -36,10 +37,14 @@ public class PowerUpContactObserverTest implements PowerUpObserver {
 		ball = new Ball(world, 4.0f, 1.0f, Constants.BALL_RADIUS,
 				Constants.BALL_DENSITY, Constants.BALL_FRICTION,
 				Constants.BALL_RESTITUTION);
-		ball.setLinearVelocity(-1.0f, 0);
 		
+		ball.setLinearVelocity(1.0f, 0);
 		PaddleTest.multiplePhyStep(world, null);
+		assertFalse(eventOcurred);
 		
+		ball.setBallPosition(1.0f, 1.0f);
+		ball.setLinearVelocity(-1.0f, 0);
+		PaddleTest.multiplePhyStep(world, null);
 		assertTrue(eventOcurred);
 	}
 
