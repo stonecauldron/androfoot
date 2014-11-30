@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import ch.epfl.sweng.androfoot.board.BoardFactory;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
+import ch.epfl.sweng.androfoot.configuration.Configuration;
 import ch.epfl.sweng.androfoot.interfaces.HostObserver;
 import ch.epfl.sweng.androfoot.kryonetnetworking.InputData;
 import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerHost;
@@ -21,14 +22,15 @@ public class NetworkHostScreen implements Screen, HostObserver {
 	public NetworkHostScreen() {
 		ph = new PlayerHost();
 		try {
-			
+
 			ph.addHostObserver(this);
 			ph.addHostObserver(PhysicsWorld.getPhysicsWorld());
 			BoardFactory.setupBoard(PlayerType.LOCAL_PLAYER,
-					PlayerType.REMOTE_PLAYER);
-			
+					PlayerType.REMOTE_PLAYER, Configuration.getInstance()
+							.getScoreLimit());
+
 			ph.listenToClient();
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

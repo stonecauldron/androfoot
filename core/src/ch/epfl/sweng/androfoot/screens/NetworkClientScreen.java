@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import ch.epfl.sweng.androfoot.board.BoardFactory;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
+import ch.epfl.sweng.androfoot.configuration.Configuration;
 import ch.epfl.sweng.androfoot.interfaces.ClientObserver;
 import ch.epfl.sweng.androfoot.kryonetnetworking.HostData;
 import ch.epfl.sweng.androfoot.kryonetnetworking.InputData;
@@ -24,7 +25,8 @@ public class NetworkClientScreen implements Screen, ClientObserver {
 		try {
 			pc.addClientObserver(this);
 			BoardFactory.setupBoard(PlayerType.REMOTE_PLAYER,
-					PlayerType.LOCAL_PLAYER);
+					PlayerType.LOCAL_PLAYER, Configuration.getInstance()
+							.getScoreLimit());
 			pc.addClientObserver(PhysicsWorld.getPhysicsWorld());
 
 			pc.listenToServer();
