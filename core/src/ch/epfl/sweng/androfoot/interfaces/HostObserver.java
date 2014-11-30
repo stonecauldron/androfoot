@@ -6,5 +6,4 @@ public interface HostObserver {
 
 	void updateClientData(InputData data);
 	void gameHostStart();
-	
 }
