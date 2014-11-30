@@ -83,6 +83,7 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 	public void update(int playerId, float posX, float posY, boolean touched) {
 	}
 
+	//TODO refactor code duplication
 	private void applyMoveCondition(int playerId, float posX, float posY,
 			boolean touched) {
 		float deltaX = mPaddleMover.pixelXToGameUnit(posX - mOldX);
