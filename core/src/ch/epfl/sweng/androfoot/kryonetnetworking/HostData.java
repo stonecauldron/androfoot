@@ -6,15 +6,13 @@ package ch.epfl.sweng.androfoot.kryonetnetworking;
  *         Class to abstract game information needed to display the game on a
  *         slave client
  */
-public class GameData {
+public class HostData {
 	/*
 	 * BRUTE DATA SECTION
 	 */
-	private float mPlayerOneX;
-	private float mPlayerOneY;
-	
-	private float mPlayerTwoX;
-	private float mPlayerTwoY;
+	private float touchX;
+	private float touchY;
+	private boolean touched;
 
 	private float mBallX;
 	private float mBallY;
@@ -40,32 +38,25 @@ public class GameData {
 	 * @param ballXPosition
 	 * @param ballYPosition
 	 */
-	public GameData(float playerOneXPosition, float playerOneYPosition,
-			float playerTwoXPosition, float playerTwoYPosition,
-			float ballXPosition, float ballYPosition, int playerOneScore,
-			int playerTwoScore, boolean playerOneScored,
-			boolean playerTwoScored, boolean ballOnPaddle, boolean ballOnWall,
-			boolean isShaking) {
-		this.mPlayerOneX = playerOneXPosition;
-		this.mPlayerOneY = playerOneYPosition;
-		this.mPlayerTwoX = playerTwoXPosition;
-		this.mPlayerTwoY = playerTwoYPosition;
+	public HostData(float playerOneXPosition, float playerOneYPosition,
+			boolean touched, float ballXPosition, float ballYPosition,
+			int playerOneScore, boolean isShaking) {
+
+		this.touchX = playerOneXPosition;
+		this.touchY = playerOneYPosition;
+		this.touched = touched;
 
 		this.mBallX = ballXPosition;
 		this.mBallY = ballYPosition;
-
-
-		/*
-		 * EVENTS
-		 */
-		this.mPlayerOneHasScored = playerOneScored;
-		this.mPlayerTwoHasScored = playerTwoScored;
-
 
 		this.mIsShaking = isShaking;
 
 	}
 
+	public HostData() {
+		
+	}
+	
 	public boolean ismPlayerOneHasScored() {
 		return mPlayerOneHasScored;
 	}
@@ -74,25 +65,20 @@ public class GameData {
 		return mPlayerTwoHasScored;
 	}
 
-
 	public boolean ismIsShaking() {
 		return mIsShaking;
 	}
 
-	public float getmPlayerOneX() {
-		return mPlayerOneX;
+	public float getTouchX() {
+		return touchX;
 	}
 
-	public float getmPlayerOneY() {
-		return mPlayerOneY;
+	public float getTouchY() {
+		return touchY;
 	}
 
-	public float getmPlayerTwoX() {
-		return mPlayerTwoX;
-	}
-
-	public float getmPlayerTwoY() {
-		return mPlayerTwoY;
+	public boolean isTouched() {
+		return touched;
 	}
 
 	public float getmBallX() {
