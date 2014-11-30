@@ -33,10 +33,14 @@ public class PlayerFactory {
 			throw new IllegalArgumentException();
 		}
 		
-		if (playerNumber == playerNumber.ONE) {
+		if (playerNumber == PlayerNumber.ONE) {
 			// get next player number
-			playerNumber = playerNumber.TWO;
+			playerNumber = PlayerNumber.TWO;
 		}
 		return player;
+	}
+	
+	public static void resetPlayerNumber() {
+		playerNumber = PlayerNumber.ONE;
 	}
 }

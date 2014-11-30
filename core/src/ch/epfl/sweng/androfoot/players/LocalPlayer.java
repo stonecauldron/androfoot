@@ -20,8 +20,11 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 	private boolean mOldTouched = false;
 	private PaddleMover mPaddleMover;
 
+	private PlayerNumber mPlayerNumber;
+
 	LocalPlayer(PlayerNumber playerNumber) {
 		super(playerNumber);
+		mPlayerNumber = playerNumber;
 		switch (playerNumber) {
 		case ONE:
 			PlayerTouchTracker.getInstance().addObserverPlayerOne(this);
@@ -33,7 +36,7 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 			throw new IllegalArgumentException(
 					"Wrong instantiation of a player see enum playerType");
 		}
-		
+
 		this.mPaddleMover = new PaddleMover(super.getPaddles());
 		mPaddleMover.updateTreshold();
 	}
@@ -66,6 +69,21 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 	}
 
 	@Override
+	public void destroy() {
+		super.destroy();
+		switch (mPlayerNumber) {
+		case ONE:
+			PlayerTouchTracker.getInstance().removeObserverPlayerOne(this);
+			break;
+		case TWO:
+			PlayerTouchTracker.getInstance().removeObserverPlayerTwo(this);
+			break;
+		default:
+			throw new IllegalArgumentException();
+		}
+	}
+
+	@Override
 	public void update(int playerId, float posX, float posY, boolean touched) {
 	}
 
@@ -75,7 +93,7 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 		float deltaY = mPaddleMover.pixelYToGameUnit(posY - mOldY);
 		float moveTresholdX = mPaddleMover.getmMoveTresholdX();
 		float moveTresholdY = mPaddleMover.getmMoveTresholdY();
-		
+
 		if (mOldTouched == true && touched == true) {
 
 			if (Math.abs(deltaX) > moveTresholdX
