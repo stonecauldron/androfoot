@@ -9,7 +9,7 @@ public class NetworkUtils {
 	// This registers objects that are going to be sent over the network.
     static public void register (EndPoint endPoint) {
             Kryo kryo = endPoint.getKryo();
-            kryo.register(GameData.class);
-            kryo.register(TouchData.class);
+            kryo.register(HostData.class);
+            kryo.register(InputData.class);
     }
 }
