@@ -1,5 +1,6 @@
 package ch.epfl.sweng.androfoot.screens;
 
+import ch.epfl.sweng.androfoot.board.Board;
 import ch.epfl.sweng.androfoot.board.BoardFactory;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.configuration.Configuration;
@@ -31,6 +32,8 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
 			GuiManager.getInstance().executeCommand(GuiCommand.goToMainMenu);
+			// reset board
+			Board.getInstance().resetBoard();
 		}
 		AIEngine.getInstance().update(delta);
 		PhysicsWorld.getPhysicsWorld().phyStep(delta);

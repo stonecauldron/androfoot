@@ -121,11 +121,17 @@ public class Board implements GoalObserver, PlayerObserver {
 		mInstance = instance;
 	}
 
-	void resetBoard() {
+	/**
+	 * Deletes the paddles and ball that populate the current board.
+	 */
+	public void resetBoard() {
 		
 		// destroy players
 		mPlayerOne.destroy();
 		mPlayerTwo.destroy();
+		
+		// destroy ball
+		PhysicsWorld.destroy(ball);
 		
 	}
 	
