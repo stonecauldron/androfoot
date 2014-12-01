@@ -3,7 +3,7 @@ package ch.epfl.sweng.androfoot.polygongenerator;
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 
 /**
- * A class that wrapp a {@link PolygonGenerator} and append a point at the end
+ * A class that wrap a {@link PolygonGenerator} and append a point at the end
  * of the polygon
  * 
  * @author Guillame Leclerc
