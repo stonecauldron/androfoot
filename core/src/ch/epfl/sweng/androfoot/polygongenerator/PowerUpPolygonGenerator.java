@@ -11,7 +11,7 @@ import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
  * @author Guillaume
  *
  */
-public class PowerUPPolygonNegerator extends AbstractPolygonGenerator implements
+public class PowerUpPolygonGenerator extends AbstractPolygonGenerator implements
 		PolygonGenerator {
 
 	private static final int NB_SEGMENTS = 20;
@@ -19,9 +19,10 @@ public class PowerUPPolygonNegerator extends AbstractPolygonGenerator implements
 	private final int branchNumber;
 	private final float branchWidth;
 	private final int nbSegments;
+	private final float radius;
 
 	/**
-	 * Build a new {@link PowerUPPolygonNegerator} with basic parameters and the
+	 * Build a new {@link PowerUpPolygonGenerator} with basic parameters and the
 	 * default number of segments
 	 * 
 	 * @param branchNumberArg
@@ -29,12 +30,12 @@ public class PowerUPPolygonNegerator extends AbstractPolygonGenerator implements
 	 * @param branchWidhtArg
 	 *            the width of each branch at the center of the powerup
 	 */
-	public PowerUPPolygonNegerator(int branchNumberArg, float branchWidthArg) {
-		this(branchNumberArg, branchWidthArg, -1);
+	public PowerUpPolygonGenerator(float radiusArg, int branchNumberArg, float branchWidthArg) {
+		this(radiusArg, branchNumberArg, branchWidthArg, NB_SEGMENTS);
 	}
 
 	/**
-	 * Build a {@link PowerUPPolygonNegerator} with advanced parameters
+	 * Build a {@link PowerUpPolygonGenerator} with advanced parameters
 	 * 
 	 * @param branchNumberArg
 	 *            the number of branches in the "star"
@@ -43,11 +44,12 @@ public class PowerUPPolygonNegerator extends AbstractPolygonGenerator implements
 	 * @param nbSegmentsPerBranch
 	 *            the number of segments in each branch of the "star"
 	 */
-	public PowerUPPolygonNegerator(int branchNumberArg, float branchWidthArg,
+	public PowerUpPolygonGenerator(float radiusArg, int branchNumberArg, float branchWidthArg,
 			int nbSegmentsPerBranch) {
 		branchNumber = branchNumberArg;
 		branchWidth = branchWidthArg;
 		nbSegments = nbSegmentsPerBranch;
+		radius = radiusArg;
 	}
 
 	@Override
@@ -58,12 +60,10 @@ public class PowerUPPolygonNegerator extends AbstractPolygonGenerator implements
 
 		for (int i = 0; i < branchNumber; i++) {
 			generators.add(new PolygonRotator(new PolygonScaler(
-					new CircleGenerator(NB_SEGMENTS), branchWidth),
+					new CircleGenerator(nbSegments),radius*branchWidth, radius),
 					currentAngle));
 			currentAngle += deltaAngle;
 		}
-		
 		return new PolygonMerger(generators).generateVertexesFloat();
-
 	}
 }

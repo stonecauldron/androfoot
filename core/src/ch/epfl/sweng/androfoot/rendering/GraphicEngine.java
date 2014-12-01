@@ -5,6 +5,7 @@ import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
+import ch.epfl.sweng.androfoot.gamelogic.PowerUpCharacteristicsManger;
 import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBorder;
@@ -51,6 +52,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 	private final RectangleRenderer rectangleRenderer = new RectangleRenderer();
 	private final PlayerRenderer playerT1Renderer;
 	private final PlayerRenderer playerT2Renderer;
+	private final PowerUpRender powerUpRender;
 
 	private DrawableWorld world = null;
 	private Rectangle worldRegion = null;
@@ -72,6 +74,8 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 		playerT1Renderer.setColor(PlayerCharacteristicsManager.getColorTeam1());
 		playerT2Renderer = new PlayerRenderer(PlayerCharacteristicsManager.getInstanceTeam1());
 		playerT2Renderer.setColor(PlayerCharacteristicsManager.getColorTeam2());
+		powerUpRender = new PowerUpRender(PowerUpCharacteristicsManger.getPowerUpShape());
+		powerUpRender.setColor(PowerUpCharacteristicsManger.getPowerUpColor());
 		batch.enableBlending();
 		EventManager.getEventManager().addGoalObserver(this);
 		EventManager.getEventManager().addBorderContactObserver(this);
@@ -133,6 +137,8 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 		boardRenderer.render(batch, renderer);
 		shockwaveManager.render(batch, renderer);
 		shockwaveManager.age(delta);
+		powerUpRender.setPosition(1f, 1f);
+		powerUpRender.render(batch, renderer);
 		for (Visitable v : world.toDraw()) {
 			v.accept(this);
 		}

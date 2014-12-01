@@ -38,7 +38,7 @@ public class AbstractMeshRenderer implements DrawableRenderer, MeshRenderer {
 		shaderBuilder = getShader();
 		mesh = meshArg;
 		zPos = -1;
-		scale = 0;
+		scale = 1;
 		postition = new ImmutablePoint<Float>(0f, 0f);
 		transformationMatrix = new Matrix4().idt();
 		rotationMatrix = new Matrix4().idt();
