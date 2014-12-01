@@ -11,8 +11,10 @@ import ch.epfl.sweng.androfoot.gui.GuiCommand;
 import ch.epfl.sweng.androfoot.gui.GuiManager;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
+import ch.epfl.sweng.androfoot.interfaces.DefaultPlayer;
 import ch.epfl.sweng.androfoot.interfaces.DefaultPowerUp;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
+import ch.epfl.sweng.androfoot.interfaces.PaddleContactObserver;
 import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpObserver;
 import ch.epfl.sweng.androfoot.players.AbstractPlayer;
@@ -29,7 +31,7 @@ import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
  * @author Pedro Caldeira <pedrocaldeira>
  *
  */
-public class Board implements GoalObserver, PlayerObserver, PowerUpObserver {
+public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, PaddleContactObserver {
 
 	private final float INITIAL_BALL_SPEED = 2f;
 
@@ -37,6 +39,11 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver {
 	
 	private AbstractPlayer mPlayerOne;
 	private AbstractPlayer mPlayerTwo;
+
+	private static boolean playerOneTouched;
+
+	private AbstractPlayer playerOne;
+	private AbstractPlayer playerTwo;
 
 	private int playerOneScore;
 	private int playerTwoScore;
@@ -163,6 +170,14 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver {
 		winningScore = winScore;
 	}
 
+	@Override
+	public void paddleContact(DefaultPlayer player, DefaultBall ball) {
+		playerOneTouched = false;
+		if (player.getTeam()) {
+			playerOneTouched = true;
+		}
+	}
+	
 	private void setUpBall() {
 		ball = PhysicsWorld.createBall(Constants.WORLD_SIZE_X / 2,
 				Constants.WORLD_SIZE_Y / 2, Constants.BALL_RADIUS);
