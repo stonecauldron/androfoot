@@ -63,15 +63,13 @@ public class ScoreRenderer implements DrawableRenderer {
 		scoreBDisplayer = generateRendererForScore(player2, false);
 	}
 
-	private static PolygonRenderer generateRendererForScore(int score,
-			boolean team1) {
+	private static PolygonRenderer generateRendererForScore(int score, boolean team1) {
 		int maxScore = Configuration.getInstance().getScoreLimit();
 		float progression = score / (float) (maxScore);
 		PolygonGenerator generator;
-		if(score != 0){
-			generator = new CircleGenerator(NB_SEGMENT_SCORE,
-					0,
-					PolygonUtils.MAX_ANGLE_RADIAN/2 * progression, AngleType.RADIAN);
+		if (score != 0) {
+			generator = new CircleGenerator(NB_SEGMENT_SCORE, 0, PolygonUtils.MAX_ANGLE_RADIAN / 2 * progression,
+					AngleType.RADIAN);
 		} else {
 			generator = new RawPolygonGenerator(new float[0]);
 		}
@@ -82,13 +80,14 @@ public class ScoreRenderer implements DrawableRenderer {
 		} else {
 			c = new Color(PlayerCharacteristicsManager.getColorTeam2());
 		}
-		generator = new PolygonRotator(generator, - PolygonUtils.MAX_ANGLE_RADIAN/4);
+		generator = new PolygonRotator(generator, -PolygonUtils.MAX_ANGLE_RADIAN / 4);
 		generator = new NonCyclicPolygon(generator);
 		generator = new PrependPointPolygonGenerator(generator, new ImmutablePoint<Float>(0f, 0f));
 		generator = new AppendPointPolygonGenerator(generator, new ImmutablePoint<Float>(0f, 0f));
 		float[] data = generator.generateVertexesFloat();
 		PolygonRenderer renderer = new PolygonRenderer(generator);
-		renderer.setPosition(Constants.WORLD_ORIGIN_X + Constants.WORLD_SIZE_X/2, Constants.WORLD_ORIGIN_Y + Constants.WORLD_SIZE_Y/2);
+		renderer.setPosition(Constants.WORLD_ORIGIN_X + Constants.WORLD_SIZE_X / 2, Constants.WORLD_ORIGIN_Y
+				+ Constants.WORLD_SIZE_Y / 2);
 		c.a = 0.1f;
 		System.out.println(c);
 		renderer.setColor(c);
@@ -99,8 +98,12 @@ public class ScoreRenderer implements DrawableRenderer {
 	public void render(SpriteBatch batch, ShapeRenderer shapes) {
 		batch.begin();
 		GraphicEngine.getEngine().enableBlending();
-		scoreADisplayer.render(batch, shapes);
-		scoreBDisplayer.render(batch, shapes);
+		if (scoreADisplayer != null) {
+			scoreADisplayer.render(batch, shapes);
+		}
+		if (scoreADisplayer != null) {
+			scoreBDisplayer.render(batch, shapes);
+		}
 		batch.end();
 	}
 
