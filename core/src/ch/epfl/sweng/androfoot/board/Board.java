@@ -67,14 +67,17 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 
 		setUpBall();
 		
+		PhysicsWorld.createPowerUp(Constants.WORLD_SIZE_X/2, 1.0f, 1.0f);
+		
 		setUpUpperAndLowerWalls();
 		setUpLeftAndRightWalls();
 		setUpGoals();
-
-		// start observing goal events
+		
+		// Start observing events.
 		EventManager.getEventManager().addGoalObserver(this);
 		EventManager.getEventManager().addPlayerObserver(this);
 		EventManager.getEventManager().addPowerUpContactObserver(this);
+		EventManager.getEventManager().addPaddleContactObserver(this);
 	}
 
 	/**
@@ -162,7 +165,12 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 
 	@Override
 	public void applyPowerUp(DefaultPowerUp powerUp) {
-		PhysicsWorld.destroy(powerUp);
+		//PhysicsWorld.destroy(powerUp);
+		if (playerOneTouched) {
+			System.out.println("P1");
+		} else {
+			System.out.println("P2");
+		}
 	}
 	
 	private void setUpScore(int winScore) {
