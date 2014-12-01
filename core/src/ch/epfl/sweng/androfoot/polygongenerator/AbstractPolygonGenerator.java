@@ -17,6 +17,7 @@ import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
  *
  */
 public abstract class AbstractPolygonGenerator implements PolygonGenerator {
+	private final static int SIZE_DIMENSION3 = 3;
 
 	/**
 	 * generate the polygon and return the vertexes
@@ -39,13 +40,13 @@ public abstract class AbstractPolygonGenerator implements PolygonGenerator {
 
 	@Override
 	public float[] generateVertexesFloatInZPlane(float z) {
-		float[] vertexes = generateVertexesFloat();
-		int segments = vertexes.length / 2 - 1;
-		float[] vertexes3D = new float[(segments + 1) * 3];
+		float[] generatedVertexes = generateVertexesFloat();
+		int segments = generatedVertexes.length / 2 - 1;
+		float[] vertexes3D = new float[(segments + 1) * SIZE_DIMENSION3];
 		for (int i = 0; i <= segments; i++) {
-			vertexes3D[3 * i] = vertexes[2 * i];
-			vertexes3D[3 * i + 1] = vertexes[2 * i + 1];
-			vertexes3D[3 * i + 2] = z;
+			vertexes3D[SIZE_DIMENSION3 * i] = generatedVertexes[2 * i];
+			vertexes3D[SIZE_DIMENSION3 * i + 1] = generatedVertexes[2 * i + 1];
+			vertexes3D[SIZE_DIMENSION3 * i + 2] = z;
 		}
 
 		return vertexes3D;
@@ -53,12 +54,11 @@ public abstract class AbstractPolygonGenerator implements PolygonGenerator {
 
 	@Override
 	public List<ImmutablePoint<Float>> generatePointsList() {
-		float[] vertexes = generateVertexesFloat();
-		int segments = vertexes.length / 2 - 1;
+		float[] generatedVertexes = generateVertexesFloat();
+		int segments = generatedVertexes.length / 2 - 1;
 		ArrayList<ImmutablePoint<Float>> result = new ArrayList<ImmutablePoint<Float>>();
 		for (int i = 0; i <= segments; i++) {
-			result.add(new ImmutablePoint<Float>(vertexes[2 * i],
-					vertexes[2 * i + 1]));
+			result.add(new ImmutablePoint<Float>(generatedVertexes[2 * i], generatedVertexes[2 * i + 1]));
 		}
 
 		return result;
