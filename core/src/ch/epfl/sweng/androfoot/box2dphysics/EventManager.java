@@ -107,7 +107,7 @@ public final class EventManager implements DefaultEventManager {
         borderEvents.clear();
         
         for (PowerUpContactEvent event : powerUpEvents) {
-        	for(PowerUpObserver observer : powerUpObservers) {
+        	for (PowerUpObserver observer : powerUpObservers) {
         		observer.applyPowerUp(event.getPowerUp());
         	}
         }
@@ -305,13 +305,26 @@ public final class EventManager implements DefaultEventManager {
 		}
 	}
 	
+	/**
+	 * Class that defines the power up contact event.
+	 * @author Matvey
+	 *
+	 */
 	class PowerUpContactEvent {
 		private DefaultPowerUp powerUp;
 		
+		/**
+		 * Constructor of the power up event class.
+		 * @param powerUpOfTheEvent Power Up object of the event.
+		 */
 		public PowerUpContactEvent(DefaultPowerUp powerUpOfTheEvent) {
 			powerUp = powerUpOfTheEvent;
 		}
 		
+		/**
+		 * Returns the power up object of the event.
+		 * @return
+		 */
 		public DefaultPowerUp getPowerUp() {
 			return powerUp;
 		}

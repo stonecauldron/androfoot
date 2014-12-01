@@ -11,6 +11,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import ch.epfl.sweng.androfoot.interfaces.DefaultPowerUp;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
+/**
+ * Class that defines the power up physics object.
+ * @author Matvey
+ *
+ */
 public class PowerUp implements DefaultPowerUp {
 	
 	private Body powerUpBody;
@@ -19,6 +24,13 @@ public class PowerUp implements DefaultPowerUp {
 	private final FixtureDef fixture = new FixtureDef();
 	private float hitBoxRadius;
 	
+	/**
+	 * Constructor of the power up class.
+	 * @param world The Box2D world in which the object is located.
+	 * @param initPosX Initial x coordinate of the ball.
+	 * @param initPosY Initial y coordinate of the ball.
+	 * @param hBoxRadius The radius of the poewr up hitbox.
+	 */
 	public PowerUp(World world, float initPosX, float initPosY, float hBoxRadius) {
 		
 		bodyDef.type = BodyType.StaticBody;

@@ -2,7 +2,6 @@ package ch.epfl.sweng.androfoot.box2dphysics;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Random;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;

@@ -27,6 +27,7 @@ public class Ball implements DefaultBall {
 	
 	/**
 	 * Contructor of the Ball class.
+	 * @param world The Box2D world in which the object is located.
 	 * @param initPosX Initial x coordinate of the ball.
 	 * @param initPosY Initial y coordinate of the ball.
 	 * @param radius Radius of the ball.
