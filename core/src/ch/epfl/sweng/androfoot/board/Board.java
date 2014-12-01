@@ -67,8 +67,6 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 
 		setUpBall();
 		
-		PhysicsWorld.createPowerUp(Constants.WORLD_SIZE_X/2, 1.0f, 1.0f);
-		
 		setUpUpperAndLowerWalls();
 		setUpLeftAndRightWalls();
 		setUpGoals();
@@ -167,9 +165,9 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 	public void applyPowerUp(DefaultPowerUp powerUp) {
 		PhysicsWorld.destroy(powerUp);
 		if (playerOneTouched) {
-			System.out.println("P1");
+			//Insert instructions here
 		} else {
-			System.out.println("P2");
+			//Insert instructions here
 		}
 	}
 	
