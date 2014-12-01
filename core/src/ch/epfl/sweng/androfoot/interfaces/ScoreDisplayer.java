@@ -11,5 +11,5 @@ public interface ScoreDisplayer {
 	 * @param player1 The score for the player 1
 	 * @param player2 The score for the player 2
 	 */
-	public void setScore(int player1, int player2);
+	void setScore(int player1, int player2);
 }
