@@ -44,6 +44,7 @@ public class Player implements DefaultPlayer {
 	
 	/**
 	 * Constructor of an individual player.
+	 * @param world The Box2D world in which the object is located.
 	 * @param initPosX x coordinate of the initial position of the player.
 	 * @param initPosY y coordinate of the initial position of the player.
 	 * @param teamOrientation If true the player is facing right, otherwise player is facing left.

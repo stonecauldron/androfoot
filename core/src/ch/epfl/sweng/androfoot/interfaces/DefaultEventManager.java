@@ -38,6 +38,12 @@ public interface DefaultEventManager {
     void addPlayerObserver(PlayerObserver observer);
     
     /**
+     * Adds an observer for the power up contact event.
+     * @param observer
+     */
+    void addPowerUpContactObserver(PowerUpObserver observer);
+    
+    /**
      * Add an event which will be thrown
      * @param goal
      * @param ball
@@ -64,4 +70,10 @@ public interface DefaultEventManager {
      * @param ball
      */
     void addEventBorder(DefaultBorder border, DefaultBall ball);
+    
+    /**
+     * Adds a power up event to be thrown.
+     * @param powerUp
+     */
+    void addEventPowerUp(DefaultPowerUp powerUp);
 }

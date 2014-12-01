@@ -16,10 +16,12 @@ import ch.epfl.sweng.androfoot.interfaces.DefaultBorder;
 import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultEventManager;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
+import ch.epfl.sweng.androfoot.interfaces.DefaultPowerUp;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.interfaces.PaddleContactObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultPlayer;
 import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
+import ch.epfl.sweng.androfoot.interfaces.PowerUpObserver;
 
 public class EventManagerTester implements DefaultEventManager {
 
@@ -36,6 +38,9 @@ public class EventManagerTester implements DefaultEventManager {
 
     private Set<BorderObserver> borderObservers;
     private List<BorderContactEvent> borderEvents;
+    
+    private Set<PowerUpObserver> powerUpObservers;
+	private List<PowerUpContactEvent> powerUpEvents;
 
     private EventManagerTester() {
         goalObservers = new HashSet<GoalObserver>();
@@ -49,6 +54,9 @@ public class EventManagerTester implements DefaultEventManager {
 
         borderObservers = new HashSet<BorderObserver>();
         borderEvents = new ArrayList<BorderContactEvent>();
+        
+        powerUpObservers = new HashSet<PowerUpObserver>();
+		powerUpEvents = new ArrayList<PowerUpContactEvent>();
 
         GlobalContactListener.addListener(GoalContactListener.getInstance());
         GlobalContactListener.addListener(PaddleContactListener.getInstance());
@@ -88,6 +96,13 @@ public class EventManagerTester implements DefaultEventManager {
             }
         }
         borderEvents.clear();
+        
+        for (PowerUpContactEvent event : powerUpEvents) {
+        	for(PowerUpObserver observer : powerUpObservers) {
+        		observer.applyPowerUp(event.getPowerUp());
+        	}
+        }
+        powerUpEvents.clear();
     }
 
     /**
@@ -126,6 +141,10 @@ public class EventManagerTester implements DefaultEventManager {
     public void addBorderContactObserver(BorderObserver observer) {
         borderObservers.add(observer);
     }
+    
+    public void addPowerUpContactObserver(PowerUpObserver observer) {
+		powerUpObservers.add(observer);
+	}
 
     public void addEventGoal(DefaultGoal goal, DefaultBall ball) {
         goal = goal.clone();
@@ -151,6 +170,12 @@ public class EventManagerTester implements DefaultEventManager {
         
         borderEvents.add(new BorderContactEvent(border, ball));
     }
+    
+    public void addEventPowerUp(DefaultPowerUp powerUp) {
+		powerUp = powerUp.clone();
+		
+		powerUpEvents.add(new PowerUpContactEvent(powerUp));
+	}
 
     /**
      * Event when a goal occured
@@ -266,4 +291,16 @@ public class EventManagerTester implements DefaultEventManager {
             return ball;
         }
     }
+    
+    class PowerUpContactEvent {
+		private DefaultPowerUp powerUp;
+		
+		public PowerUpContactEvent(DefaultPowerUp powerUpOfTheEvent) {
+			powerUp = powerUpOfTheEvent;
+		}
+		
+		public DefaultPowerUp getPowerUp() {
+			return powerUp;
+		}
+	}
 }
