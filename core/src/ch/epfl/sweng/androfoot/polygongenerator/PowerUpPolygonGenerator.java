@@ -19,6 +19,7 @@ public class PowerUpPolygonGenerator extends AbstractPolygonGenerator implements
 	private final int branchNumber;
 	private final float branchWidth;
 	private final int nbSegments;
+	private final float radius;
 
 	/**
 	 * Build a new {@link PowerUpPolygonGenerator} with basic parameters and the
@@ -29,8 +30,8 @@ public class PowerUpPolygonGenerator extends AbstractPolygonGenerator implements
 	 * @param branchWidhtArg
 	 *            the width of each branch at the center of the powerup
 	 */
-	public PowerUpPolygonGenerator(int branchNumberArg, float branchWidthArg) {
-		this(branchNumberArg, branchWidthArg, -1);
+	public PowerUpPolygonGenerator(float radiusArg, int branchNumberArg, float branchWidthArg) {
+		this(radiusArg, branchNumberArg, branchWidthArg, NB_SEGMENTS);
 	}
 
 	/**
@@ -43,11 +44,12 @@ public class PowerUpPolygonGenerator extends AbstractPolygonGenerator implements
 	 * @param nbSegmentsPerBranch
 	 *            the number of segments in each branch of the "star"
 	 */
-	public PowerUpPolygonGenerator(int branchNumberArg, float branchWidthArg,
+	public PowerUpPolygonGenerator(float radiusArg, int branchNumberArg, float branchWidthArg,
 			int nbSegmentsPerBranch) {
 		branchNumber = branchNumberArg;
 		branchWidth = branchWidthArg;
 		nbSegments = nbSegmentsPerBranch;
+		radius = radiusArg;
 	}
 
 	@Override
@@ -58,12 +60,10 @@ public class PowerUpPolygonGenerator extends AbstractPolygonGenerator implements
 
 		for (int i = 0; i < branchNumber; i++) {
 			generators.add(new PolygonRotator(new PolygonScaler(
-					new CircleGenerator(NB_SEGMENTS),1, branchWidth),
+					new CircleGenerator(nbSegments),radius*branchWidth, radius),
 					currentAngle));
 			currentAngle += deltaAngle;
 		}
-		
 		return new PolygonMerger(generators).generateVertexesFloat();
-
 	}
 }
