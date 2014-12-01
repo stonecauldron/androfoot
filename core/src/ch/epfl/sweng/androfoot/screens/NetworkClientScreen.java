@@ -100,5 +100,4 @@ public class NetworkClientScreen implements Screen, ClientObserver {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

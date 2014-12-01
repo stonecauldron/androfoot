@@ -22,7 +22,6 @@ public class NetworkHostScreen implements Screen, HostObserver {
 	public NetworkHostScreen() {
 		ph = new PlayerHost();
 		try {
-
 			ph.addHostObserver(this);
 			ph.addHostObserver(PhysicsWorld.getPhysicsWorld());
 			BoardFactory.setupBoard(PlayerType.LOCAL_PLAYER,
