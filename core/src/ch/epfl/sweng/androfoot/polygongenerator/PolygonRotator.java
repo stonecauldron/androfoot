@@ -26,7 +26,7 @@ public class PolygonRotator extends AbstractPolygonGenerator implements
 	public PolygonRotator(PolygonGenerator generatorArg, float angleArg) {
 		generator = generatorArg;
 		cosA = Math.cos(angleArg);
-		sinA = Math.cos(angleArg);
+		sinA = Math.sin(angleArg);
 	}
 
 	/*
@@ -42,8 +42,8 @@ public class PolygonRotator extends AbstractPolygonGenerator implements
 		int length = originalPolygon.length/2;
 		float[] resultPolygon = new float[length * 2];
 		for(int i = 0 ; i < length ; i++) {
-			resultPolygon[2 * i] = (float) (cosA*originalPolygon[2 * i]);
-			resultPolygon[2 * i + 1] = (float) (sinA*originalPolygon[2 * i + 1]);
+			resultPolygon[2 * i] = (float) (cosA*originalPolygon[2 * i] - sinA*originalPolygon[2 * i + 1]);
+			resultPolygon[2 * i + 1] = (float) (sinA*originalPolygon[2 * i] + cosA*originalPolygon[2 * i + 1]);
 		}
 		return resultPolygon;
 	}
