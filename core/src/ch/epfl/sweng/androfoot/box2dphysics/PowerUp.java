@@ -94,12 +94,12 @@ public class PowerUp implements DefaultPowerUp {
 			
 			@Override
 			public Body getBody() {
-				throw new UnsupportedOperationException();
+				return powerUpBody;
 			}
 
 			@Override
 			public int getZIndex() {
-				throw new UnsupportedOperationException();
+				return Constants.POWERUP_Z_INDEX;
 			}
 
 			@Override

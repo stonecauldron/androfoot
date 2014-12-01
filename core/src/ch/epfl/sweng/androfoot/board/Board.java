@@ -165,7 +165,7 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 
 	@Override
 	public void applyPowerUp(DefaultPowerUp powerUp) {
-		//PhysicsWorld.destroy(powerUp);
+		PhysicsWorld.destroy(powerUp);
 		if (playerOneTouched) {
 			System.out.println("P1");
 		} else {
