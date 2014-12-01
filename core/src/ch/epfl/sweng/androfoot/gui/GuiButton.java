@@ -22,6 +22,7 @@ public class GuiButton extends GuiWidget {
 	private int mColSpan;
 	
 	public GuiButton(Skin skin,
+					 String style,
 					 boolean lineBreak,
 					 float[] padding,
 					 String text,
@@ -33,7 +34,7 @@ public class GuiButton extends GuiWidget {
 		mNewLine = lineBreak;
 		mPadding = padding;
 		mText = text;
-		mButton = new TextButton(mText, skin);
+		mButton = new TextButton(mText, skin, style);
 		mXSizePerLetter = xSizePerLetter;
 		mYSize = ySize;
 		mCommand = command;

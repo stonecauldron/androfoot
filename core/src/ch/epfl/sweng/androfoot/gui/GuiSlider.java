@@ -47,6 +47,10 @@ public class GuiSlider extends GuiWidget {
 	}
 
 	public void show(Table table, int width, int height) {
+		mSlider.getStyle().knob.setMinHeight(mYSize * height);
+		mSlider.getStyle().knob.setMinWidth(mYSize * height);
+		mSlider.getStyle().background.setMinHeight((mYSize * height) / 2);
+		
 		table.add(mSlider)
 		.size(mXSize * width, mYSize * height)
 		.colspan(mColSpan)
