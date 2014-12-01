@@ -41,6 +41,7 @@ public class PowerUp implements DefaultPowerUp {
 		
 		fixture.shape = circle;
 		fixture.filter.categoryBits = Constants.CATEGORY_POWERUP;
+		fixture.isSensor = true;
 		
 		powerUpBody = world.createBody(bodyDef);
 		powerUpBody.createFixture(fixture);
