@@ -3,8 +3,14 @@ package ch.epfl.sweng.androfoot.touchtracker;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.epfl.sweng.androfoot.interfaces.ClientObserver;
+import ch.epfl.sweng.androfoot.interfaces.HostObserver;
 import ch.epfl.sweng.androfoot.interfaces.ObservableTouchTracker;
 import ch.epfl.sweng.androfoot.interfaces.TouchTrackerObserver;
+import ch.epfl.sweng.androfoot.kryonetnetworking.InputData;
+import ch.epfl.sweng.androfoot.kryonetnetworking.HostData;
+import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerClient;
+import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerHost;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -18,7 +24,7 @@ import com.badlogic.gdx.InputProcessor;
  * 
  */
 public enum PlayerTouchTracker implements InputProcessor,
-		ObservableTouchTracker {
+		ObservableTouchTracker, ClientObserver, HostObserver {
 	INSTANCE;
 
 	private final static int NO_POINTER = -1;
@@ -34,6 +40,9 @@ public enum PlayerTouchTracker implements InputProcessor,
 	private int mPlayerOneCurrentPointer = NO_POINTER;
 	private int mPlayerTwoCurrentPointer = NO_POINTER;
 
+	private boolean mClientMode = false;
+	private boolean mHostMode = false;
+	
 	/**
 	 * 
 	 * @return the singeleton instance of the touch tracker
@@ -73,6 +82,10 @@ public enum PlayerTouchTracker implements InputProcessor,
 			obs.updatePlayerOne(1, mPlayerOneTouch.touchX,
 					mPlayerOneTouch.touchY, mPlayerOneTouch.touched);
 		}
+		
+		if (mHostMode) {
+			PlayerHost.sendHostData(new InputData(mPlayerOneTouch.touchX, mPlayerOneTouch.touchY, mPlayerOneTouch.touched, false));
+		}
 	}
 
 	private void updatePlayerTwo() {
@@ -80,6 +93,11 @@ public enum PlayerTouchTracker implements InputProcessor,
 			obs.updatePlayerTwo(2, mPlayerTwoTouch.touchX,
 					mPlayerTwoTouch.touchY, mPlayerTwoTouch.touched);
 		}
+		
+		if (mClientMode) {
+			PlayerClient.sendClientData(new InputData(mPlayerTwoTouch.touchX, mPlayerTwoTouch.touchY, mPlayerTwoTouch.touched, false));
+		}
+		
 	}
 
 	/**
@@ -108,7 +126,7 @@ public enum PlayerTouchTracker implements InputProcessor,
 
 	@Override
 	public boolean removeObserverPlayerTwo(TouchTrackerObserver obs) {
-		return observersPlayerTwo.remove(obs);
+		return observersPlayerOne.remove(obs);
 	}
 
 	@Override
@@ -218,4 +236,27 @@ public enum PlayerTouchTracker implements InputProcessor,
 		return false;
 	}
 
+	
+	@Override
+	public void gameClientStart() {
+		mClientMode = true;
+	}
+
+	@Override
+	public void gameHostStart() {
+		mHostMode = true;
+	}
+
+	@Override
+	public void updateClientData(InputData data) {
+	}
+
+	@Override
+	public void updateHostData(HostData data) {
+	}
+
+	@Override
+	public void updateHostTouchData(InputData data) {
+		
+	}
 }

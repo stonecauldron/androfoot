@@ -66,6 +66,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
         compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
+		compile fileTree(dir: '../libs', include: '*.jar')
     }
 }
 
@@ -97,6 +98,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
+		compile fileTree(dir: '../libs', include: '*.jar')
         testCompile "junit:junit:+"
     }
 }

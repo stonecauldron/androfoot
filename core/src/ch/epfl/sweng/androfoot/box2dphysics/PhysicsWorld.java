@@ -15,9 +15,14 @@ import com.badlogic.gdx.utils.Array;
 import ch.epfl.sweng.androfoot.accelerometer.AccelerometerTracker;
 import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
+import ch.epfl.sweng.androfoot.interfaces.ClientObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultWorldObject;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
+import ch.epfl.sweng.androfoot.interfaces.HostObserver;
+import ch.epfl.sweng.androfoot.kryonetnetworking.InputData;
+import ch.epfl.sweng.androfoot.kryonetnetworking.HostData;
+import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerHost;
 
 /**
  * The class that defines the Physics World which will contain all the physical objects and 
@@ -25,7 +30,7 @@ import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
  * @author Matvey
  *
  */
-public final class PhysicsWorld implements DrawableWorld {
+public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostObserver {
 	
 	private static final PhysicsWorld PHYSICS_WORLD_INSTANCE = new PhysicsWorld();
 	
@@ -35,6 +40,20 @@ public final class PhysicsWorld implements DrawableWorld {
 	private static TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
 	
 	private float accelerometerTime = 0;
+
+	private float networkBallX = Constants.WORLD_SIZE_X / 2;
+	private float networkBallY = Constants.WORLD_ORIGIN_Y / 2;
+	
+	private int count = 0;
+
+	private boolean slaveMode = false;
+	private boolean hostMode = false;
+
+	private float networkBallSpeedX = 0;
+
+	private float networkBallSpeedY = 0;
+
+	private boolean updated = false;
 	
 	/* World's object */
 	private static Ball ball;
@@ -247,6 +266,18 @@ public final class PhysicsWorld implements DrawableWorld {
     			}
     		}
     		
+    		  		
+    		if (hostMode) {
+    			PlayerHost.sendHostData(new HostData(ball.getPositionX(), ball.getPositionY(), ball.getLinearVelocity().x, ball.getLinearVelocity().y));
+    		}
+    		
+    		
+    		if (slaveMode && updated) {
+    			ball.setBallPosition(networkBallX, networkBallY);
+    			ball.setLinearVelocity(networkBallSpeedX, networkBallSpeedY);
+    			updated = false;
+    		}
+    		
     		//For Accelerometer polling
     		accelerometerTime += correctedDelta;
     		if (accelerometerTime > Constants.SHAKE_TIMER && AccelerometerTracker.getInstance().isShaking()) {
@@ -290,4 +321,34 @@ public final class PhysicsWorld implements DrawableWorld {
 		return new Rectangle(Constants.WORLD_ORIGIN_X, Constants.WORLD_ORIGIN_Y, 
 		        Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y);
 	}
+
+	@Override
+	public void updateHostData(HostData data) {
+		networkBallX = data.getmBallX();
+		networkBallY = data.getmBallY();
+		networkBallSpeedX = data.getmBallSpeedX();
+		networkBallSpeedY = data.getmBallSpeedY();
+		updated = true;
+	}
+
+	@Override
+	public void gameClientStart() {
+		slaveMode = true;
+	}
+
+	@Override
+	public void updateClientData(InputData data) {
+		//TODO take care of shake input
+	}
+
+	@Override
+	public void gameHostStart() {
+		hostMode = true;
+	}
+
+	@Override
+	public void updateHostTouchData(InputData data) {
+		//Do nothing
+	}
+
 }
