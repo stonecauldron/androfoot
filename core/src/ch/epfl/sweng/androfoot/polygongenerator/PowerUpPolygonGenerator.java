@@ -11,8 +11,7 @@ import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
  * @author Guillaume
  *
  */
-public class PowerUpPolygonGenerator extends AbstractPolygonGenerator implements
-		PolygonGenerator {
+public class PowerUpPolygonGenerator extends AbstractPolygonGenerator implements PolygonGenerator {
 
 	private static final int NB_SEGMENTS = 20;
 
@@ -44,11 +43,10 @@ public class PowerUpPolygonGenerator extends AbstractPolygonGenerator implements
 	 * @param nbSegmentsPerBranch
 	 *            the number of segments in each branch of the "star"
 	 */
-	public PowerUpPolygonGenerator(float radiusArg, int branchNumberArg, float branchWidthArg,
-			int nbSegmentsPerBranch) {
+	public PowerUpPolygonGenerator(float radiusArg, int branchNumberArg, float branchWidthArg, int segmentsPerBranch) {
 		branchNumber = branchNumberArg;
 		branchWidth = branchWidthArg;
-		nbSegments = nbSegmentsPerBranch;
+		nbSegments = segmentsPerBranch;
 		radius = radiusArg;
 	}
 
@@ -59,9 +57,8 @@ public class PowerUpPolygonGenerator extends AbstractPolygonGenerator implements
 		float currentAngle = 0f;
 
 		for (int i = 0; i < branchNumber; i++) {
-			generators.add(new PolygonRotator(new PolygonScaler(
-					new CircleGenerator(nbSegments),radius*branchWidth, radius),
-					currentAngle));
+			generators.add(new PolygonRotator(new PolygonScaler(new CircleGenerator(nbSegments), radius * branchWidth,
+							radius), currentAngle));
 			currentAngle += deltaAngle;
 		}
 		return new PolygonMerger(generators).generateVertexesFloat();
