@@ -13,6 +13,7 @@ public enum GuiCommand {
 	goToLocalPlay,
 	goToSettings,
 	goToCredits,
+	goToGame,
 	goToGameOver,
 	goToNetworkPlay,
 	goToClientNetwork,

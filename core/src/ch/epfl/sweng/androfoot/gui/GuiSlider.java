@@ -36,7 +36,6 @@ public class GuiSlider extends GuiWidget {
 		mSlider.addListener(new ClickListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				System.out.println(mSlider.getValue());
 				GuiManager.getInstance().executeCommand(mCommand);
 				return true;
 			}
