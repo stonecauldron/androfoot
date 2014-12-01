@@ -7,7 +7,7 @@ import ch.epfl.sweng.androfoot.interfaces.ClientObserver;
 import ch.epfl.sweng.androfoot.interfaces.HostObserver;
 import ch.epfl.sweng.androfoot.interfaces.ObservableTouchTracker;
 import ch.epfl.sweng.androfoot.interfaces.TouchTrackerObserver;
-import ch.epfl.sweng.androfoot.kryonetnetworking.ClientData;
+import ch.epfl.sweng.androfoot.kryonetnetworking.InputData;
 import ch.epfl.sweng.androfoot.kryonetnetworking.HostData;
 import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerClient;
 import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerHost;
@@ -84,9 +84,8 @@ public enum PlayerTouchTracker implements InputProcessor,
 		}
 		
 		if (mHostMode) {
-			PlayerHost.sendHostData(new HostData(mPlayerOneTouch.touchX, mPlayerOneTouch.touchY, mPlayerOneTouch.touched, 0, 0, 0, false));
+			PlayerHost.sendHostData(new InputData(mPlayerOneTouch.touchX, mPlayerOneTouch.touchY, mPlayerOneTouch.touched, false));
 		}
-		
 	}
 
 	private void updatePlayerTwo() {
@@ -96,7 +95,7 @@ public enum PlayerTouchTracker implements InputProcessor,
 		}
 		
 		if (mClientMode) {
-			PlayerClient.sendClientData(new ClientData(mPlayerTwoTouch.touchX, mPlayerTwoTouch.touchY, mPlayerTwoTouch.touched, false));
+			PlayerClient.sendClientData(new InputData(mPlayerTwoTouch.touchX, mPlayerTwoTouch.touchY, mPlayerTwoTouch.touched, false));
 		}
 		
 	}
@@ -249,11 +248,16 @@ public enum PlayerTouchTracker implements InputProcessor,
 	}
 
 	@Override
-	public void updateClientData(ClientData data) {
+	public void updateClientData(InputData data) {
 	}
 
 	@Override
 	public void updateHostData(HostData data) {
+	}
+
+	@Override
+	public void updateHostTouchData(InputData data) {
+		
 	}
 }
 

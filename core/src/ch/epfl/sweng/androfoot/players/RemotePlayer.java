@@ -4,7 +4,7 @@ import ch.epfl.sweng.androfoot.box2dphysics.PaddleMover;
 import ch.epfl.sweng.androfoot.interfaces.ClientObserver;
 import ch.epfl.sweng.androfoot.interfaces.Controllable;
 import ch.epfl.sweng.androfoot.interfaces.HostObserver;
-import ch.epfl.sweng.androfoot.kryonetnetworking.ClientData;
+import ch.epfl.sweng.androfoot.kryonetnetworking.InputData;
 import ch.epfl.sweng.androfoot.kryonetnetworking.HostData;
 import ch.epfl.sweng.androfoot.screens.NetworkClientScreen;
 import ch.epfl.sweng.androfoot.screens.NetworkHostScreen;
@@ -91,15 +91,15 @@ public class RemotePlayer extends AbstractPlayer implements Controllable,  Clien
 	}
 
 	@Override
-	public void updateClientData(ClientData data) {
+	public void updateClientData(InputData data) {
+		if (data.getTouchX() != 999) {
 		applyMoveCondition(2, data.getTouchX(), data.getTouchY(),
-				data.isTouched());
+				data.isTouched());}
 	}
 
 	@Override
 	public void updateHostData(HostData data) {
-		applyMoveCondition(1, data.getTouchX(), data.getTouchY(),
-				data.isTouched());
+		
 	}
 
 	@Override
@@ -110,6 +110,13 @@ public class RemotePlayer extends AbstractPlayer implements Controllable,  Clien
 	@Override
 	public void gameClientStart() {
 		mClientMode = true;
+	}
+
+	@Override
+	public void updateHostTouchData(InputData data) {
+		if (data.getTouchX() != 999) {
+			applyMoveCondition(1, data.getTouchX(), data.getTouchY(),
+					data.isTouched()); }
 	}
 
 }

@@ -6,6 +6,7 @@ import ch.epfl.sweng.androfoot.board.BoardFactory;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.interfaces.ClientObserver;
 import ch.epfl.sweng.androfoot.kryonetnetworking.HostData;
+import ch.epfl.sweng.androfoot.kryonetnetworking.InputData;
 import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerClient;
 import ch.epfl.sweng.androfoot.players.PlayerType;
 import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
@@ -21,11 +22,12 @@ public class NetworkClientScreen implements Screen, ClientObserver {
 	public NetworkClientScreen() {
 		pc  = new PlayerClient();
 		try {
-			pc.listenToServer();
 			pc.addClientObserver(this);
-			
 			BoardFactory.setupBoard(PlayerType.REMOTE_PLAYER,
 					PlayerType.LOCAL_PLAYER);
+			pc.addClientObserver(PhysicsWorld.getPhysicsWorld());
+
+			pc.listenToServer();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -89,6 +91,12 @@ public class NetworkClientScreen implements Screen, ClientObserver {
 
 	@Override
 	public void updateHostData(HostData data) {
+	}
+
+	@Override
+	public void updateHostTouchData(InputData data) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

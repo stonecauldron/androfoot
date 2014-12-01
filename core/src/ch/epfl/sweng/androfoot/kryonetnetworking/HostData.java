@@ -10,20 +10,15 @@ public class HostData {
 	/*
 	 * BRUTE DATA SECTION
 	 */
-	private float touchX;
-	private float touchY;
-	private boolean touched;
+	private float mBallPosX;
+	private float mBallPosY;
 
-	private float mBallX;
-	private float mBallY;
+	private float mBallSpeedX;
+	private float mBallSpeedY;
 
 	/*
 	 * EVENT SECTION
 	 */
-	private boolean mPlayerOneHasScored;
-	private boolean mPlayerTwoHasScored;
-
-	private boolean mIsShaking;
 
 	/**
 	 * 
@@ -38,55 +33,32 @@ public class HostData {
 	 * @param ballXPosition
 	 * @param ballYPosition
 	 */
-	public HostData(float playerOneXPosition, float playerOneYPosition,
-			boolean touched, float ballXPosition, float ballYPosition,
-			int playerOneScore, boolean isShaking) {
+	public HostData(float ballXPosition, float ballYPosition, float ballSpeedX,
+			float ballSpeedY) {
+		this.mBallPosX = ballXPosition;
+		this.mBallPosY = ballYPosition;
+		this.mBallSpeedX = ballSpeedX;
+		this.mBallSpeedY = ballSpeedY;
+	}
 
-		this.touchX = playerOneXPosition;
-		this.touchY = playerOneYPosition;
-		this.touched = touched;
+	public float getmBallSpeedX() {
+		return mBallSpeedX;
+	}
 
-		this.mBallX = ballXPosition;
-		this.mBallY = ballYPosition;
-
-		this.mIsShaking = isShaking;
-
+	public float getmBallSpeedY() {
+		return mBallSpeedY;
 	}
 
 	public HostData() {
-		
-	}
-	
-	public boolean ismPlayerOneHasScored() {
-		return mPlayerOneHasScored;
-	}
 
-	public boolean ismPlayerTwoHasScored() {
-		return mPlayerTwoHasScored;
-	}
-
-	public boolean ismIsShaking() {
-		return mIsShaking;
-	}
-
-	public float getTouchX() {
-		return touchX;
-	}
-
-	public float getTouchY() {
-		return touchY;
-	}
-
-	public boolean isTouched() {
-		return touched;
 	}
 
 	public float getmBallX() {
-		return mBallX;
+		return mBallPosX;
 	}
 
 	public float getmBallY() {
-		return mBallY;
+		return mBallPosY;
 	}
 
 }

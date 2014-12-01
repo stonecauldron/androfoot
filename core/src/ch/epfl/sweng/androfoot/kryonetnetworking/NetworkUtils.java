@@ -11,7 +11,7 @@ public class NetworkUtils {
     static public void register (EndPoint endPoint) {
             Kryo kryo = endPoint.getKryo();
             kryo.register(HostData.class);
-            kryo.register(ClientData.class);
+            kryo.register(InputData.class);
     }
     
 }

@@ -15,18 +15,21 @@ public class PlayerHost implements HostObservable {
 
 	public static Server server;
 	private boolean gameStarted;
-
+	private static Connection mConnection;
+	
 	private ArrayList<HostObserver> mHostObserver = new ArrayList<HostObserver>();
 
 	public PlayerHost() {
 	}
 
 	static public void sendHostData(HostData data) {
-		server.sendToAllTCP(data);
+		server.sendToTCP(mConnection.getID(), data);
 	}
 
 	public void listenToClient() throws IOException {
 
+		DiscoverServerTest();
+		
 		server = new Server();
 		server.start();
 		server.bind(NetworkUtils.TCP_PORT);
@@ -39,12 +42,13 @@ public class PlayerHost implements HostObservable {
 
 		server.addListener(new Listener() {
 			public void received(Connection connection, Object object) {
-				if (object instanceof ClientData) {
-					updateGameState((ClientData) object);
-				} else if (object instanceof Integer) {
+				if (object instanceof InputData) {
+					updateGameState((InputData) object);
+				} else if (object instanceof Integer && !gameStarted) {
+					mConnection = connection;
 					gameStarted = true;
 					updateGameStart();
-					server.sendToAllTCP(0);
+					server.sendToTCP(mConnection.getID(),0);
 				}
 			}
 		
@@ -70,7 +74,7 @@ public class PlayerHost implements HostObservable {
 	}
 	
 
-	protected void updateGameState(ClientData data) {
+	protected void updateGameState(InputData data) {
 		updateHostObserver(data);
 	}
 
@@ -91,11 +95,15 @@ public class PlayerHost implements HostObservable {
 	}
 
 	@Override
-	public void updateHostObserver(ClientData data) {
+	public void updateHostObserver(InputData data) {
 		if (gameStarted) {
 			for (HostObserver obs : mHostObserver) {
 				obs.updateClientData(data);
 			}
 		}
+	}
+
+	public static void sendHostData(InputData inputData) {
+		server.sendToTCP(mConnection.getID(), inputData);
 	}
 }

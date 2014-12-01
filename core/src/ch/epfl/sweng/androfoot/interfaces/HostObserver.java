@@ -1,10 +1,10 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
-import ch.epfl.sweng.androfoot.kryonetnetworking.ClientData;
+import ch.epfl.sweng.androfoot.kryonetnetworking.InputData;
 
 public interface HostObserver {
 
-	void updateClientData(ClientData data);
+	void updateClientData(InputData data);
 	void gameHostStart();
 	
 }

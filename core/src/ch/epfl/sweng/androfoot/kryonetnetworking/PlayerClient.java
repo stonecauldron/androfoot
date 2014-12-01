@@ -24,7 +24,7 @@ public class PlayerClient implements ClientObservable {
 	public PlayerClient() {
 	}
 
-	public static void sendClientData(ClientData data) {
+	public static void sendClientData(InputData data) {
 		if (gameStarted) {
 			client.sendTCP(data);
 		}
@@ -42,7 +42,7 @@ public class PlayerClient implements ClientObservable {
 		} catch (IOException e) {
 			System.exit(1);
 		}
-		
+
 		addClientObserver(PlayerTouchTracker.getInstance());
 
 		// For consistency, the classes to be sent over the network are
@@ -54,6 +54,8 @@ public class PlayerClient implements ClientObservable {
 			public void received(Connection connection, Object object) {
 				if (object instanceof HostData) {
 					updateGameState((HostData) object);
+				} else if (object instanceof InputData) {
+					updateGameState((InputData) object);
 				} else if (object instanceof Integer) {
 					System.out
 							.println("Client: Connection established confirmed");
@@ -69,6 +71,10 @@ public class PlayerClient implements ClientObservable {
 		for (ClientObserver obs : mClientObserver) {
 			obs.gameClientStart();
 		}
+	}
+
+	private void updateGameState(InputData data) {
+		updateClientObserver(data);
 	}
 
 	protected void updateGameState(HostData response) {
@@ -102,6 +108,15 @@ public class PlayerClient implements ClientObservable {
 		if (gameStarted) {
 			for (ClientObserver obs : mClientObserver) {
 				obs.updateHostData(data);
+			}
+		}
+	}
+
+	@Override
+	public void updateClientObserver(InputData data) {
+		if (gameStarted) {
+			for (ClientObserver obs : mClientObserver) {
+				obs.updateHostTouchData(data);
 			}
 		}
 	}
