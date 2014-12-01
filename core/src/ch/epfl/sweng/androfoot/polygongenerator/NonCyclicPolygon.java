@@ -12,7 +12,7 @@ import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
  */
 public class NonCyclicPolygon extends AbstractPolygonGenerator {
 
-	private static final float DELTA = 0.001f;
+	private static final float DELTA = 0.0001f;
 
 	private final float[] finalValues;
 
@@ -26,16 +26,20 @@ public class NonCyclicPolygon extends AbstractPolygonGenerator {
 	 */
 	public NonCyclicPolygon(PolygonGenerator generator) {
 		float[] values = generator.generateVertexesFloat();
-
-		// remove the last point only if it is the same as the first one
-		if (Math.abs(values[0] - values[values.length - 2]) < DELTA
-				&& Math.abs(values[1] - values[values.length - 1]) < DELTA) {
-			finalValues = new float[values.length - 2];
+		if (values.length < 4) {
+			finalValues = values;
 		} else {
-			finalValues = new float[values.length];
-		}
 
-		System.arraycopy(values, 0, finalValues, 0, finalValues.length);
+			// remove the last point only if it is the same as the first one
+			if (Math.abs(values[0] - values[values.length - 2]) < DELTA
+					&& Math.abs(values[1] - values[values.length - 1]) < DELTA) {
+				finalValues = new float[values.length - 2];
+			} else {
+				finalValues = new float[values.length];
+			}
+
+			System.arraycopy(values, 0, finalValues, 0, finalValues.length);
+		}
 	}
 
 	@Override
