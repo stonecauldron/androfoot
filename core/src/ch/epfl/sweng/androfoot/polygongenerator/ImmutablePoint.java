@@ -13,7 +13,6 @@ public class ImmutablePoint<T> {
 	/**
 	 * the x coord of the point
 	 */
-	@SuppressWarnings
 	public final T x;
 	/**
 	 * the y coord of the point

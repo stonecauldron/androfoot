@@ -13,6 +13,7 @@ import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 public class NonCyclicPolygon extends AbstractPolygonGenerator {
 
 	private static final float DELTA = 0.0001f;
+	private static final int THRESHOLD_NUMBER_VERTEX = 4;
 
 	private final float[] finalValues;
 
@@ -26,13 +27,13 @@ public class NonCyclicPolygon extends AbstractPolygonGenerator {
 	 */
 	public NonCyclicPolygon(PolygonGenerator generator) {
 		float[] values = generator.generateVertexesFloat();
-		if (values.length < 4) {
+		if (values.length < THRESHOLD_NUMBER_VERTEX) {
 			finalValues = values;
 		} else {
 
 			// remove the last point only if it is the same as the first one
 			if (Math.abs(values[0] - values[values.length - 2]) < DELTA
-					&& Math.abs(values[1] - values[values.length - 1]) < DELTA) {
+							&& Math.abs(values[1] - values[values.length - 1]) < DELTA) {
 				finalValues = new float[values.length - 2];
 			} else {
 				finalValues = new float[values.length];
