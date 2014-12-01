@@ -12,8 +12,7 @@ import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
  * @author Guillaume
  *
  */
-public class PolygonMerger extends AbstractPolygonGenerator implements
-		PolygonGenerator {
+public class PolygonMerger extends AbstractPolygonGenerator implements PolygonGenerator {
 
 	private final Set<PolygonGenerator> generators;
 
