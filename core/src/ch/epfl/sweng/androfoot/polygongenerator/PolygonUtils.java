@@ -7,9 +7,9 @@ package ch.epfl.sweng.androfoot.polygongenerator;
  *
  */
 public final class PolygonUtils {
-	static final float MIN_ANGLE = 0f;
-	static final float MAX_ANGLE_RADIAN = (float) Math.PI * 2;
-	static final float MAX_ANGLE_DEGREE = 360f;
+	public static final float MIN_ANGLE = 0f;
+	public static final float MAX_ANGLE_RADIAN = (float) Math.PI * 2;
+	public static final float MAX_ANGLE_DEGREE = 360f;
 
 	/**
 	 * Converts an angle from degree to radians
