@@ -42,7 +42,6 @@ public class GuiSlider extends GuiWidget {
 			}
 			@Override
 			public void touchDragged(InputEvent event, float x, float y, int pointer) {
-				System.out.println(mSlider.getValue());
 				GuiManager.getInstance().executeCommand(mCommand);
 			}
 		});
