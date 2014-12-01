@@ -25,6 +25,11 @@ public interface WorldRenderer {
 	 * @param height the screen height
 	 */
 	public void setScreenSize(int width, int height);
+	
+	/**
+	 * Reset the world and all the state associated with it
+	 */
+	public void reset();
 
 
 
