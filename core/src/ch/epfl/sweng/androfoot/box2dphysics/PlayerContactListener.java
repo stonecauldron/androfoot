@@ -57,6 +57,10 @@ public final class PlayerContactListener implements DefaultContactListener {
         }
 	}
 
+	/**
+	 * Sets the event manager for the contact listener.
+	 * @param eventManager The Event Manager.
+	 */
 	public static void setEventManager(DefaultEventManager eventManager) {
 		manager = eventManager;
 	}

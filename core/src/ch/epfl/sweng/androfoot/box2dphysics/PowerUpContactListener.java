@@ -11,24 +11,44 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import ch.epfl.sweng.androfoot.interfaces.DefaultContactListener;
 import ch.epfl.sweng.androfoot.interfaces.DefaultEventManager;
 
-public class PowerUpContactListener implements DefaultContactListener {
+/**
+ * Defines the contact listener for the ball-power up interaction.
+ * @author Matvey
+ *
+ */
+public final class PowerUpContactListener implements DefaultContactListener {
 
 	private static PowerUpContactListener instance = new PowerUpContactListener();
 	private static DefaultEventManager manager;
 	private static Set<PowerUp> powerUps;
 	
+	/**
+	 * Constrcutor of the {@link PowerUpContactListener} class.
+	 */
 	private PowerUpContactListener() {
 		powerUps = new HashSet<PowerUp>();
 	}
 	
+	/**
+	 * Returns the instance of the {@link PowerUpContactListener} class.
+	 * @return
+	 */
 	public static PowerUpContactListener getInstance() {
 		return instance;
 	}
 	
+	/**
+	 * Adds the specified power up to the list of the power ups for the contact listener.
+	 * @param powerUp Power Up to be added.
+	 */
 	public static void addPowerUp(PowerUp powerUp) {
 		powerUps.add(powerUp);
 	}
 	
+	/**
+	 * Sets the Event Manager for the contact listener.
+	 * @param eventManager
+	 */
 	public static void setEventManager(DefaultEventManager eventManager) {
 		manager = eventManager;
 	}
@@ -67,10 +87,10 @@ public class PowerUpContactListener implements DefaultContactListener {
 	
 	private boolean checkBallHitsPowerUp(Contact contact, PowerUp powerUp) {
 		
-		return ((contact.getFixtureA().getBody() == powerUp.getBody())
+		return (contact.getFixtureA().getBody() == powerUp.getBody())
 					&& (contact.getFixtureB().getFilterData().categoryBits == Constants.CATEGORY_BALL)
 					|| (contact.getFixtureA().getFilterData().categoryBits == Constants.CATEGORY_BALL)
-					&& (contact.getFixtureB().getBody() == powerUp.getBody()));
+					&& (contact.getFixtureB().getBody() == powerUp.getBody());
 	}
 
 }
