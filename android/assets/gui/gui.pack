@@ -5,36 +5,79 @@ filter: Nearest,Nearest
 repeat: none
 title
   rotate: false
-  xy: 1, 54
+  xy: 1, 1
   size: 600, 200
   orig: 600, 200
   offset: 0, 0
   index: -1
-blue_button_up
+button_down
   rotate: false
-  xy: 1, 1
-  size: 192, 51
-  orig: 192, 51
+  xy: 603, 137
+  size: 128, 64
+  split: 6, 6, 6, 6
+  orig: 128, 64
   offset: 0, 0
   index: -1
-blue_button_down
+button_up
   rotate: false
-  xy: 603, 207
-  size: 192, 47
-  orig: 192, 47
+  xy: 603, 71
+  size: 128, 64
+  split: 6, 6, 6, 6
+  orig: 128, 64
   offset: 0, 0
   index: -1
-blue_boxCheck
+box
   rotate: false
-  xy: 195, 14
-  size: 40, 38
-  orig: 40, 38
+  xy: 733, 137
+  size: 64, 64
+  split: 6, 6, 6, 6
+  orig: 64, 64
   offset: 0, 0
   index: -1
-boxEmpty
+box_checked
   rotate: false
-  xy: 603, 167
-  size: 40, 38
-  orig: 40, 38
+  xy: 603, 5
+  size: 64, 64
+  split: 6, 6, 6, 6
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+button_left_down
+  rotate: false
+  xy: 733, 71
+  size: 64, 64
+  split: 32, 6, 6, 6
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+button_left_up
+  rotate: false
+  xy: 799, 137
+  size: 64, 64
+  split: 32, 6, 6, 6
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+button_right_down
+  rotate: false
+  xy: 669, 5
+  size: 64, 64
+  split: 6, 32, 6, 6
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+button_right_up
+  rotate: false
+  xy: 799, 71
+  size: 64, 64
+  split: 6, 32, 6, 6
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+knob
+  rotate: false
+  xy: 865, 137
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1

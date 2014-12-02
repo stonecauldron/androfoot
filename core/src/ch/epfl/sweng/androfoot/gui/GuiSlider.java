@@ -36,7 +36,6 @@ public class GuiSlider extends GuiWidget {
 		mSlider.addListener(new ClickListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				System.out.println(mSlider.getValue());
 				GuiManager.getInstance().executeCommand(mCommand);
 				return true;
 			}
@@ -48,6 +47,10 @@ public class GuiSlider extends GuiWidget {
 	}
 
 	public void show(Table table, int width, int height) {
+		mSlider.getStyle().knob.setMinHeight(mYSize * height);
+		mSlider.getStyle().knob.setMinWidth(mYSize * height);
+		mSlider.getStyle().background.setMinHeight((mYSize * height) / 2);
+		
 		table.add(mSlider)
 		.size(mXSize * width, mYSize * height)
 		.colspan(mColSpan)
