@@ -15,7 +15,8 @@ import ch.epfl.sweng.androfoot.screens.NetworkHostScreen;
  * @author Pedro Caldeira <pedrocaldeira>
  *
  */
-public class RemotePlayer extends AbstractPlayer implements Controllable,  ClientObserver, HostObserver {
+public class RemotePlayer extends AbstractPlayer implements Controllable,
+		ClientObserver, HostObserver {
 
 	@SuppressWarnings("unused")
 	private boolean mClientMode = false;
@@ -32,14 +33,14 @@ public class RemotePlayer extends AbstractPlayer implements Controllable,  Clien
 		super(number);
 
 		switch (number) {
-		case ONE:
-			NetworkClientScreen.getPlayerClient().addClientObserver(this);
-			break;
-		case TWO:
-			NetworkHostScreen.getPlayerHost().addHostObserver(this);
-			break;
-		default:
-			throw new IllegalArgumentException(
+			case ONE:
+				NetworkClientScreen.getPlayerClient().addClientObserver(this);
+				break;
+			case TWO:
+				NetworkHostScreen.getPlayerHost().addHostObserver(this);
+				break;
+			default:
+				throw new IllegalArgumentException(
 					"Wrong instantiation of a player see enum playerType");
 		}
 
@@ -48,10 +49,12 @@ public class RemotePlayer extends AbstractPlayer implements Controllable,  Clien
 	}
 
 	@Override
-	public void moveHorizontally(float deltaX) {}
+	public void moveHorizontally(float deltaX) {
+	}
 
 	@Override
-	public void moveVertically(float deltaY) {}
+	public void moveVertically(float deltaY) {
+	}
 
 	@Override
 	public void move(float deltaX, float deltaY) {
@@ -69,7 +72,7 @@ public class RemotePlayer extends AbstractPlayer implements Controllable,  Clien
 
 			if (Math.abs(deltaX) > moveTresholdX
 					&& Math.abs(deltaY) > moveTresholdY) {
-				move(deltaX, -(deltaY));
+				move(deltaX, -deltaY);
 			} else if (Math.abs(deltaX) > moveTresholdX) {
 				move(deltaX, 0);
 			} else if (Math.abs(deltaY) > moveTresholdY) {
@@ -94,14 +97,13 @@ public class RemotePlayer extends AbstractPlayer implements Controllable,  Clien
 
 	@Override
 	public void updateClientData(InputData data) {
-		if (data.getTouchX() != 999) {
 		applyMoveCondition(2, data.getTouchX(), data.getTouchY(),
-				data.isTouched());}
+				data.isTouched());
 	}
 
 	@Override
 	public void updateHostData(HostData data) {
-		
+
 	}
 
 	@Override
@@ -116,9 +118,8 @@ public class RemotePlayer extends AbstractPlayer implements Controllable,  Clien
 
 	@Override
 	public void updateHostTouchData(InputData data) {
-		if (data.getTouchX() != 999) {
-			applyMoveCondition(1, data.getTouchX(), data.getTouchY(),
-					data.isTouched()); }
+		applyMoveCondition(1, data.getTouchX(), data.getTouchY(),
+				data.isTouched());
 	}
 
 }
