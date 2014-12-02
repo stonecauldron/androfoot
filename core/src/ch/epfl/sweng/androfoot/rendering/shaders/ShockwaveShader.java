@@ -1,6 +1,5 @@
 package ch.epfl.sweng.androfoot.rendering.shaders;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class ShockwaveShader extends ConcreteSimpleShaderBuilder {

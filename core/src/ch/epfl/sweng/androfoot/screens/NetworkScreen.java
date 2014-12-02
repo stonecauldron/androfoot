@@ -1,10 +1,5 @@
 package ch.epfl.sweng.androfoot.screens;
 
-import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
-import ch.epfl.sweng.androfoot.interfaces.ClientObserver;
-import ch.epfl.sweng.androfoot.players.ai.AIEngine;
-import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
-
 import com.badlogic.gdx.Screen;
 
 public class NetworkScreen implements Screen{

@@ -1,6 +1,5 @@
 package ch.epfl.sweng.androfoot.rendering;
 
-import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 import ch.epfl.sweng.androfoot.polygongenerator.RectangleGenerator;
@@ -8,11 +7,8 @@ import ch.epfl.sweng.androfoot.rendering.shaders.ShockwaveShader;
 import ch.epfl.sweng.androfoot.rendering.shaders.SimpleShaderBuilder;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 

@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
-import ch.epfl.sweng.androfoot.gui.GuiCommand;
-import ch.epfl.sweng.androfoot.gui.GuiManager;
 import ch.epfl.sweng.androfoot.interfaces.ClientObservable;
 import ch.epfl.sweng.androfoot.interfaces.ClientObserver;
 import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;

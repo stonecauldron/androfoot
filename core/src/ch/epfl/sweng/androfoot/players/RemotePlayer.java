@@ -17,7 +17,9 @@ import ch.epfl.sweng.androfoot.screens.NetworkHostScreen;
  */
 public class RemotePlayer extends AbstractPlayer implements Controllable,  ClientObserver, HostObserver {
 
+	@SuppressWarnings("unused")
 	private boolean mClientMode = false;
+	@SuppressWarnings("unused")
 	private boolean mHostMode = false;
 
 	private PaddleMover mPaddleMover;

@@ -44,8 +44,6 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	private float networkBallX = Constants.WORLD_SIZE_X / 2;
 	private float networkBallY = Constants.WORLD_ORIGIN_Y / 2;
 	
-	private int count = 0;
-
 	private boolean slaveMode = false;
 	private boolean hostMode = false;
 

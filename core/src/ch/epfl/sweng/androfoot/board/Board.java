@@ -42,9 +42,6 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 
 	private static boolean playerOneTouched;
 
-	private AbstractPlayer playerOne;
-	private AbstractPlayer playerTwo;
-
 	private int playerOneScore;
 	private int playerTwoScore;
 
