@@ -28,7 +28,6 @@ public class NetworkClientScreen implements Screen, ClientObserver {
 					PlayerType.LOCAL_PLAYER, Configuration.getInstance()
 							.getScoreLimit());
 			pc.addClientObserver(PhysicsWorld.getPhysicsWorld());
-
 			pc.listenToServer();
 			
 		} catch (IOException e) {
