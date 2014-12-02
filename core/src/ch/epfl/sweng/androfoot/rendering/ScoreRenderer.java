@@ -84,12 +84,10 @@ public class ScoreRenderer implements DrawableRenderer {
 		generator = new NonCyclicPolygon(generator);
 		generator = new PrependPointPolygonGenerator(generator, new ImmutablePoint<Float>(0f, 0f));
 		generator = new AppendPointPolygonGenerator(generator, new ImmutablePoint<Float>(0f, 0f));
-		float[] data = generator.generateVertexesFloat();
 		PolygonRenderer renderer = new PolygonRenderer(generator);
 		renderer.setPosition(Constants.WORLD_ORIGIN_X + Constants.WORLD_SIZE_X / 2, Constants.WORLD_ORIGIN_Y
 				+ Constants.WORLD_SIZE_Y / 2);
 		c.a = 0.1f;
-		System.out.println(c);
 		renderer.setColor(c);
 		return renderer;
 	}

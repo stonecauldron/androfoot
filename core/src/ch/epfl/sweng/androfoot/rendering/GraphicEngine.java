@@ -42,7 +42,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 	private static final int FIELD_COLOR_HEX = 0x303030FF;
 	private static final Color FIELD_COLOR = new Color(FIELD_COLOR_HEX);
 
-	private final static GraphicEngine instance = new GraphicEngine();
+	private static GraphicEngine instance = new GraphicEngine();
 
 	private final ShapeRenderer renderer = new ShapeRenderer();
 	private final SpriteBatch batch = new SpriteBatch();
@@ -226,5 +226,10 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 		Color c = BallRenderer.BALL_COLOR;
 		
 		shockwaveManager.addShockWave(new BoomShockwave(new Vector2(posX, posY), c, 2, 8));
+	}
+	
+	@Override
+	public void reset() {
+		shockwaveManager.reset();
 	}
 }

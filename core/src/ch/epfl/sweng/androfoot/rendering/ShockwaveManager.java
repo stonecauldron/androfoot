@@ -4,12 +4,14 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import ch.epfl.sweng.androfoot.interfaces.Resettable;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class ShockwaveManager implements DrawableRenderer{
+public class ShockwaveManager implements DrawableRenderer, Resettable{
 	
-	private final Set<ShockWave> shockwaves = new HashSet<ShockWave>(); 
+	private Set<ShockWave> shockwaves = new HashSet<ShockWave>(); 
 	private final int maxNbShockwaves;
 	
 	ShockwaveManager(int maxWaves) {
@@ -34,6 +36,12 @@ public class ShockwaveManager implements DrawableRenderer{
 		}
 	}
 	
+	@Override
+	public void reset() {
+		
+		shockwaves.clear();
+		shockwaves = new HashSet<ShockWave>();
+	}
 
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapes) {
@@ -41,9 +49,4 @@ public class ShockwaveManager implements DrawableRenderer{
 			wave.render(batch, shapes);
 		}
 	}
-
-	
-	
-
-
 }

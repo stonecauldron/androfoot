@@ -5,7 +5,7 @@ package ch.epfl.sweng.androfoot.interfaces;
  * @author Guillame Leclerc
  *
  */
-public interface WorldRenderer {
+public interface WorldRenderer extends Resettable{
 	
 	/**
 	 * specify the world to render
@@ -25,7 +25,4 @@ public interface WorldRenderer {
 	 * @param height the screen height
 	 */
 	public void setScreenSize(int width, int height);
-
-
-
 }
