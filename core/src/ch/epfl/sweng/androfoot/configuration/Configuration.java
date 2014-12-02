@@ -26,6 +26,7 @@ public final class Configuration {
 			throw new IllegalStateException("Already instantiated");
 		} else {
 			mScoreLimit = DEFAULT_SCORE_LIMIT;
+			mSensitivity = 60;
 		}
 	}
 
