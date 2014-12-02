@@ -19,7 +19,7 @@ public class BallTest extends TestCase {
 		//Test if the ball was created at the right coordinates in the world.
 		assertEquals("The x coordinate is false", 1.0f, ball.getPositionX(), ERROR_MARGIN);
 		assertEquals("The y coordinate is false", 1.0f, ball.getPositionY(), ERROR_MARGIN);
-		assertEquals(0.2f, ball.getRadius(), 0f);
+		assertEquals(Constants.BALL_RADIUS, ball.getRadius(), 0f);
 		assertTrue(world.toDraw().contains(ball));
 	}
 	

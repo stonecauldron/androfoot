@@ -18,9 +18,9 @@ public class Constants {
     public static final float BORDER_RESTITUTION = 1.0f;
 	
 	/* Goals */
-	public static final float GOAL_WIDTH = 2f;
-	public static final float GOAL_OFFSET = 0.2f;
-	public static final float GOAL_HEIGHT = 2f;
+	public static final float GOAL_WIDTH = 1.8f;
+	public static final float GOAL_OFFSET = 0.18f;
+	public static final float GOAL_HEIGHT = 1.8f;
 	public static final int GOAL_COLOR_TEAM1_HEX = 0x2ECC71FF;
 	public static final int GOAL_COLOR_TEAM2_HEX = 0xBF55ECFF;
 	public static final Color GOAL_COLOR_TEAM1 = new Color(GOAL_COLOR_TEAM1_HEX);
@@ -31,16 +31,16 @@ public class Constants {
     public static final short CATEGORY_PADDLE = 0x0004;
     public static final short CATEGORY_OTHERS = 0x0002;
     public static final short CATEGORY_BALL = 0x0008;
-    public static final float PADDLE_WIDTH = 1f;
+    public static final float PADDLE_WIDTH = 0.8f;
     public static final float PADDLE_MIN_VELOCITY = 0.0f;
     public static final float PADDLE_MAX_VELOCITY = 10.0f;
-    public static final float OFFSET_CORRECTION = 0.1f;
+    public static final float OFFSET_CORRECTION = 0.08f;
     
     /* Ball */
     public static final float BALL_RESTITUTION = 1.0f;
     public static final float BALL_FRICTION = 0.0f;
     public static final float BALL_DENSITY = 1.0f;
-    public static final float BALL_RADIUS = 0.2f;
+    public static final float BALL_RADIUS = 0.16f;
     public static final float BALL_INIT_POS_Y = 3.4f;
     public static final float BALL_INIT_POS_X = 5.0f;
     public static final float BALL_MAX_VELOCITY = 6.0f; //Too fast?
@@ -58,9 +58,9 @@ public class Constants {
     public static final float WORLD_SIZE_X = 10.0f;
     
     /* Player */
-    public static final float CIRCLERADIUS = 0.6f;
-    public static final float BOXHALFWIDTH = 0.3f;
-    public static final float BOXHALFLENGTH = 0.6f;
+    public static final float CIRCLERADIUS = 0.48f;
+    public static final float BOXHALFWIDTH = 0.24f;
+    public static final float BOXHALFLENGTH = 0.48f;
     public static final Vector2 OFFSETFACINGRIGHT = new Vector2(-0.3f, 0);
     public static final Vector2 OFFSETFACINGLEFT = new Vector2(0.3f, 0);
     public static final float PLAYERDENSITY = 1.0f;
