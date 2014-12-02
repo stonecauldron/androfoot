@@ -1,5 +1,7 @@
 package ch.epfl.sweng.androfoot.configuration;
 
+import ch.epfl.sweng.androfoot.players.PlayerType;
+
 /**
  * @author Sidney Barthe This singleton class contains all configuration
  *         variables of the game (the score limit, whether sounds are activated
@@ -16,6 +18,8 @@ public final class Configuration {
 	private static final Configuration ONEINSTANCE = new Configuration();
 	private int mScoreLimit;
 	private int mSensibility;
+	private PlayerType mPlayerOneType;
+	private PlayerType mPlayerTwoType;
 
 	private Configuration() {
 		if (ONEINSTANCE != null) {
@@ -50,5 +54,21 @@ public final class Configuration {
 	
 	public int getSensibility() {
 		return mSensibility;
+	}
+	
+	public void setPlayerOneType(PlayerType type) {
+		mPlayerOneType = type;
+	}
+	
+	public void setPlayerTwoType(PlayerType type) {
+		mPlayerTwoType = type;
+	}
+	
+	public PlayerType getPlayerOneType() {
+		return mPlayerOneType;
+	}
+	
+	public PlayerType getPlayerTwoType() {
+		return mPlayerTwoType;
 	}
 }

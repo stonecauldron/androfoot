@@ -101,10 +101,9 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 		
 		// check if winning score was reached
 		if (reachedWinningScore()) {
-			// TODO load winning widged
-			// temporary solution to go back in the main menu
 			resetBoard();
-			GuiManager.getInstance().executeCommand(GuiCommand.goToMainMenu);
+			GuiManager.getInstance().setFinalScore(playerOneScore, playerTwoScore);
+			GuiManager.getInstance().executeCommand(GuiCommand.goToGameOver);
 			return;
 		}
 		resetBall(playerThatScored);

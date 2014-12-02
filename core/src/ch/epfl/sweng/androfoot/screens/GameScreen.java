@@ -24,8 +24,10 @@ import com.badlogic.gdx.Input;
 public class GameScreen implements Screen {
 
 	public GameScreen(PlayerType firstPlayer, PlayerType secondPlayer) {
+
 		BoardFactory.setupBoard(firstPlayer, secondPlayer, Configuration
 				.getInstance().getScoreLimit());
+
 	}
 
 	@Override

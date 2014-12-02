@@ -12,12 +12,14 @@
 		"aux": { "font": standard , "fontColor": grey },
 	},
 	"com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
-		"default": { "up": blue_button_up , "down": blue_button_down, "font": standard, "pressedOffsetY": -4 },
+		"default": { "up": button_up , "down": button_down, "font": standard, "pressedOffsetY": -4 },
+		"rightarrow": { "up": button_right_up , "down": button_right_down, "font": standard, "pressedOffsetY": -4 },
+		"leftarrow": { "up": button_left_up , "down": button_left_down, "font": standard, "pressedOffsetY": -4 },
 	},
 	"com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {
-		"default": { "checkboxOn": blue_boxCheck, "checkboxOff": boxEmpty, "font": standard, "fontColor": white },
+		"default": { "checkboxOn": box_checked, "checkboxOff": box, "font": standard, "fontColor": white },
 	},
 	"com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle": {
-  		"default-horizontal": { "background": blue_button_down, "knob": boxEmpty },
+  		"default-horizontal": { "background": box, "knob": knob },
   	}
 }
