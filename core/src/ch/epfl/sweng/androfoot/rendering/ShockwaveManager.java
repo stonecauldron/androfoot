@@ -38,13 +38,13 @@ public class ShockwaveManager implements DrawableRenderer, Resettable{
 	
 	@Override
 	public void reset() {
+		
+		shockwaves.clear();
 		shockwaves = new HashSet<ShockWave>();
-		System.out.println("reset");
 	}
 
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapes) {
-		System.out.println(shockwaves.size());
 		for(ShockWave wave : shockwaves) {
 			wave.render(batch, shapes);
 		}
