@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class ShockwaveManager implements DrawableRenderer, Resettable{
 	
-	private final Set<ShockWave> shockwaves = new HashSet<ShockWave>(); 
+	private Set<ShockWave> shockwaves = new HashSet<ShockWave>(); 
 	private final int maxNbShockwaves;
 	
 	ShockwaveManager(int maxWaves) {
@@ -38,11 +38,13 @@ public class ShockwaveManager implements DrawableRenderer, Resettable{
 	
 	@Override
 	public void reset() {
-		shockwaves.clear();
+		shockwaves = new HashSet<ShockWave>();
+		System.out.println("reset");
 	}
 
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapes) {
+		System.out.println(shockwaves.size());
 		for(ShockWave wave : shockwaves) {
 			wave.render(batch, shapes);
 		}

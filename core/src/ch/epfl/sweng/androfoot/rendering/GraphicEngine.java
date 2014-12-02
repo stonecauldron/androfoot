@@ -231,6 +231,5 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 	@Override
 	public void reset() {
 		shockwaveManager.reset();
-		instance = new GraphicEngine();
 	}
 }
