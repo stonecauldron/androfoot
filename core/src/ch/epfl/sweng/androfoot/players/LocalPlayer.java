@@ -26,14 +26,14 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 		super(playerNumber);
 		mPlayerNumber = playerNumber;
 		switch (playerNumber) {
-		case ONE:
-			PlayerTouchTracker.getInstance().addObserverPlayerOne(this);
-			break;
-		case TWO:
-			PlayerTouchTracker.getInstance().addObserverPlayerTwo(this);
-			break;
-		default:
-			throw new IllegalArgumentException(
+			case ONE:
+				PlayerTouchTracker.getInstance().addObserverPlayerOne(this);
+				break;
+			case TWO:
+				PlayerTouchTracker.getInstance().addObserverPlayerTwo(this);
+				break;
+			default:
+				throw new IllegalArgumentException(
 					"Wrong instantiation of a player see enum playerType");
 		}
 
@@ -42,10 +42,12 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 	}
 
 	@Override
-	public void moveHorizontally(float deltaX) {}
+	public void moveHorizontally(float deltaX) {
+	}
 
 	@Override
-	public void moveVertically(float deltaY) {}
+	public void moveVertically(float deltaY) {
+	}
 
 	@Override
 	public void move(float deltaX, float deltaY) {
@@ -68,14 +70,14 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 	public void destroy() {
 		super.destroy();
 		switch (mPlayerNumber) {
-		case ONE:
-			PlayerTouchTracker.getInstance().removeObserverPlayerOne(this);
-			break;
-		case TWO:
-			PlayerTouchTracker.getInstance().removeObserverPlayerTwo(this);
-			break;
-		default:
-			throw new IllegalArgumentException();
+			case ONE:
+				PlayerTouchTracker.getInstance().removeObserverPlayerOne(this);
+				break;
+			case TWO:
+				PlayerTouchTracker.getInstance().removeObserverPlayerTwo(this);
+				break;
+			default:
+				throw new IllegalArgumentException();
 		}
 	}
 
@@ -95,7 +97,7 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 
 			if (Math.abs(deltaX) > moveTresholdX
 					&& Math.abs(deltaY) > moveTresholdY) {
-				move(deltaX, -(deltaY));
+				move(deltaX, -deltaY);
 			} else if (Math.abs(deltaX) > moveTresholdX) {
 				move(deltaX, 0);
 			} else if (Math.abs(deltaY) > moveTresholdY) {
