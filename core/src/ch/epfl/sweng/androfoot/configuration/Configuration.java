@@ -17,7 +17,7 @@ public final class Configuration {
 
 	private static final Configuration ONEINSTANCE = new Configuration();
 	private int mScoreLimit;
-	private int mSensibility;
+	private int mSensitivity;
 	private PlayerType mPlayerOneType;
 	private PlayerType mPlayerTwoType;
 
@@ -43,17 +43,17 @@ public final class Configuration {
 
 	public void subScoreLimit(int x) {
 		mScoreLimit = mScoreLimit - x;
-		if(mScoreLimit < 1) {
+		if (mScoreLimit < 1) {
 			mScoreLimit = 1;
 		}
 	}
 	
-	public void setSensibility(int x) {
-		mSensibility = x;
+	public void setSensivity(int x) {
+		mSensitivity = x;
 	}
 	
-	public int getSensibility() {
-		return mSensibility;
+	public int getSensitivity() {
+		return mSensitivity;
 	}
 	
 	public void setPlayerOneType(PlayerType type) {

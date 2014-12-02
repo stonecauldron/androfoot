@@ -3,6 +3,8 @@ package ch.epfl.sweng.androfoot.box2dphysics;
 import java.util.Iterator;
 import java.util.List;
 
+import ch.epfl.sweng.androfoot.configuration.Configuration;
+
 import com.badlogic.gdx.Gdx;
 
 /**
@@ -13,9 +15,8 @@ import com.badlogic.gdx.Gdx;
  */
 public class PaddleMover {
 
-	// TODO MAKE THIS PARAMETER IN THE GAME SETTINGS
-	private final static float X_SPEED_RATIO = (float) 60;
-	private final static float Y_SPEED_RATIO = (float) 60;
+	private float xSpeedRatio = (float) 60;
+	private float ySpeedRatio = (float) 60;
 
 	// nexus 7 tablet screen size in cm
 	private final static float NEXUS_X = 15.253849f;
@@ -40,6 +41,8 @@ public class PaddleMover {
 	private float mMoveTresholdY;
 
 	public PaddleMover(List<GroupPaddle> listPaddle) {
+		xSpeedRatio = Configuration.getInstance().getSensitivity();
+		ySpeedRatio = Configuration.getInstance().getSensitivity();
 		mPaddleGroup = listPaddle;
 	}
 
@@ -55,7 +58,7 @@ public class PaddleMover {
 		Iterator<GroupPaddle> iterator = mPaddleGroup.iterator();
 		while (iterator.hasNext()) {
 			GroupPaddle paddle = (GroupPaddle) iterator.next();
-			paddle.setVelocity(deltaX * X_SPEED_RATIO, deltaY * Y_SPEED_RATIO);
+			paddle.setVelocity(deltaX * xSpeedRatio, deltaY * ySpeedRatio);
 		}
 	}
 
@@ -107,5 +110,4 @@ public class PaddleMover {
 	public float pixelYToGameUnit(float pixelDistance) {
 		return pixelDistance * (Constants.WORLD_SIZE_Y / mPixelYScreenSize);
 	}
-
 }
