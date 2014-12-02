@@ -1,23 +1,14 @@
 package ch.epfl.sweng.androfoot.rendering.test;
 
 import java.util.Queue;
-import java.util.Stack;
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.locks.ReentrantLock;
-
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 
 public class GraphicTester {
-	
-	private int testCount = 0;
 	
 	private Queue<TestRequest> requests = new ConcurrentLinkedQueue<GraphicTester.TestRequest>();
 	

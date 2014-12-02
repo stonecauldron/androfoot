@@ -1,9 +1,7 @@
 package ch.epfl.sweng.androfoot.rendering;
 
-import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
-import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
 import ch.epfl.sweng.androfoot.gamelogic.PowerUpCharacteristicsManger;
 import ch.epfl.sweng.androfoot.interfaces.BorderObserver;

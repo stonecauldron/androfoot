@@ -70,7 +70,8 @@ public class PNG {
       return toChunk("IHDR", baos.toByteArray());
    }
 
-   public static byte[] createDataChunk(Pixmap pixmap) throws IOException {
+   @SuppressWarnings("unused")
+public static byte[] createDataChunk(Pixmap pixmap) throws IOException {
       int width = pixmap.getWidth();
       int height = pixmap.getHeight();
       int dest = 0;
@@ -93,7 +94,7 @@ public class PNG {
                // break ! (assert doesn't always kick-in with the
                // Eclipse
                // debugger...)
-               int divide_by_zero = 0 / 0;
+			int divide_by_zero = 0 / 0;
             }
 
             raw[dest++] = (byte) rr;

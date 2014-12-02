@@ -44,7 +44,6 @@ public class BluetoothConnection implements NetworkConnection {
 	public static final int STATE_CONNECTED = 3;
 	private int mCurrentState;
 
-	private BluetoothDevice mConnectedDevice;
 	private ArrayList<BluetoothDevice> mPairedHostList = null;
 
 	public BluetoothConnection() {
@@ -211,7 +210,6 @@ public class BluetoothConnection implements NetworkConnection {
 				mCommunicationThread = new CommunicationThread();
 				mCommunicationThread.run();
 				mConnectingThread = null;
-				mConnectedDevice = mmDevice;
 			} catch (IOException e) {
 				mCurrentState = STATE_EXISTING;
 				try {
