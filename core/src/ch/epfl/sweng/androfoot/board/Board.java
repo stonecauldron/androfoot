@@ -143,6 +143,9 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 		// destroy ball
 		PhysicsWorld.destroy(ball);
 		
+		// reset Graphic Engine
+		GraphicEngine.getEngine().reset();
+		
 	}
 	
 	void instantiateNewGame(PlayerType p1, PlayerType p2, int winScore) {
