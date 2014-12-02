@@ -105,7 +105,7 @@ public class PaddleMover {
 	 * @return the value in game units
 	 */
 	public float pixelYToGameUnit(float pixelDistance) {
-		return (pixelDistance) * (Constants.WORLD_SIZE_Y / mPixelYScreenSize);
+		return pixelDistance * (Constants.WORLD_SIZE_Y / mPixelYScreenSize);
 	}
 
 }

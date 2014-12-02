@@ -43,7 +43,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 
 	private float networkBallX = Constants.WORLD_SIZE_X / 2;
 	private float networkBallY = Constants.WORLD_ORIGIN_Y / 2;
-	
+
 	private boolean slaveMode = false;
 	private boolean hostMode = false;
 
@@ -265,9 +265,11 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
     		}
     		
     		  		
-    		if (hostMode) {
-    			PlayerHost.sendHostData(new HostData(ball.getPositionX(), ball.getPositionY(), ball.getLinearVelocity().x, ball.getLinearVelocity().y));
-    		}
+			if (hostMode) {
+				PlayerHost.sendHostData(new HostData(ball.getPositionX(), ball
+						.getPositionY(), ball.getLinearVelocity().x, ball
+						.getLinearVelocity().y));
+			}
     		
     		
     		if (slaveMode && updated) {
