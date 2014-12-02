@@ -23,6 +23,6 @@ public enum GuiCommand {
 	subScoreLimit,
 	startAI,
 	startHuman,
-	updateSensibility,
+	updateSensivity,
 	nothing
 };

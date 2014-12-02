@@ -23,6 +23,8 @@ public class GuiSlider extends GuiWidget {
 					 float[] padding,
 					 float xSize,
 					 float ySize,
+					 float minValue,
+					 float maxValue,
 					 int colSpan,
 					 GuiCommand command) {
 		
@@ -30,7 +32,7 @@ public class GuiSlider extends GuiWidget {
 		mPadding = padding;
 		mXSize = xSize;
 		mYSize = ySize;
-		mSlider = new Slider(1, 1000, 1, false, skin);
+		mSlider = new Slider(minValue, maxValue, 1, false, skin);
 		mColSpan = colSpan;
 		mCommand = command;
 		mSlider.addListener(new ClickListener() {

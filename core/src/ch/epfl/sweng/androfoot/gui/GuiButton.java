@@ -17,7 +17,7 @@ public class GuiButton extends GuiWidget {
 	private boolean mNewLine;
 	private float[] mPadding;
 	private String mText;
-	private float mXSizePerLetter;
+	private float mXSize;
 	private float mYSize;
 	private int mColSpan;
 	
@@ -26,7 +26,7 @@ public class GuiButton extends GuiWidget {
 					 boolean lineBreak,
 					 float[] padding,
 					 String text,
-					 float xSizePerLetter,
+					 float xSize,
 					 float ySize,
 					 int colSpan,
 					 GuiCommand command) {
@@ -35,7 +35,7 @@ public class GuiButton extends GuiWidget {
 		mPadding = padding;
 		mText = text;
 		mButton = new TextButton(mText, skin, style);
-		mXSizePerLetter = xSizePerLetter;
+		mXSize = xSize;
 		mYSize = ySize;
 		mCommand = command;
 		mColSpan = colSpan;
@@ -49,7 +49,7 @@ public class GuiButton extends GuiWidget {
 
 	public void show(Table table, int width, int height) {
 		table.add(mButton)
-		.size(mText.length() * mXSizePerLetter * width, mYSize * height)
+		.size(mXSize * width, mYSize * height)
 		.colspan(mColSpan)
 		.padRight(mPadding[0] * width)
 		.padTop(mPadding[1] * height)
