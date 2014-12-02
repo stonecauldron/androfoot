@@ -11,7 +11,7 @@ public interface WorldRenderer extends Resettable{
 	 * specify the world to render
 	 * @param world the world
 	 */
-	public void bindToWorld(DrawableWorld world);
+	void bindToWorld(DrawableWorld world);
 	
 	
 	/**
@@ -24,5 +24,5 @@ public interface WorldRenderer extends Resettable{
 	 * @param width the screen width
 	 * @param height the screen height
 	 */
-	public void setScreenSize(int width, int height);
+	void setScreenSize(int width, int height);
 }

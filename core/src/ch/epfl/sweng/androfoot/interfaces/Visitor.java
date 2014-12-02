@@ -1,19 +1,30 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
 /**
- * Reprensent an object that can visit Visitable objects 
- * @see <a href="http://en.wikipedia.org/wiki/Visitor_pattern"> Visitor pattern on wikipedia </a>
+ * Reprensent an object that can visit Visitable objects
+ * 
+ * @see <a href="http://en.wikipedia.org/wiki/Visitor_pattern"> Visitor pattern
+ *      on wikipedia </a>
  * @author Guillame Leclerc
  *
  */
 public interface Visitor {
-	
-	public void visit(Visitable visitable);
-	public void visit(DefaultBall ball);
-	public void visit(DefaultPlayer player);
-	public void visit(DrawableRectangle rectangle);
 
-	public static class NotCompatibleVisitableException extends RuntimeException {
+	void visit(Visitable visitable);
+
+	void visit(DefaultBall ball);
+
+	void visit(DefaultPlayer player);
+
+	void visit(DrawableRectangle rectangle);
+
+	/**
+	 * Exception that report a {@link Visitable} is not handled by this class
+	 * 
+	 * @author Guillame Leclerc
+	 *
+	 */
+	static class NotCompatibleVisitableException extends RuntimeException {
 		/**
 		 * the serial UID for serialization
 		 */
@@ -22,16 +33,16 @@ public interface Visitor {
 		public NotCompatibleVisitableException() {
 			super();
 		}
-		
-		public NotCompatibleVisitableException(Throwable t){
+
+		public NotCompatibleVisitableException(Throwable t) {
 			super(t);
 		}
-		
-		public NotCompatibleVisitableException(String message){
+
+		public NotCompatibleVisitableException(String message) {
 			super(message);
 		}
-		
-		public NotCompatibleVisitableException(String message, Throwable t){
+
+		public NotCompatibleVisitableException(String message, Throwable t) {
 			super(message, t);
 		}
 	}

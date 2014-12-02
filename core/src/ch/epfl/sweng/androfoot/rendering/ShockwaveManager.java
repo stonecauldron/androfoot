@@ -38,7 +38,6 @@ public class ShockwaveManager implements DrawableRenderer, Resettable{
 	
 	@Override
 	public void reset() {
-		
 		shockwaves.clear();
 		shockwaves = new HashSet<ShockWave>();
 	}

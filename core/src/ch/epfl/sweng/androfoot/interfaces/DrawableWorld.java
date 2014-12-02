@@ -15,13 +15,13 @@ public interface DrawableWorld {
 	 * Return the set of all object that has to be drawn 
 	 * @return a set of Drawable objects
 	 */
-	public SortedSet<Drawable> toDraw();
+	SortedSet<Drawable> toDraw();
 
 	/**
 	 * Specify the space occupied by the world (must not change during runtime)
 	 * @return a rectangle representing this area 
 	 */
-	public Rectangle regionToDraw();
+	Rectangle regionToDraw();
 	
 	
 

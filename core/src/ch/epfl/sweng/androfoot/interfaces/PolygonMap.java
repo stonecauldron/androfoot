@@ -12,5 +12,5 @@ public interface PolygonMap {
 	 * @return the requested polygon
 	 *  @throws RuntimeException if the key is not found
 	 */
-	public PolygonGenerator get(String key);
+	PolygonGenerator get(String key);
 }

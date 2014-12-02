@@ -53,4 +53,9 @@ public class ImmutablePoint<T> {
 			}
 		}
 	}
+	
+	@Override
+	public int hashCode() {
+		return x.hashCode() ^ y.hashCode();
+	}
 }
