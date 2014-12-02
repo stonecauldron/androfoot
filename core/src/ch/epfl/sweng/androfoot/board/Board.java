@@ -33,7 +33,7 @@ import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
  */
 public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, PaddleContactObserver {
 
-	private final float INITIAL_BALL_SPEED = 2f;
+	private static final float INITIAL_BALL_SPEED = 2f;
 
 	private static Board mInstance;
 	
@@ -47,7 +47,7 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 
 	private int winningScore;
 
-	private Ball ball;
+	private Ball mBall;
 
 	/**
 	 * Board constructor
@@ -138,7 +138,7 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 		mPlayerTwo.destroy();
 		
 		// destroy ball
-		PhysicsWorld.destroy(ball);
+		PhysicsWorld.destroy(mBall);
 		
 		// reset Graphic Engine
 		GraphicEngine.getEngine().reset();
@@ -184,12 +184,12 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 	}
 	
 	private void setUpBall() {
-		ball = PhysicsWorld.createBall(Constants.WORLD_SIZE_X / 2,
+		mBall = PhysicsWorld.createBall(Constants.WORLD_SIZE_X / 2,
 				Constants.WORLD_SIZE_Y / 2, Constants.BALL_RADIUS);
 	
 		java.util.Random random = new java.util.Random();
 		float x = (float) Math.pow(-1, random.nextInt(2));
-		ball.setLinearVelocity(3 * x, 0);
+		mBall.setLinearVelocity(INITIAL_BALL_SPEED * x, 0);
 	}
 
 	private void setUpUpperAndLowerWalls() {
@@ -240,11 +240,7 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 	}
 
 	private boolean reachedWinningScore() {
-		if (playerOneScore >= winningScore || playerTwoScore >= winningScore) {
-			return true;
-		} else {
-			return false;
-		}
+		return playerOneScore >= winningScore || playerTwoScore >= winningScore;
 	}
 	
 	private void resetScore() {
@@ -254,16 +250,16 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 	}
 	
 	private void resetBall(PlayerNumber playerNumber) {
-		ball.setBallPosition(Constants.WORLD_SIZE_X / 2,
+		mBall.setBallPosition(Constants.WORLD_SIZE_X / 2,
 				Constants.WORLD_SIZE_Y / 2);
 
 		// change speed in relation to who scored a goal
 		if (playerNumber == PlayerNumber.ONE) {
 			// give ball to player two
-			ball.setLinearVelocity(-INITIAL_BALL_SPEED, INITIAL_BALL_SPEED);
+			mBall.setLinearVelocity(-INITIAL_BALL_SPEED, INITIAL_BALL_SPEED);
 		} else if (playerNumber == PlayerNumber.TWO) {
 			// give ball to player one
-			ball.setLinearVelocity(INITIAL_BALL_SPEED, INITIAL_BALL_SPEED);
+			mBall.setLinearVelocity(INITIAL_BALL_SPEED, INITIAL_BALL_SPEED);
 		}
 	}
 }
