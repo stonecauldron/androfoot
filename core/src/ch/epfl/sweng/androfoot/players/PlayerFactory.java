@@ -17,20 +17,20 @@ public class PlayerFactory {
 		
 		switch(playerType) {
 		
-		case RANDOM_AI_PLAYER:
-			player = new RandomAI(playerNumber);
-			break;
+			case RANDOM_AI_PLAYER:
+				player = new RandomAI(playerNumber);
+				break;
 			
-		case LOCAL_PLAYER:
-			player = new LocalPlayer(playerNumber);
-			break;
+			case LOCAL_PLAYER:
+				player = new LocalPlayer(playerNumber);
+				break;
 			
-		case REMOTE_PLAYER:
-			player = new RemotePlayer(playerNumber);
-			break;
+			case REMOTE_PLAYER:
+				player = new RemotePlayer(playerNumber);
+				break;
 			
-		default:
-			throw new IllegalArgumentException();
+			default:
+				throw new IllegalArgumentException();
 		}
 		
 		if (playerNumber == PlayerNumber.ONE) {
