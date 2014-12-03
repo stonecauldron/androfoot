@@ -46,14 +46,14 @@ public class GuiCheckBox extends GuiWidget {
 	public void show(Table table, int width, int height) {
 		mCheckBox.getImageCell().size(Math.min(mXSize * width, mYSize * height),
 						Math.min(mXSize * width, mYSize * height));
-		
+		int i = 0;
 		table.add(mCheckBox)
-		.size(Math.min(mXSize * width, mYSize * height), Math.min(mXSize * width, mYSize * height))
-		.colspan(mColSpan)
-		.padRight(mPadding[0] * width)
-		.padTop(mPadding[1] * height)
-		.padLeft(mPadding[2] * width)
-		.padBottom(mPadding[3] * height);
+			.size(Math.min(mXSize * width, mYSize * height), Math.min(mXSize * width, mYSize * height))
+			.colspan(mColSpan)
+			.padRight(mPadding[i++] * width)
+			.padTop(mPadding[i++] * height)
+			.padLeft(mPadding[i++] * width)
+			.padBottom(mPadding[i++] * height);
 		
 		if (mNewLine) {
 			table.row();

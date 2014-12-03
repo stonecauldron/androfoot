@@ -8,6 +8,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import java.util.ArrayList;
+
 import ch.epfl.sweng.androfoot.configuration.Configuration;
 import ch.epfl.sweng.androfoot.players.PlayerType;
 import ch.epfl.sweng.androfoot.screens.GameScreen;
@@ -30,18 +32,18 @@ public final class GuiManager {
 	private static final float CHECKBOX_X_SIZE = 0.1f;
 	private static final float CHECKBOX_Y_SIZE = 0.1f;
 	private static final float BUTTON_Y_SIZE = 0.1f;
-	private static final float TOUCHPAD_MIN_SENSIVITY = 30;
-	private static final float TOUCHPAD_MAX_SENSIVITY = 120;
-	private final float[] TITLE_PADDING = {0, 0, 0, 0.05f };
-	private final float[] DEFAULT_PADDING = {0.01f, 0.01f, 0.01f, 0.01f };
-	private TextureAtlas atlas;
-	private Skin blueSkin;
-	private GuiWidget[] mMainMenuWidgets = new GuiWidget[6];
-	private GuiWidget[] mLocalPlayWidgets = new GuiWidget[8];
-	private GuiWidget[] mSettingsWidgets = new GuiWidget[10];
-	private GuiWidget[] mNetworkPlayWidgets = new GuiWidget[4];
-	private GuiWidget[] mCreditsWidgets = new GuiWidget[3];
-	private GuiWidget[] mGameOverWidgets = new GuiWidget[4];
+	private static final float TOUCHPAD_MIN_SENSITIVITY = 30;
+	private static final float TOUCHPAD_MAX_SENSITIVITY = 120;
+	private final float[] mTitlePadding = new float[] {0f, 0f, 0f, 0.05f };
+	private final float[] mDefaultPadding = new float[] {0.01f, 0.01f, 0.01f, 0.01f };
+	private TextureAtlas mAtlas;
+	private Skin mDefaultSkin;
+	private ArrayList<GuiWidget> mMainMenuWidgets = new ArrayList<GuiWidget>();
+	private ArrayList<GuiWidget> mLocalPlayWidgets = new ArrayList<GuiWidget>();
+	private ArrayList<GuiWidget> mSettingsWidgets = new ArrayList<GuiWidget>();
+	private ArrayList<GuiWidget> mNetworkPlayWidgets = new ArrayList<GuiWidget>();
+	private ArrayList<GuiWidget> mCreditsWidgets = new ArrayList<GuiWidget>();
+	private ArrayList<GuiWidget> mGameOverWidgets = new ArrayList<GuiWidget>();
 	private GuiLabel mScoreLimitCounter;
 	private GuiLabel mFinalScore;
 	private GuiSlider mSensitivityCounter;
@@ -50,115 +52,115 @@ public final class GuiManager {
 		if (INSTANCE != null) {
 			throw new IllegalStateException("Already instantiated");
 		}
-		atlas = new TextureAtlas(Gdx.files.internal("gui/gui.pack"));
-		blueSkin = new Skin(Gdx.files.internal("gui/gui.json"), atlas);
+		mAtlas = new TextureAtlas(Gdx.files.internal("gui/gui.pack"));
+		mDefaultSkin = new Skin(Gdx.files.internal("gui/gui.json"), mAtlas);
 		
 		// Main Menu
-		mMainMenuWidgets[0] = new GuiImage(blueSkin, "title", TITLE_X_SIZE, TITLE_Y_SIZE, true,
-				DEFAULT_PADDING, 1);
-		mMainMenuWidgets[1] = new GuiButton(blueSkin, "default", true, DEFAULT_PADDING,
-				"Local Play", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
-				GuiCommand.goToLocalPlay);
-		mMainMenuWidgets[2] = new GuiButton(blueSkin, "default", true, DEFAULT_PADDING,
-				"Network Play", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
-				GuiCommand.goToNetworkPlay);
-		mMainMenuWidgets[3] = new GuiButton(blueSkin, "default", true, DEFAULT_PADDING,
-				"Settings", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
-				GuiCommand.goToSettings);
-		mMainMenuWidgets[4] = new GuiButton(blueSkin, "default", true, DEFAULT_PADDING,
-				"Credits", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
-				GuiCommand.goToCredits);
-		mMainMenuWidgets[5] = new GuiButton(blueSkin, "default", true, DEFAULT_PADDING,
-				"Quit", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
-				GuiCommand.exit);
+		mMainMenuWidgets.add(new GuiImage(mDefaultSkin, "title", TITLE_X_SIZE,
+						TITLE_Y_SIZE, true, mDefaultPadding, 1));
+		mMainMenuWidgets.add(new GuiButton(mDefaultSkin, "default", true, mDefaultPadding,
+						"Local Play", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
+						GuiCommand.goToLocalPlay));
+		mMainMenuWidgets.add(new GuiButton(mDefaultSkin, "default", true, mDefaultPadding,
+						"Network Play", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
+						GuiCommand.goToNetworkPlay));
+		mMainMenuWidgets.add(new GuiButton(mDefaultSkin, "default", true, mDefaultPadding,
+						"Settings", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
+						GuiCommand.goToSettings));
+		mMainMenuWidgets.add(new GuiButton(mDefaultSkin, "default", true, mDefaultPadding,
+						"Credits", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
+						GuiCommand.goToCredits));
+		mMainMenuWidgets.add(new GuiButton(mDefaultSkin, "default", true, mDefaultPadding,
+						"Quit", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
+						GuiCommand.exit));
 		
 		// Local Play
-		mLocalPlayWidgets[0] = new GuiLabel(blueSkin, "default", true, TITLE_PADDING, 4,
-				"Local Play");
-		mLocalPlayWidgets[1] = new GuiLabel(blueSkin, "default", false, DEFAULT_PADDING, 1,
-				"Score limit: ");
-		mLocalPlayWidgets[2] = new GuiButton(blueSkin, "leftarrow", false, DEFAULT_PADDING,
-				" - ", SMALL_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
-				GuiCommand.subScoreLimit);
-		mScoreLimitCounter = new GuiLabel(blueSkin, "default", false, DEFAULT_PADDING, 1,
+		mLocalPlayWidgets.add(new GuiLabel(mDefaultSkin, "default", true, mTitlePadding, 4,
+						"Local Play"));
+		mLocalPlayWidgets.add(new GuiLabel(mDefaultSkin, "default", false, mDefaultPadding, 1,
+						"Score limit: "));
+		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "leftarrow", false, mDefaultPadding,
+						" - ", SMALL_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
+						GuiCommand.subScoreLimit));
+		mScoreLimitCounter = new GuiLabel(mDefaultSkin, "default", false, mDefaultPadding, 1,
 				Integer.toString(Configuration.getInstance().getScoreLimit()));
-		mLocalPlayWidgets[3] = mScoreLimitCounter;
-		mLocalPlayWidgets[4] = new GuiButton(blueSkin, "rightarrow", true, DEFAULT_PADDING,
-				" + ", SMALL_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
-				GuiCommand.addScoreLimit);
-		mLocalPlayWidgets[5] = new GuiButton(blueSkin, "default", true, DEFAULT_PADDING,
-				"Player vs Player", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 4,
-				GuiCommand.startHuman);
-		mLocalPlayWidgets[6] = new GuiButton(blueSkin, "default", true, DEFAULT_PADDING,
-				"Player vs AI", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 4,
-				GuiCommand.startAI);
-		mLocalPlayWidgets[7] = new GuiButton(blueSkin, "default", true, DEFAULT_PADDING,
-				"Back", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 4,
-				GuiCommand.goToMainMenu);
+		mLocalPlayWidgets.add(mScoreLimitCounter);
+		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "rightarrow", true, mDefaultPadding,
+						" + ", SMALL_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
+						GuiCommand.addScoreLimit));
+		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "default", true, mDefaultPadding,
+						"Player vs Player", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 4,
+						GuiCommand.startHuman));
+		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "default", true, mDefaultPadding,
+						"Player vs AI", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 4,
+						GuiCommand.startAI));
+		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "default", true, mDefaultPadding,
+						"Back", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 4,
+						GuiCommand.goToMainMenu));
 		
 		// Network Play
-		mNetworkPlayWidgets[0] = new GuiLabel(blueSkin, "default", true, TITLE_PADDING, 1,
-				"Network Play");
-		mNetworkPlayWidgets[1] = new GuiButton(blueSkin, "default", true, DEFAULT_PADDING,
-				"Host Game", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 2,
-				GuiCommand.goToHostNetwork);
-		mNetworkPlayWidgets[2] = new GuiButton(blueSkin, "default", true, DEFAULT_PADDING,
-				"Join Game", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 2,
-				GuiCommand.goToClientNetwork);
-		mNetworkPlayWidgets[3] = new GuiButton(blueSkin, "default", true, DEFAULT_PADDING,
-				"Back", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
-				GuiCommand.goToMainMenu);
+		mNetworkPlayWidgets.add(new GuiLabel(mDefaultSkin, "default", true, mTitlePadding, 1,
+						"Network Play"));
+		mNetworkPlayWidgets.add(new GuiButton(mDefaultSkin, "default", true, mDefaultPadding,
+						"Host Game", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 2,
+						GuiCommand.goToHostNetwork));
+		mNetworkPlayWidgets.add(new GuiButton(mDefaultSkin, "default", true, mDefaultPadding,
+						"Join Game", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 2,
+						GuiCommand.goToClientNetwork));
+		mNetworkPlayWidgets.add(new GuiButton(mDefaultSkin, "default", true, mDefaultPadding,
+						"Back", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
+						GuiCommand.goToMainMenu));
 		
 		// Settings
-		mSettingsWidgets[0] = new GuiLabel(blueSkin, "default", true, TITLE_PADDING, 2,
-				"Settings");
-		mSettingsWidgets[1] = new GuiLabel(blueSkin, "default", false, DEFAULT_PADDING, 1,
-				"Sound: ");
-		mSettingsWidgets[2] = new GuiCheckBox(blueSkin, true, DEFAULT_PADDING,
-				CHECKBOX_X_SIZE, CHECKBOX_Y_SIZE, 1,
-				GuiCommand.nothing);
-		mSettingsWidgets[3] = new GuiLabel(blueSkin, "default", false, DEFAULT_PADDING, 1,
-				"Allow tilting: ");
-		mSettingsWidgets[4] = new GuiCheckBox(blueSkin, true, DEFAULT_PADDING,
-				CHECKBOX_X_SIZE, CHECKBOX_Y_SIZE, 1,
-				GuiCommand.nothing);
-		mSettingsWidgets[5] = new GuiLabel(blueSkin, "default", false, DEFAULT_PADDING, 1,
-				"Powerups: ");
-		mSettingsWidgets[6] = new GuiCheckBox(blueSkin, true, DEFAULT_PADDING,
-				CHECKBOX_X_SIZE, CHECKBOX_Y_SIZE, 1,
-				GuiCommand.nothing);
-		mSensitivityCounter	= new GuiSlider(blueSkin, true, DEFAULT_PADDING,
-				SLIDER_X_SIZE, SLIDER_Y_SIZE, TOUCHPAD_MIN_SENSIVITY, TOUCHPAD_MAX_SENSIVITY,
+		mSettingsWidgets.add(new GuiLabel(mDefaultSkin, "default", true, mTitlePadding, 2,
+						"Settings"));
+		mSettingsWidgets.add(new GuiLabel(mDefaultSkin, "default", false, mDefaultPadding, 1,
+						"Sound: "));
+		mSettingsWidgets.add(new GuiCheckBox(mDefaultSkin, true, mDefaultPadding,
+						CHECKBOX_X_SIZE, CHECKBOX_Y_SIZE, 1,
+						GuiCommand.nothing));
+		mSettingsWidgets.add(new GuiLabel(mDefaultSkin, "default", false, mDefaultPadding, 1,
+						"Allow tilting: "));
+		mSettingsWidgets.add(new GuiCheckBox(mDefaultSkin, true, mDefaultPadding,
+						CHECKBOX_X_SIZE, CHECKBOX_Y_SIZE, 1,
+						GuiCommand.nothing));
+		mSettingsWidgets.add(new GuiLabel(mDefaultSkin, "default", false, mDefaultPadding, 1,
+						"Powerups: "));
+		mSettingsWidgets.add(new GuiCheckBox(mDefaultSkin, true, mDefaultPadding,
+						CHECKBOX_X_SIZE, CHECKBOX_Y_SIZE, 1,
+						GuiCommand.nothing));
+		mSensitivityCounter	= new GuiSlider(mDefaultSkin, true, mDefaultPadding,
+				SLIDER_X_SIZE, SLIDER_Y_SIZE, TOUCHPAD_MIN_SENSITIVITY, TOUCHPAD_MAX_SENSITIVITY,
 				1, GuiCommand.updateSensivity);
-		mSettingsWidgets[7] = new GuiLabel(blueSkin, "default", false, DEFAULT_PADDING, 1,
-				"Touchpad sensitivity: ");
-		mSettingsWidgets[8] = mSensitivityCounter;
-		mSettingsWidgets[9] = new GuiButton(blueSkin, "default", true, DEFAULT_PADDING,
-				"Back", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 2,
-				GuiCommand.goToMainMenu);
+		mSettingsWidgets.add(new GuiLabel(mDefaultSkin, "default", false, mDefaultPadding, 1,
+						"Touchpad sensitivity: "));
+		mSettingsWidgets.add(mSensitivityCounter);
+		mSettingsWidgets.add(new GuiButton(mDefaultSkin, "default", true, mDefaultPadding,
+						"Back", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 2,
+						GuiCommand.goToMainMenu));
 		
 		// Credits
-		mCreditsWidgets[0] = new GuiLabel(blueSkin, "default", true, TITLE_PADDING, 1,
-				"Credits");
-		mCreditsWidgets[1] = new GuiLabel(blueSkin, "aux", true, TITLE_PADDING, 1,
-				"Guillaume Leclerc\nMathvey Khokhlov\nPedro Caldeira\nSidney Barthe\n"
-				+ "Aurelien Farine\nGaylor Bosson\nAdam Haefliger");
-		mCreditsWidgets[2] = new GuiButton(blueSkin, "default", true, DEFAULT_PADDING,
-				"Back", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
-				GuiCommand.goToMainMenu);
+		mCreditsWidgets.add(new GuiLabel(mDefaultSkin, "default", true, mTitlePadding, 1,
+						"Credits"));
+		mCreditsWidgets.add(new GuiLabel(mDefaultSkin, "aux", true, mTitlePadding, 1,
+						"Guillaume Leclerc\nMathvey Khokhlov\nPedro Caldeira\nSidney Barthe\n"
+						+ "Aurelien Farine\nGaylor Bosson\nAdam Haefliger"));
+		mCreditsWidgets.add(new GuiButton(mDefaultSkin, "default", true, mDefaultPadding,
+						"Back", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
+						GuiCommand.goToMainMenu));
 		
 		// Game Over
-		mGameOverWidgets[0] = new GuiLabel(blueSkin, "default", true,
-				TITLE_PADDING, 1, "Game Over");
-		mFinalScore = new GuiLabel(blueSkin, "default", true, DEFAULT_PADDING,
+		mGameOverWidgets.add(new GuiLabel(mDefaultSkin, "default", true,
+						mTitlePadding, 1, "Game Over"));
+		mFinalScore = new GuiLabel(mDefaultSkin, "default", true, mDefaultPadding,
 				1, "0 - 0");
-		mGameOverWidgets[1] = mFinalScore;
-		mGameOverWidgets[2] = new GuiButton(blueSkin, "default", true, DEFAULT_PADDING,
-				"Play again", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
-				GuiCommand.goToGame);
-		mGameOverWidgets[3] = new GuiButton(blueSkin, "default", true, DEFAULT_PADDING,
-				"Back to main menu", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE,
-				1, GuiCommand.goToMainMenu);
+		mGameOverWidgets.add(mFinalScore);
+		mGameOverWidgets.add(new GuiButton(mDefaultSkin, "default", true, mDefaultPadding,
+						"Play again", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
+						GuiCommand.goToGame));
+		mGameOverWidgets.add(new GuiButton(mDefaultSkin, "default", true, mDefaultPadding,
+						"Back to main menu", STD_BUTTON_X_SIZE, BUTTON_Y_SIZE,
+						1, GuiCommand.goToMainMenu));
 	}
 
 	public static GuiManager getInstance() {

@@ -14,6 +14,7 @@ import ch.epfl.sweng.androfoot.players.PlayerType;
  */
 public final class Configuration {
 	private static final int DEFAULT_SCORE_LIMIT = 5;
+	private static final int DEFAULT_SENSITIVITY = 60;
 
 	private static final Configuration ONEINSTANCE = new Configuration();
 	private int mScoreLimit;
@@ -26,7 +27,7 @@ public final class Configuration {
 			throw new IllegalStateException("Already instantiated");
 		} else {
 			mScoreLimit = DEFAULT_SCORE_LIMIT;
-			mSensitivity = 60;
+			mSensitivity = DEFAULT_SENSITIVITY;
 		}
 	}
 

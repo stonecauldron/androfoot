@@ -53,13 +53,14 @@ public class GuiSlider extends GuiWidget {
 		mSlider.getStyle().knob.setMinWidth(mYSize * height);
 		mSlider.getStyle().background.setMinHeight((mYSize * height) / 2);
 		
+		int i = 0;
 		table.add(mSlider)
-		.size(mXSize * width, mYSize * height)
-		.colspan(mColSpan)
-		.padRight(mPadding[0] * width)
-		.padTop(mPadding[1] * height)
-		.padLeft(mPadding[2] * width)
-		.padBottom(mPadding[3] * height);
+			.size(mXSize * width, mYSize * height)
+			.colspan(mColSpan)
+			.padRight(mPadding[i++] * width)
+			.padTop(mPadding[i++] * height)
+			.padLeft(mPadding[i++] * width)
+			.padBottom(mPadding[i++] * height);
 		
 		if (mNewLine) {
 			table.row();

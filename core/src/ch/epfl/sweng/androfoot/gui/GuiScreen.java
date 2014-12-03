@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import java.util.ArrayList;
+
 /**
  * @author Sidney Barthe This class builds into a Screen (which is the libgdx
  *         equivalent of an Activity) used for the gui. You have to pass it an
@@ -18,9 +20,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 public class GuiScreen implements Screen {
 	private Stage mStage = new Stage();
 	private Table mTable = new Table();
-	private GuiWidget[] mWidgets;
+	private ArrayList<GuiWidget> mWidgets;
 
-	public GuiScreen(GuiWidget[] widgets) {
+	public GuiScreen(ArrayList<GuiWidget> widgets) {
 		mWidgets = widgets;
 	}
 
