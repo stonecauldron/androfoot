@@ -9,6 +9,10 @@ package ch.epfl.sweng.androfoot.gui;
  * executeCommand and will be interpreted.
  */
 public enum GuiCommand {
+	addPlayerOneFormation,
+	subPlayerOneFormation,
+	addPlayerTwoFormation,
+	subPlayerTwoFormation,
 	goToMainMenu,
 	goToLocalPlay,
 	goToSettings,
@@ -21,8 +25,8 @@ public enum GuiCommand {
 	exit,
 	addScoreLimit,
 	subScoreLimit,
-	startAI,
-	startHuman,
+	togglePlayerOneType,
+	togglePlayerTwoType,
 	updateSensivity,
 	nothing
 };

@@ -15,12 +15,18 @@ import ch.epfl.sweng.androfoot.players.PlayerType;
 public final class Configuration {
 	private static final int DEFAULT_SCORE_LIMIT = 5;
 	private static final int DEFAULT_SENSITIVITY = 60;
+	private static final int DEFAULT_NB_OF_ATTACKERS = 2;
+	private static final PlayerType DEFAULT_PLAYER_ONE_TYPE = PlayerType.LOCAL_PLAYER;
+	private static final PlayerType DEFAULT_PLAYER_TWO_TYPE = PlayerType.LOCAL_PLAYER;
+	private static final int NUMBER_OF_PLAYERS_PER_TEAM = 5;
 
 	private static final Configuration ONEINSTANCE = new Configuration();
 	private int mScoreLimit;
 	private int mSensitivity;
 	private PlayerType mPlayerOneType;
 	private PlayerType mPlayerTwoType;
+	private int mPlayerOneNbAttackers;
+	private int mPlayerTwoNbAttackers;
 
 	private Configuration() {
 		if (ONEINSTANCE != null) {
@@ -28,6 +34,10 @@ public final class Configuration {
 		} else {
 			mScoreLimit = DEFAULT_SCORE_LIMIT;
 			mSensitivity = DEFAULT_SENSITIVITY;
+			mPlayerOneType = DEFAULT_PLAYER_ONE_TYPE;
+			mPlayerTwoType = DEFAULT_PLAYER_TWO_TYPE;
+			mPlayerOneNbAttackers = DEFAULT_NB_OF_ATTACKERS;
+			mPlayerTwoNbAttackers = DEFAULT_NB_OF_ATTACKERS;
 		}
 	}
 
@@ -72,5 +82,31 @@ public final class Configuration {
 	
 	public PlayerType getPlayerTwoType() {
 		return mPlayerTwoType;
+	}
+	
+	public void addPlayerOneFormation() {
+		mPlayerOneNbAttackers = (mPlayerOneNbAttackers % (NUMBER_OF_PLAYERS_PER_TEAM - 1)) + 1;
+	}
+
+	public void subPlayerOneFormation() {
+		mPlayerOneNbAttackers = ((mPlayerOneNbAttackers - 1) + (NUMBER_OF_PLAYERS_PER_TEAM - 2))
+				% (NUMBER_OF_PLAYERS_PER_TEAM - 1) + 1;
+	}
+	
+	public int[] getPlayerOneFormation() {
+		return new int[]{mPlayerOneNbAttackers, NUMBER_OF_PLAYERS_PER_TEAM - mPlayerOneNbAttackers};
+	}
+	
+	public void addPlayerTwoFormation() {
+		mPlayerTwoNbAttackers = (mPlayerTwoNbAttackers % (NUMBER_OF_PLAYERS_PER_TEAM - 1)) + 1;
+	}
+
+	public void subPlayerTwoFormation() {
+		mPlayerTwoNbAttackers = ((mPlayerTwoNbAttackers - 1) + (NUMBER_OF_PLAYERS_PER_TEAM - 2))
+				% (NUMBER_OF_PLAYERS_PER_TEAM - 1) + 1;
+	}
+	
+	public int[] getPlayerTwoFormation() {
+		return new int[]{mPlayerTwoNbAttackers, NUMBER_OF_PLAYERS_PER_TEAM - mPlayerTwoNbAttackers};
 	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
+import ch.epfl.sweng.androfoot.configuration.Configuration;
 
 /**
  * Abstract class encapsulating functionality common to all the players.
@@ -17,10 +18,6 @@ public abstract class AbstractPlayer {
 
 	// offset between the paddles
 	private static final float W_SIZE_X = Constants.WORLD_SIZE_X;
-	// number of defensors
-	private static final int DEFENSOR_NUMBER = 3;
-	// number of attackers
-	private static final int ATTACKER_NUMBER = 2;
 	// position offset
 	private static final float POSITION_OFFSET_DEFENSE = 0.2f;
 	private static final float POSITION_OFFSET_ATTACK = -0.5f;
@@ -74,17 +71,22 @@ public abstract class AbstractPlayer {
 			defenseXCoordinate = W_SIZE_X * 1.0f / BOARD_DIVISION_FACTOR
 					+ POSITION_OFFSET_DEFENSE;
 			attackXCoordinate = W_SIZE_X * FOUR / BOARD_DIVISION_FACTOR + POSITION_OFFSET_ATTACK;
+			paddles.add(PhysicsWorld.createPaddle(defenseXCoordinate,
+					Constants.PADDLE_WIDTH, Configuration.getInstance().getPlayerOneFormation()[1],
+					true));
+			paddles.add(PhysicsWorld.createPaddle(attackXCoordinate,
+					Constants.PADDLE_WIDTH, Configuration.getInstance().getPlayerOneFormation()[0],
+					true));
 		} else if (playerNumber == PlayerNumber.TWO) {
 			defenseXCoordinate = W_SIZE_X * FIVE / BOARD_DIVISION_FACTOR
 					- POSITION_OFFSET_DEFENSE;
 			attackXCoordinate = W_SIZE_X * 2.0f / BOARD_DIVISION_FACTOR - POSITION_OFFSET_ATTACK;
+			paddles.add(PhysicsWorld.createPaddle(defenseXCoordinate,
+					Constants.PADDLE_WIDTH, Configuration.getInstance().getPlayerTwoFormation()[1],
+					false));
+			paddles.add(PhysicsWorld.createPaddle(attackXCoordinate,
+					Constants.PADDLE_WIDTH, Configuration.getInstance().getPlayerTwoFormation()[0],
+					false));
 		}
-
-		paddles.add(PhysicsWorld.createPaddle(defenseXCoordinate,
-				Constants.PADDLE_WIDTH, DEFENSOR_NUMBER,
-				playerNumber == PlayerNumber.ONE));
-		paddles.add(PhysicsWorld.createPaddle(attackXCoordinate,
-				Constants.PADDLE_WIDTH, ATTACKER_NUMBER,
-				playerNumber == PlayerNumber.ONE));
 	}
 }
