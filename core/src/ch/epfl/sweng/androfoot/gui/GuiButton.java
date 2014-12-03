@@ -12,10 +12,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
  * efficiently in different manners.
  */
 public class GuiButton extends GuiWidget {
+	private static final float DEFAULT_X_SCREEN_SIZE = 640f;
+	private static final float DEFAULT_Y_SCREEN_SIZE = 480f;
 	private TextButton mButton;
 	private GuiCommand mCommand;
 	private boolean mNewLine;
 	private float[] mPadding;
+	private int mAlign;
 	private String mText;
 	private float mXSize;
 	private float mYSize;
@@ -25,6 +28,7 @@ public class GuiButton extends GuiWidget {
 					 String style,
 					 boolean lineBreak,
 					 float[] padding,
+					 int align,
 					 String text,
 					 float xSize,
 					 float ySize,
@@ -33,6 +37,7 @@ public class GuiButton extends GuiWidget {
 		
 		mNewLine = lineBreak;
 		mPadding = padding;
+		mAlign = align;
 		mText = text;
 		mButton = new TextButton(mText, skin, style);
 		mXSize = xSize;
@@ -48,6 +53,9 @@ public class GuiButton extends GuiWidget {
 	}
 
 	public void show(Table table, int width, int height) {
+		mButton.getLabel().setFontScale(Math.min((float) (Math.min(DEFAULT_X_SCREEN_SIZE, width) / DEFAULT_X_SCREEN_SIZE),
+				(float) (Math.min(DEFAULT_Y_SCREEN_SIZE, height) / DEFAULT_Y_SCREEN_SIZE)));
+
 		int i = 0;
 		table.add(mButton)
 			.size(mXSize * width, mYSize * height)
@@ -55,7 +63,8 @@ public class GuiButton extends GuiWidget {
 			.padRight(mPadding[i++] * width)
 			.padTop(mPadding[i++] * height)
 			.padLeft(mPadding[i++] * width)
-			.padBottom(mPadding[i++] * height);
+			.padBottom(mPadding[i++] * height)
+			.align(mAlign);
 
 		if (mNewLine) {
 			table.row();

@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
  *         can be displayed directly on a screen.
  */
 public class GuiLabel extends GuiWidget {
+	private static final float DEFAULT_X_SCREEN_SIZE = 640f;
+	private static final float DEFAULT_Y_SCREEN_SIZE = 480f;
 	private boolean mNewLine;
 	private float[] mPadding;
 	private Label mLabel;
@@ -27,6 +29,9 @@ public class GuiLabel extends GuiWidget {
 	}
 
 	public void show(Table table, int width, int height) {
+		mLabel.setFontScale(Math.min((float) (Math.min(DEFAULT_X_SCREEN_SIZE, width) / DEFAULT_X_SCREEN_SIZE),
+				(float) (Math.min(DEFAULT_Y_SCREEN_SIZE, height) / DEFAULT_Y_SCREEN_SIZE)));
+
 		int i = 0;
 		table.add(mLabel)
 			.colspan(mColSpan)
