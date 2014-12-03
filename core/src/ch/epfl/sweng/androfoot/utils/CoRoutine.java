@@ -11,7 +11,7 @@ import ch.epfl.sweng.androfoot.players.ai.AIState;
  *
  */
 public interface CoRoutine {
-	public void execute();
+	void execute();
 	
-	public List<AIState> getStatesWhereCoRoutineIsExecutable();
+	List<AIState> getStatesWhereCoRoutineIsExecutable();
 }

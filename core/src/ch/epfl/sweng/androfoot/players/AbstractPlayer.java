@@ -24,6 +24,12 @@ public abstract class AbstractPlayer {
 	// position offset
 	private static final float POSITION_OFFSET_DEFENSE = 0.2f;
 	private static final float POSITION_OFFSET_ATTACK = -0.5f;
+	
+	private static final float BOARD_DIVISION_FACTOR = 6f;
+	
+	// checkstyle hacks
+	private static final float FOUR = 4f;
+	private static final float FIVE = 5f;
 
 	// all the paddles belonging to a player
 	private List<GroupPaddle> paddles;
@@ -65,13 +71,13 @@ public abstract class AbstractPlayer {
 		float attackXCoordinate = 0f;
 
 		if (playerNumber == PlayerNumber.ONE) {
-			defenseXCoordinate = W_SIZE_X * 1.0f / 6.0f
+			defenseXCoordinate = W_SIZE_X * 1.0f / BOARD_DIVISION_FACTOR
 					+ POSITION_OFFSET_DEFENSE;
-			attackXCoordinate = W_SIZE_X * 4.0f / 6.0f + POSITION_OFFSET_ATTACK;
+			attackXCoordinate = W_SIZE_X * FOUR / BOARD_DIVISION_FACTOR + POSITION_OFFSET_ATTACK;
 		} else if (playerNumber == PlayerNumber.TWO) {
-			defenseXCoordinate = W_SIZE_X * 5.0f / 6.0f
+			defenseXCoordinate = W_SIZE_X * FIVE / BOARD_DIVISION_FACTOR
 					- POSITION_OFFSET_DEFENSE;
-			attackXCoordinate = W_SIZE_X * 2.0f / 6.0f - POSITION_OFFSET_ATTACK;
+			attackXCoordinate = W_SIZE_X * 2.0f / BOARD_DIVISION_FACTOR - POSITION_OFFSET_ATTACK;
 		}
 
 		paddles.add(PhysicsWorld.createPaddle(defenseXCoordinate,

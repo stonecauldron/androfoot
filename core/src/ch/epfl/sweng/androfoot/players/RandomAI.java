@@ -5,14 +5,17 @@ import ch.epfl.sweng.androfoot.utils.Timer;
 
 /**
  * Represents a completely random AI
+ * 
  * @author Pedro Caldeira <pedrocaldeira>
  *
  */
 public class RandomAI extends AbstractAIPlayer {
 
+	private static final float RANDOM_TIMER = 0.5f;
+
 	RandomAI(PlayerNumber number) {
 		super(number);
 
-		addToCoRoutines(new Timer(0.5f), new ActRandomlyCoRoutine(this));
+		addToCoRoutines(new Timer(RANDOM_TIMER), new ActRandomlyCoRoutine(this));
 	}
 }

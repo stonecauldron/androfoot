@@ -9,7 +9,7 @@ import java.util.List;
  * @author Pedro Caldeira <pedrocaldeira>
  *
  */
-public class AIEngine {
+public final class AIEngine {
 
 	private static AIEngine instance;
 
