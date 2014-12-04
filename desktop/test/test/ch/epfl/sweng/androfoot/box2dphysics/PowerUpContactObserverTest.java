@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import ch.epfl.sweng.androfoot.box2dphysics.Ball;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
-import ch.epfl.sweng.androfoot.box2dphysics.PowerUp;
+import ch.epfl.sweng.androfoot.box2dphysics.PowerUpBody;
 import ch.epfl.sweng.androfoot.box2dphysics.PowerUpContactListener;
 import ch.epfl.sweng.androfoot.interfaces.DefaultPowerUp;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpObserver;
@@ -33,7 +33,7 @@ public class PowerUpContactObserverTest implements PowerUpObserver {
 	public void testIfEventOcurred() {
 		EventManagerTester.getEventManager().addPowerUpContactObserver(this);
 
-		PowerUpContactListener.addPowerUp(new PowerUp(world, 1.0f, 1.0f, 1.0f));
+		PowerUpContactListener.addPowerUp(new PowerUpBody(world, 1.0f, 1.0f, 1.0f));
 		ball = new Ball(world, 4.0f, 1.0f, Constants.BALL_RADIUS,
 				Constants.BALL_DENSITY, Constants.BALL_FRICTION,
 				Constants.BALL_RESTITUTION);

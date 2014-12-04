@@ -15,7 +15,7 @@ import ch.epfl.sweng.androfoot.interfaces.Visitor;
  * @author Matvey
  *
  */
-public class PowerUp implements DefaultPowerUp {
+public class PowerUpBody implements DefaultPowerUp {
 	
 	private Body powerUpBody;
 	private final BodyDef bodyDef = new BodyDef();
@@ -30,7 +30,7 @@ public class PowerUp implements DefaultPowerUp {
 	 * @param initPosY Initial y coordinate of the ball.
 	 * @param hBoxRadius The radius of the poewr up hitbox.
 	 */
-	public PowerUp(World world, float initPosX, float initPosY, float hBoxRadius) {
+	public PowerUpBody(World world, float initPosX, float initPosY, float hBoxRadius) {
 		
 		bodyDef.type = BodyType.StaticBody;
 		bodyDef.position.set(initPosX, initPosY);

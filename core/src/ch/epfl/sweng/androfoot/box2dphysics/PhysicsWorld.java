@@ -168,9 +168,9 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	 * @param hBoxRadius Radius of the power up hitbox.
 	 * @return Power Up object.
 	 */
-	public static PowerUp createPowerUp(float x, float y, float hBoxRadius) {
+	public static PowerUpBody createPowerUp(float x, float y, float hBoxRadius) {
 		pauseWorld();
-		PowerUp powerUp = new PowerUp(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, hBoxRadius);
+		PowerUpBody powerUp = new PowerUpBody(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, hBoxRadius);
 		startWorld();
 		
 		return powerUp;
@@ -180,10 +180,10 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	 * Creates a power up object in the centre of the field with a random y coordinate.
 	 * @return Power Up object.
 	 */
-	public static PowerUp createRandomPowerUp() {
+	public static PowerUpBody createRandomPowerUp() {
 		pauseWorld();
 		float posY = (float) (Math.random() * Constants.WORLD_SIZE_Y);
-		PowerUp powerUp = new PowerUp(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), Constants.WORLD_SIZE_X/2,
+		PowerUpBody powerUp = new PowerUpBody(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), Constants.WORLD_SIZE_X/2,
 				posY, Constants.POWERUP_RADIUS);
 		startWorld();
 		

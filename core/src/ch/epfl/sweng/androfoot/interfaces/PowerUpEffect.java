@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Color;
  * @author Guillaume
  *
  */
-public interface PowerUp extends Drawable {
+public interface PowerUpEffect {
 
 	/**
 	 * get the radius of the powerup
@@ -37,10 +37,4 @@ public interface PowerUp extends Drawable {
 	 * @return a {@link Runnable}
 	 */
 	Runnable getEffectStop();
-
-	/**
-	 * Get the color of the power up
-	 * @return the color
-	 */
-	Color getColor();
 }

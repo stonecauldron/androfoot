@@ -20,13 +20,13 @@ public final class PowerUpContactListener implements DefaultContactListener {
 
 	private static PowerUpContactListener instance = new PowerUpContactListener();
 	private static DefaultEventManager manager;
-	private static Set<PowerUp> powerUps;
+	private static Set<PowerUpBody> powerUps;
 	
 	/**
 	 * Constrcutor of the {@link PowerUpContactListener} class.
 	 */
 	private PowerUpContactListener() {
-		powerUps = new HashSet<PowerUp>();
+		powerUps = new HashSet<PowerUpBody>();
 	}
 	
 	/**
@@ -41,7 +41,7 @@ public final class PowerUpContactListener implements DefaultContactListener {
 	 * Adds the specified power up to the list of the power ups for the contact listener.
 	 * @param powerUp Power Up to be added.
 	 */
-	public static void addPowerUp(PowerUp powerUp) {
+	public static void addPowerUp(PowerUpBody powerUp) {
 		powerUps.add(powerUp);
 	}
 	
@@ -55,7 +55,7 @@ public final class PowerUpContactListener implements DefaultContactListener {
 	
 	@Override
 	public void beginContact(Contact contact) {
-		for (PowerUp powerUp : powerUps) {
+		for (PowerUpBody powerUp : powerUps) {
 			if (checkBallHitsPowerUp(contact, powerUp)) {
 				
 				if (manager != null) {
@@ -85,7 +85,7 @@ public final class PowerUpContactListener implements DefaultContactListener {
 		// Does nothing.
 	}
 	
-	private boolean checkBallHitsPowerUp(Contact contact, PowerUp powerUp) {
+	private boolean checkBallHitsPowerUp(Contact contact, PowerUpBody powerUp) {
 		
 		return (contact.getFixtureA().getBody() == powerUp.getBody())
 					&& (contact.getFixtureB().getFilterData().categoryBits == Constants.CATEGORY_BALL)
