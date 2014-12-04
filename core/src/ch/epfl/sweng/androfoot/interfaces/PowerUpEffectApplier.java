@@ -7,5 +7,12 @@ public interface PowerUpEffectApplier extends PowerUpObserver{
 	 * @param delta the time elapsed
 	 */
 	void update(float delta);
+	
+	/**
+	 * Map a powerUp to its effect
+	 * @param power the powerup
+	 * @param effect the effect of this powerup
+	 */
+	void setEffectForBody(DefaultPowerUp power, PowerUpEffect effect);
 
 }
