@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.sweng.androfoot.gui;
 
 import com.badlogic.gdx.Game;
@@ -62,7 +59,6 @@ public final class GuiManager {
 		}
 		mAtlas = new TextureAtlas(Gdx.files.internal("gui/gui.pack"));
 		mDefaultSkin = new Skin(Gdx.files.internal("gui/gui.json"), mAtlas);
-		
 		createMainMenu();
 		createLocalPlay();
 		createNetworkPlay();
@@ -214,8 +210,7 @@ public final class GuiManager {
 	private void createMainMenu() {
 		mMainMenuWidgets.add(new GuiImage(mDefaultSkin, "title", TITLE_X_SIZE,
 						TITLE_Y_SIZE, true, mDefaultPadding, 1));
-		mMainMenuWidgets
-						.add(new GuiButton(mDefaultSkin, "default", true,
+		mMainMenuWidgets.add(new GuiButton(mDefaultSkin, "default", true,
 						mDefaultPadding, Align.center, "Local Play",
 						LARGE_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
 						GuiCommand.goToLocalPlay));
@@ -235,11 +230,11 @@ public final class GuiManager {
 	}
 	
 	private void createLocalPlay() {
-		final int numberOfColumns = 7;
+		final int nbColumns = 7;
 		
 		// Score limit
 		mLocalPlayWidgets.add(new GuiLabel(mDefaultSkin, "default", true,
-						mDefaultPadding, numberOfColumns, "Score limit: "));
+						mDefaultPadding, nbColumns, "Score limit: "));
 		mLocalPlayWidgets.add(new GuiLabel(mDefaultSkin, "default", false,
 						mDefaultPadding, 1, ""));
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "leftarrow", false,
@@ -328,10 +323,10 @@ public final class GuiManager {
 		// Standard buttons
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "default", true,
 						mDefaultPadding, Align.center, "Start", LARGE_BUTTON_X_SIZE,
-						BUTTON_Y_SIZE, numberOfColumns, GuiCommand.goToGame));
+						BUTTON_Y_SIZE, nbColumns, GuiCommand.goToGame));
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "default", true,
 						mDefaultPadding, Align.center, "Back", LARGE_BUTTON_X_SIZE,
-						BUTTON_Y_SIZE, numberOfColumns, GuiCommand.goToMainMenu));
+						BUTTON_Y_SIZE, nbColumns, GuiCommand.goToMainMenu));
 	}
 	
 	private void createNetworkPlay() {
