@@ -29,7 +29,7 @@ public interface PowerUpEffect {
 	 * 
 	 * @return a {@link Runnable}
 	 */
-	Runnable getEffectStart();
+	Callback getEffectStart();
 
 	/**
 	 * A runnable that revert the effect of the powerup
@@ -37,4 +37,8 @@ public interface PowerUpEffect {
 	 * @return a {@link Runnable}
 	 */
 	Runnable getEffectStop();
+	
+	public static interface Callback{
+		public void run(boolean isTeam1);
+	}
 }

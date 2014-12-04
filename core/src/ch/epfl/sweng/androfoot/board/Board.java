@@ -31,7 +31,7 @@ import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
  * @author Pedro Caldeira <pedrocaldeira>
  *
  */
-public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, PaddleContactObserver {
+public class Board implements GoalObserver, PlayerObserver,  PaddleContactObserver {
 
 	private static final float INITIAL_BALL_SPEED = 2f;
 
@@ -71,7 +71,6 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 		// Start observing events.
 		EventManager.getEventManager().addGoalObserver(this);
 		EventManager.getEventManager().addPlayerObserver(this);
-		EventManager.getEventManager().addPowerUpContactObserver(this);
 		EventManager.getEventManager().addPaddleContactObserver(this);
 	}
 
@@ -160,28 +159,13 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 		mPlayerTwo = PlayerFactory.createPlayer(p2);
 	}
 
-	@Override
-	public void applyPowerUp(DefaultPowerUp powerUp) {
-		PhysicsWorld.destroy(powerUp);
-		if (playerOneTouched) {
-			//Insert instructions here
-		} else {
-			//Insert instructions here
-		}
-	}
 	
 	private void setUpScore(int winScore) {
 		resetScore();
 		winningScore = winScore;
 	}
 
-	@Override
-	public void paddleContact(DefaultPlayer player, DefaultBall ball) {
-		playerOneTouched = false;
-		if (player.getTeam()) {
-			playerOneTouched = true;
-		}
-	}
+	
 	
 	private void setUpBall() {
 		mBall = PhysicsWorld.createBall(Constants.WORLD_SIZE_X / 2,
