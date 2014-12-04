@@ -23,6 +23,7 @@ public class GuiCheckBox extends GuiWidget {
 	public GuiCheckBox(Skin skin,
 					 boolean lineBreak,
 					 float[] padding,
+					 boolean currentState,
 					 float xSize,
 					 float ySize,
 					 int colSpan,
@@ -31,6 +32,7 @@ public class GuiCheckBox extends GuiWidget {
 		mNewLine = lineBreak;
 		mPadding = padding;
 		mCheckBox = new CheckBox("", skin);
+		mCheckBox.setChecked(currentState);
 		mXSize = xSize;
 		mYSize = ySize;
 		mCommand = command;

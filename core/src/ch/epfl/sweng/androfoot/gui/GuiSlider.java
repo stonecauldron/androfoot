@@ -1,5 +1,7 @@
 package ch.epfl.sweng.androfoot.gui;
 
+import ch.epfl.sweng.androfoot.configuration.Configuration;
+
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -25,6 +27,7 @@ public class GuiSlider extends GuiWidget {
 					 float ySize,
 					 float minValue,
 					 float maxValue,
+					 float currentValue,
 					 int colSpan,
 					 GuiCommand command) {
 		
@@ -33,6 +36,7 @@ public class GuiSlider extends GuiWidget {
 		mXSize = xSize;
 		mYSize = ySize;
 		mSlider = new Slider(minValue, maxValue, 1, false, skin);
+		mSlider.setValue(currentValue);
 		mColSpan = colSpan;
 		mCommand = command;
 		mSlider.addListener(new ClickListener() {
