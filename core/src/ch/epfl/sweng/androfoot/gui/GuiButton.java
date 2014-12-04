@@ -53,8 +53,9 @@ public class GuiButton extends GuiWidget {
 	}
 
 	public void show(Table table, int width, int height) {
-		mButton.getLabel().setFontScale(Math.min((float) (Math.min(DEFAULT_X_SCREEN_SIZE, width) / DEFAULT_X_SCREEN_SIZE),
-				(float) (Math.min(DEFAULT_Y_SCREEN_SIZE, height) / DEFAULT_Y_SCREEN_SIZE)));
+		mButton.getLabel().setFontScale(Math.min(
+						(float) (Math.min(DEFAULT_X_SCREEN_SIZE, width) / DEFAULT_X_SCREEN_SIZE),
+						(float) (Math.min(DEFAULT_Y_SCREEN_SIZE, height) / DEFAULT_Y_SCREEN_SIZE)));
 
 		int i = 0;
 		table.add(mButton)

@@ -3,8 +3,6 @@
  */
 package ch.epfl.sweng.androfoot.gui;
 
-import ch.epfl.sweng.androfoot.configuration.Configuration;
-
 /**
  * @author Sidney Barthe
  * These commands are supposed to be passed to the GuiManager using the method

@@ -1,7 +1,5 @@
 package ch.epfl.sweng.androfoot.gui;
 
-import ch.epfl.sweng.androfoot.configuration.Configuration;
-
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;

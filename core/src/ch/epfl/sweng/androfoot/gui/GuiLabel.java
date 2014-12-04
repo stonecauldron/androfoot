@@ -29,8 +29,9 @@ public class GuiLabel extends GuiWidget {
 	}
 
 	public void show(Table table, int width, int height) {
-		mLabel.setFontScale(Math.min((float) (Math.min(DEFAULT_X_SCREEN_SIZE, width) / DEFAULT_X_SCREEN_SIZE),
-				(float) (Math.min(DEFAULT_Y_SCREEN_SIZE, height) / DEFAULT_Y_SCREEN_SIZE)));
+		mLabel.setFontScale(Math.min(
+						(float) (Math.min(DEFAULT_X_SCREEN_SIZE, width) / DEFAULT_X_SCREEN_SIZE),
+						(float) (Math.min(DEFAULT_Y_SCREEN_SIZE, height) / DEFAULT_Y_SCREEN_SIZE)));
 
 		int i = 0;
 		table.add(mLabel)
