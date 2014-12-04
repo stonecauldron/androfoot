@@ -20,6 +20,7 @@ import ch.epfl.sweng.androfoot.interfaces.DefaultWorldObject;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 import ch.epfl.sweng.androfoot.interfaces.HostObserver;
+import ch.epfl.sweng.androfoot.interfaces.PlayerShapeListener;
 import ch.epfl.sweng.androfoot.kryonetnetworking.InputData;
 import ch.epfl.sweng.androfoot.kryonetnetworking.HostData;
 import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerHost;
@@ -30,7 +31,7 @@ import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerHost;
  * @author Matvey
  *
  */
-public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostObserver {
+public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostObserver, PlayerShapeListener {
 	
 	private static final PhysicsWorld PHYSICS_WORLD_INSTANCE = new PhysicsWorld();
 	
@@ -172,7 +173,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 		pauseWorld();
 		PowerUpBody powerUp = new PowerUpBody(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, hBoxRadius);
 		startWorld();
-		
+		drawableObjectsSet.add(powerUp);
 		return powerUp;
 	}
 	
@@ -349,6 +350,12 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	@Override
 	public void updateHostTouchData(InputData data) {
 		//Do nothing
+	}
+
+	@Override
+	public void shapeHasChanged() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

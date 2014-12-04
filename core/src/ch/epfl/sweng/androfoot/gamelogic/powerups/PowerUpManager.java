@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ch.epfl.sweng.androfoot.gamelogic;
+package ch.epfl.sweng.androfoot.gamelogic.powerups;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -38,6 +38,7 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 	private Timer timer = null;
 
 	private PowerUpManager() {
+		addPowerUpEffect(new BulletPowerUp());
 	}
 
 	public static PowerUpManager getInstance() {
@@ -55,7 +56,7 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 	public void applyPowerUp(DefaultPowerUp powerUp) {
 		if (bodyToEffectMap.containsKey(powerUp)) {
 			PowerUpEffect effect = bodyToEffectMap.get(powerUp);
-			effect.getEffectStart().run(playerOneTouched);
+			effect.begin(playerOneTouched);
 		}
 	}
 
@@ -106,7 +107,7 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 						+ Constants.WORLD_ORIGIN_Y;
 				DefaultPowerUp powerUpBody = PhysicsWorld.createPowerUp(Xpos,
 						Ypos, POWERUP_SIZE);
-				setEffectForBody(powerUpBody, effect);
+				setEffectForBody(powerUpBody, effect.copy());
 				timers.put(powerUpBody, new Timer(effect.getEffectDuration()));
 			}
 		}
@@ -123,7 +124,7 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 			if(pwTimer.checkTimer()) {
 				if(bodyToEffectMap.containsKey(pw)) {
 					PowerUpEffect effect = bodyToEffectMap.get(pw);
-					effect.getEffectStop().run();
+					effect.end();
 					bodyToEffectMap.remove(pw);
 				}
 				iter.remove();

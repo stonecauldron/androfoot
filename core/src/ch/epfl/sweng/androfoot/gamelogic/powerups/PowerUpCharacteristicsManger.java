@@ -1,4 +1,4 @@
-package ch.epfl.sweng.androfoot.gamelogic;
+package ch.epfl.sweng.androfoot.gamelogic.powerups;
 
 import com.badlogic.gdx.graphics.Color;
 

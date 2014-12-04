@@ -1,5 +1,7 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -45,6 +47,7 @@ public class PowerUpBody implements DefaultPowerUp {
 		powerUpBody = world.createBody(bodyDef);
 		powerUpBody.createFixture(fixture);
 		
+		
 		circle.dispose();
 		
 		PowerUpContactListener.addPowerUp(this);
@@ -86,8 +89,62 @@ public class PowerUpBody implements DefaultPowerUp {
 	}
 
 	@Override
-	public ImmutablePowerUp getStates() {
-		return new ImmutablePowerUp(this);
+	public DefaultPowerUp clone() {
+		return new DefaultPowerUp() {
+			
+			private Vector2 position = powerUpBody.getPosition().cpy();
+	        private float radius = getHitBoxRadius();
+			
+			@Override
+			public Body getBody() {
+				return powerUpBody;
+			}
+
+			@Override
+			public int getZIndex() {
+				return Constants.POWERUP_Z_INDEX;
+			}
+
+			@Override
+			public void accept(Visitor visitor) {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public float getPositionX() {
+				return position.x;
+			}
+
+			@Override
+			public float getPositionY() {
+				return position.y;
+			}
+			
+			@Override
+			public float getHitBoxRadius() {
+				return radius;
+			}
+
+			@Override
+			public void setPowerUpPosition(float x, float y) {
+				throw new UnsupportedOperationException();
+			}
+			
+			@Override
+			public DefaultPowerUp clone() {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public Color getColor() {
+				return getColor();
+			}
+		};
+	}
+
+	@Override
+	public Color getColor() {
+		return Color.CYAN;
 	}
 
 }
