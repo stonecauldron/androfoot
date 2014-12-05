@@ -44,6 +44,7 @@ public class Goal implements DefaultGoal {
         goalBodyDef.position.set(x + width / 2, y + height / 2);
         
         goalBody = world.createBody(goalBodyDef);
+        createNewGoalFixture(width, height);
         
         GoalContactListener.addGoal(this);
     }

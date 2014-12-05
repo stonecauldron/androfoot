@@ -56,4 +56,9 @@ public class ImmutableGoal implements DefaultGoal {
         return this;
     }
 
+    @Override
+    public void changeFixture(float newWidth, float newHeight) {
+        throw new UnsupportedOperationException();
+    }
+
 }

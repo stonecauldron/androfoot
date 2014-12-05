@@ -81,4 +81,10 @@ public class ImmutableBall implements DefaultBall {
         return this;
     }
 
+    @Override
+    public void changeFixture(float newRadius, float newDensity,
+            float newFriction, float newRestitution) {
+        throw new UnsupportedOperationException();
+    }
+
 }
