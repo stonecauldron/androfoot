@@ -7,6 +7,7 @@ import ch.epfl.sweng.androfoot.gamelogic.powerups.PowerUpCharacteristicsManger;
 import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBorder;
+import ch.epfl.sweng.androfoot.interfaces.DefaultPowerUp;
 import ch.epfl.sweng.androfoot.interfaces.DrawableRectangle;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
@@ -133,8 +134,6 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 		boardRenderer.render(batch, renderer);
 		shockwaveManager.render(batch, renderer);
 		shockwaveManager.age(delta);
-		powerUpRender.setPosition(1f, 1f);
-		powerUpRender.render(batch, renderer);
 		for (Visitable v : world.toDraw()) {
 			v.accept(this);
 		}
@@ -235,5 +234,12 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 		playerT1Renderer.setColor(PlayerCharacteristicsManager.getColorTeam1());
 		playerT2Renderer = new PlayerRenderer(PlayerCharacteristicsManager.getInstanceTeam1());
 		playerT2Renderer.setColor(PlayerCharacteristicsManager.getColorTeam2());
+	}
+
+	@Override
+	public void visit(DefaultPowerUp powerup) {
+		powerUpRender.setPosition(powerup.getPositionX(), powerup.getPositionY());
+		powerUpRender.setColor(powerup.getColor());
+		powerUpRender.render(batch, renderer);
 	}
 }

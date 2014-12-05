@@ -17,6 +17,8 @@ public interface Visitor {
 	void visit(DefaultPlayer player);
 
 	void visit(DrawableRectangle rectangle);
+	
+	void visit(DefaultPowerUp powerup);
 
 	/**
 	 * Exception that report a {@link Visitable} is not handled by this class
