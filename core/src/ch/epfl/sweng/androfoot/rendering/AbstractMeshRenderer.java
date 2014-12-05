@@ -89,7 +89,7 @@ public class AbstractMeshRenderer implements DrawableRenderer, MeshRenderer {
 	}
 	
 	private void generateMatrix() {
-		transformationMatrix.idt().scl(scale).translate(postition.x, postition.y, zPos).mul(rotationMatrix);
+		transformationMatrix.idt().translate(postition.x, postition.y, zPos).scl(scale).mul(rotationMatrix);
 	}
 	
 	protected void setShaderArguments(SimpleShaderBuilder shaderArg) {
