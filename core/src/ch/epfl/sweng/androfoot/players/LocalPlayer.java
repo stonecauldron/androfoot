@@ -99,11 +99,16 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 		switch (mPlayerNumber) {
 		case ONE:
 			PlayerTouchTracker.getInstance().removeObserverPlayerOne(this);
-			NetworkHostScreen.getPlayerHost().addHostObserver(this);
+			if (Configuration.getInstance().isNetworkMode()) {
+				NetworkHostScreen.getPlayerHost().removeHostObserver(this);
+			}
 			break;
 		case TWO:
 			PlayerTouchTracker.getInstance().removeObserverPlayerTwo(this);
-			NetworkClientScreen.getPlayerClient().addClientObserver(this);
+			if (Configuration.getInstance().isNetworkMode()) {
+				NetworkClientScreen.getPlayerClient()
+						.removeClientObserver(this);
+			}
 			break;
 		default:
 			throw new IllegalArgumentException();
