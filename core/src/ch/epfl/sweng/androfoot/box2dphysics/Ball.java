@@ -20,12 +20,10 @@ public class Ball implements DefaultBall {
 	
 	private Body ballBody;
 	private final BodyDef bodyDef = new BodyDef();
-	private final CircleShape circle = new CircleShape();
-	private final FixtureDef fixture = new FixtureDef();
 	private float ballRadius;
 	
 	/**
-	 * Contructor of the Ball class.
+	 * Constructor of the Ball class.
 	 * @param world The Box2D world in which the object is located.
 	 * @param initPosX Initial x coordinate of the ball.
 	 * @param initPosY Initial y coordinate of the ball.
@@ -34,11 +32,24 @@ public class Ball implements DefaultBall {
 	 * @param friction Friction of the ball.
 	 * @param restitution Restitution coefficient of the ball.
 	 */
-	public Ball(World world, float initPosX, float initPosY, float radius,
+	Ball(World world, float initPosX, float initPosY, float radius,
 					float density, float friction, float restitution) {
 		
 		bodyDef.type = BodyType.DynamicBody;
 		bodyDef.position.set(initPosX, initPosY);
+		
+		ballBody = world.createBody(bodyDef);
+		createNewBallFixture(radius, density, friction, restitution);
+		
+		PaddleContactListener.addBall(this);
+		BorderContactListener.addBall(this);
+		GoalContactListener.addBall(this);
+	}
+	
+	public void createNewBallFixture(float radius, float density, float friction, float restitution) {
+		
+		final CircleShape circle = new CircleShape();
+		final FixtureDef fixture = new FixtureDef();
 		
 		ballRadius = radius;
 		circle.setRadius(ballRadius);
@@ -50,14 +61,9 @@ public class Ball implements DefaultBall {
 		fixture.filter.categoryBits = Constants.CATEGORY_BALL;
 		fixture.filter.maskBits = Constants.CATEGORY_OTHERS | Constants.CATEGORY_PLAYER;
 		
-		ballBody = world.createBody(bodyDef);
 		ballBody.createFixture(fixture);
 		
 		circle.dispose();
-		
-		PaddleContactListener.addBall(this);
-		BorderContactListener.addBall(this);
-		GoalContactListener.addBall(this);
 	}
 
 	@Override
@@ -92,6 +98,12 @@ public class Ball implements DefaultBall {
 	@Override
 	public void setLinearVelocity(float x, float y) {
 	    ballBody.setLinearVelocity(x, y);
+	}
+	
+	@Override
+	public void changeFixture(float newRadius, float newDensity, float newFriction, float newRestitution) {
+		ballBody.getFixtureList().clear();
+		createNewBallFixture(newRadius, newDensity, newFriction, newRestitution);
 	}
 	
 	@Override
@@ -162,6 +174,13 @@ public class Ball implements DefaultBall {
             public Body getBody() {
                 throw new UnsupportedOperationException();
             }
+
+			@Override
+			public void changeFixture(float newRadius, float newDensity,
+					float newFriction, float newRestitution) {
+				throw new UnsupportedOperationException();
+				
+			}
 	        
 	    };
 	}
