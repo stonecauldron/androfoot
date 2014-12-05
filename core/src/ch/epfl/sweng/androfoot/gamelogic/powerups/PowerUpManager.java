@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.Set;
 
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
+import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DefaultPlayer;
@@ -28,7 +29,8 @@ import ch.epfl.sweng.androfoot.utils.Timer;
 public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 		PaddleContactObserver {
 
-	private final static float POWERUP_SIZE = 0.75f;
+	private final static float POWERUP_SIZE = 0.20f;
+	private final static int MAX_NB_POWERUP = 3;
 	private final static PowerUpManager instance = new PowerUpManager();
 	private static Random randomizer = new Random(-1);
 	private final Map<DefaultPowerUp, PowerUpEffect> bodyToEffectMap = new HashMap<DefaultPowerUp, PowerUpEffect>();
@@ -40,6 +42,7 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 	private PowerUpManager() {
 		addPowerUpEffect(new BulletPowerUp());
 		setSpawnRate(5f);
+		EventManager.getEventManager().addPowerUpContactObserver(this);
 	}
 
 	public static PowerUpManager getInstance() {
@@ -55,6 +58,8 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 	 */
 	@Override
 	public void applyPowerUp(DefaultPowerUp powerUp) {
+		System.out.println("applying effect");
+		timers.put(powerUp, new Timer(bodyToEffectMap.get(powerUp).getEffectDuration()));
 		if (bodyToEffectMap.containsKey(powerUp)) {
 			PowerUpEffect effect = bodyToEffectMap.get(powerUp);
 			effect.begin(playerOneTouched);
@@ -97,7 +102,8 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 		 */
 		if (timer != null) {
 			timer.updateTimer(delta);
-			if (timer.checkTimer()) {
+			if (bodyToEffectMap.size() < MAX_NB_POWERUP && timer.checkTimer()) {
+				System.out.println("new powerup");
 				int nbPowerUps = possibleEffects.size();
 				int effectIndex = randomizer.nextInt(nbPowerUps);
 				PowerUpEffect effect = (PowerUpEffect) possibleEffects
@@ -106,10 +112,12 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 						+ Constants.WORLD_ORIGIN_X;
 				float Ypos = randomizer.nextFloat() * Constants.WORLD_SIZE_Y
 						+ Constants.WORLD_ORIGIN_Y;
-				DefaultPowerUp powerUpBody = PhysicsWorld.createPowerUp(Xpos,
+				System.out.println(Xpos);
+				System.out.println(Ypos);
+				DefaultPowerUp powerUpBody = PhysicsWorld.getPhysicsWorld().createPowerUp(Xpos,
 						Ypos, POWERUP_SIZE);
 				setEffectForBody(powerUpBody, effect.copy());
-				timers.put(powerUpBody, new Timer(effect.getEffectDuration()));
+				timer.resetTimer();
 			}
 		}
 
@@ -123,6 +131,7 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 			Timer pwTimer = timers.get(pw);
 			pwTimer.updateTimer(delta);
 			if(pwTimer.checkTimer()) {
+				System.out.println("powerup effect ended");
 				if(bodyToEffectMap.containsKey(pw)) {
 					PowerUpEffect effect = bodyToEffectMap.get(pw);
 					effect.end();
@@ -131,7 +140,6 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 				iter.remove();
 			}
 		}
-
 	}
 
 	@Override

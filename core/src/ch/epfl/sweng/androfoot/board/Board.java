@@ -137,7 +137,7 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver  {
 		mPlayerTwo.destroy();
 		
 		// destroy ball
-		PhysicsWorld.destroy(mBall);
+		PhysicsWorld.getPhysicsWorld().destroy(mBall);
 		
 		// reset Graphic Engine
 		GraphicEngine.getEngine().reset();
@@ -168,7 +168,7 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver  {
 	
 	
 	private void setUpBall() {
-		mBall = PhysicsWorld.createBall(Constants.WORLD_SIZE_X / 2,
+		mBall = PhysicsWorld.getPhysicsWorld().createBall(Constants.WORLD_SIZE_X / 2,
 				Constants.WORLD_SIZE_Y / 2, Constants.BALL_RADIUS);
 	
 		java.util.Random random = new java.util.Random();
@@ -177,26 +177,26 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver  {
 	}
 
 	private void setUpUpperAndLowerWalls() {
-		PhysicsWorld.createBorder(0, 0, Constants.BORDER_WIDTH,
+		PhysicsWorld.getPhysicsWorld().createBorder(0, 0, Constants.BORDER_WIDTH,
 				Constants.GOAL_HEIGHT, BorderType.TEAM_ONE);
-		PhysicsWorld.createBorder(0, Constants.WORLD_SIZE_Y
+		PhysicsWorld.getPhysicsWorld().createBorder(0, Constants.WORLD_SIZE_Y
 				- Constants.GOAL_HEIGHT, Constants.BORDER_WIDTH,
 				Constants.GOAL_HEIGHT, BorderType.TEAM_ONE);
 	}
 
 	private void setUpLeftAndRightWalls() {
-		PhysicsWorld.createBorder(Constants.WORLD_SIZE_X
+		PhysicsWorld.getPhysicsWorld().createBorder(Constants.WORLD_SIZE_X
 				- Constants.BORDER_WIDTH, 0, Constants.BORDER_WIDTH,
 				Constants.GOAL_HEIGHT, BorderType.TEAM_TWO);
-		PhysicsWorld.createBorder(Constants.WORLD_SIZE_X
+		PhysicsWorld.getPhysicsWorld().createBorder(Constants.WORLD_SIZE_X
 				- Constants.BORDER_WIDTH, Constants.WORLD_SIZE_Y
 				- Constants.GOAL_HEIGHT, Constants.BORDER_WIDTH,
 				Constants.GOAL_HEIGHT, BorderType.TEAM_TWO);
 
-		PhysicsWorld.createBorder(0, -Constants.BORDER_WIDTH,
+		PhysicsWorld.getPhysicsWorld().createBorder(0, -Constants.BORDER_WIDTH,
 				Constants.WORLD_SIZE_X, Constants.BORDER_WIDTH,
 				BorderType.NO_TEAM);
-		PhysicsWorld.createBorder(0, Constants.WORLD_SIZE_Y,
+		PhysicsWorld.getPhysicsWorld().createBorder(0, Constants.WORLD_SIZE_Y,
 				Constants.WORLD_SIZE_X, Constants.BORDER_WIDTH,
 				BorderType.NO_TEAM);
 	}
@@ -249,6 +249,6 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver  {
 
 	@Override
 	public void applyPowerUp(DefaultPowerUp powerUp) {
-		PhysicsWorld.destroy(powerUp);
+		PhysicsWorld.getPhysicsWorld().destroy(powerUp);
 	}
 }

@@ -1,5 +1,6 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
@@ -17,12 +18,14 @@ public class ImmutablePowerUp implements DefaultPowerUp {
     private int zIndex;
     private Vector2 position;
     private float hitBoxRadius;
+    private Color color;
     
     public ImmutablePowerUp(DefaultPowerUp powerup) {
         body = powerup.getBody();
         zIndex = powerup.getZIndex();
         position = new Vector2(powerup.getPositionX(), powerup.getPositionY());
         hitBoxRadius = powerup.getHitBoxRadius();
+        color = powerup.getColor();
     }
 
     @Override
@@ -66,4 +69,9 @@ public class ImmutablePowerUp implements DefaultPowerUp {
         return this;
     }
 
+	@Override
+	public Color getColor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

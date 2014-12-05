@@ -132,7 +132,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 
 		scoreRenderer.render(batch, renderer);
 		boardRenderer.render(batch, renderer);
-		shockwaveManager.render(batch, renderer);
+		//shockwaveManager.render(batch, renderer);
 		shockwaveManager.age(delta);
 		for (Visitable v : world.toDraw()) {
 			v.accept(this);
@@ -239,7 +239,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 	@Override
 	public void visit(DefaultPowerUp powerup) {
 		powerUpRender.setPosition(powerup.getPositionX(), powerup.getPositionY());
-		powerUpRender.setColor(powerup.getColor());
+		powerUpRender.setScale(2*powerup.getHitBoxRadius());
 		powerUpRender.render(batch, renderer);
 	}
 }

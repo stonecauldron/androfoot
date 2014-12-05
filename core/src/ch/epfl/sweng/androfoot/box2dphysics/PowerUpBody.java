@@ -89,57 +89,9 @@ public class PowerUpBody implements DefaultPowerUp {
 	}
 
 	@Override
-	public DefaultPowerUp clone() {
-		return new DefaultPowerUp() {
-			
-			private Vector2 position = powerUpBody.getPosition().cpy();
-	        private float radius = getHitBoxRadius();
-			
-			@Override
-			public Body getBody() {
-				return powerUpBody;
-			}
-
-			@Override
-			public int getZIndex() {
-				return Constants.POWERUP_Z_INDEX;
-			}
-
-			@Override
-			public void accept(Visitor visitor) {
-				throw new UnsupportedOperationException();
-			}
-
-			@Override
-			public float getPositionX() {
-				return position.x;
-			}
-
-			@Override
-			public float getPositionY() {
-				return position.y;
-			}
-			
-			@Override
-			public float getHitBoxRadius() {
-				return radius;
-			}
-
-			@Override
-			public void setPowerUpPosition(float x, float y) {
-				throw new UnsupportedOperationException();
-			}
-			
-			@Override
-			public DefaultPowerUp clone() {
-				throw new UnsupportedOperationException();
-			}
-
-			@Override
-			public Color getColor() {
-				return getColor();
-			}
-		};
+	public ImmutablePowerUp getStates() {
+		return new ImmutablePowerUp(this);
+		
 	}
 
 	@Override
