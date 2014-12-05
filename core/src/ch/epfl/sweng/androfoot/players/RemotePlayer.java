@@ -22,8 +22,6 @@ import ch.epfl.sweng.androfoot.screens.NetworkHostScreen;
 public class RemotePlayer extends AbstractPlayer implements Controllable,
 		ClientObserver, HostObserver {
 
-	private boolean mClientMode = false;
-	private boolean mHostMode = false;
 
 	private PaddleMover mPaddleMover;
 
@@ -90,12 +88,10 @@ public class RemotePlayer extends AbstractPlayer implements Controllable,
 
 	@Override
 	public void gameHostStart() {
-		mHostMode = true;
 	}
 
 	@Override
 	public void gameClientStart() {
-		mClientMode = true;
 	}
 
 }

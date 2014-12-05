@@ -1,6 +1,7 @@
 package ch.epfl.sweng.androfoot.players;
 
 import ch.epfl.sweng.androfoot.box2dphysics.PaddleMover;
+import ch.epfl.sweng.androfoot.configuration.Configuration;
 import ch.epfl.sweng.androfoot.interfaces.ClientObserver;
 import ch.epfl.sweng.androfoot.interfaces.Controllable;
 import ch.epfl.sweng.androfoot.interfaces.HostObserver;
@@ -40,11 +41,15 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 		switch (playerNumber) {
 		case ONE:
 			PlayerTouchTracker.getInstance().addObserverPlayerOne(this);
-			NetworkHostScreen.getPlayerHost().addHostObserver(this);
+			if (Configuration.getInstance().isNetworkMode()) {
+				NetworkHostScreen.getPlayerHost().addHostObserver(this);
+			}
 			break;
 		case TWO:
 			PlayerTouchTracker.getInstance().addObserverPlayerTwo(this);
-			NetworkClientScreen.getPlayerClient().addClientObserver(this);
+			if (Configuration.getInstance().isNetworkMode()) {
+				NetworkClientScreen.getPlayerClient().addClientObserver(this);
+			}
 			break;
 		default:
 			throw new IllegalArgumentException(
