@@ -30,6 +30,16 @@ public final class Configuration {
 	private boolean mTiltingOn;
 	private boolean mPowerupsOn;
 	private Preferences mPrefs;
+	private boolean mNetworkMode;
+
+	
+	public boolean isNetworkMode() {
+		return mNetworkMode;
+	}
+
+	public void setNetworkMode(boolean mNetworkMode) {
+		this.mNetworkMode = mNetworkMode;
+	}
 
 	private Configuration() {
 		if (ONEINSTANCE != null) {
@@ -176,9 +186,11 @@ public final class Configuration {
 	public void setDefaultConfig() {
 		mPlayerOneNbAttackers = 2;
 		mPlayerTwoNbAttackers = 2;
+		mScoreLimit = 11;
 		if (!mTiltingOn) {
 			toggleTilting();
 		}
+		mNetworkMode = true;
 	}
 
 	public int[] getPlayerTwoFormation() {

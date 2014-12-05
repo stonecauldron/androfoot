@@ -26,6 +26,7 @@ public class GameScreen implements Screen {
 
 	public GameScreen(PlayerType firstPlayer, PlayerType secondPlayer) {
 
+		Configuration.getInstance().setNetworkMode(false);
 		BoardFactory.setupBoard(firstPlayer, secondPlayer, Configuration
 				.getInstance().getScoreLimit());
 
