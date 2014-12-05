@@ -111,7 +111,7 @@ public class Player implements DefaultPlayer {
 		
 		controlShape.set(verticesControl);
 		createAttachFixture(controlShape);
-		
+
 		shootingShape.set(shootPolygonBuilder.generateVertexesFloat());
 		createAttachFixture(shootingShape);
 	}
