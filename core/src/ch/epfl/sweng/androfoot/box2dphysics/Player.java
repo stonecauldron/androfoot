@@ -27,15 +27,8 @@ public class Player implements DefaultPlayer {
 	private static final int MAX_PLAYER_VERTEX = 11;
 	private static int zIndexCounter = 1;
 	private Body playerBody;
-	private final BodyDef playerBodyDef = new BodyDef();
+	private final BodyDef playerBodyDef = new BodyDef(); 
 	
-	private final FixtureDef fixtureForCircle = new FixtureDef();
-	private final FixtureDef fixtureForBox = new FixtureDef();
-	
-	private final PolygonShape controlShape = new PolygonShape();
-	private final PolygonShape shootingShape = new PolygonShape(); 
-	
-	private PolygonMap paddleGenerator;
 	private boolean teamFlag;
 	
 	private final DefaultPaddle parent;
@@ -50,7 +43,7 @@ public class Player implements DefaultPlayer {
 	 * @param teamOrientation If true the player is facing right, otherwise player is facing left.
 	 * @param paddle 
 	 */
-	public Player(World world, float initPosX, float initPosY, boolean teamOrientation, Paddle paddle) {
+	Player(World world, float initPosX, float initPosY, boolean teamOrientation, Paddle paddle) {
 		
 		parent = paddle;
 		teamFlag = teamOrientation;
@@ -62,9 +55,6 @@ public class Player implements DefaultPlayer {
 		playerBody.setLinearVelocity(0, 0);
 		
 		createPaddleShape(teamFlag);
-		
-		createAttachFixtureForCircle();
-		createAttachFixtureForBox();
 		
 		if (teamFlag) {
 			playerBody.setTransform(playerBody.getPosition(), (float) (-Math.PI/2));
@@ -85,7 +75,12 @@ public class Player implements DefaultPlayer {
 	 */
 	private void createPaddleShape(boolean teamOne) {
 		
+		PolygonMap paddleGenerator;
 		PaddleGenerator fullGenerator;
+		
+		final PolygonShape controlShape = new PolygonShape();
+		final PolygonShape shootingShape = new PolygonShape();
+		
 		if (teamOne) {
 			fullGenerator = PlayerCharacteristicsManager.getInstanceTeam1();
 		} else {
@@ -98,25 +93,20 @@ public class Player implements DefaultPlayer {
 		PolygonGenerator shootPolygonBuilder = paddleGenerator.get(PaddleGenerator.SHOOT_BLOCK_KEY);
 		
 		controlShape.set(controlPolygonBuilder.generateVertexesFloat());
+		createAttachFixture(controlShape);
 		shootingShape.set(shootPolygonBuilder.generateVertexesFloat());
+		createAttachFixture(shootingShape);
 	}
 	
 	/**
 	 * Creates and attaches the circular fixture to the player object.
 	 */
-	private void createAttachFixtureForCircle() {
-		fixtureForCircle.shape = controlShape;
+	private void createAttachFixture(PolygonShape shape) {
+		final FixtureDef fixtureForCircle = new FixtureDef();
+		
+		fixtureForCircle.shape = shape;
 		
 		playerBody.createFixture(fixtureForCircle);
-	}
-	
-	/**
-	 * Creates and attaches the rectangular fixture to the player object.
-	 */
-	private void createAttachFixtureForBox() {
-		fixtureForBox.shape = shootingShape;
-		
-		playerBody.createFixture(fixtureForBox);
 	}
 	
 	@Override
