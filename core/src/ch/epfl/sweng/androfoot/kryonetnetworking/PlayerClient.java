@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
+import ch.epfl.sweng.androfoot.gui.GuiCommand;
+import ch.epfl.sweng.androfoot.gui.GuiManager;
 import ch.epfl.sweng.androfoot.interfaces.ClientObservable;
 import ch.epfl.sweng.androfoot.interfaces.ClientObserver;
 import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
@@ -18,6 +20,7 @@ public class PlayerClient implements ClientObservable {
 	private static boolean gameStarted;
 
 	private ArrayList<ClientObserver> mClientObserver = new ArrayList<ClientObserver>();
+	private String address;
 
 	public PlayerClient() {
 	}
@@ -30,15 +33,15 @@ public class PlayerClient implements ClientObservable {
 
 	public void listenToServer() throws IOException {
 		System.setProperty("java.net.preferIPv4Stack", "true");
+		DiscoverServerTest();
+		
 		client = new Client();
-		// TODO Get Lan discovery to WORK T_T
-		String address = discoverHostAddress();
 		client.start();
 
 		try {
 			client.connect(5000, address, NetworkUtils.TCP_PORT);
 		} catch (IOException e) {
-			System.exit(1);
+			GuiManager.getInstance().executeCommand(GuiCommand.goToMainMenu);
 		}
 
 		addClientObserver(PlayerTouchTracker.getInstance());
@@ -79,18 +82,6 @@ public class PlayerClient implements ClientObservable {
 		updateClientObserver(response);
 	}
 
-	public String discoverHostAddress() {
-		String address;
-		InetAddress host = client.discoverHost(NetworkUtils.UDP_PORT, 3000);
-		try {
-			address = host.getHostAddress();
-		} catch (NullPointerException exp) {
-			return "localhost";
-		}
-
-		return address;
-	}
-
 	@Override
 	public void addClientObserver(ClientObserver obs) {
 		mClientObserver.add(obs);
@@ -116,6 +107,19 @@ public class PlayerClient implements ClientObservable {
 			for (ClientObserver obs : mClientObserver) {
 				obs.updateHostTouchData(data);
 			}
+		}
+	}
+
+	public void DiscoverServerTest() {
+		
+		Client broadcastClient = new Client();
+
+		InetAddress host = broadcastClient.discoverHost(NetworkUtils.UDP_PORT,
+				3000);
+		try {
+			this.address = host.getHostAddress();
+		} catch (NullPointerException exp) {
+			System.out.println("aSD");
 		}
 	}
 }

@@ -51,9 +51,13 @@ public class PlayerHost implements HostObservable {
 					server.sendToTCP(mConnection.getID(),0);
 				}
 			}
-		
+	
+		public void disconnected(Connection c) {
+			//TODO Handle client disconnection here
+		}
+			
 		public void connected(Connection c) {
-			System.out.println("Host: Connection established");
+			System.out.println("Host: Server established");
 		}
 		
 		});
@@ -64,7 +68,7 @@ public class PlayerHost implements HostObservable {
 		final Server broadcastServer = new Server();
 		try
 		{
-			broadcastServer.bind(NetworkUtils.UDP_PORT);
+			broadcastServer.bind(0, NetworkUtils.UDP_PORT);
 			broadcastServer.start();
 		}
 		catch (IOException e)
