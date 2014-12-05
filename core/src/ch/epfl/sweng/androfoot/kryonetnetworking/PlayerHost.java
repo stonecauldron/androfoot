@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import ch.epfl.sweng.androfoot.interfaces.HostObservable;
 import ch.epfl.sweng.androfoot.interfaces.HostObserver;
-import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -19,8 +18,6 @@ public class PlayerHost implements HostObservable {
 	
 	private ArrayList<HostObserver> mHostObserver = new ArrayList<HostObserver>();
 
-	public PlayerHost() {
-	}
 
 	static public void sendHostData(HostData data) {
 		server.sendToTCP(mConnection.getID(), data);
@@ -33,8 +30,6 @@ public class PlayerHost implements HostObservable {
 		server = new Server();
 		server.start();
 		server.bind(NetworkUtils.TCP_PORT);
-
-		addHostObserver(PlayerTouchTracker.getInstance());
 
 		// For consistency, the classes to be sent over the network are
 		// registered by the same method for both the client and server.
@@ -79,6 +74,7 @@ public class PlayerHost implements HostObservable {
 	
 
 	protected void updateGameState(InputData data) {
+		System.out.println("REACHED UPDATE PH");
 		updateHostObserver(data);
 	}
 
@@ -109,5 +105,23 @@ public class PlayerHost implements HostObservable {
 
 	public static void sendHostData(InputData inputData) {
 		server.sendToTCP(mConnection.getID(), inputData);
+	}
+
+	@Override
+	public void updateHostObserver(ShakeData data) {
+		if (gameStarted) {
+			for (HostObserver obs : mHostObserver) {
+				obs.updateClientShakeData(data);
+			}
+		}
+	}
+
+	@Override
+	public void updateHostObserver(GameInfo data) {
+		if (gameStarted) {
+			for (HostObserver obs : mHostObserver) {
+				obs.updateClientGameInfoData(data);
+			}
+		}
 	}
 }

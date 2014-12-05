@@ -8,7 +8,6 @@ import ch.epfl.sweng.androfoot.gui.GuiCommand;
 import ch.epfl.sweng.androfoot.gui.GuiManager;
 import ch.epfl.sweng.androfoot.interfaces.ClientObservable;
 import ch.epfl.sweng.androfoot.interfaces.ClientObserver;
-import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -44,8 +43,6 @@ public class PlayerClient implements ClientObservable {
 			GuiManager.getInstance().executeCommand(GuiCommand.goToMainMenu);
 		}
 
-		addClientObserver(PlayerTouchTracker.getInstance());
-
 		// For consistency, the classes to be sent over the network are
 		// registered by the same method for both the client and server.
 		NetworkUtils.register(client);
@@ -75,6 +72,7 @@ public class PlayerClient implements ClientObservable {
 	}
 
 	private void updateGameState(InputData data) {
+		System.out.println("REACHED IN PC");
 		updateClientObserver(data);
 	}
 
@@ -121,5 +119,11 @@ public class PlayerClient implements ClientObservable {
 		} catch (NullPointerException exp) {
 			System.out.println("aSD");
 		}
+	}
+
+	@Override
+	public void updateClientObserver(GameInfo data) {
+		// TODO Auto-generated method stub
+		
 	}
 }
