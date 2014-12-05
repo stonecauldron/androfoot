@@ -3,13 +3,14 @@ package ch.epfl.sweng.androfoot.soundeffect;
 import java.util.Random;
 
 import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
+import ch.epfl.sweng.androfoot.configuration.Configuration;
+import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBorder;
-import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
+import ch.epfl.sweng.androfoot.interfaces.DefaultPlayer;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.interfaces.PaddleContactObserver;
-import ch.epfl.sweng.androfoot.interfaces.DefaultPlayer;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
@@ -73,16 +74,19 @@ public enum SoundEffectManager implements GoalObserver, PaddleContactObserver,
 
 	@Override
 	public void goal(DefaultGoal goal, DefaultBall ball) {
-		mGoalPlayerOne.play((float) 0.3, 1, 0);
+		if (Configuration.getInstance().getSound())
+			mGoalPlayerOne.play((float) 0.3, 1, 0);
 	}
 
 	@Override
 	public void borderContact(DefaultBorder border, DefaultBall ball) {
-		mBallOnWall.play((float) 0.1, 1, 0);
+		if (Configuration.getInstance().getSound())
+			mBallOnWall.play((float) 0.1, 1, 0);
 	}
 
 	@Override
 	public void paddleContact(DefaultPlayer player, DefaultBall ball) {
-		mBallOnPaddle.play(1, pitchRandomizer(125), 0);
+		if (Configuration.getInstance().getSound())
+			mBallOnPaddle.play(1, pitchRandomizer(125), 0);
 	}
 }

@@ -3,15 +3,17 @@ package ch.epfl.sweng.androfoot.accelerometer;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.epfl.sweng.androfoot.configuration.Configuration;
 import ch.epfl.sweng.androfoot.interfaces.AccelerometerObserver;
 import ch.epfl.sweng.androfoot.interfaces.ObservableAccelerometer;
 
 import com.badlogic.gdx.Gdx;
 
-/** 
+/**
  * @author Ahaeflig
  * 
- * Singleton implementation of a class that provide useful way to deal with the accelerometer
+ *         Singleton implementation of a class that provide useful way to deal
+ *         with the accelerometer
  */
 public enum AccelerometerTracker implements ObservableAccelerometer {
 	INSTANCE;
@@ -46,7 +48,8 @@ public enum AccelerometerTracker implements ObservableAccelerometer {
 	 */
 	public boolean isShaking() {
 		pollGrav();
-		if (Math.sqrt((mXGrav * mXGrav) + (mYGrav * mYGrav) + (mZGrav * mZGrav)) >= SHAKE_TRIGGER) {
+		if (Math.sqrt((mXGrav * mXGrav) + (mYGrav * mYGrav) + (mZGrav * mZGrav)) >= SHAKE_TRIGGER
+				&& Configuration.getInstance().getTilting()) {
 			notifyIsShakingObserver();
 			return true;
 		}
