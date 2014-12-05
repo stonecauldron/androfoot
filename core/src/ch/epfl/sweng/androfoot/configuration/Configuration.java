@@ -169,6 +169,7 @@ public final class Configuration {
 	}
 
 	public void subPlayerTwoFormation() {
+		System.out.println("reached");
 		mPlayerTwoNbAttackers = ((mPlayerTwoNbAttackers - 1) + (NUMBER_OF_PLAYERS_PER_TEAM - 2))
 				% (NUMBER_OF_PLAYERS_PER_TEAM - 1) + 1;
 	}
@@ -176,11 +177,13 @@ public final class Configuration {
 	public void setDefaultConfig() {
 		mPlayerOneNbAttackers = 2;
 		mPlayerTwoNbAttackers = 2;
+
 		mScoreLimit = 11;
 		if (!mTiltingOn) {
 			toggleTilting();
 		}
 		mNetworkMode = true;
+
 	}
 
 	public int[] getPlayerTwoFormation() {

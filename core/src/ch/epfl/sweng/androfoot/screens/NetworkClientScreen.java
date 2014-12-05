@@ -37,7 +37,7 @@ public class NetworkClientScreen implements Screen, ClientObserver {
 
 	public void startBoard() {
 		gameStarted = true;
-		PhysicsWorld.startWorld();
+		PhysicsWorld.getPhysicsWorld().startWorld();
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class NetworkClientScreen implements Screen, ClientObserver {
 						PlayerType.LOCAL_PLAYER, Configuration.getInstance()
 								.getScoreLimit());
 				pc.addClientObserver(PhysicsWorld.getPhysicsWorld());
-				PhysicsWorld.pauseWorld();
+				PhysicsWorld.getPhysicsWorld().pauseWorld();
 				pc.listenToServer();
 			} catch (IOException e) {
 				e.printStackTrace();

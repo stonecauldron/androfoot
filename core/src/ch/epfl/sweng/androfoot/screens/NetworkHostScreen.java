@@ -34,7 +34,7 @@ public class NetworkHostScreen implements Screen, HostObserver {
 	}
 
 	public void startBoard() {
-		PhysicsWorld.startWorld();
+		PhysicsWorld.getPhysicsWorld().startWorld();
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class NetworkHostScreen implements Screen, HostObserver {
 					PlayerType.REMOTE_PLAYER, Configuration.getInstance()
 							.getScoreLimit());
 
-			PhysicsWorld.pauseWorld();
+			PhysicsWorld.getPhysicsWorld().pauseWorld();
 		}
 	}
 
