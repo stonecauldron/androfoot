@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import ch.epfl.sweng.androfoot.accelerometer.AccelerometerTracker;
 import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
@@ -25,11 +23,6 @@ import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerClient;
 import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerHost;
 import ch.epfl.sweng.androfoot.kryonetnetworking.ShakeData;
 
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -480,4 +473,23 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 
 	}
 
+	@Override
+	public void updateClientShakeData(ShakeData data) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateClientGameInfoData(GameInfo data) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateHostGameInfoData(GameInfo data) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

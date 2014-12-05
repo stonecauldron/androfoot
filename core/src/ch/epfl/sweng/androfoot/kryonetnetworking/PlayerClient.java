@@ -78,6 +78,7 @@ public class PlayerClient implements ClientObservable {
 	}
 
 	private void updateGameState(InputData data) {
+		System.out.println("REACHED IN PC");
 		updateClientObserver(data);
 	}
 
@@ -143,5 +144,11 @@ public class PlayerClient implements ClientObservable {
 		if (gameStarted) {
 			client.sendTCP(shakeData);
 		}
+	}
+
+	@Override
+	public void updateClientObserver(GameInfo data) {
+		// TODO Auto-generated method stub
+		
 	}
 }
