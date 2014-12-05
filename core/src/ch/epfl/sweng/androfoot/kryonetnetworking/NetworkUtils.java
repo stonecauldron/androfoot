@@ -12,6 +12,7 @@ public class NetworkUtils {
             Kryo kryo = endPoint.getKryo();
             kryo.register(HostData.class);
             kryo.register(InputData.class);
+            kryo.register(ShakeData.class);
     }
     
 }
