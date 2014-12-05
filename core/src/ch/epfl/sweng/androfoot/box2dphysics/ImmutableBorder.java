@@ -7,6 +7,11 @@ import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBorder;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
+/**
+ * Immutable implementation of a border to transmit the states in event
+ * @author Gaylor
+ *
+ */
 public class ImmutableBorder implements DefaultBorder {
     
     private Body body;

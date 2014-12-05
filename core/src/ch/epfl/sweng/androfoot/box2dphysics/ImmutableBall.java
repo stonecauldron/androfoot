@@ -6,6 +6,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
+/**
+ * Immutable implementation of a ball to transmit the states in event
+ * @author Gaylor
+ *
+ */
 public class ImmutableBall implements DefaultBall {
     
     private Body body;
@@ -55,13 +60,13 @@ public class ImmutableBall implements DefaultBall {
     }
 
     @Override
-    public void setBallPosition(float x, float y) {
+    public void setBallPosition(float posX, float posY) {
         // Do nothing
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setLinearVelocity(float x, float y) {
+    public void setLinearVelocity(float posX, float posY) {
         // Do nothing
         throw new UnsupportedOperationException();
     }

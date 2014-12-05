@@ -6,6 +6,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 import ch.epfl.sweng.androfoot.interfaces.DefaultPlayer;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
+/**
+ * Immutable implementation of a player to transmit states in events
+ * @author Gaylor
+ *
+ */
 public class ImmutablePlayer implements DefaultPlayer {
     
     private int zIndex;

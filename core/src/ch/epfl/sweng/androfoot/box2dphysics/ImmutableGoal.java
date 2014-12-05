@@ -7,6 +7,11 @@ import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
+/**
+ * Immutable implementation of a goal to transmit states in events
+ * @author Gaylor
+ *
+ */
 public class ImmutableGoal implements DefaultGoal {
     
     private Body body;

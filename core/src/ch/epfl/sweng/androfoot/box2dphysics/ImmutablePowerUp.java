@@ -6,6 +6,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 import ch.epfl.sweng.androfoot.interfaces.DefaultPowerUp;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
 
+/**
+ * Immutable implementation of a power up to transmit states in events
+ * @author Gaylor
+ *
+ */
 public class ImmutablePowerUp implements DefaultPowerUp {
     
     private Body body;
