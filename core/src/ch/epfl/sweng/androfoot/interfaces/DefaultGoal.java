@@ -3,6 +3,7 @@ package ch.epfl.sweng.androfoot.interfaces;
 import com.badlogic.gdx.math.Vector2;
 
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
+import ch.epfl.sweng.androfoot.box2dphysics.ImmutableGoal;
 
 /**
  * Interface for the goal of the board
@@ -26,5 +27,5 @@ public interface DefaultGoal extends DefaultWorldObject {
      * Clone the actual state of the goal
      * @return
      */
-    DefaultGoal clone();
+    ImmutableGoal getStates();
 }

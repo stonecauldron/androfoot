@@ -117,72 +117,8 @@ public class Ball implements DefaultBall {
 	}
 	
 	@Override
-	public DefaultBall clone() {
-	    return new DefaultBall() {
-	        private Vector2 position = new Vector2(ballBody.getPosition().x, ballBody.getPosition().y);
-	        private Vector2 velocity = ballBody.getLinearVelocity();
-	        private float radius = getRadius();
-
-            @Override
-            public void accept(Visitor visitor) {
-                // Do nothing
-            }
-
-            @Override
-            public float getPositionX() {
-                return position.x;
-            }
-
-            @Override
-            public float getPositionY() {
-                return position.y;
-            }
-
-            @Override
-            public float getRadius() {
-                return radius;
-            }
-
-            @Override
-            public void setBallPosition(float x, float y) {
-                // Forgotten
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public void setLinearVelocity(float x, float y) {
-                // Forgotten
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public Vector2 getLinearVelocity() {
-                return velocity;
-            }
-
-            @Override
-            public DefaultBall clone() {
-                return null;
-            }
-
-            @Override
-            public int getZIndex() {
-                return -1;
-            }
-
-            @Override
-            public Body getBody() {
-                throw new UnsupportedOperationException();
-            }
-
-			@Override
-			public void changeFixture(float newRadius, float newDensity,
-					float newFriction, float newRestitution) {
-				throw new UnsupportedOperationException();
-				
-			}
-	        
-	    };
+	public ImmutableBall getStates() {
+	    return new ImmutableBall(this);
 	}
 
 }

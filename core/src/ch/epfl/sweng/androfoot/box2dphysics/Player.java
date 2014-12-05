@@ -34,6 +34,7 @@ public class Player implements DefaultPlayer {
 	private final DefaultPaddle parent;
 	
 	private int zIndex;
+	private float semiHeight = 0;
 	
 	/**
 	 * Constructor of an individual player.
@@ -91,9 +92,26 @@ public class Player implements DefaultPlayer {
 		
 		PolygonGenerator controlPolygonBuilder = paddleGenerator.get(PaddleGenerator.CONTROL_BLOCK_KEY);
 		PolygonGenerator shootPolygonBuilder = paddleGenerator.get(PaddleGenerator.SHOOT_BLOCK_KEY);
+
+		float[] verticesControl = controlPolygonBuilder.generateVertexesFloat();
+		float minY = 0;
+		float maxY = 0;
+		for (int i = 0; i < verticesControl.length; i += 2) {
+		    float point = verticesControl[i];
+		    
+		    if (point > maxY) {
+		        maxY = point;
+		    }
+		    
+		    if (point < minY) {
+		        minY = point;
+		    }
+		}
+		semiHeight = (maxY - minY) / 2;
 		
-		controlShape.set(controlPolygonBuilder.generateVertexesFloat());
+		controlShape.set(verticesControl);
 		createAttachFixture(controlShape);
+		
 		shootingShape.set(shootPolygonBuilder.generateVertexesFloat());
 		createAttachFixture(shootingShape);
 	}
@@ -157,6 +175,10 @@ public class Player implements DefaultPlayer {
 	public int getZIndex() {
 		return zIndex;
 	}
+	
+	public float getSemiHeight() {
+	    return semiHeight;
+	}
 
 	@Override
 	public boolean isAbleToControlBall() {
@@ -164,71 +186,8 @@ public class Player implements DefaultPlayer {
 	}
 	
 	@Override
-	public DefaultPlayer clone() {
-	    return new DefaultPlayer() {
-	        private Vector2 position = playerBody.getPosition().cpy();
-	        private Vector2 velocity = playerBody.getLinearVelocity().cpy();
-	        private float angle = getPlayerAngle();
-	        private boolean team = teamFlag;
-	        
-            @Override
-            public int getZIndex() {
-                // Forgotten
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public void accept(Visitor visitor) {
-                // Forgotten
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public float getPositionX() {
-                return position.x;
-            }
-
-            @Override
-            public float getPositionY() {
-                return position.y;
-            }
-
-            @Override
-            public float getPlayerAngle() {
-                return angle;
-            }
-
-            @Override
-            public boolean getTeam() {
-                return team;
-            }
-
-            @Override
-            public Body getBody() {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public Vector2 getPlayerVelocity() {
-                return velocity;
-            }
-
-            @Override
-            public void setPlayerVelocity(float x, float y) {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public boolean isAbleToControlBall() {
-                return parent.isAbleToControlBall();
-            }
-
-            @Override
-            public DefaultPlayer clone() {
-                throw new UnsupportedOperationException();
-            }
-	        
-	    };
+	public ImmutablePlayer getStates() {
+	    return new ImmutablePlayer(this);
 	}
 
 }

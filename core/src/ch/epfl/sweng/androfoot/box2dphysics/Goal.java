@@ -73,40 +73,8 @@ public class Goal implements DefaultGoal {
     }
     
     @Override
-    public DefaultGoal clone() {
-        return new DefaultGoal() {
-            private GoalTeam teamGoal = team;
-            private Vector2 position = goalBody.getPosition();
-            
-            @Override
-            public GoalTeam getTeam() {
-                return teamGoal;
-            }
-
-            @Override
-            public Vector2 getPosition() {
-                return position;
-            }
-            
-            public DefaultGoal clone() {
-                return null;
-            }
-
-            @Override
-            public Body getBody() {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public int getZIndex() {
-                return -1;
-            }
-
-            @Override
-            public void accept(Visitor visitor) {
-                visitor.visit(this);
-            }
-        };
+    public ImmutableGoal getStates() {
+        return new ImmutableGoal(this);
     }
 
     @Override

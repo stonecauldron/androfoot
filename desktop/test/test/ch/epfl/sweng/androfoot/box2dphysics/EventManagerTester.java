@@ -147,8 +147,8 @@ public class EventManagerTester implements DefaultEventManager {
 	}
 
     public void addEventGoal(DefaultGoal goal, DefaultBall ball) {
-        goal = goal.clone();
-        ball = ball.clone();
+        goal = goal.getStates();
+        ball = ball.getStates();
         
         goalEvents.add(new GoalEvent(ball, goal));
     }
@@ -158,21 +158,21 @@ public class EventManagerTester implements DefaultEventManager {
     }
 
     public void addEventPaddle(DefaultPlayer player, DefaultBall ball) {
-        player = player.clone();
-        ball = ball.clone();
+        player = player.getStates();
+        ball = ball.getStates();
         
         paddleEvents.add(new PaddleContactEvent(player, ball));
     }
 
     public void addEventBorder(DefaultBorder border, DefaultBall ball) {
-        border = border.clone();
-        ball = ball.clone();
+        border = border.getStates();
+        ball = ball.getStates();
         
         borderEvents.add(new BorderContactEvent(border, ball));
     }
     
     public void addEventPowerUp(DefaultPowerUp powerUp) {
-		powerUp = powerUp.clone();
+		powerUp = powerUp.getStates();
 		
 		powerUpEvents.add(new PowerUpContactEvent(powerUp));
 	}

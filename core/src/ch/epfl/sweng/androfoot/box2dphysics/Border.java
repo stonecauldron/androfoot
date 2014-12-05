@@ -118,41 +118,7 @@ public class Border implements DrawableRectangle, DefaultBorder {
     }
     
     @Override
-    public DefaultBorder clone() {
-        return new DefaultBorder() {
-            private BorderType type = borderType;
-            private Vector2 position = borderBody.getPosition();
-
-            @Override
-            public BorderType getType() {
-                return type;
-            }
-
-            @Override
-            public Vector2 getPosition() {
-                return position;
-            }
-
-            @Override
-            public DefaultBorder clone() {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public Body getBody() {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public int getZIndex() {
-                return -1;
-            }
-
-            @Override
-            public void accept(Visitor visitor) {
-                throw new UnsupportedOperationException();
-            }
-            
-        };
+    public ImmutableBorder getStates() {
+        return new ImmutableBorder(this);
     }
 }

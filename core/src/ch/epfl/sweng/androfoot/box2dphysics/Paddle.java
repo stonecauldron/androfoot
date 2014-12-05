@@ -51,14 +51,16 @@ public class Paddle implements DefaultPaddle {
             player.setPosition(posX, player.getPositionY());
         }
         
-        if (player.getPositionY() + Constants.CIRCLERADIUS - Constants.OFFSET_CORRECTION > posY + height) {
+        float semiHeight = player.getSemiHeight();
+        
+        if (player.getPositionY() + semiHeight > posY + height) {
             player.setPlayerVelocity(player.getPlayerVelocity().x, 0);
             player.setPosition(player.getPositionX(), 
-                    posY + height - Constants.CIRCLERADIUS + Constants.OFFSET_CORRECTION);
-        } else if (player.getPositionY() - Constants.CIRCLERADIUS + Constants.OFFSET_CORRECTION < posY) {
+                    posY + height - semiHeight);
+        } else if (player.getPositionY() - semiHeight < posY) {
             player.setPlayerVelocity(player.getPlayerVelocity().x, 0);
             player.setPosition(player.getPositionX(), 
-                    posY + Constants.CIRCLERADIUS - Constants.OFFSET_CORRECTION);
+                    posY + semiHeight);
         }
     }
 
