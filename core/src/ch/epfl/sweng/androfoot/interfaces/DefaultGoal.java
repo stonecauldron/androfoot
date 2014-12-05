@@ -23,6 +23,8 @@ public interface DefaultGoal extends DefaultWorldObject {
      */
     Vector2 getPosition();
     
+    void changeFixture(float newWidth, float newHeight);
+    
     /**
      * Clone the actual state of the goal
      * @return

@@ -28,15 +28,13 @@ public class Goal implements DefaultGoal {
     
     private final Body goalBody;
     private final BodyDef goalBodyDef;
-    private final PolygonShape goalShape;
-    private final FixtureDef goalFixture;
     
     /**
      * Constructor of a physical goal object.
      * @param teamOne The team flag, true for team one, otherwise false.
      * @param zIndex The Z Index of the goal for rendering.
      */
-    public Goal(World world, float x, float y, float width, float height, GoalTeam goalTeam) {
+    Goal(World world, float x, float y, float width, float height, GoalTeam goalTeam) {
     	
         team = goalTeam;
         
@@ -47,16 +45,26 @@ public class Goal implements DefaultGoal {
         
         goalBody = world.createBody(goalBodyDef);
         
-        goalFixture = new FixtureDef();
+        GoalContactListener.addGoal(this);
+    }
+    
+    @Override
+	public void changeFixture(float newWidth, float newHeight) {
+		goalBody.getFixtureList().clear();
+		createNewGoalFixture(newWidth, newHeight);
+	}
+    
+    private void createNewGoalFixture(float newWidth, float newHeight) {
+    	final FixtureDef goalFixture = new FixtureDef();
+    	final PolygonShape goalShape = new PolygonShape();
+    	
         goalFixture.isSensor = true;
         
-        goalShape = new PolygonShape();
-        goalShape.setAsBox(width / 2, height / 2);
+        goalShape.setAsBox(newWidth / 2, newHeight / 2);
         goalFixture.shape = goalShape;
         goalBody.createFixture(goalFixture);
-        goalShape.dispose();
         
-        GoalContactListener.addGoal(this);
+        goalShape.dispose();
     }
     
     public Body getBody() {
