@@ -2,6 +2,7 @@ package ch.epfl.sweng.androfoot.board;
 
 import com.badlogic.gdx.Gdx;
 
+import ch.epfl.sweng.androfoot.configuration.Configuration;
 import ch.epfl.sweng.androfoot.players.PlayerType;
 import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
 
@@ -28,7 +29,7 @@ public class BoardFactory {
 			// instantiate new game without recreating borders
 			Board.getInstance().instantiateNewGame(playerOne, playerTwo,
 					winningScore);
-			
+
 			// set up input
 			Gdx.input.setInputProcessor(PlayerTouchTracker.getInstance());
 		} else {
@@ -36,4 +37,14 @@ public class BoardFactory {
 			Board.setInstance(board);
 		}
 	}
+
+	public static void setupNetworkBoard(PlayerType playerOne,
+			PlayerType playerTwo, int winningScore) {
+		
+		Configuration.getInstance().setDefaultConfig();
+		setupBoard(playerOne, playerTwo, 11);
+		
+		
+	}
+
 }

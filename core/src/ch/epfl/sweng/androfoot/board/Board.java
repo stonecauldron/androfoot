@@ -158,7 +158,6 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver  {
 	
 	private void setUpPlayers(PlayerType p1, PlayerType p2) {
 		PlayerFactory.resetPlayerNumber();
-		
 		mPlayerOne = PlayerFactory.createPlayer(p1);
 		mPlayerTwo = PlayerFactory.createPlayer(p2);
 	}

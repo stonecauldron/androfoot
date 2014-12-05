@@ -6,8 +6,10 @@ import ch.epfl.sweng.androfoot.board.BoardFactory;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.configuration.Configuration;
 import ch.epfl.sweng.androfoot.interfaces.HostObserver;
+import ch.epfl.sweng.androfoot.kryonetnetworking.GameInfo;
 import ch.epfl.sweng.androfoot.kryonetnetworking.InputData;
 import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerHost;
+import ch.epfl.sweng.androfoot.kryonetnetworking.ShakeData;
 import ch.epfl.sweng.androfoot.players.PlayerType;
 import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
 import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
@@ -25,12 +27,14 @@ public class NetworkHostScreen implements Screen, HostObserver {
 
 			ph.addHostObserver(this);
 			ph.addHostObserver(PhysicsWorld.getPhysicsWorld());
-			BoardFactory.setupBoard(PlayerType.LOCAL_PLAYER,
+			ph.listenToClient();
+			
+			BoardFactory.setupNetworkBoard(PlayerType.LOCAL_PLAYER,
 					PlayerType.REMOTE_PLAYER, Configuration.getInstance()
 							.getScoreLimit());
-
-			ph.listenToClient();
-
+			
+			PhysicsWorld.pauseWorld();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -41,7 +45,7 @@ public class NetworkHostScreen implements Screen, HostObserver {
 	}
 
 	public void startBoard() {
-		// TODO START MOVING THE BALL
+		PhysicsWorld.startWorld();
 	}
 
 	@Override
@@ -95,6 +99,18 @@ public class NetworkHostScreen implements Screen, HostObserver {
 	public void updateClientData(InputData data) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void updateClientShakeData(ShakeData data) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateClientGameInfoData(GameInfo data) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
