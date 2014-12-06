@@ -3,6 +3,7 @@ package ch.epfl.sweng.androfoot.players;
 import java.util.HashMap;
 
 import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
+import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.interfaces.Controllable;
 import ch.epfl.sweng.androfoot.players.ai.AIEngine;
 import ch.epfl.sweng.androfoot.players.ai.AIObserver;
@@ -16,8 +17,8 @@ import ch.epfl.sweng.androfoot.utils.Timer;
  * @author Pedro Caldeira <pedrocaldeira>
  *
  */
-public abstract class AbstractAIPlayer extends AbstractPlayer implements Controllable,
-		AIObserver {
+public abstract class AbstractAIPlayer extends AbstractPlayer implements
+		Controllable, AIObserver {
 
 	// HashMap linking Timers with CoRoutines
 	private HashMap<Timer, CoRoutine> coRoutinesMap;
@@ -86,11 +87,15 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements Control
 			}
 		}
 	}
-	
+
 	@Override
 	public void destroy() {
 		super.destroy();
 		AIEngine.getInstance().removeAIObserver(this);
+	}
+
+	float GetYPositionOfPlayerThatCanReachTheBall() {
+		return 0;
 	}
 
 	protected void addToCoRoutines(Timer timer, CoRoutine coRoutine) {
@@ -105,4 +110,18 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements Control
 		mState = state;
 	}
 
+	private boolean isBallGoingTowardsDefense() {
+		boolean returnValue = false;
+		float ballXSpeed = PhysicsWorld.getPhysicsWorld().getBall()
+				.getLinearVelocity().x;
+
+		if (ballXSpeed <= 0) {
+			returnValue = true;
+		}
+
+		if (getPlayerNumber() == PlayerNumber.TWO) {
+			returnValue = !returnValue;
+		}
+		return returnValue;
+	}
 }
