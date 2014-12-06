@@ -2,8 +2,11 @@ package ch.epfl.sweng.androfoot.players;
 
 import java.util.HashMap;
 
+import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
+import ch.epfl.sweng.androfoot.box2dphysics.Paddle;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
+import ch.epfl.sweng.androfoot.configuration.Configuration;
 import ch.epfl.sweng.androfoot.interfaces.Controllable;
 import ch.epfl.sweng.androfoot.players.ai.AIEngine;
 import ch.epfl.sweng.androfoot.players.ai.AIObserver;
@@ -94,7 +97,11 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		AIEngine.getInstance().removeAIObserver(this);
 	}
 
-	float GetYPositionOfPlayerThatCanReachTheBall() {
+	float GetYPositionOfPlayerThatCanReachTheBall() { 
+		if (ballIsAheadOfAttack()) {
+			for (Paddle paddle : getAttackPaddles().getPaddles()) {
+			}
+		}
 		return 0;
 	}
 
@@ -110,14 +117,14 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		mState = state;
 	}
 
-	private boolean isBallGoingTowardsDefense() {
+	private boolean ballIsGoingTowardsDefense() {
 		float ballXSpeed = PhysicsWorld.getPhysicsWorld().getBall()
 				.getLinearVelocity().x;
 
 		return takeIntoAccountPlayerNumber(ballXSpeed <= 0);
 	}
 	
-	private boolean isBallAheadOfAttack() {
+	private boolean ballIsAheadOfAttack() {
 		float ballXPosition = PhysicsWorld.getPhysicsWorld().getBall()
 				.getPositionX();
 		// get x coordinate of the defense row
@@ -132,5 +139,24 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 			bool = !bool;
 		}
 		return bool;
+	}
+	
+	private int getIndexOfPlayerThatCanReachBall(int totalNumber) {
+		float ballYPosition = PhysicsWorld.getPhysicsWorld().getBall().getPositionY();
+		
+		float heightFactor = Constants.WORLD_SIZE_Y / totalNumber;
+		
+		float lowerBound = 0;
+		float upperBound = heightFactor;
+		
+		int playerIndex = 0;
+		
+		while (!(ballYPosition >= lowerBound && ballYPosition <= upperBound))
+		{
+			lowerBound += heightFactor;
+			upperBound += heightFactor;
+			playerIndex++;
+		}
+		return playerIndex;
 	}
 }
