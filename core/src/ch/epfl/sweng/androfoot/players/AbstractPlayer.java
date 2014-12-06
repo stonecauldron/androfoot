@@ -78,6 +78,14 @@ public abstract class AbstractPlayer {
 	protected PlayerNumber getPlayerNumber() {
 		return playerNumber;
 	}
+	
+	protected int getNumberOfAttackers() {
+		return nbAttack;
+	}
+	
+	protected int getNumberOfDefensors() {
+		return nbDefense;
+	}
 
 	private void initialisePaddleLayout() {
 		float defenseXCoordinate = 0f;
