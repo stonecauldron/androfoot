@@ -16,14 +16,18 @@ import ch.epfl.sweng.androfoot.configuration.Configuration;
  */
 public abstract class AbstractPlayer {
 
-	// offset between the paddles
 	private static final float W_SIZE_X = Constants.WORLD_SIZE_X;
+
 	// position offset
 	private static final float POSITION_OFFSET_DEFENSE = 0.2f;
 	private static final float POSITION_OFFSET_ATTACK = -0.5f;
-	
+
+	// index in list of attack and defense
+	private static final int DEFENSORS_INDEX = 0;
+	private static final int ATTACKERS_INDEX = 1;
+
 	private static final float BOARD_DIVISION_FACTOR = 6f;
-	
+
 	// checkstyle hacks
 	private static final float FOUR = 4f;
 	private static final float FIVE = 5f;
@@ -59,6 +63,14 @@ public abstract class AbstractPlayer {
 		return paddles;
 	}
 
+	protected GroupPaddle getDefensePaddles() {
+		return paddles.get(DEFENSORS_INDEX);
+	}
+	
+	protected GroupPaddle getAttackPaddles() {
+		return paddles.get(ATTACKERS_INDEX);
+	}
+
 	protected PlayerNumber getPlayerNumber() {
 		return playerNumber;
 	}
@@ -70,23 +82,30 @@ public abstract class AbstractPlayer {
 		if (playerNumber == PlayerNumber.ONE) {
 			defenseXCoordinate = W_SIZE_X * 1.0f / BOARD_DIVISION_FACTOR
 					+ POSITION_OFFSET_DEFENSE;
-			attackXCoordinate = W_SIZE_X * FOUR / BOARD_DIVISION_FACTOR + POSITION_OFFSET_ATTACK;
-			paddles.add(PhysicsWorld.createPaddle(defenseXCoordinate,
-					Constants.PADDLE_WIDTH, Configuration.getInstance().getPlayerOneFormation()[1],
-					true));
-			paddles.add(PhysicsWorld.createPaddle(attackXCoordinate,
-					Constants.PADDLE_WIDTH, Configuration.getInstance().getPlayerOneFormation()[0],
-					true));
+			attackXCoordinate = W_SIZE_X * FOUR / BOARD_DIVISION_FACTOR
+					+ POSITION_OFFSET_ATTACK;
+
+			paddles.add(DEFENSORS_INDEX, PhysicsWorld.createPaddle(
+					defenseXCoordinate, Constants.PADDLE_WIDTH, Configuration
+							.getInstance().getPlayerOneFormation()[1], true));
+
+			paddles.add(ATTACKERS_INDEX, PhysicsWorld.createPaddle(
+					attackXCoordinate, Constants.PADDLE_WIDTH, Configuration
+							.getInstance().getPlayerOneFormation()[0], true));
+
 		} else if (playerNumber == PlayerNumber.TWO) {
 			defenseXCoordinate = W_SIZE_X * FIVE / BOARD_DIVISION_FACTOR
 					- POSITION_OFFSET_DEFENSE;
-			attackXCoordinate = W_SIZE_X * 2.0f / BOARD_DIVISION_FACTOR - POSITION_OFFSET_ATTACK;
-			paddles.add(PhysicsWorld.createPaddle(defenseXCoordinate,
-					Constants.PADDLE_WIDTH, Configuration.getInstance().getPlayerTwoFormation()[1],
-					false));
-			paddles.add(PhysicsWorld.createPaddle(attackXCoordinate,
-					Constants.PADDLE_WIDTH, Configuration.getInstance().getPlayerTwoFormation()[0],
-					false));
+			attackXCoordinate = W_SIZE_X * 2.0f / BOARD_DIVISION_FACTOR
+					- POSITION_OFFSET_ATTACK;
+			
+			paddles.add(DEFENSORS_INDEX, PhysicsWorld.createPaddle(defenseXCoordinate,
+					Constants.PADDLE_WIDTH, Configuration.getInstance()
+							.getPlayerTwoFormation()[1], false));
+			
+			paddles.add(ATTACKERS_INDEX, PhysicsWorld.createPaddle(attackXCoordinate,
+					Constants.PADDLE_WIDTH, Configuration.getInstance()
+							.getPlayerTwoFormation()[0], false));
 		}
 	}
 }
