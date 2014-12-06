@@ -117,6 +117,16 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		return takeIntoAccountPlayerNumber(ballXSpeed <= 0);
 	}
 	
+	private boolean isBallAheadOfAttack() {
+		float ballXPosition = PhysicsWorld.getPhysicsWorld().getBall()
+				.getPositionX();
+		// get x coordinate of the defense row
+		float defenseXPosition = getAttackPaddles().getPaddles().get(0).getPlayer().getPositionX();
+		
+		return takeIntoAccountPlayerNumber(ballXPosition > defenseXPosition);
+		
+	}
+	
 	private boolean takeIntoAccountPlayerNumber(boolean bool) {
 		if (getPlayerNumber() == PlayerNumber.TWO) {
 			bool = !bool;
