@@ -1,4 +1,4 @@
-package ch.epfl.sweng.androfoot.players;
+package ch.epfl.sweng.androfoot.players.ai;
 
 import java.util.HashMap;
 
@@ -6,9 +6,8 @@ import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.interfaces.Controllable;
-import ch.epfl.sweng.androfoot.players.ai.AIEngine;
-import ch.epfl.sweng.androfoot.players.ai.AIObserver;
-import ch.epfl.sweng.androfoot.players.ai.AIState;
+import ch.epfl.sweng.androfoot.players.AbstractPlayer;
+import ch.epfl.sweng.androfoot.players.PlayerNumber;
 import ch.epfl.sweng.androfoot.utils.CoRoutine;
 import ch.epfl.sweng.androfoot.utils.Timer;
 

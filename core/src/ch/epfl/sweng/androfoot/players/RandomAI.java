@@ -1,5 +1,6 @@
 package ch.epfl.sweng.androfoot.players;
 
+import ch.epfl.sweng.androfoot.players.ai.AbstractAIPlayer;
 import ch.epfl.sweng.androfoot.players.ai.ActRandomlyCoRoutine;
 import ch.epfl.sweng.androfoot.utils.Timer;
 

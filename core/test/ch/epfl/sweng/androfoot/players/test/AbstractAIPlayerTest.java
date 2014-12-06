@@ -10,9 +10,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sweng.androfoot.players.AbstractAIPlayer;
 import ch.epfl.sweng.androfoot.players.PlayerNumber;
 import ch.epfl.sweng.androfoot.players.ai.AIState;
+import ch.epfl.sweng.androfoot.players.ai.AbstractAIPlayer;
 import ch.epfl.sweng.androfoot.utils.CoRoutine;
 import ch.epfl.sweng.androfoot.utils.Timer;
 
