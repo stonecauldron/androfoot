@@ -97,12 +97,19 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		AIEngine.getInstance().removeAIObserver(this);
 	}
 
-	float GetYPositionOfPlayerThatCanReachTheBall() { 
+	float GetYPositionOfPlayerThatCanReachTheBall() {
+		int playerIndex;
+		float y;
 		if (ballIsAheadOfAttack()) {
-			for (Paddle paddle : getAttackPaddles().getPaddles()) {
-			}
+			playerIndex = getIndexOfPlayerThatCanReachBall(getNumberOfAttackers());
+			y = getAttackPaddles().getPaddles().get(playerIndex).getPlayer()
+					.getPositionY();
+		} else {
+			playerIndex = getIndexOfPlayerThatCanReachBall(getNumberOfDefensors());
+			y = getDefensePaddles().getPaddles().get(playerIndex).getPlayer()
+					.getPositionY();
 		}
-		return 0;
+		return y;
 	}
 
 	protected void addToCoRoutines(Timer timer, CoRoutine coRoutine) {
@@ -123,36 +130,37 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 
 		return takeIntoAccountPlayerNumber(ballXSpeed <= 0);
 	}
-	
+
 	private boolean ballIsAheadOfAttack() {
 		float ballXPosition = PhysicsWorld.getPhysicsWorld().getBall()
 				.getPositionX();
 		// get x coordinate of the defense row
-		float defenseXPosition = getAttackPaddles().getPaddles().get(0).getPlayer().getPositionX();
-		
+		float defenseXPosition = getAttackPaddles().getPaddles().get(0)
+				.getPlayer().getPositionX();
+
 		return takeIntoAccountPlayerNumber(ballXPosition > defenseXPosition);
-		
+
 	}
-	
+
 	private boolean takeIntoAccountPlayerNumber(boolean bool) {
 		if (getPlayerNumber() == PlayerNumber.TWO) {
 			bool = !bool;
 		}
 		return bool;
 	}
-	
+
 	private int getIndexOfPlayerThatCanReachBall(int totalNumber) {
-		float ballYPosition = PhysicsWorld.getPhysicsWorld().getBall().getPositionY();
-		
+		float ballYPosition = PhysicsWorld.getPhysicsWorld().getBall()
+				.getPositionY();
+
 		float heightFactor = Constants.WORLD_SIZE_Y / totalNumber;
-		
+
 		float lowerBound = 0;
 		float upperBound = heightFactor;
-		
+
 		int playerIndex = 0;
-		
-		while (!(ballYPosition >= lowerBound && ballYPosition <= upperBound))
-		{
+
+		while (!(ballYPosition >= lowerBound && ballYPosition <= upperBound)) {
 			lowerBound += heightFactor;
 			upperBound += heightFactor;
 			playerIndex++;
