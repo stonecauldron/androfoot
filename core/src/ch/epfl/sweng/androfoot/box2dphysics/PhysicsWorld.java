@@ -35,15 +35,15 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 /**
- * The class that defines the Physics World which will contain all the physical objects and 
- * manage their interactions and movements.
+ * The class that defines the Physics World which will contain all the physical
+ * objects and manage their interactions and movements.
+ * 
  * @author Matvey
  *
  */
 public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostObserver, PlayerShapeListener {
-	
 	private static final PhysicsWorld PHYSICS_WORLD_INSTANCE = new PhysicsWorld();
-	
+
 	private World physicsWorld = new World(new Vector2(0, 0), false);
 	private float accumulator = 0f;
 	private boolean isRunning = true;
@@ -62,46 +62,51 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	private float networkBallSpeedY = 0;
 
 	private boolean updated = false;
-	
+
 	/* World's object */
 	private static Ball ball;
 	private static Set<Paddle> paddles;
 	private static Set<DefaultWorldObject> objectsToDestroy;
-	
+
 	private PhysicsWorld() {
-	    physicsWorld.setContactListener(GlobalContactListener.getInstance());
-	    
-	    paddles = new HashSet<Paddle>();
-	    objectsToDestroy = new HashSet<DefaultWorldObject>();
+		physicsWorld.setContactListener(GlobalContactListener.getInstance());
+
+		paddles = new HashSet<Paddle>();
+		objectsToDestroy = new HashSet<DefaultWorldObject>();
 	}
-	
+
 	/**
 	 * Returns the singleton instance of the PhysicsWorld.
+	 * 
 	 * @return The instance of PhysicsWorld.
 	 */
 	public static PhysicsWorld getPhysicsWorld() {
 		return PHYSICS_WORLD_INSTANCE;
 	}
-	
+
 	/**
 	 * Run the physic world
 	 */
 	public void startWorld() {
 	    isRunning = true;
 	}
-	
+
 	/**
 	 * Set the world in pause mode
 	 */
 	public void pauseWorld() {
 	    isRunning = false;
 	}
-	
+
 	/**
 	 * Create a ball in the world.
-	 * @param x position
-	 * @param y position
-	 * @param radius of the ball
+	 * 
+	 * @param x
+	 *            position
+	 * @param y
+	 *            position
+	 * @param radius
+	 *            of the ball
 	 * @return
 	 */
 	public Ball createBall(float x, float y, float radius) {
@@ -116,21 +121,27 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	    
 	    return ball;
 	}
-	
+
 	/**
 	 * Get the ball
+	 * 
 	 * @return
 	 */
 	public Ball getBall() {
 	    return ball;
 	}
-	
+
 	/**
 	 * Create a paddle in the world
-	 * @param x position of the left bottom corner
-	 * @param width of the paddle
-	 * @param number of players in the paddle
-	 * @param facingRight true if the paddle is right oriented
+	 * 
+	 * @param x
+	 *            position of the left bottom corner
+	 * @param width
+	 *            of the paddle
+	 * @param number
+	 *            of players in the paddle
+	 * @param facingRight
+	 *            true if the paddle is right oriented
 	 * @return
 	 */
 	public GroupPaddle createPaddle(float x, float width, int number, boolean facingRight) {
@@ -143,14 +154,20 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	    
 	    return groupPaddle;
 	}
-	
+
 	/**
 	 * Create a border
-	 * @param x position of the bottom left corner
-	 * @param y position of the bottom left corner
-	 * @param width of the border
-	 * @param height of the border
-	 * @param teamOne true if the border is colored with teamOne parameter
+	 * 
+	 * @param x
+	 *            position of the bottom left corner
+	 * @param y
+	 *            position of the bottom left corner
+	 * @param width
+	 *            of the border
+	 * @param height
+	 *            of the border
+	 * @param teamOne
+	 *            true if the border is colored with teamOne parameter
 	 * @return
 	 */
 	public Border createBorder(float x, float y, float width, float height, BorderType type) {
@@ -159,10 +176,12 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	    
 	    return border;
 	}
-	
+
 	/**
 	 * Create the goal of team one or two
-	 * @param teamOne true for team one
+	 * 
+	 * @param teamOne
+	 *            true for team one
 	 * @return
 	 */
 	public Goal createGoal(float x, float y, float width, float height, GoalTeam team) {
@@ -178,9 +197,13 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	
 	/**
 	 * Creates a power up object.
-	 * @param x X coordinate of the object.
-	 * @param y Y coordinate of the object.
-	 * @param hBoxRadius Radius of the power up hitbox.
+	 * 
+	 * @param x
+	 *            X coordinate of the object.
+	 * @param y
+	 *            Y coordinate of the object.
+	 * @param hBoxRadius
+	 *            Radius of the power up hitbox.
 	 * @return Power Up object.
 	 */
 	public PowerUpBody createPowerUp(float x, float y, float hBoxRadius) {
@@ -190,9 +213,11 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 		addToDrawableSet(powerUp);
 		return powerUp;
 	}
-	
+
 	/**
-	 * Creates a power up object in the centre of the field with a random y coordinate.
+	 * Creates a power up object in the centre of the field with a random y
+	 * coordinate.
+	 * 
 	 * @return Power Up object.
 	 */
 	public PowerUpBody createRandomPowerUp() {
@@ -246,21 +271,25 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	
 	/**
 	 * Returns the Box2D world.
+	 * 
 	 * @return Box2D world.
 	 */
 	public World getBox2DWorld() {
-	    return physicsWorld;
+		return physicsWorld;
 	}
-	
+
 	@Override
 	public List<Drawable> toDraw() {
 		return drawableObjectsSet;
 	}
 	
 	/**
-	 * Performs a step of the physics simulation. Uses an accumulator to calculate correctly the number
-	 * of physics steps in relation to the delta time of the renderer. The time step stays constant. 
-	 * @param delta The delta number (Frames Per Second).
+	 * Performs a step of the physics simulation. Uses an accumulator to
+	 * calculate correctly the number of physics steps in relation to the delta
+	 * time of the renderer. The time step stays constant.
+	 * 
+	 * @param delta
+	 *            The delta number (Frames Per Second).
 	 */
 	public void phyStep(float delta) {
 	    if (isRunning) {
@@ -287,40 +316,46 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 						.getPositionY(), ball.getLinearVelocity().x, ball
 						.getLinearVelocity().y));
 			}
-			
-    		
-    		if (slaveMode && updated) {
-    			ball.setBallPosition(networkBallX, networkBallY);
-    			ball.setLinearVelocity(networkBallSpeedX, networkBallSpeedY);
-    			updated = false;
-    		}
-    		
-    		//For Accelerometer polling
-    		accelerometerTime += correctedDelta;
-    		if (accelerometerTime > Constants.SHAKE_TIMER && AccelerometerTracker.getInstance().isShaking()) {
-        		accelerometerTime = 0;
-        		
-        		ball.setLinearVelocity(-AccelerometerTracker.getInstance().getmYGrav() * Constants.SHAKE_BOOST_RATIO, 
-        		        AccelerometerTracker.getInstance().getmXGrav() * Constants.SHAKE_BOOST_RATIO);
-    		} 	
-    		
-    		// Throw the events here because we need to do this outside the physic step
-            EventManager.getEventManager().throwEvents();
-            
-            // Clear the body in a secure way
-            throwDestroy();
-	    }
+
+			if (slaveMode && updated) {
+				ball.setBallPosition(networkBallX, networkBallY);
+				ball.setLinearVelocity(networkBallSpeedX, networkBallSpeedY);
+				updated = false;
+			}
+
+			// For Accelerometer polling
+			accelerometerTime += correctedDelta;
+			if (accelerometerTime > Constants.SHAKE_TIMER
+					&& AccelerometerTracker.getInstance().isShaking()) {
+				accelerometerTime = 0;
+
+				ball.setLinearVelocity(-AccelerometerTracker.getInstance()
+						.getmYGrav() * Constants.SHAKE_BOOST_RATIO,
+						AccelerometerTracker.getInstance().getmXGrav()
+								* Constants.SHAKE_BOOST_RATIO);
+			}
+
+			// Throw the events here because we need to do this outside the
+			// physic step
+			EventManager.getEventManager().throwEvents();
+
+			// Clear the body in a secure way
+			throwDestroy();
+		}
 	}
-	
+
 	/**
-	 * Checks the velocity of the ball and limits it if the velocity of the ball is bigger
-	 * than the maximum allowed.
-	 * @param testedBall Ball to be checked.
+	 * Checks the velocity of the ball and limits it if the velocity of the ball
+	 * is bigger than the maximum allowed.
+	 * 
+	 * @param testedBall
+	 *            Ball to be checked.
 	 */
 	public void checkIntegrity(Ball testedBall) {
 	    // Check the velocity
 		Vector2 ballVelocity = testedBall.getLinearVelocity();
-		ballVelocity = ballVelocity.clamp(Constants.BALL_MIN_VELOCITY, Constants.BALL_MAX_VELOCITY);
+		ballVelocity = ballVelocity.clamp(Constants.BALL_MIN_VELOCITY,
+				Constants.BALL_MAX_VELOCITY);
 		testedBall.setLinearVelocity(ballVelocity.x, ballVelocity.y);
 		
 		// Check the position
@@ -332,21 +367,22 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 		    testedBall.setBallPosition(Constants.WORLD_SIZE_X / 2, Constants.WORLD_SIZE_Y / 2);
 		}
 	}
-	
+
 	/**
 	 * Destroy all the bodies in the buffer
 	 */
 	public void throwDestroy() {
-	    for (DefaultWorldObject object : objectsToDestroy) {
-            physicsWorld.destroyBody(object.getBody());
-        }
-        objectsToDestroy.clear();
+		for (DefaultWorldObject object : objectsToDestroy) {
+			physicsWorld.destroyBody(object.getBody());
+		}
+		objectsToDestroy.clear();
 	}
 
 	@Override
 	public Rectangle regionToDraw() {
-		return new Rectangle(Constants.WORLD_ORIGIN_X, Constants.WORLD_ORIGIN_Y, 
-		        Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y);
+		return new Rectangle(Constants.WORLD_ORIGIN_X,
+				Constants.WORLD_ORIGIN_Y, Constants.WORLD_SIZE_X,
+				Constants.WORLD_SIZE_Y);
 	}
 
 	@Override
@@ -360,22 +396,36 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 
 	@Override
 	public void gameClientStart() {
-		slaveMode = true;
+		if (!slaveMode)
+			slaveMode = true;
+		else
+			slaveMode = false;
 	}
 
 	@Override
 	public void updateClientData(InputData data) {
-		//TODO take care of shake input
+		// TODO take care of shake input
+	}
+
+	public void setSlaveMode(boolean slaveMode) {
+		this.slaveMode = slaveMode;
+	}
+
+	public void setHostMode(boolean hostMode) {
+		this.hostMode = hostMode;
 	}
 
 	@Override
 	public void gameHostStart() {
-		hostMode = true;
+		if (!hostMode)
+			hostMode = true;
+		else
+			hostMode = false;
 	}
 
 	@Override
 	public void updateHostTouchData(InputData data) {
-		//Do nothing
+		// Do nothing
 	}
 
 	@Override
@@ -387,19 +437,19 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 
 	public void updateClientShakeData(ShakeData data) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void updateClientGameInfoData(GameInfo data) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void updateHostGameInfoData(GameInfo data) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

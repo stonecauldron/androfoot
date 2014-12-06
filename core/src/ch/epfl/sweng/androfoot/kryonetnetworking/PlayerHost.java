@@ -3,9 +3,12 @@ package ch.epfl.sweng.androfoot.kryonetnetworking;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import ch.epfl.sweng.androfoot.gui.GuiCommand;
+import ch.epfl.sweng.androfoot.gui.GuiManager;
 import ch.epfl.sweng.androfoot.interfaces.HostObservable;
 import ch.epfl.sweng.androfoot.interfaces.HostObserver;
 
+import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -15,18 +18,13 @@ public class PlayerHost implements HostObservable {
 	public static Server server;
 	private boolean gameStarted;
 	private static Connection mConnection;
-	
+
 	private ArrayList<HostObserver> mHostObserver = new ArrayList<HostObserver>();
-
-
-	static public void sendHostData(HostData data) {
-		server.sendToTCP(mConnection.getID(), data);
-	}
 
 	public void listenToClient() throws IOException {
 
 		DiscoverServerTest();
-		
+
 		server = new Server();
 		server.start();
 		server.bind(NetworkUtils.TCP_PORT);
@@ -43,38 +41,57 @@ public class PlayerHost implements HostObservable {
 					mConnection = connection;
 					gameStarted = true;
 					updateGameStart();
-					server.sendToTCP(mConnection.getID(),0);
+					server.sendToTCP(mConnection.getID(), 0);
+					
 				}
 			}
-	
-		public void disconnected(Connection c) {
-			//TODO Handle client disconnection here
-		}
-			
-		public void connected(Connection c) {
-			System.out.println("Host: Server established");
-		}
-		
+
+			public void disconnected(Connection c) {
+				System.out.println("Connection lost, server waiting for reconnection");
+				mConnection.close();
+				// This let another client reconnect
+				gameStarted = false;
+				mHostObserver.clear();
+			}
+
+			public void connected(Connection c) {
+				System.out.println("Host: Server established");
+			}
+
 		});
 	}
-	
-	public void DiscoverServerTest()
-	{
+
+	/**
+	 * @param data
+	 *            the speed of the ball and position to send to the client
+	 */
+	static public void sendHostData(HostData data) {
+		if (mConnection.isConnected()) {
+			server.sendToTCP(mConnection.getID(), data);
+		}
+	}
+
+	/**
+	 * @param inputData
+	 *            the speed of paddle to send to the other player
+	 */
+	public static void sendHostData(InputData inputData) {
+		if (mConnection.isConnected()) {
+			server.sendToTCP(mConnection.getID(), inputData);
+		}
+	}
+
+	public void DiscoverServerTest() {
 		final Server broadcastServer = new Server();
-		try
-		{
+		try {
 			broadcastServer.bind(0, NetworkUtils.UDP_PORT);
 			broadcastServer.start();
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
 
 	protected void updateGameState(InputData data) {
-		System.out.println("REACHED UPDATE PH");
 		updateHostObserver(data);
 	}
 
@@ -101,10 +118,6 @@ public class PlayerHost implements HostObservable {
 				obs.updateClientData(data);
 			}
 		}
-	}
-
-	public static void sendHostData(InputData inputData) {
-		server.sendToTCP(mConnection.getID(), inputData);
 	}
 
 	@Override

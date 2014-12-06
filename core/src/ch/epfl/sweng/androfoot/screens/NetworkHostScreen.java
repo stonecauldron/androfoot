@@ -2,11 +2,15 @@ package ch.epfl.sweng.androfoot.screens;
 
 import java.io.IOException;
 
+import ch.epfl.sweng.androfoot.board.Board;
 import ch.epfl.sweng.androfoot.board.BoardFactory;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.configuration.Configuration;
+import ch.epfl.sweng.androfoot.gui.GuiCommand;
+import ch.epfl.sweng.androfoot.gui.GuiManager;
 import ch.epfl.sweng.androfoot.interfaces.HostObserver;
 import ch.epfl.sweng.androfoot.kryonetnetworking.GameInfo;
+import ch.epfl.sweng.androfoot.kryonetnetworking.HostServer;
 import ch.epfl.sweng.androfoot.kryonetnetworking.InputData;
 import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerHost;
 import ch.epfl.sweng.androfoot.kryonetnetworking.ShakeData;
@@ -15,29 +19,24 @@ import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
 import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 
 public class NetworkHostScreen implements Screen, HostObserver {
 
 	public static PlayerHost ph;
+	private boolean gameStarted = false;
 
 	public NetworkHostScreen() {
-		ph = new PlayerHost();
-		try {
+		ph = HostServer.getHostServer();
+		ph.addHostObserver(this);
+		ph.addHostObserver(PhysicsWorld.getPhysicsWorld());
 
-			ph.addHostObserver(this);
-			ph.addHostObserver(PhysicsWorld.getPhysicsWorld());
-			ph.listenToClient();
-			
-			BoardFactory.setupNetworkBoard(PlayerType.LOCAL_PLAYER,
-					PlayerType.REMOTE_PLAYER, Configuration.getInstance()
-							.getScoreLimit());
-			
-			PhysicsWorld.pauseWorld();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		BoardFactory.setupNetworkBoard(PlayerType.LOCAL_PLAYER,
+				PlayerType.REMOTE_PLAYER, Configuration.getInstance()
+						.getScoreLimit());
+
+		PhysicsWorld.pauseWorld();
 	}
 
 	public static PlayerHost getPlayerHost() {
@@ -50,13 +49,34 @@ public class NetworkHostScreen implements Screen, HostObserver {
 
 	@Override
 	public void gameHostStart() {
-		startBoard();
+		if (!gameStarted) {
+			gameStarted = true;
+			startBoard();
+		} else {
+			resetBoard();
+			gameStarted = false;
+		}
 	}
 
 	@Override
 	public void render(float delta) {
+		if (Gdx.input.isKeyPressed(Input.Keys.BACK)
+				|| Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
+
+			resetBoard();
+			GuiManager.getInstance().executeCommand(GuiCommand.goToMainMenu);
+		}
 		PhysicsWorld.getPhysicsWorld().phyStep(delta);
 		GraphicEngine.getEngine().render(delta);
+	}
+
+	private void resetBoard() {
+		// reset board only if game wasn't reset already
+		if (gameStarted) {
+			gameStarted = false;
+			Board.getInstance().resetBoard();
+			PhysicsWorld.getPhysicsWorld().setHostMode(false);
+		}
 	}
 
 	@Override
@@ -104,13 +124,13 @@ public class NetworkHostScreen implements Screen, HostObserver {
 	@Override
 	public void updateClientShakeData(ShakeData data) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void updateClientGameInfoData(GameInfo data) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
