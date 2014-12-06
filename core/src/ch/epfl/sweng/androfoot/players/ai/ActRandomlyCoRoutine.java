@@ -1,10 +1,9 @@
-package ch.epfl.sweng.androfoot.players.ai.coroutines;
+package ch.epfl.sweng.androfoot.players.ai;
 
 import java.util.Arrays;
 import java.util.List;
 
 import ch.epfl.sweng.androfoot.interfaces.Controllable;
-import ch.epfl.sweng.androfoot.players.ai.AIState;
 import ch.epfl.sweng.androfoot.utils.CoRoutine;
 
 import com.badlogic.gdx.math.MathUtils;
