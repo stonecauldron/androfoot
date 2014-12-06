@@ -111,17 +111,16 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 	}
 
 	private boolean isBallGoingTowardsDefense() {
-		boolean returnValue = false;
 		float ballXSpeed = PhysicsWorld.getPhysicsWorld().getBall()
 				.getLinearVelocity().x;
 
-		if (ballXSpeed <= 0) {
-			returnValue = true;
-		}
-
+		return takeIntoAccountPlayerNumber(ballXSpeed <= 0);
+	}
+	
+	private boolean takeIntoAccountPlayerNumber(boolean bool) {
 		if (getPlayerNumber() == PlayerNumber.TWO) {
-			returnValue = !returnValue;
+			bool = !bool;
 		}
-		return returnValue;
+		return bool;
 	}
 }
