@@ -78,7 +78,6 @@ public class PlayerClient implements ClientObservable {
 	}
 
 	private void updateGameState(InputData data) {
-		System.out.println("REACHED IN PC");
 		updateClientObserver(data);
 	}
 
