@@ -4,9 +4,7 @@ import java.util.HashMap;
 
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
-import ch.epfl.sweng.androfoot.box2dphysics.Paddle;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
-import ch.epfl.sweng.androfoot.configuration.Configuration;
 import ch.epfl.sweng.androfoot.interfaces.Controllable;
 import ch.epfl.sweng.androfoot.players.ai.AIEngine;
 import ch.epfl.sweng.androfoot.players.ai.AIObserver;
