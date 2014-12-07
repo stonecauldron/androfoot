@@ -20,7 +20,7 @@ public class PlayerFactory {
 		switch(playerType) {
 		
 			case RANDOM_AI_PLAYER:
-				player = new RandomAI(playerNumber);
+				player = new DefensiveAI(playerNumber);
 				break;
 			
 			case LOCAL_PLAYER:

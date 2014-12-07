@@ -18,7 +18,11 @@ public class FollowBallCoRoutine implements CoRoutine {
 
 	private AbstractAIPlayer mPaddles;
 
-	private List<AIState> authorizedStates = Arrays.asList(AIState.DEFENSE);
+	private List<AIState> authorizedStates = Arrays.asList(AIState.DEFAULT);
+
+	FollowBallCoRoutine(AbstractAIPlayer paddles) {
+		mPaddles = paddles;
+	}
 
 	@Override
 	public void execute() {

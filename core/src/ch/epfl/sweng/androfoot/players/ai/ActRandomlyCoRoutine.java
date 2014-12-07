@@ -15,16 +15,16 @@ import com.badlogic.gdx.math.MathUtils;
  *
  */
 public class ActRandomlyCoRoutine implements CoRoutine {
-	
+
 	private static final int MAX_DELTA_X = 10;
 	private static final int MAX_DELTA_Y = 10;
 	private static final float MAX_SPEED_FACTOR = 0.9f;
-	
+
 	private Controllable mPaddles;
 
 	private List<AIState> authorizedStates = Arrays.asList(AIState.DEFAULT);
-	
-	public ActRandomlyCoRoutine(Controllable paddles) {
+
+	ActRandomlyCoRoutine(Controllable paddles) {
 		mPaddles = paddles;
 	}
 
