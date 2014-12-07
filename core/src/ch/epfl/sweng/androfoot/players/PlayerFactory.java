@@ -1,5 +1,7 @@
 package ch.epfl.sweng.androfoot.players;
 
+import ch.epfl.sweng.androfoot.players.ai.RandomAI;
+
 /**
  * The factory for the players.
  * Uses the enum PlayerType to decide which type of player to instantiate.
