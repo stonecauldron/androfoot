@@ -3,6 +3,7 @@ package ch.epfl.sweng.androfoot.players.ai;
 import java.util.Arrays;
 import java.util.List;
 
+import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.utils.CoRoutine;
 
 /**
@@ -14,7 +15,8 @@ import ch.epfl.sweng.androfoot.utils.CoRoutine;
 public class FollowBallCoRoutine implements CoRoutine {
 
 	private static final int MAX_DELTA_Y = 10;
-	private static final float TOLERANCE = 0.01f;
+	private static final float TOLERANCE = 0.1f;
+	private static final float DISTANCE_FACTOR = 1.75f;
 
 	private AbstractAIPlayer mPaddles;
 
@@ -36,19 +38,23 @@ public class FollowBallCoRoutine implements CoRoutine {
 
 	private void followBall() {
 		float playerY = mPaddles.GetYPositionOfPlayerThatCanReachTheBall();
-		float ballY = mPaddles.GetYPositionOfPlayerThatCanReachTheBall();
-
+		float ballY = PhysicsWorld.getPhysicsWorld().getBall().getPositionY();
+		
+		float yDistanceFromPlayerToBall = Math.abs(ballY - playerY); 
+		
 		// player is in front of ball
-		if (Math.abs(ballY - playerY) < TOLERANCE) {
+		if (yDistanceFromPlayerToBall < TOLERANCE) {
 			// do not move
 			mPaddles.move(0, 0);
 		} else {
+			// compute speed factor
+			float speedFactor = yDistanceFromPlayerToBall/DISTANCE_FACTOR;
 			if (playerY > ballY) {
 				// go down
-				mPaddles.moveVertically(-MAX_DELTA_Y);
+				mPaddles.moveVertically(-MAX_DELTA_Y * speedFactor);
 			} else if (playerY < ballY) {
 				// go up
-				mPaddles.moveVertically(MAX_DELTA_Y);
+				mPaddles.moveVertically(MAX_DELTA_Y * speedFactor);
 			}
 		}
 	}
