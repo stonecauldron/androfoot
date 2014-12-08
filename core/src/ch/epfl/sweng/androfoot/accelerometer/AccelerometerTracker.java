@@ -6,6 +6,7 @@ import java.util.List;
 import ch.epfl.sweng.androfoot.configuration.Configuration;
 import ch.epfl.sweng.androfoot.interfaces.AccelerometerObserver;
 import ch.epfl.sweng.androfoot.interfaces.ObservableAccelerometer;
+import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
 
 import com.badlogic.gdx.Gdx;
 
@@ -25,6 +26,7 @@ public enum AccelerometerTracker implements ObservableAccelerometer {
 	private float mZGrav = 1;
 
 	private List<AccelerometerObserver> observers = new ArrayList<AccelerometerObserver>();
+	private boolean punished;
 
 	/**
 	 * @return the singleton instance of the accelerometer
@@ -59,6 +61,21 @@ public enum AccelerometerTracker implements ObservableAccelerometer {
 	private void notifyIsShakingObserver() {
 		for (AccelerometerObserver obs : observers) {
 			obs.isShaking();
+		}
+	}
+
+	/**
+	 * Method used to disable the touch tracker and enable it after some time to
+	 * punish player from using the powerful shake mechanic
+	 */
+	public void punishTilting() {
+		if (!punished) {
+			punished = true;
+			// remove the trouchtracker from inputs
+			Gdx.input.setInputProcessor(null);
+		} else {
+			punished = false;
+			Gdx.input.setInputProcessor(PlayerTouchTracker.getInstance());
 		}
 	}
 

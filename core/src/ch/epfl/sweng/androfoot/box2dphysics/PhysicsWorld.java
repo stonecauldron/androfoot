@@ -64,6 +64,11 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 
 	private boolean updated = false;
 
+	private AccelerometerTracker accelerometer = AccelerometerTracker
+			.getInstance();
+
+	private int mTiltPunishTime;
+
 	/* World's object */
 	private static Ball ball;
 	private static Set<Paddle> paddles;
@@ -313,12 +318,10 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
     		
     		  		
 			if (hostMode) {
-
 				if (updated) {
 					updated = false;
 					ball.setLinearVelocity(networkBallSpeedX, networkBallSpeedY);
 				}
-
 				PlayerHost.sendHostData(new HostData(ball.getPositionX(), ball
 						.getPositionY(), ball.getLinearVelocity().x, ball
 						.getLinearVelocity().y));
@@ -333,14 +336,22 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 			// For Accelerometer polling
 			accelerometerTime += correctedDelta;
 			if (accelerometerTime > Constants.SHAKE_TIMER
-					&& AccelerometerTracker.getInstance().isShaking()) {
+					&& accelerometer.isShaking()) {
 				accelerometerTime = 0;
 
-				float newBallX = -AccelerometerTracker.getInstance()
-						.getmYGrav() * Constants.SHAKE_BOOST_RATIO;
-				float newBallY = AccelerometerTracker.getInstance().getmXGrav()
+				float newBallX = -accelerometer.getmYGrav()
+						* Constants.SHAKE_BOOST_RATIO;
+				float newBallY = accelerometer.getmXGrav()
 						* Constants.SHAKE_BOOST_RATIO;
 				ball.setLinearVelocity(newBallX, newBallY);
+				
+				
+				accelerometer.punishTilting();
+				if (mTiltPunishTime > 3) {
+					mTiltPunishTime = 0;
+					accelerometer.punishTilting();
+				}
+				
 
 				if (slaveMode) {
 					PlayerClient.sendClientShakeData(new ShakeData(newBallX,
