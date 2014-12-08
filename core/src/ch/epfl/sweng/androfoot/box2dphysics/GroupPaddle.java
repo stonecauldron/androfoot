@@ -25,7 +25,7 @@ public class GroupPaddle implements DefaultGroupPaddle {
      * @param number of paddles
      * @param worldHeight height of the world
      */
-    public GroupPaddle(World world, float x, float width, int number, boolean facingRight) {
+    GroupPaddle(World world, float x, float width, int number, boolean facingRight) {
         paddles = new ArrayList<Paddle>();
         
         for (int i = 0; i < number; i++) {
@@ -40,7 +40,13 @@ public class GroupPaddle implements DefaultGroupPaddle {
         return paddles;
     }
     
-    public List<Body> getBodies() {
+    public void changePlayerFixtures() {
+    	for (Paddle paddle : paddles) {
+    		paddle.changePlayerFixture();
+    	}
+    }
+    
+    List<Body> getBodies() {
         List<Body> bodies = new ArrayList<Body>();
         for (Paddle paddle : getPaddles()) {
             bodies.add(paddle.getPlayer().getBody());

@@ -74,7 +74,11 @@ public class Player implements DefaultPlayer {
 	 * Auxiliary method used to create the paddle shape using the PolygonGenerator.
 	 * @param teamOne True for team one, else false.
 	 */
-	private void createPaddleShape(boolean teamOne) {
+	void createPaddleShape(boolean teamOne) {
+		
+		if (playerBody.getFixtureList().size != 0) {
+			playerBody.getFixtureList().clear();
+		}
 		
 		PolygonMap paddleGenerator;
 		PaddleGenerator fullGenerator;
@@ -120,11 +124,11 @@ public class Player implements DefaultPlayer {
 	 * Creates and attaches the circular fixture to the player object.
 	 */
 	private void createAttachFixture(PolygonShape shape) {
-		final FixtureDef fixtureForCircle = new FixtureDef();
+		final FixtureDef fixture = new FixtureDef();
 		
-		fixtureForCircle.shape = shape;
+		fixture.shape = shape;
 		
-		playerBody.createFixture(fixtureForCircle);
+		playerBody.createFixture(fixture);
 	}
 	
 	@Override

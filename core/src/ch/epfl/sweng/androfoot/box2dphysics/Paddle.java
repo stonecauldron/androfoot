@@ -26,7 +26,7 @@ public class Paddle implements DefaultPaddle {
      * @param width of the limited area
      * @param height of the limited area
      */
-    public Paddle(World world, float x, float y, float paddleWidth, float paddleHeight, boolean facingRight) {
+    Paddle(World world, float x, float y, float paddleWidth, float paddleHeight, boolean facingRight) {
     	
         posX = x;
         posY = y;
@@ -40,6 +40,10 @@ public class Paddle implements DefaultPaddle {
     
     public Player getPlayer() {
         return player;
+    }
+    
+    void changePlayerFixture() {
+    	getPlayer().createPaddleShape(teamFlag);
     }
     
     public void checkPosition() {
