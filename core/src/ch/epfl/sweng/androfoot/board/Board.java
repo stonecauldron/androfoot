@@ -11,10 +11,8 @@ import ch.epfl.sweng.androfoot.gui.GuiCommand;
 import ch.epfl.sweng.androfoot.gui.GuiManager;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
-import ch.epfl.sweng.androfoot.interfaces.DefaultPlayer;
 import ch.epfl.sweng.androfoot.interfaces.DefaultPowerUp;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
-import ch.epfl.sweng.androfoot.interfaces.PaddleContactObserver;
 import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpObserver;
 import ch.epfl.sweng.androfoot.players.AbstractPlayer;
@@ -39,8 +37,6 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver  {
 	
 	private AbstractPlayer mPlayerOne;
 	private AbstractPlayer mPlayerTwo;
-
-	private static boolean playerOneTouched;
 
 	private int playerOneScore;
 	private int playerTwoScore;

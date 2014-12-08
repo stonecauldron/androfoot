@@ -102,7 +102,12 @@ public class Ball implements DefaultBall {
 	
 	@Override
 	public void changeFixture(float newRadius, float newDensity, float newFriction, float newRestitution) {
-		ballBody.getFixtureList().clear();
+		
+		if (ballBody.getFixtureList().size != 0) {
+			while (ballBody.getFixtureList().size > 0){
+				ballBody.destroyFixture(ballBody.getFixtureList().first());
+			}
+		}
 		createNewBallFixture(newRadius, newDensity, newFriction, newRestitution);
 	}
 	
