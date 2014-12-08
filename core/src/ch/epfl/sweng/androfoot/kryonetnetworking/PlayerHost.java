@@ -3,12 +3,10 @@ package ch.epfl.sweng.androfoot.kryonetnetworking;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import ch.epfl.sweng.androfoot.gui.GuiCommand;
-import ch.epfl.sweng.androfoot.gui.GuiManager;
+import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.interfaces.HostObservable;
 import ch.epfl.sweng.androfoot.interfaces.HostObserver;
 
-import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -16,51 +14,66 @@ import com.esotericsoftware.kryonet.Server;
 public class PlayerHost implements HostObservable {
 
 	public static Server server;
-	private boolean gameStarted;
+	public boolean gameStarted;
 	private static Connection mConnection;
 
 	private ArrayList<HostObserver> mHostObserver = new ArrayList<HostObserver>();
+	private boolean serverStarted;
+	private Server broadcastServer;
 
 	public void listenToClient() throws IOException {
+		
+		if (!serverStarted) {
+			serverStarted = true;
+			DiscoverServerTest();
 
-		DiscoverServerTest();
+			server = new Server();
+			server.start();
+			server.bind(NetworkUtils.TCP_PORT); }
 
-		server = new Server();
-		server.start();
-		server.bind(NetworkUtils.TCP_PORT);
+			// For consistency, the classes to be sent over the network are
+			// registered by the same method for both the client and server.
+			NetworkUtils.register(server);
 
-		// For consistency, the classes to be sent over the network are
-		// registered by the same method for both the client and server.
-		NetworkUtils.register(server);
-
-		server.addListener(new Listener() {
-			public void received(Connection connection, Object object) {
-				if (object instanceof InputData) {
-					updateGameState((InputData) object);
-				} else if (object instanceof Integer && !gameStarted) {
-					mConnection = connection;
-					gameStarted = true;
-					updateGameStart();
-					server.sendToTCP(mConnection.getID(), 0);
-					
+			server.addListener(new Listener() {
+				public void received(Connection connection, Object object) {
+					if (object instanceof InputData) {
+						updateGameState((InputData) object);
+					} else if (object instanceof Integer && !gameStarted) {
+						mConnection = connection;
+						gameStarted = true;
+						updateGameStart();
+						server.sendToTCP(mConnection.getID(), 0);
+					}
 				}
-			}
 
-			public void disconnected(Connection c) {
-				System.out.println("Connection lost, server waiting for reconnection");
-				mConnection.close();
-				// This let another client reconnect
-				gameStarted = false;
-				mHostObserver.clear();
-			}
+				public void disconnected(Connection c) {
+					System.out
+							.println("Connection lost, server waiting for reconnection");
+					// This let another client reconnect
+					mConnection.close();
+					gameStarted = false;
+					updateGameStart();
+					PhysicsWorld.getPhysicsWorld().setHostMode(false);
+				}
 
-			public void connected(Connection c) {
-				System.out.println("Host: Server established");
-			}
-
-		});
+				public void connected(Connection c) {
+					System.out.println("Host: Server established");
+				}
+			});
 	}
 
+	public void closeServers() {
+		serverStarted = false;
+		broadcastServer.stop();
+		broadcastServer.close();
+		server.stop();
+		server.close();
+		mHostObserver.clear();
+		gameStarted = false;
+		serverStarted = false;
+	}
+	
 	/**
 	 * @param data
 	 *            the speed of the ball and position to send to the client
@@ -82,7 +95,7 @@ public class PlayerHost implements HostObservable {
 	}
 
 	public void DiscoverServerTest() {
-		final Server broadcastServer = new Server();
+		 broadcastServer = new Server();
 		try {
 			broadcastServer.bind(0, NetworkUtils.UDP_PORT);
 			broadcastServer.start();

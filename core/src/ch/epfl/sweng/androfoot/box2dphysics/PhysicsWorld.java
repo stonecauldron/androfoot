@@ -396,10 +396,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 
 	@Override
 	public void gameClientStart() {
-		if (!slaveMode)
 			slaveMode = true;
-		else
-			slaveMode = false;
 	}
 
 	@Override
@@ -417,10 +414,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 
 	@Override
 	public void gameHostStart() {
-		if (!hostMode)
 			hostMode = true;
-		else
-			hostMode = false;
 	}
 
 	@Override

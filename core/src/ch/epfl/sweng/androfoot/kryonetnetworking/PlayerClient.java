@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
+import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.gui.GuiCommand;
 import ch.epfl.sweng.androfoot.gui.GuiManager;
 import ch.epfl.sweng.androfoot.interfaces.ClientObservable;
@@ -30,10 +31,10 @@ public class PlayerClient implements ClientObservable {
 		}
 	}
 
-	public void listenToServer() throws IOException {
+	public void listenToServer() throws IOException, NoHostFoundException {
 		System.setProperty("java.net.preferIPv4Stack", "true");
 		DiscoverServerTest();
-		
+
 		client = new Client();
 		client.start();
 
@@ -62,7 +63,13 @@ public class PlayerClient implements ClientObservable {
 				}
 			}
 
+			public void disconnected(Connection c) {
+				System.out.println("Connection lost, client will stop");
+				gameStarted = false;
+				loseClient();
+			}
 		});
+
 	}
 
 	private void updateGameStart() {
@@ -107,22 +114,29 @@ public class PlayerClient implements ClientObservable {
 		}
 	}
 
-	public void DiscoverServerTest() {
-		
+	public void DiscoverServerTest() throws NoHostFoundException {
 		Client broadcastClient = new Client();
-
 		InetAddress host = broadcastClient.discoverHost(NetworkUtils.UDP_PORT,
 				3000);
 		try {
 			this.address = host.getHostAddress();
 		} catch (NullPointerException exp) {
-			System.out.println("aSD");
+			broadcastClient.stop();
+			broadcastClient.close();
+			throw new NoHostFoundException();
 		}
 	}
 
 	@Override
 	public void updateClientObserver(GameInfo data) {
-		// TODO Auto-generated method stub
-		
+	}
+
+	public void loseClient() {
+		if (gameStarted) {
+			client.stop();
+			client.close();
+		}
+		mClientObserver.clear();
+		//TODO show message to user that host disconnected
 	}
 }

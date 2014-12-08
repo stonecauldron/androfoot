@@ -41,13 +41,13 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 		switch (playerNumber) {
 		case ONE:
 			PlayerTouchTracker.getInstance().addObserverPlayerOne(this);
-			if (Configuration.getInstance().isNetworkMode()) {
+			if (Configuration.getInstance().ismNetworkMode()) {
 				NetworkHostScreen.getPlayerHost().addHostObserver(this);
 			}
 			break;
 		case TWO:
 			PlayerTouchTracker.getInstance().addObserverPlayerTwo(this);
-			if (Configuration.getInstance().isNetworkMode()) {
+			if (Configuration.getInstance().ismNetworkMode()) {
 				NetworkClientScreen.getPlayerClient().addClientObserver(this);
 			}
 			break;
@@ -99,13 +99,13 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 		switch (mPlayerNumber) {
 		case ONE:
 			PlayerTouchTracker.getInstance().removeObserverPlayerOne(this);
-			if (Configuration.getInstance().isNetworkMode()) {
+			if (Configuration.getInstance().ismNetworkMode()) {
 				NetworkHostScreen.getPlayerHost().removeHostObserver(this);
 			}
 			break;
 		case TWO:
 			PlayerTouchTracker.getInstance().removeObserverPlayerTwo(this);
-			if (Configuration.getInstance().isNetworkMode()) {
+			if (Configuration.getInstance().ismNetworkMode()) {
 				NetworkClientScreen.getPlayerClient()
 						.removeClientObserver(this);
 			}

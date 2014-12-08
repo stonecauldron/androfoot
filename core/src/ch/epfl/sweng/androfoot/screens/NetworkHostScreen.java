@@ -25,18 +25,8 @@ import com.badlogic.gdx.Screen;
 public class NetworkHostScreen implements Screen, HostObserver {
 
 	public static PlayerHost ph;
-	private boolean gameStarted = false;
 
 	public NetworkHostScreen() {
-		ph = HostServer.getHostServer();
-		ph.addHostObserver(this);
-		ph.addHostObserver(PhysicsWorld.getPhysicsWorld());
-
-		BoardFactory.setupNetworkBoard(PlayerType.LOCAL_PLAYER,
-				PlayerType.REMOTE_PLAYER, Configuration.getInstance()
-						.getScoreLimit());
-
-		PhysicsWorld.pauseWorld();
 	}
 
 	public static PlayerHost getPlayerHost() {
@@ -49,13 +39,7 @@ public class NetworkHostScreen implements Screen, HostObserver {
 
 	@Override
 	public void gameHostStart() {
-		if (!gameStarted) {
-			gameStarted = true;
-			startBoard();
-		} else {
-			resetBoard();
-			gameStarted = false;
-		}
+		startBoard();
 	}
 
 	@Override
@@ -64,6 +48,7 @@ public class NetworkHostScreen implements Screen, HostObserver {
 				|| Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
 
 			resetBoard();
+
 			GuiManager.getInstance().executeCommand(GuiCommand.goToMainMenu);
 		}
 		PhysicsWorld.getPhysicsWorld().phyStep(delta);
@@ -72,11 +57,9 @@ public class NetworkHostScreen implements Screen, HostObserver {
 
 	private void resetBoard() {
 		// reset board only if game wasn't reset already
-		if (gameStarted) {
-			gameStarted = false;
-			Board.getInstance().resetBoard();
-			PhysicsWorld.getPhysicsWorld().setHostMode(false);
-		}
+		Board.getInstance().resetBoard();
+		PhysicsWorld.getPhysicsWorld().setHostMode(false);
+		ph.closeServers();
 	}
 
 	@Override
@@ -89,24 +72,41 @@ public class NetworkHostScreen implements Screen, HostObserver {
 	public void show() {
 		Gdx.input.setCatchBackKey(true);
 		GraphicEngine.getEngine().bindToWorld(PhysicsWorld.getPhysicsWorld());
+
+		ph = HostServer.getHostServer();
+		Gdx.input.setInputProcessor(PlayerTouchTracker.getInstance());
+
+		if (!ph.gameStarted) {
+			ph.addHostObserver(this);
+			try {
+				ph.listenToClient();
+			} catch (IOException e) {
+				// TODO Handle failed server initialization
+			}
+
+			ph.addHostObserver(PhysicsWorld.getPhysicsWorld());
+
+			BoardFactory.setupNetworkBoard(PlayerType.LOCAL_PLAYER,
+					PlayerType.REMOTE_PLAYER, Configuration.getInstance()
+							.getScoreLimit());
+
+			PhysicsWorld.pauseWorld();
+		}
 	}
 
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
