@@ -363,8 +363,9 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 
 	@Override
 	public void shapeHasChanged() {
-		// TODO Auto-generated method stub
-		
+		for (Paddle paddle : paddles) {
+			paddle.changePlayerFixture();
+		}
 	}
 
 }

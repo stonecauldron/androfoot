@@ -79,7 +79,7 @@ public class PlayerCharacteristicsManager {
 
 	public static void setShapeParamsPlayer2(float heightShootZone,
 			float heightControlZone, float width) {
-		paddleGeneratorInstanceTeam1 = new PaddleGenerator(width,
+		paddleGeneratorInstanceTeam2 = new PaddleGenerator(width,
 				heightShootZone, heightControlZone);
 		warnShapeHasChanged();
 	}

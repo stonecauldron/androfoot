@@ -71,7 +71,6 @@ public class ImmutablePowerUp implements DefaultPowerUp {
 
 	@Override
 	public Color getColor() {
-		// TODO Auto-generated method stub
-		return null;
+		return color;
 	}
 }
