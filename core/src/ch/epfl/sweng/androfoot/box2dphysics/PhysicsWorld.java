@@ -103,7 +103,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	    }
 	    ball = new Ball(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, radius, Constants.BALL_DENSITY, 
 	                        Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
-	    drawableObjectsSet.add(ball);
+	    addToDrawableSet(ball);
 	    
 	    return ball;
 	}
@@ -128,7 +128,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	    GroupPaddle groupPaddle = new GroupPaddle(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x - width/2, width, 
 	                                                number, facingRight);
 	    for (Paddle paddle : groupPaddle.getPaddles()) {
-	        drawableObjectsSet.add(paddle.getPlayer());
+	        addToDrawableSet(paddle.getPlayer());
 	        paddles.add(paddle);
 	    }
 	    
@@ -146,7 +146,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	 */
 	public Border createBorder(float x, float y, float width, float height, BorderType type) {
 	    Border border = new Border(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, width, height, type);
-	    drawableObjectsSet.add(border);
+	    addToDrawableSet(border);
 	    
 	    return border;
 	}
