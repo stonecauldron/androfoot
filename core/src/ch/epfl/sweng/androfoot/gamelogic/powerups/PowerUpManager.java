@@ -30,7 +30,7 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 		PaddleContactObserver {
 
 	private final static float POWERUP_SIZE = 0.20f;
-	private final static int MAX_NB_POWERUP = 3;
+	private final static int MAX_NB_POWERUP = 1;
 	private final static PowerUpManager instance = new PowerUpManager();
 	private static Random randomizer = new Random(-1);
 	private final Map<DefaultPowerUp, PowerUpEffect> bodyToEffectMap = new HashMap<DefaultPowerUp, PowerUpEffect>();

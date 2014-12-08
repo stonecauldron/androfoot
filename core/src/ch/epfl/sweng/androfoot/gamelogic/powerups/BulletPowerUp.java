@@ -4,10 +4,10 @@ import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpEffect;
 
 public class BulletPowerUp implements PowerUpEffect {
-	private static final float DURATION = 0.5f;
+	private static final float DURATION = 10f;
 	private static final float WIDTH = 0.3f;
-	private static final float HEIGHT_SHOOT = 0.3f;
-	private static final float HEIGHT_CONTROL = 0.3f;
+	private static final float HEIGHT_SHOOT = 0.7f;
+	private static final float HEIGHT_CONTROL = 0.2f;
 
 	private boolean isTeam1 = true;
 

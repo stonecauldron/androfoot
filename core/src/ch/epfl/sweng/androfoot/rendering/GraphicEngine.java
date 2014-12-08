@@ -232,14 +232,14 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 	public void shapeHasChanged() {
 		playerT1Renderer = new PlayerRenderer(PlayerCharacteristicsManager.getInstanceTeam1());
 		playerT1Renderer.setColor(PlayerCharacteristicsManager.getColorTeam1());
-		playerT2Renderer = new PlayerRenderer(PlayerCharacteristicsManager.getInstanceTeam1());
+		playerT2Renderer = new PlayerRenderer(PlayerCharacteristicsManager.getInstanceTeam2());
 		playerT2Renderer.setColor(PlayerCharacteristicsManager.getColorTeam2());
 	}
 
 	@Override
 	public void visit(DefaultPowerUp powerup) {
 		powerUpRender.setPosition(powerup.getPositionX(), powerup.getPositionY());
-		powerUpRender.setScale(2*powerup.getHitBoxRadius());
+		powerUpRender.setScale(powerup.getHitBoxRadius());
 		powerUpRender.render(batch, renderer);
 	}
 }

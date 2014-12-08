@@ -1,8 +1,11 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
+import java.util.Iterator;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -77,7 +80,9 @@ public class Player implements DefaultPlayer {
 	void createPaddleShape(boolean teamOne) {
 		
 		if (playerBody.getFixtureList().size != 0) {
-			playerBody.getFixtureList().clear();
+			while ( playerBody.getFixtureList().size > 0){
+				playerBody.destroyFixture(playerBody.getFixtureList().first());
+			}
 		}
 		
 		PolygonMap paddleGenerator;

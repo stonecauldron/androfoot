@@ -191,8 +191,6 @@ public final class EventManager implements DefaultEventManager {
 	}
 	
 	public void addEventPowerUp(DefaultPowerUp powerUp) {
-		powerUp = powerUp.getStates();
-		
 		powerUpEvents.add(new PowerUpContactEvent(powerUp));
 	}
 
