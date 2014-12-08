@@ -11,6 +11,7 @@ import java.util.TreeSet;
 import ch.epfl.sweng.androfoot.accelerometer.AccelerometerTracker;
 import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
+import ch.epfl.sweng.androfoot.configuration.Configuration;
 import ch.epfl.sweng.androfoot.interfaces.ClientObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultWorldObject;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
@@ -67,7 +68,9 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	private AccelerometerTracker accelerometer = AccelerometerTracker
 			.getInstance();
 
-	private int mTiltPunishTime;
+	private float mTiltPunishTime = 0;
+
+	private boolean startTiltPunish = false;
 
 	/* World's object */
 	private static Ball ball;
@@ -333,6 +336,16 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 				updated = false;
 			}
 
+			if (startTiltPunish) {
+				mTiltPunishTime += correctedDelta;
+			}
+
+			if (mTiltPunishTime > Constants.SHAKE_PUNITION_TIME) {
+				mTiltPunishTime = 0;
+				startTiltPunish = false;
+				accelerometer.punishTilting();
+			}
+
 			// For Accelerometer polling
 			accelerometerTime += correctedDelta;
 			if (accelerometerTime > Constants.SHAKE_TIMER
@@ -344,14 +357,11 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 				float newBallY = accelerometer.getmXGrav()
 						* Constants.SHAKE_BOOST_RATIO;
 				ball.setLinearVelocity(newBallX, newBallY);
-				
-				
-				accelerometer.punishTilting();
-				if (mTiltPunishTime > 3) {
-					mTiltPunishTime = 0;
+
+				if (Configuration.getInstance().ismNetworkMode()) {
+					startTiltPunish = true;
 					accelerometer.punishTilting();
 				}
-				
 
 				if (slaveMode) {
 					PlayerClient.sendClientShakeData(new ShakeData(newBallX,

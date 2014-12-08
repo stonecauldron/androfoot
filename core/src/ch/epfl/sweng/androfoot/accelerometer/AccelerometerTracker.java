@@ -74,8 +74,8 @@ public enum AccelerometerTracker implements ObservableAccelerometer {
 			// remove the trouchtracker from inputs
 			Gdx.input.setInputProcessor(null);
 		} else {
-			punished = false;
 			Gdx.input.setInputProcessor(PlayerTouchTracker.getInstance());
+			punished = false;
 		}
 	}
 
