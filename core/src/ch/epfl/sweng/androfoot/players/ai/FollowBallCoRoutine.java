@@ -22,7 +22,7 @@ public class FollowBallCoRoutine implements CoRoutine {
 
 	private AbstractAIPlayer mPaddles;
 
-	private List<AIState> authorizedStates = Arrays.asList(AIState.DEFENSE);
+	private List<AIState> authorizedStates = Arrays.asList(AIState.DEFENSE, AIState.SHOOT);
 
 	FollowBallCoRoutine(AbstractAIPlayer paddles) {
 		mPaddles = paddles;
