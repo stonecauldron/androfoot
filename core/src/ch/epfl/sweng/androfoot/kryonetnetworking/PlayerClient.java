@@ -137,6 +137,12 @@ public class PlayerClient implements ClientObservable {
 			client.close();
 		}
 		mClientObserver.clear();
-		//TODO show message to user that host disconnected
+		// TODO show message to user that host disconnected
+	}
+
+	public static void sendClientShakeData(ShakeData shakeData) {
+		if (gameStarted) {
+			client.sendTCP(shakeData);
+		}
 	}
 }

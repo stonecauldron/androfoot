@@ -22,45 +22,48 @@ public class PlayerHost implements HostObservable {
 	private Server broadcastServer;
 
 	public void listenToClient() throws IOException {
-		
+
 		if (!serverStarted) {
 			serverStarted = true;
 			DiscoverServerTest();
 
 			server = new Server();
 			server.start();
-			server.bind(NetworkUtils.TCP_PORT); }
+			server.bind(NetworkUtils.TCP_PORT);
+		}
 
-			// For consistency, the classes to be sent over the network are
-			// registered by the same method for both the client and server.
-			NetworkUtils.register(server);
+		// For consistency, the classes to be sent over the network are
+		// registered by the same method for both the client and server.
+		NetworkUtils.register(server);
 
-			server.addListener(new Listener() {
-				public void received(Connection connection, Object object) {
-					if (object instanceof InputData) {
-						updateGameState((InputData) object);
-					} else if (object instanceof Integer && !gameStarted) {
-						mConnection = connection;
-						gameStarted = true;
-						updateGameStart();
-						server.sendToTCP(mConnection.getID(), 0);
-					}
-				}
-
-				public void disconnected(Connection c) {
-					System.out
-							.println("Connection lost, server waiting for reconnection");
-					// This let another client reconnect
-					mConnection.close();
-					gameStarted = false;
+		server.addListener(new Listener() {
+			public void received(Connection connection, Object object) {
+				if (object instanceof InputData) {
+					updateGameState((InputData) object);
+				} else if (object instanceof Integer && !gameStarted) {
+					mConnection = connection;
+					gameStarted = true;
 					updateGameStart();
-					PhysicsWorld.getPhysicsWorld().setHostMode(false);
+					server.sendToTCP(mConnection.getID(), 0);
+				} else if (object instanceof ShakeData) {
+					updateGameState((ShakeData) object);
 				}
+			}
 
-				public void connected(Connection c) {
-					System.out.println("Host: Server established");
-				}
-			});
+			public void disconnected(Connection c) {
+				System.out
+						.println("Connection lost, server waiting for reconnection");
+				// This let another client reconnect
+				mConnection.close();
+				gameStarted = false;
+				updateGameStart();
+				PhysicsWorld.getPhysicsWorld().setHostMode(false);
+			}
+
+			public void connected(Connection c) {
+				System.out.println("Host: Server established");
+			}
+		});
 	}
 
 	public void closeServers() {
@@ -73,7 +76,7 @@ public class PlayerHost implements HostObservable {
 		gameStarted = false;
 		serverStarted = false;
 	}
-	
+
 	/**
 	 * @param data
 	 *            the speed of the ball and position to send to the client
@@ -95,13 +98,17 @@ public class PlayerHost implements HostObservable {
 	}
 
 	public void DiscoverServerTest() {
-		 broadcastServer = new Server();
+		broadcastServer = new Server();
 		try {
 			broadcastServer.bind(0, NetworkUtils.UDP_PORT);
 			broadcastServer.start();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void updateGameState(ShakeData shakeData) {
+		updateHostObserver(shakeData);
 	}
 
 	protected void updateGameState(InputData data) {

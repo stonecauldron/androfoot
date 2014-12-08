@@ -20,6 +20,7 @@ import ch.epfl.sweng.androfoot.interfaces.PlayerShapeListener;
 import ch.epfl.sweng.androfoot.kryonetnetworking.GameInfo;
 import ch.epfl.sweng.androfoot.kryonetnetworking.HostData;
 import ch.epfl.sweng.androfoot.kryonetnetworking.InputData;
+import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerClient;
 import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerHost;
 import ch.epfl.sweng.androfoot.kryonetnetworking.ShakeData;
 
@@ -312,6 +313,12 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
     		
     		  		
 			if (hostMode) {
+
+				if (updated) {
+					updated = false;
+					ball.setLinearVelocity(networkBallSpeedX, networkBallSpeedY);
+				}
+
 				PlayerHost.sendHostData(new HostData(ball.getPositionX(), ball
 						.getPositionY(), ball.getLinearVelocity().x, ball
 						.getLinearVelocity().y));
@@ -329,10 +336,16 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 					&& AccelerometerTracker.getInstance().isShaking()) {
 				accelerometerTime = 0;
 
-				ball.setLinearVelocity(-AccelerometerTracker.getInstance()
-						.getmYGrav() * Constants.SHAKE_BOOST_RATIO,
-						AccelerometerTracker.getInstance().getmXGrav()
-								* Constants.SHAKE_BOOST_RATIO);
+				float newBallX = -AccelerometerTracker.getInstance()
+						.getmYGrav() * Constants.SHAKE_BOOST_RATIO;
+				float newBallY = AccelerometerTracker.getInstance().getmXGrav()
+						* Constants.SHAKE_BOOST_RATIO;
+				ball.setLinearVelocity(newBallX, newBallY);
+
+				if (slaveMode) {
+					PlayerClient.sendClientShakeData(new ShakeData(newBallX,
+							newBallY));
+				}
 			}
 
 			// Throw the events here because we need to do this outside the
@@ -396,12 +409,11 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 
 	@Override
 	public void gameClientStart() {
-			slaveMode = true;
+		slaveMode = true;
 	}
 
 	@Override
 	public void updateClientData(InputData data) {
-		// TODO take care of shake input
 	}
 
 	public void setSlaveMode(boolean slaveMode) {
@@ -414,7 +426,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 
 	@Override
 	public void gameHostStart() {
-			hostMode = true;
+		hostMode = true;
 	}
 
 	@Override
@@ -430,8 +442,9 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	}
 
 	public void updateClientShakeData(ShakeData data) {
-		// TODO Auto-generated method stub
-
+		updated = true;
+		networkBallSpeedX = data.getmBallSpeedXAfterTilt();
+		networkBallSpeedY = data.getmBallSpeedYAfterTilt();
 	}
 
 	@Override
