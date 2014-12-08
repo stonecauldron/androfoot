@@ -32,15 +32,6 @@ public final class Configuration {
 	private Preferences mPrefs;
 	private boolean mNetworkMode;
 
-	
-	public boolean isNetworkMode() {
-		return mNetworkMode;
-	}
-
-	public void setNetworkMode(boolean mNetworkMode) {
-		this.mNetworkMode = mNetworkMode;
-	}
-
 	private Configuration() {
 		if (ONEINSTANCE != null) {
 			throw new IllegalStateException("Already instantiated");
@@ -178,7 +169,6 @@ public final class Configuration {
 	}
 
 	public void subPlayerTwoFormation() {
-		System.out.println("reached");
 		mPlayerTwoNbAttackers = ((mPlayerTwoNbAttackers - 1) + (NUMBER_OF_PLAYERS_PER_TEAM - 2))
 				% (NUMBER_OF_PLAYERS_PER_TEAM - 1) + 1;
 	}
@@ -220,6 +210,10 @@ public final class Configuration {
 
 	public boolean ismNetworkMode() {
 		return mNetworkMode;
+	}
+
+	public void setNetworkMode(boolean mNetworkMode) {
+		this.mNetworkMode = mNetworkMode;
 	}
 
 	public boolean getTilting() {
