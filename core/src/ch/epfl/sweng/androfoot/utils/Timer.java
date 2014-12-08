@@ -35,13 +35,6 @@ public class Timer {
 	}
 	
 	/**
-	 * resets the timer
-	 */
-	public void resetTimer() {
-		currentTimeCount = 0.f;
-	}
-
-	/**
 	 * checks if the Timer should signal a tick.
 	 * 
 	 * @return true if the tick interval has passed, false otherwise
