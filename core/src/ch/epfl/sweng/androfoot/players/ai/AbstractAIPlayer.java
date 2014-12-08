@@ -65,6 +65,11 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 	@Override
 	public void update(float deltaTime) {
 		updateTimers(deltaTime);
+		if (playerCanShootBall()) {
+			setState(AIState.SHOOT);
+		} else {
+			setState(AIState.DEFENSE);
+		}
 	}
 
 	/**
@@ -136,6 +141,14 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 
 	protected void setState(AIState state) {
 		mState = state;
+	}
+
+	protected int takeIntoAccountPlayerNumberInRelationToXSpeed(int speed) {
+		if (getPlayerNumber() == PlayerNumber.TWO) {
+			return -speed;
+		} else {
+			return speed;
+		}
 	}
 
 	protected boolean playerCanShootBall() {
