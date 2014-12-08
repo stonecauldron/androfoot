@@ -22,7 +22,7 @@ public class ActRandomlyCoRoutine implements CoRoutine {
 
 	private Controllable mPaddles;
 
-	private List<AIState> authorizedStates = Arrays.asList(AIState.DEFAULT);
+	private List<AIState> authorizedStates = Arrays.asList(AIState.DEFENSE);
 
 	ActRandomlyCoRoutine(Controllable paddles) {
 		mPaddles = paddles;

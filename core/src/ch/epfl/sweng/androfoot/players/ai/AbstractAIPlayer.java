@@ -36,7 +36,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		coRoutinesMap = new HashMap<Timer, CoRoutine>();
 
 		// set AI to default state
-		mState = AIState.DEFAULT;
+		mState = AIState.DEFENSE;
 	}
 
 	@Override
@@ -121,22 +121,22 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		mState = state;
 	}
 
-	private boolean ballIsGoingTowardsDefense() {
-		float ballXSpeed = PhysicsWorld.getPhysicsWorld().getBall()
-				.getLinearVelocity().x;
-
-		return takeIntoAccountPlayerNumber(ballXSpeed <= 0);
-	}
-
-	private boolean ballIsAheadOfAttack() {
+	protected boolean ballIsAheadOfAttack() {
 		float ballXPosition = PhysicsWorld.getPhysicsWorld().getBall()
 				.getPositionX();
 		// get x coordinate of the defense row
 		float defenseXPosition = getAttackPaddles().getPaddles().get(0)
 				.getPlayer().getPositionX();
-
+	
 		return takeIntoAccountPlayerNumber(ballXPosition > defenseXPosition);
+	
+	}
 
+	private boolean ballIsGoingTowardsDefense() {
+		float ballXSpeed = PhysicsWorld.getPhysicsWorld().getBall()
+				.getLinearVelocity().x;
+
+		return takeIntoAccountPlayerNumber(ballXSpeed <= 0);
 	}
 
 	private boolean takeIntoAccountPlayerNumber(boolean bool) {
