@@ -11,6 +11,8 @@ import ch.epfl.sweng.androfoot.players.PlayerNumber;
 import ch.epfl.sweng.androfoot.utils.CoRoutine;
 import ch.epfl.sweng.androfoot.utils.Timer;
 
+import com.badlogic.gdx.math.Vector2;
+
 /**
  * Class to represent a generic AI controlled player.
  * 
@@ -109,6 +111,21 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		return y;
 	}
 
+	float GetXPositionOfPlayerThatCanReachTheBall() {
+		int playerIndex;
+		float x;
+		if (ballIsAheadOfAttack()) {
+			playerIndex = getIndexOfPlayerThatCanReachBall(getNumberOfAttackers());
+			x = getAttackPaddles().getPaddles().get(playerIndex).getPlayer()
+					.getPositionX();
+		} else {
+			playerIndex = getIndexOfPlayerThatCanReachBall(getNumberOfDefensors());
+			x = getDefensePaddles().getPaddles().get(playerIndex).getPlayer()
+					.getPositionX();
+		}
+		return x;
+	}
+
 	protected void addToCoRoutines(Timer timer, CoRoutine coRoutine) {
 		coRoutinesMap.put(timer, coRoutine);
 	}
@@ -121,15 +138,29 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		mState = state;
 	}
 
+	protected boolean playerCanShootBall() {
+		Vector2 ballSpeed = PhysicsWorld.getPhysicsWorld().getBall()
+				.getLinearVelocity();
+		if (ballSpeed.equals(Vector2.Zero)) {
+			// ball is being controlled
+			float ballX = PhysicsWorld.getPhysicsWorld().getBall()
+					.getPositionX();
+			float playerX = GetXPositionOfPlayerThatCanReachTheBall();
+			// check whether player can reach ball;
+			return Math.abs(ballX - playerX) <= Constants.PADDLE_WIDTH;
+		}
+		return false;
+	}
+
 	protected boolean ballIsAheadOfAttack() {
 		float ballXPosition = PhysicsWorld.getPhysicsWorld().getBall()
 				.getPositionX();
 		// get x coordinate of the defense row
 		float defenseXPosition = getAttackPaddles().getPaddles().get(0)
 				.getPlayer().getPositionX();
-	
+
 		return takeIntoAccountPlayerNumber(ballXPosition > defenseXPosition);
-	
+
 	}
 
 	private boolean ballIsGoingTowardsDefense() {
