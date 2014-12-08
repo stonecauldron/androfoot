@@ -17,7 +17,7 @@ public class FollowBallCoRoutine implements CoRoutine {
 	private static final int MAX_DELTA_Y = 10;
 	private static final float TOLERANCE = 0.1f;
 	private static final float DISTANCE_FACTOR = 1.75f;
-	
+
 	private float mDistanceFactor;
 
 	private AbstractAIPlayer mPaddles;
@@ -28,7 +28,7 @@ public class FollowBallCoRoutine implements CoRoutine {
 		mPaddles = paddles;
 		mDistanceFactor = DISTANCE_FACTOR;
 	}
-	
+
 	FollowBallCoRoutine(AbstractAIPlayer paddles, float distanceFactor) {
 		mPaddles = paddles;
 		mDistanceFactor = distanceFactor;
@@ -47,16 +47,16 @@ public class FollowBallCoRoutine implements CoRoutine {
 	private void followBall() {
 		float playerY = mPaddles.GetYPositionOfPlayerThatCanReachTheBall();
 		float ballY = PhysicsWorld.getPhysicsWorld().getBall().getPositionY();
-		
-		float yDistanceFromPlayerToBall = Math.abs(ballY - playerY); 
-		
+
+		float yDistanceFromPlayerToBall = Math.abs(ballY - playerY);
+
 		// player is in front of ball
 		if (yDistanceFromPlayerToBall < TOLERANCE) {
 			// do not move
-			mPaddles.move(0, 0);
+			mPaddles.moveVertically(0);
 		} else {
 			// compute speed factor
-			float speedFactor = yDistanceFromPlayerToBall/mDistanceFactor;
+			float speedFactor = yDistanceFromPlayerToBall / mDistanceFactor;
 			if (playerY > ballY) {
 				// go down
 				mPaddles.moveVertically(-MAX_DELTA_Y * speedFactor);

@@ -67,6 +67,8 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		updateTimers(deltaTime);
 		if (playerCanShootBall()) {
 			setState(AIState.SHOOT);
+		} else if (!ballIsGoingTowardsDefense()) {
+			setState(AIState.RETREAT);
 		} else {
 			setState(AIState.DEFENSE);
 		}
@@ -180,7 +182,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		float ballXSpeed = PhysicsWorld.getPhysicsWorld().getBall()
 				.getLinearVelocity().x;
 
-		return takeIntoAccountPlayerNumber(ballXSpeed <= 0);
+		return takeIntoAccountPlayerNumber(ballXSpeed < 0);
 	}
 
 	private boolean takeIntoAccountPlayerNumber(boolean bool) {
