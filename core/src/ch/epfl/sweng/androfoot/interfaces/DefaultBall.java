@@ -37,6 +37,7 @@ public interface DefaultBall extends Visitable, DefaultWorldObject {
 	void setLinearVelocity(float x, float y);
 	
 	void changeFixture(float newRadius, float newDensity, float newFriction, float newRestitution);
+	void changeFixture(float newRadius);
 	
 	/**
 	 * Get the velocity of the ball.

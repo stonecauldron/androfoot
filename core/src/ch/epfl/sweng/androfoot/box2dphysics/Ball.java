@@ -126,4 +126,9 @@ public class Ball implements DefaultBall {
 	    return new ImmutableBall(this);
 	}
 
+	@Override
+	public void changeFixture(float newRadius) {
+		changeFixture(newRadius, Constants.BALL_DENSITY, Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
+	}
+
 }

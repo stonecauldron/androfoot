@@ -42,6 +42,7 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 	private PowerUpManager() {
 		addPowerUpEffect(new BulletPowerUp());
 		addPowerUpEffect(new SmallPowerUp());
+		addPowerUpEffect(new BallSizePowerUp());
 		setSpawnRate(5f);
 		EventManager.getEventManager().addPowerUpContactObserver(this);
 		EventManager.getEventManager().addPaddleContactObserver(this);
