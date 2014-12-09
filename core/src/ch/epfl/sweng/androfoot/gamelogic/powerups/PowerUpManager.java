@@ -60,9 +60,6 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 	 */
 	@Override
 	public void applyPowerUp(DefaultPowerUp powerUp) {
-		System.out.println("Affect applied");
-		System.out.println(System.identityHashCode(powerUp));
-		System.out.println(powerUp.getPositionX());
 		if (bodyToEffectMap.containsKey(powerUp)) {
 			timers.put(powerUp, new Timer(bodyToEffectMap.get(powerUp)
 					.getEffectDuration()));		
@@ -133,8 +130,6 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 			Timer pwTimer = timers.get(pw);
 			pwTimer.updateTimer(delta);
 			if (pwTimer.checkTimer()) {
-					//System.out.println("powerupEnded");
-					//System.out.println(System.identityHashCode(pw));
 				if (bodyToEffectMap.containsKey(pw)) {
 					PowerUpEffect effect = bodyToEffectMap.get(pw);
 					effect.end();
@@ -147,7 +142,6 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 
 	@Override
 	public void paddleContact(DefaultPlayer player, DefaultBall ball) {
-		System.out.println(player.getTeam());
 		playerOneTouched = false;
 		if (player.getTeam()) {
 			playerOneTouched = true;
