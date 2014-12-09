@@ -10,15 +10,26 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sweng.androfoot.players.AbstractAIPlayer;
 import ch.epfl.sweng.androfoot.players.PlayerNumber;
 import ch.epfl.sweng.androfoot.players.ai.AIState;
+import ch.epfl.sweng.androfoot.players.ai.AbstractAIPlayer;
 import ch.epfl.sweng.androfoot.utils.CoRoutine;
 import ch.epfl.sweng.androfoot.utils.Timer;
 
+/**
+ * Class testing the functionality of CoRoutines.
+ * 
+ * @author Pedro Caldeira <pedrocaldeira>
+ *
+ */
 public class AbstractAIPlayerTest {
 
-	// mock class to test abstract class functionality
+	/**
+	 * Mock class to test abstract class functionality.
+	 * 
+	 * @author Pedro Caldeira <pedrocaldeira>
+	 *
+	 */
 	private class MockAIPlayer extends AbstractAIPlayer {
 
 		MockAIPlayer(PlayerNumber number) {
@@ -33,6 +44,11 @@ public class AbstractAIPlayerTest {
 			
 			// put mockAI in default static
 			super.setState(AIState.DEFAULT);
+		}
+		
+		@Override
+		public void update(float deltaTime) {
+			updateTimers(deltaTime);
 		}
 	}
 

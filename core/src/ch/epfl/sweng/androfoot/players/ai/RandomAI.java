@@ -1,6 +1,6 @@
-package ch.epfl.sweng.androfoot.players;
+package ch.epfl.sweng.androfoot.players.ai;
 
-import ch.epfl.sweng.androfoot.players.ai.coroutines.ActRandomlyCoRoutine;
+import ch.epfl.sweng.androfoot.players.PlayerNumber;
 import ch.epfl.sweng.androfoot.utils.Timer;
 
 /**
@@ -13,7 +13,7 @@ public class RandomAI extends AbstractAIPlayer {
 
 	private static final float RANDOM_TIMER = 0.5f;
 
-	RandomAI(PlayerNumber number) {
+	public RandomAI(PlayerNumber number) {
 		super(number);
 
 		addToCoRoutines(new Timer(RANDOM_TIMER), new ActRandomlyCoRoutine(this));

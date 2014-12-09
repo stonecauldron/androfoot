@@ -1,5 +1,7 @@
 package ch.epfl.sweng.androfoot.players;
 
+import ch.epfl.sweng.androfoot.players.ai.MediumAI;
+
 /**
  * The factory for the players.
  * Uses the enum PlayerType to decide which type of player to instantiate.
@@ -18,7 +20,7 @@ public class PlayerFactory {
 		switch(playerType) {
 		
 			case RANDOM_AI_PLAYER:
-				player = new RandomAI(playerNumber);
+				player = new MediumAI(playerNumber);
 				break;
 			
 			case LOCAL_PLAYER:
