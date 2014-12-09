@@ -161,8 +161,9 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 			float ballX = PhysicsWorld.getPhysicsWorld().getBall()
 					.getPositionX();
 			float playerX = getXPositionOfPlayerThatCanReachTheBall();
+			float paddleWidth = getPaddles().get(0).getPaddles().get(0).getWidth();
 			// check whether player can reach ball;
-			return Math.abs(ballX - playerX) <= Constants.PADDLE_WIDTH;
+			return Math.abs(ballX - playerX) <= paddleWidth;
 		}
 		return false;
 	}
