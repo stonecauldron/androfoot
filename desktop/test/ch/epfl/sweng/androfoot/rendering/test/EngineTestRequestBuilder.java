@@ -1,8 +1,7 @@
 package ch.epfl.sweng.androfoot.rendering.test;
 
-import java.util.SortedSet;
-import java.util.TreeSet;
-
+import java.util.ArrayList;
+import java.util.List;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
@@ -14,7 +13,7 @@ public class EngineTestRequestBuilder {
 	
 	private static final float DELTA_RENDER = 0.16f;
 	
-	private final SortedSet<Drawable> toRender = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
+	private final List<Drawable> toRender = new ArrayList<Drawable>();
 	private final Rectangle region;
 	
 	public EngineTestRequestBuilder(Rectangle regionArg) {
@@ -29,7 +28,7 @@ public class EngineTestRequestBuilder {
 		final DrawableWorld world = new DrawableWorld() {
 			
 			@Override
-			public SortedSet<Drawable> toDraw() {
+			public List<Drawable> toDraw() {
 				return toRender;
 			}
 			
