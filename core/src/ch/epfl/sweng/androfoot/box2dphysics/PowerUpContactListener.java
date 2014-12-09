@@ -1,6 +1,7 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import com.badlogic.gdx.physics.box2d.Body;
@@ -82,7 +83,13 @@ public final class PowerUpContactListener implements DefaultContactListener {
 
 	@Override
 	public void removeBody(Body body) {
-		// Does nothing.
+		Iterator<PowerUpBody> powerUpIterator = powerUps.iterator();
+        while (powerUpIterator.hasNext()) {
+            PowerUpBody powerUp = powerUpIterator.next();
+            if (powerUp.getBody() == body) {
+                powerUpIterator.remove();
+            }
+        }
 	}
 	
 	private boolean checkBallHitsPowerUp(Contact contact, PowerUpBody powerUp) {
