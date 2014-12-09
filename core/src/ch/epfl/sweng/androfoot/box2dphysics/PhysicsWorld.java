@@ -316,8 +316,8 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 		// Check the position
 		float posX = testedBall.getPositionX();
 		float posY = testedBall.getPositionY();
-		if (posX > Constants.WORLD_SIZE_X || posX < Constants.WORLD_ORIGIN_X ||
-		        posY > Constants.WORLD_SIZE_Y || posY < Constants.WORLD_ORIGIN_Y) {
+		if (posX > Constants.WORLD_SIZE_X + Constants.GOAL_OFFSET || posX < Constants.WORLD_ORIGIN_X - 
+		        Constants.GOAL_OFFSET || posY > Constants.WORLD_SIZE_Y || posY < Constants.WORLD_ORIGIN_Y) {
 		    
 		    testedBall.setBallPosition(Constants.WORLD_SIZE_X / 2, Constants.WORLD_SIZE_Y / 2);
 		}

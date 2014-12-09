@@ -155,7 +155,7 @@ public class Border implements DrawableRectangle, DefaultBorder {
     
     private void createFixture() {
         shape = new PolygonShape();
-        shape.setAsBox(borderWidth / 2, borderHeight);
+        shape.setAsBox(borderWidth / 2, borderHeight / 2);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.density = Constants.BORDER_DENSITY;
