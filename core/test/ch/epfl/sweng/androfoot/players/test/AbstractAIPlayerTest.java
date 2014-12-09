@@ -34,6 +34,11 @@ public class AbstractAIPlayerTest {
 			// put mockAI in default static
 			super.setState(AIState.DEFAULT);
 		}
+		
+		@Override
+		public void update(float deltaTime) {
+			updateTimers(deltaTime);
+		}
 	}
 
 	private static final float TIMER_1_INTERVAL = 0.5f;
