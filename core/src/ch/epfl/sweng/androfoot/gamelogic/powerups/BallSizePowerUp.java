@@ -17,12 +17,12 @@ public class BallSizePowerUp implements PowerUpEffect {
 
 	@Override
 	public void begin(boolean isTeam1) {
-		PhysicsWorld.getBall().changeFixture(NEW_RADIUS);
+		PhysicsWorld.getPhysicsWorld().getBall().changeFixture(NEW_RADIUS);
 	}
 
 	@Override
 	public void end() {
-		PhysicsWorld.getBall().changeFixture(Constants.BALL_RADIUS);
+		PhysicsWorld.getPhysicsWorld().getBall().changeFixture(Constants.BALL_RADIUS);
 	}
 
 	@Override

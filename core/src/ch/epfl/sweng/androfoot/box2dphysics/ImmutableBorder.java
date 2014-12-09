@@ -15,12 +15,16 @@ import ch.epfl.sweng.androfoot.interfaces.Visitor;
 public class ImmutableBorder implements DefaultBorder {
     
     private Body body;
+    private float width;
+    private float height;
     private int zIndex;
     private BorderType type;
     private Vector2 position;
     
-    public ImmutableBorder(DefaultBorder border) {
+    protected ImmutableBorder(DefaultBorder border) {
         body = border.getBody();
+        width = border.getWidth();
+        height = border.getHeight();
         zIndex = border.getZIndex();
         type = border.getType();
         position = border.getPosition().cpy();
@@ -54,6 +58,31 @@ public class ImmutableBorder implements DefaultBorder {
     @Override
     public ImmutableBorder getStates() {
         return this;
+    }
+
+    @Override
+    public void setWidth(float value) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setHeight(float value) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public float getWidth() {
+        return width;
+    }
+
+    @Override
+    public float getHeight() {
+        return height;
+    }
+
+    @Override
+    public void setPosition(Vector2 position) {
+        throw new UnsupportedOperationException();
     }
 
 }

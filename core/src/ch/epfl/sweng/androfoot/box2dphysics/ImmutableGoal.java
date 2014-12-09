@@ -19,7 +19,7 @@ public class ImmutableGoal implements DefaultGoal {
     private GoalTeam team;
     private Vector2 position;
     
-    public ImmutableGoal(DefaultGoal goal) {
+    protected ImmutableGoal(DefaultGoal goal) {
         body = goal.getBody();
         zIndex = goal.getZIndex();
         team = goal.getTeam();

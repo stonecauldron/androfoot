@@ -31,6 +31,18 @@ public interface DefaultPaddle {
      */
     void setPlayerYVelocity(float y);
     
+    /**
+     * Return the width of the paddle
+     * @return
+     */
+    float getWidth();
+    
+    /**
+     * Return the height of the paddle
+     * @return
+     */
+    float getHeight();
+    
 	/**
 	 * Say if this paddle is in range to control the paddle
 	 * @return

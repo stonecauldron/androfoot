@@ -34,7 +34,7 @@ public class Goal implements DefaultGoal {
      * @param teamOne The team flag, true for team one, otherwise false.
      * @param zIndex The Z Index of the goal for rendering.
      */
-    public Goal(World world, float x, float y, float width, float height, GoalTeam goalTeam) {
+    protected Goal(World world, float x, float y, float width, float height, GoalTeam goalTeam) {
     	
         team = goalTeam;
         

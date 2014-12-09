@@ -44,7 +44,7 @@ public class Player implements DefaultPlayer {
 	 * @param teamOrientation If true the player is facing right, otherwise player is facing left.
 	 * @param paddle 
 	 */
-	Player(World world, float initPosX, float initPosY, boolean teamOrientation, Paddle paddle) {
+	protected Player(World world, float initPosX, float initPosY, boolean teamOrientation, Paddle paddle) {
 		
 		parent = paddle;
 		teamFlag = teamOrientation;

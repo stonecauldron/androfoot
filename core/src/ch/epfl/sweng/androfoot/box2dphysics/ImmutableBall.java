@@ -20,7 +20,7 @@ public class ImmutableBall implements DefaultBall {
     private float radius;
     private Vector2 velocity;
     
-    public ImmutableBall(DefaultBall ball) {
+    protected ImmutableBall(DefaultBall ball) {
         body = ball.getBody();
         zIndex = ball.getZIndex();
         x = ball.getPositionX();
