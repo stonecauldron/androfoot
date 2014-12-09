@@ -1,4 +1,4 @@
-package ch.epfl.sweng.androfoot.gamelogic;
+package ch.epfl.sweng.androfoot.gamelogic.powerups;
 
 import com.badlogic.gdx.graphics.Color;
 
@@ -10,7 +10,7 @@ public class PowerUpCharacteristicsManger {
 	private static final int POWERUP_BRANCH_NUMBER = 4; 
 	private static final int POWER_UP_COLOR_HEX = 0xFF52E8FF;
 	private static final Color POWER_UP_COLOR = new Color(POWER_UP_COLOR_HEX);
-	private static final float POWER_UP_RADIUS = 0.3f;
+	private static final float POWER_UP_RADIUS = 1.0f;
 	
 	private static PowerUpPolygonGenerator powerupShape = null;
 	

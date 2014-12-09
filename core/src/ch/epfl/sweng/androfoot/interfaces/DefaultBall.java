@@ -1,5 +1,7 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
+import ch.epfl.sweng.androfoot.box2dphysics.ImmutableBall;
+
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -34,6 +36,9 @@ public interface DefaultBall extends Visitable, DefaultWorldObject {
 	 */
 	void setLinearVelocity(float x, float y);
 	
+	void changeFixture(float newRadius, float newDensity, float newFriction, float newRestitution);
+	void changeFixture(float newRadius);
+	
 	/**
 	 * Get the velocity of the ball.
 	 */
@@ -43,5 +48,5 @@ public interface DefaultBall extends Visitable, DefaultWorldObject {
 	 * Clone the actual state of the ball
 	 * @return
 	 */
-	DefaultBall clone();
+	ImmutableBall getStates();
 }

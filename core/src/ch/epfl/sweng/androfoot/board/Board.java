@@ -11,10 +11,8 @@ import ch.epfl.sweng.androfoot.gui.GuiCommand;
 import ch.epfl.sweng.androfoot.gui.GuiManager;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
-import ch.epfl.sweng.androfoot.interfaces.DefaultPlayer;
 import ch.epfl.sweng.androfoot.interfaces.DefaultPowerUp;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
-import ch.epfl.sweng.androfoot.interfaces.PaddleContactObserver;
 import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpObserver;
 import ch.epfl.sweng.androfoot.players.AbstractPlayer;
@@ -31,7 +29,7 @@ import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
  * @author Pedro Caldeira <pedrocaldeira>
  *
  */
-public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, PaddleContactObserver {
+public class Board implements GoalObserver, PlayerObserver, PowerUpObserver  {
 
 	private static final float INITIAL_BALL_SPEED = 2f;
 
@@ -39,8 +37,6 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 	
 	private AbstractPlayer mPlayerOne;
 	private AbstractPlayer mPlayerTwo;
-
-	private static boolean playerOneTouched;
 
 	private int playerOneScore;
 	private int playerTwoScore;
@@ -72,7 +68,6 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 		EventManager.getEventManager().addGoalObserver(this);
 		EventManager.getEventManager().addPlayerObserver(this);
 		EventManager.getEventManager().addPowerUpContactObserver(this);
-		EventManager.getEventManager().addPaddleContactObserver(this);
 	}
 
 	/**
@@ -138,7 +133,7 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 		mPlayerTwo.destroy();
 		
 		// destroy ball
-		PhysicsWorld.destroy(mBall);
+		PhysicsWorld.getPhysicsWorld().destroy(mBall);
 		
 		// reset Graphic Engine
 		GraphicEngine.getEngine().reset();
@@ -160,31 +155,16 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 		mPlayerTwo = PlayerFactory.createPlayer(p2);
 	}
 
-	@Override
-	public void applyPowerUp(DefaultPowerUp powerUp) {
-		PhysicsWorld.destroy(powerUp);
-		if (playerOneTouched) {
-			//Insert instructions here
-		} else {
-			//Insert instructions here
-		}
-	}
 	
 	private void setUpScore(int winScore) {
 		resetScore();
 		winningScore = winScore;
 	}
 
-	@Override
-	public void paddleContact(DefaultPlayer player, DefaultBall ball) {
-		playerOneTouched = false;
-		if (player.getTeam()) {
-			playerOneTouched = true;
-		}
-	}
+	
 	
 	private void setUpBall() {
-		mBall = PhysicsWorld.createBall(Constants.WORLD_SIZE_X / 2,
+		mBall = PhysicsWorld.getPhysicsWorld().createBall(Constants.WORLD_SIZE_X / 2,
 				Constants.WORLD_SIZE_Y / 2, Constants.BALL_RADIUS);
 	
 		java.util.Random random = new java.util.Random();
@@ -193,26 +173,26 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 	}
 
 	private void setUpUpperAndLowerWalls() {
-		PhysicsWorld.createBorder(0, 0, Constants.BORDER_WIDTH,
+		PhysicsWorld.getPhysicsWorld().createBorder(0, 0, Constants.BORDER_WIDTH,
 				Constants.GOAL_HEIGHT, BorderType.TEAM_ONE);
-		PhysicsWorld.createBorder(0, Constants.WORLD_SIZE_Y
+		PhysicsWorld.getPhysicsWorld().createBorder(0, Constants.WORLD_SIZE_Y
 				- Constants.GOAL_HEIGHT, Constants.BORDER_WIDTH,
 				Constants.GOAL_HEIGHT, BorderType.TEAM_ONE);
 	}
 
 	private void setUpLeftAndRightWalls() {
-		PhysicsWorld.createBorder(Constants.WORLD_SIZE_X
+		PhysicsWorld.getPhysicsWorld().createBorder(Constants.WORLD_SIZE_X
 				- Constants.BORDER_WIDTH, 0, Constants.BORDER_WIDTH,
 				Constants.GOAL_HEIGHT, BorderType.TEAM_TWO);
-		PhysicsWorld.createBorder(Constants.WORLD_SIZE_X
+		PhysicsWorld.getPhysicsWorld().createBorder(Constants.WORLD_SIZE_X
 				- Constants.BORDER_WIDTH, Constants.WORLD_SIZE_Y
 				- Constants.GOAL_HEIGHT, Constants.BORDER_WIDTH,
 				Constants.GOAL_HEIGHT, BorderType.TEAM_TWO);
 
-		PhysicsWorld.createBorder(0, -Constants.BORDER_WIDTH,
+		PhysicsWorld.getPhysicsWorld().createBorder(0, -Constants.BORDER_WIDTH,
 				Constants.WORLD_SIZE_X, Constants.BORDER_WIDTH,
 				BorderType.NO_TEAM);
-		PhysicsWorld.createBorder(0, Constants.WORLD_SIZE_Y,
+		PhysicsWorld.getPhysicsWorld().createBorder(0, Constants.WORLD_SIZE_Y,
 				Constants.WORLD_SIZE_X, Constants.BORDER_WIDTH,
 				BorderType.NO_TEAM);
 	}
@@ -261,5 +241,10 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver, Pad
 			// give ball to player one
 			mBall.setLinearVelocity(INITIAL_BALL_SPEED, INITIAL_BALL_SPEED);
 		}
+	}
+
+	@Override
+	public void applyPowerUp(DefaultPowerUp powerUp) {
+		PhysicsWorld.getPhysicsWorld().destroy(powerUp);
 	}
 }

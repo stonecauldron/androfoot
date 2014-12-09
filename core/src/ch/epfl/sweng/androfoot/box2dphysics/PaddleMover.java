@@ -15,8 +15,8 @@ import com.badlogic.gdx.Gdx;
  */
 public class PaddleMover {
 
-	private float xSpeedRatio = (float) 60;
-	private float ySpeedRatio = (float) 60;
+	private float xSpeedRatio = (float) Constants.X_SPEED_RATIO;
+	private float ySpeedRatio = (float) Constants.Y_SPEED_RATIO;
 
 	// nexus 7 tablet screen size in cm
 	private final static float NEXUS_X = 15.253849f;

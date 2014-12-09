@@ -17,16 +17,16 @@ public class PhysicsWorldTest {
 
     @Test
     public void testClearRemoveAllBodies() {
-        PhysicsWorld.createBall(1, 1, 1);
-        PhysicsWorld.createBall(1, 1, 1);
-        PhysicsWorld.createBall(1, 1, 1);
-        PhysicsWorld.createBall(1, 1, 1);
-        PhysicsWorld.createBall(1, 1, 1);
+        PhysicsWorld.getPhysicsWorld().createBall(1, 1, 1);
+        PhysicsWorld.getPhysicsWorld().createBall(1, 1, 1);
+        PhysicsWorld.getPhysicsWorld().createBall(1, 1, 1);
+        PhysicsWorld.getPhysicsWorld().createBall(1, 1, 1);
+        PhysicsWorld.getPhysicsWorld().createBall(1, 1, 1);
         PhysicsWorld.getPhysicsWorld().getBox2DWorld().getBodies(bodies);
         
         assertTrue(bodies.size > 0);
         
-        PhysicsWorld.clear();
+        PhysicsWorld.getPhysicsWorld().clear();
         
         PhysicsWorld.getPhysicsWorld().getBox2DWorld().getBodies(bodies);
         
@@ -36,16 +36,16 @@ public class PhysicsWorldTest {
     
     @Test
     public void testDestroyBall() {
-        PhysicsWorld.clear();
+        PhysicsWorld.getPhysicsWorld().clear();
         PhysicsWorld.getPhysicsWorld().getBox2DWorld().getBodies(bodies);
         assertTrue(bodies.size == 0);
         
-        Ball ball = PhysicsWorld.createBall(0, 0, 2);
+        Ball ball = PhysicsWorld.getPhysicsWorld().createBall(0, 0, 2);
         
         PhysicsWorld.getPhysicsWorld().getBox2DWorld().getBodies(bodies);
         assertTrue(bodies.size == 1);
         
-        PhysicsWorld.destroy(ball);
+        PhysicsWorld.getPhysicsWorld().destroy(ball);
         PhysicsWorld.getPhysicsWorld().throwDestroy();
         PhysicsWorld.getPhysicsWorld().getBox2DWorld().getBodies(bodies);
         assertTrue(bodies.size == 0);
@@ -54,16 +54,16 @@ public class PhysicsWorldTest {
     
     @Test
     public void testDestroyGroupPaddle() {
-        PhysicsWorld.clear();
+        PhysicsWorld.getPhysicsWorld().clear();
         PhysicsWorld.getPhysicsWorld().getBox2DWorld().getBodies(bodies);
         assertTrue(bodies.size == 0);
         
-        GroupPaddle group = PhysicsWorld.createPaddle(1, 2, 1, true);
+        GroupPaddle group = PhysicsWorld.getPhysicsWorld().createPaddle(1, 2, 1, true);
         
         PhysicsWorld.getPhysicsWorld().getBox2DWorld().getBodies(bodies);
         assertTrue(bodies.size == 1);
         
-        PhysicsWorld.destroy(group);
+        PhysicsWorld.getPhysicsWorld().destroy(group);
         PhysicsWorld.getPhysicsWorld().throwDestroy();
         PhysicsWorld.getPhysicsWorld().getBox2DWorld().getBodies(bodies);
         assertTrue(bodies.size == 0);

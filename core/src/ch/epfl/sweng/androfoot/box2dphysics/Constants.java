@@ -41,6 +41,8 @@ public class Constants {
     public static final float PADDLE_MIN_VELOCITY = 0.0f;
     public static final float PADDLE_MAX_VELOCITY = 10.0f;
     public static final float OFFSET_CORRECTION = 0.08f;
+    public static final int X_SPEED_RATIO = 60;
+    public static final int Y_SPEED_RATIO = 60;
     
     /* Ball */
     public static final short CATEGORY_BALL = 0x0008;

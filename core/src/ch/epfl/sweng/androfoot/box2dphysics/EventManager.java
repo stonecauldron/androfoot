@@ -2,6 +2,7 @@ package ch.epfl.sweng.androfoot.box2dphysics;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -79,36 +80,41 @@ public final class EventManager implements DefaultEventManager {
 
 	public void throwEvents() {
         for (GoalEvent event : goalEvents) {
-            for (GoalObserver observer : goalObservers) {
-                observer.goal(event.getGoal(), event.getBall());
+            Iterator<GoalObserver> it = goalObservers.iterator();
+            while (it.hasNext()) {
+                it.next().goal(event.getGoal(), event.getBall());
             }
         }
         goalEvents.clear();
         
         for (PaddleContactEvent event : paddleEvents) {
-            for (PaddleContactObserver observer : paddleObservers) {
-                observer.paddleContact(event.getPlayer(), event.getBall());
+            Iterator<PaddleContactObserver> it = paddleObservers.iterator();
+            while (it.hasNext()) {
+                it.next().paddleContact(event.getPlayer(), event.getBall());
             }
         }
         paddleEvents.clear();
         
         for (PlayerEvent event : playerEvents) {
-        	for (PlayerObserver observer : playerObservers) {
-        		observer.setBall(event.getPlayer(), event.getTeam());
+            Iterator<PlayerObserver> it = playerObservers.iterator();
+        	while (it.hasNext()) {
+        		it.next().setBall(event.getPlayer(), event.getTeam());
         	}
         }
         playerEvents.clear();
         
         for (BorderContactEvent event : borderEvents) {
-            for (BorderObserver observer : borderObservers) {
-                observer.borderContact(event.getBorder(), event.getBall());
+            Iterator<BorderObserver> it = borderObservers.iterator();
+            while (it.hasNext()) {
+                it.next().borderContact(event.getBorder(), event.getBall());
             }
         }
         borderEvents.clear();
         
         for (PowerUpContactEvent event : powerUpEvents) {
-        	for (PowerUpObserver observer : powerUpObservers) {
-        		observer.applyPowerUp(event.getPowerUp());
+            Iterator<PowerUpObserver> it = powerUpObservers.iterator();
+        	while (it.hasNext()) {
+        		it.next().applyPowerUp(event.getPowerUp());
         	}
         }
         powerUpEvents.clear();
@@ -160,8 +166,8 @@ public final class EventManager implements DefaultEventManager {
 	}
 
 	public void addEventGoal(DefaultGoal goal, DefaultBall ball) {
-	    goal = goal.clone();
-	    ball = ball.clone();
+	    goal = goal.getStates();
+	    ball = ball.getStates();
 	    
 		goalEvents.add(new GoalEvent(ball, goal));
 	}
@@ -171,22 +177,20 @@ public final class EventManager implements DefaultEventManager {
 	}
 
 	public void addEventPaddle(DefaultPlayer player, DefaultBall ball) {
-	    player = player.clone();
-	    ball = ball.clone();
+	    player = player.getStates();
+	    ball = ball.getStates();
 	    
 		paddleEvents.add(new PaddleContactEvent(player, ball));
 	}
 
 	public void addEventBorder(DefaultBorder border, DefaultBall ball) {
-	    border = border.clone();
-	    ball = ball.clone();
+	    border = border.getStates();
+	    ball = ball.getStates();
 	    
 		borderEvents.add(new BorderContactEvent(border, ball));
 	}
 	
 	public void addEventPowerUp(DefaultPowerUp powerUp) {
-		powerUp = powerUp.clone();
-		
 		powerUpEvents.add(new PowerUpContactEvent(powerUp));
 	}
 

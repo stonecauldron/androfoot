@@ -1,5 +1,8 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
+import ch.epfl.sweng.androfoot.box2dphysics.ImmutablePowerUp;
+import com.badlogic.gdx.graphics.Color;
+
 public interface DefaultPowerUp extends DefaultWorldObject {
 
 	/**
@@ -21,6 +24,12 @@ public interface DefaultPowerUp extends DefaultWorldObject {
 	float getHitBoxRadius();
 	
 	/**
+	 * get the color of the poweup
+	 * @return the color
+	 */
+	Color getColor();
+	
+	/**
 	 * Sets the position of the Power Up.
 	 */
 	void setPowerUpPosition(float x, float y);
@@ -29,5 +38,5 @@ public interface DefaultPowerUp extends DefaultWorldObject {
 	 * Clone the current state of the Power Up object.
 	 * @return
 	 */
-	DefaultPowerUp clone();
+	ImmutablePowerUp getStates();
 }

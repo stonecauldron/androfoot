@@ -28,8 +28,6 @@ public class Goal implements DefaultGoal {
     
     private final Body goalBody;
     private final BodyDef goalBodyDef;
-    private final PolygonShape goalShape;
-    private final FixtureDef goalFixture;
     
     /**
      * Constructor of a physical goal object.
@@ -46,17 +44,28 @@ public class Goal implements DefaultGoal {
         goalBodyDef.position.set(x + width / 2, y + height / 2);
         
         goalBody = world.createBody(goalBodyDef);
-        
-        goalFixture = new FixtureDef();
-        goalFixture.isSensor = true;
-        
-        goalShape = new PolygonShape();
-        goalShape.setAsBox(width / 2, height / 2);
-        goalFixture.shape = goalShape;
-        goalBody.createFixture(goalFixture);
-        goalShape.dispose();
+        createNewGoalFixture(width, height);
         
         GoalContactListener.addGoal(this);
+    }
+    
+    @Override
+	public void changeFixture(float newWidth, float newHeight) {
+		goalBody.getFixtureList().clear();
+		createNewGoalFixture(newWidth, newHeight);
+	}
+    
+    private void createNewGoalFixture(float newWidth, float newHeight) {
+    	final FixtureDef goalFixture = new FixtureDef();
+    	final PolygonShape goalShape = new PolygonShape();
+    	
+        goalFixture.isSensor = true;
+        
+        goalShape.setAsBox(newWidth / 2, newHeight / 2);
+        goalFixture.shape = goalShape;
+        goalBody.createFixture(goalFixture);
+        
+        goalShape.dispose();
     }
     
     public Body getBody() {
@@ -73,40 +82,8 @@ public class Goal implements DefaultGoal {
     }
     
     @Override
-    public DefaultGoal clone() {
-        return new DefaultGoal() {
-            private GoalTeam teamGoal = team;
-            private Vector2 position = goalBody.getPosition();
-            
-            @Override
-            public GoalTeam getTeam() {
-                return teamGoal;
-            }
-
-            @Override
-            public Vector2 getPosition() {
-                return position;
-            }
-            
-            public DefaultGoal clone() {
-                return null;
-            }
-
-            @Override
-            public Body getBody() {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public int getZIndex() {
-                return -1;
-            }
-
-            @Override
-            public void accept(Visitor visitor) {
-                visitor.visit(this);
-            }
-        };
+    public ImmutableGoal getStates() {
+        return new ImmutableGoal(this);
     }
 
     @Override

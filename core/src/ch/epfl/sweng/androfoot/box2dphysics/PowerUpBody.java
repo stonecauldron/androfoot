@@ -1,5 +1,6 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -16,7 +17,7 @@ import ch.epfl.sweng.androfoot.interfaces.Visitor;
  * @author Matvey
  *
  */
-public class PowerUp implements DefaultPowerUp {
+public class PowerUpBody implements DefaultPowerUp {
 	
 	private Body powerUpBody;
 	private final BodyDef bodyDef = new BodyDef();
@@ -31,7 +32,7 @@ public class PowerUp implements DefaultPowerUp {
 	 * @param initPosY Initial y coordinate of the ball.
 	 * @param hBoxRadius The radius of the poewr up hitbox.
 	 */
-	public PowerUp(World world, float initPosX, float initPosY, float hBoxRadius) {
+	public PowerUpBody(World world, float initPosX, float initPosY, float hBoxRadius) {
 		
 		bodyDef.type = BodyType.StaticBody;
 		bodyDef.position.set(initPosX, initPosY);
@@ -45,6 +46,7 @@ public class PowerUp implements DefaultPowerUp {
 		
 		powerUpBody = world.createBody(bodyDef);
 		powerUpBody.createFixture(fixture);
+		
 		
 		circle.dispose();
 		
@@ -87,52 +89,14 @@ public class PowerUp implements DefaultPowerUp {
 	}
 
 	@Override
-	public DefaultPowerUp clone() {
-		return new DefaultPowerUp() {
-			
-			private Vector2 position = powerUpBody.getPosition().cpy();
-	        private float radius = getHitBoxRadius();
-			
-			@Override
-			public Body getBody() {
-				return powerUpBody;
-			}
+	public ImmutablePowerUp getStates() {
+		return new ImmutablePowerUp(this);
+		
+	}
 
-			@Override
-			public int getZIndex() {
-				return Constants.POWERUP_Z_INDEX;
-			}
-
-			@Override
-			public void accept(Visitor visitor) {
-				throw new UnsupportedOperationException();
-			}
-
-			@Override
-			public float getPositionX() {
-				return position.x;
-			}
-
-			@Override
-			public float getPositionY() {
-				return position.y;
-			}
-			
-			@Override
-			public float getHitBoxRadius() {
-				return radius;
-			}
-
-			@Override
-			public void setPowerUpPosition(float x, float y) {
-				throw new UnsupportedOperationException();
-			}
-			
-			@Override
-			public DefaultPowerUp clone() {
-				throw new UnsupportedOperationException();
-			}
-		};
+	@Override
+	public Color getColor() {
+		return Color.CYAN;
 	}
 
 }

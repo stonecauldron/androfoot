@@ -20,12 +20,10 @@ public class Ball implements DefaultBall {
 	
 	private Body ballBody;
 	private final BodyDef bodyDef = new BodyDef();
-	private final CircleShape circle = new CircleShape();
-	private final FixtureDef fixture = new FixtureDef();
 	private float ballRadius;
 	
 	/**
-	 * Contructor of the Ball class.
+	 * Constructor of the Ball class.
 	 * @param world The Box2D world in which the object is located.
 	 * @param initPosX Initial x coordinate of the ball.
 	 * @param initPosY Initial y coordinate of the ball.
@@ -40,6 +38,19 @@ public class Ball implements DefaultBall {
 		bodyDef.type = BodyType.DynamicBody;
 		bodyDef.position.set(initPosX, initPosY);
 		
+		ballBody = world.createBody(bodyDef);
+		createNewBallFixture(radius, density, friction, restitution);
+		
+		PaddleContactListener.addBall(this);
+		BorderContactListener.addBall(this);
+		GoalContactListener.addBall(this);
+	}
+	
+	public void createNewBallFixture(float radius, float density, float friction, float restitution) {
+		
+		final CircleShape circle = new CircleShape();
+		final FixtureDef fixture = new FixtureDef();
+		
 		ballRadius = radius;
 		circle.setRadius(ballRadius);
 		
@@ -50,14 +61,9 @@ public class Ball implements DefaultBall {
 		fixture.filter.categoryBits = Constants.CATEGORY_BALL;
 		fixture.filter.maskBits = Constants.CATEGORY_OTHERS | Constants.CATEGORY_PLAYER;
 		
-		ballBody = world.createBody(bodyDef);
 		ballBody.createFixture(fixture);
 		
 		circle.dispose();
-		
-		PaddleContactListener.addBall(this);
-		BorderContactListener.addBall(this);
-		GoalContactListener.addBall(this);
 	}
 
 	@Override
@@ -95,6 +101,17 @@ public class Ball implements DefaultBall {
 	}
 	
 	@Override
+	public void changeFixture(float newRadius, float newDensity, float newFriction, float newRestitution) {
+		
+		if (ballBody.getFixtureList().size != 0) {
+			while (ballBody.getFixtureList().size > 0){
+				ballBody.destroyFixture(ballBody.getFixtureList().first());
+			}
+		}
+		createNewBallFixture(newRadius, newDensity, newFriction, newRestitution);
+	}
+	
+	@Override
 	public Vector2 getLinearVelocity() {
 		return ballBody.getLinearVelocity();
 	}
@@ -105,65 +122,13 @@ public class Ball implements DefaultBall {
 	}
 	
 	@Override
-	public DefaultBall clone() {
-	    return new DefaultBall() {
-	        private Vector2 position = new Vector2(ballBody.getPosition().x, ballBody.getPosition().y);
-	        private Vector2 velocity = ballBody.getLinearVelocity();
-	        private float radius = getRadius();
+	public ImmutableBall getStates() {
+	    return new ImmutableBall(this);
+	}
 
-            @Override
-            public void accept(Visitor visitor) {
-                // Do nothing
-            }
-
-            @Override
-            public float getPositionX() {
-                return position.x;
-            }
-
-            @Override
-            public float getPositionY() {
-                return position.y;
-            }
-
-            @Override
-            public float getRadius() {
-                return radius;
-            }
-
-            @Override
-            public void setBallPosition(float x, float y) {
-                // Forgotten
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public void setLinearVelocity(float x, float y) {
-                // Forgotten
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public Vector2 getLinearVelocity() {
-                return velocity;
-            }
-
-            @Override
-            public DefaultBall clone() {
-                return null;
-            }
-
-            @Override
-            public int getZIndex() {
-                return -1;
-            }
-
-            @Override
-            public Body getBody() {
-                throw new UnsupportedOperationException();
-            }
-	        
-	    };
+	@Override
+	public void changeFixture(float newRadius) {
+		changeFixture(newRadius, Constants.BALL_DENSITY, Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
 	}
 
 }

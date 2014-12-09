@@ -27,20 +27,14 @@ public class Player implements DefaultPlayer {
 	private static final int MAX_PLAYER_VERTEX = 11;
 	private static int zIndexCounter = 1;
 	private Body playerBody;
-	private final BodyDef playerBodyDef = new BodyDef();
+	private final BodyDef playerBodyDef = new BodyDef(); 
 	
-	private final FixtureDef fixtureForCircle = new FixtureDef();
-	private final FixtureDef fixtureForBox = new FixtureDef();
-	
-	private final PolygonShape controlShape = new PolygonShape();
-	private final PolygonShape shootingShape = new PolygonShape(); 
-	
-	private PolygonMap paddleGenerator;
 	private boolean teamFlag;
 	
 	private final DefaultPaddle parent;
 	
 	private int zIndex;
+	private float semiHeight = 0;
 	
 	/**
 	 * Constructor of an individual player.
@@ -50,7 +44,7 @@ public class Player implements DefaultPlayer {
 	 * @param teamOrientation If true the player is facing right, otherwise player is facing left.
 	 * @param paddle 
 	 */
-	public Player(World world, float initPosX, float initPosY, boolean teamOrientation, Paddle paddle) {
+	Player(World world, float initPosX, float initPosY, boolean teamOrientation, Paddle paddle) {
 		
 		parent = paddle;
 		teamFlag = teamOrientation;
@@ -62,9 +56,6 @@ public class Player implements DefaultPlayer {
 		playerBody.setLinearVelocity(0, 0);
 		
 		createPaddleShape(teamFlag);
-		
-		createAttachFixtureForCircle();
-		createAttachFixtureForBox();
 		
 		if (teamFlag) {
 			playerBody.setTransform(playerBody.getPosition(), (float) (-Math.PI/2));
@@ -83,9 +74,20 @@ public class Player implements DefaultPlayer {
 	 * Auxiliary method used to create the paddle shape using the PolygonGenerator.
 	 * @param teamOne True for team one, else false.
 	 */
-	private void createPaddleShape(boolean teamOne) {
+	void createPaddleShape(boolean teamOne) {
 		
+		if (playerBody.getFixtureList().size != 0) {
+			while ( playerBody.getFixtureList().size > 0){
+				playerBody.destroyFixture(playerBody.getFixtureList().first());
+			}
+		}
+		
+		PolygonMap paddleGenerator;
 		PaddleGenerator fullGenerator;
+		
+		final PolygonShape controlShape = new PolygonShape();
+		final PolygonShape shootingShape = new PolygonShape();
+		
 		if (teamOne) {
 			fullGenerator = PlayerCharacteristicsManager.getInstanceTeam1();
 		} else {
@@ -96,27 +98,39 @@ public class Player implements DefaultPlayer {
 		
 		PolygonGenerator controlPolygonBuilder = paddleGenerator.get(PaddleGenerator.CONTROL_BLOCK_KEY);
 		PolygonGenerator shootPolygonBuilder = paddleGenerator.get(PaddleGenerator.SHOOT_BLOCK_KEY);
+
+		float[] verticesControl = controlPolygonBuilder.generateVertexesFloat();
+		float minY = 0;
+		float maxY = 0;
+		for (int i = 0; i < verticesControl.length; i += 2) {
+		    float point = verticesControl[i];
+		    
+		    if (point > maxY) {
+		        maxY = point;
+		    }
+		    
+		    if (point < minY) {
+		        minY = point;
+		    }
+		}
+		semiHeight = (maxY - minY) / 2;
 		
-		controlShape.set(controlPolygonBuilder.generateVertexesFloat());
+		controlShape.set(verticesControl);
+		createAttachFixture(controlShape);
+
 		shootingShape.set(shootPolygonBuilder.generateVertexesFloat());
+		createAttachFixture(shootingShape);
 	}
 	
 	/**
 	 * Creates and attaches the circular fixture to the player object.
 	 */
-	private void createAttachFixtureForCircle() {
-		fixtureForCircle.shape = controlShape;
+	private void createAttachFixture(PolygonShape shape) {
+		final FixtureDef fixture = new FixtureDef();
 		
-		playerBody.createFixture(fixtureForCircle);
-	}
-	
-	/**
-	 * Creates and attaches the rectangular fixture to the player object.
-	 */
-	private void createAttachFixtureForBox() {
-		fixtureForBox.shape = shootingShape;
+		fixture.shape = shape;
 		
-		playerBody.createFixture(fixtureForBox);
+		playerBody.createFixture(fixture);
 	}
 	
 	@Override
@@ -167,6 +181,10 @@ public class Player implements DefaultPlayer {
 	public int getZIndex() {
 		return zIndex;
 	}
+	
+	public float getSemiHeight() {
+	    return semiHeight;
+	}
 
 	@Override
 	public boolean isAbleToControlBall() {
@@ -174,71 +192,8 @@ public class Player implements DefaultPlayer {
 	}
 	
 	@Override
-	public DefaultPlayer clone() {
-	    return new DefaultPlayer() {
-	        private Vector2 position = playerBody.getPosition().cpy();
-	        private Vector2 velocity = playerBody.getLinearVelocity().cpy();
-	        private float angle = getPlayerAngle();
-	        private boolean team = teamFlag;
-	        
-            @Override
-            public int getZIndex() {
-                // Forgotten
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public void accept(Visitor visitor) {
-                // Forgotten
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public float getPositionX() {
-                return position.x;
-            }
-
-            @Override
-            public float getPositionY() {
-                return position.y;
-            }
-
-            @Override
-            public float getPlayerAngle() {
-                return angle;
-            }
-
-            @Override
-            public boolean getTeam() {
-                return team;
-            }
-
-            @Override
-            public Body getBody() {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public Vector2 getPlayerVelocity() {
-                return velocity;
-            }
-
-            @Override
-            public void setPlayerVelocity(float x, float y) {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public boolean isAbleToControlBall() {
-                return parent.isAbleToControlBall();
-            }
-
-            @Override
-            public DefaultPlayer clone() {
-                throw new UnsupportedOperationException();
-            }
-	        
-	    };
+	public ImmutablePlayer getStates() {
+	    return new ImmutablePlayer(this);
 	}
 
 }

@@ -59,7 +59,7 @@ public abstract class AbstractPlayer {
 	 */
 	public void destroy() {
 		for (GroupPaddle groupPaddle : paddles) {
-			PhysicsWorld.destroy(groupPaddle);
+			PhysicsWorld.getPhysicsWorld().destroy(groupPaddle);
 		}
 	}
 
@@ -78,11 +78,11 @@ public abstract class AbstractPlayer {
 	protected PlayerNumber getPlayerNumber() {
 		return playerNumber;
 	}
-	
+
 	protected int getNumberOfAttackers() {
 		return nbAttack;
 	}
-	
+
 	protected int getNumberOfDefensors() {
 		return nbDefense;
 	}
@@ -99,12 +99,17 @@ public abstract class AbstractPlayer {
 			attackXCoordinate = W_SIZE_X * FOUR / BOARD_DIVISION_FACTOR
 					+ POSITION_OFFSET_ATTACK;
 
-			paddles.add(DEFENSORS_INDEX, PhysicsWorld
-					.createPaddle(defenseXCoordinate, Constants.PADDLE_WIDTH,
+			paddles.add(
+					DEFENSORS_INDEX,
+					PhysicsWorld.getPhysicsWorld().createPaddle(
+							defenseXCoordinate, Constants.PADDLE_WIDTH,
 							nbDefense, true));
 
-			paddles.add(ATTACKERS_INDEX, PhysicsWorld.createPaddle(
-					attackXCoordinate, Constants.PADDLE_WIDTH, nbAttack, true));
+			paddles.add(
+					ATTACKERS_INDEX,
+					PhysicsWorld.getPhysicsWorld().createPaddle(
+							attackXCoordinate, Constants.PADDLE_WIDTH,
+							nbAttack, true));
 
 		} else if (playerNumber == PlayerNumber.TWO) {
 			defenseXCoordinate = W_SIZE_X * FIVE / BOARD_DIVISION_FACTOR
@@ -112,12 +117,17 @@ public abstract class AbstractPlayer {
 			attackXCoordinate = W_SIZE_X * 2.0f / BOARD_DIVISION_FACTOR
 					- POSITION_OFFSET_ATTACK;
 
-			paddles.add(DEFENSORS_INDEX, PhysicsWorld.createPaddle(
-					defenseXCoordinate, Constants.PADDLE_WIDTH, nbDefense,
-					false));
+			paddles.add(
+					DEFENSORS_INDEX,
+					PhysicsWorld.getPhysicsWorld().createPaddle(
+							defenseXCoordinate, Constants.PADDLE_WIDTH,
+							nbDefense, false));
 
-			paddles.add(ATTACKERS_INDEX, PhysicsWorld.createPaddle(
-					attackXCoordinate, Constants.PADDLE_WIDTH, nbAttack, false));
+			paddles.add(
+					ATTACKERS_INDEX,
+					PhysicsWorld.getPhysicsWorld().createPaddle(
+							attackXCoordinate, Constants.PADDLE_WIDTH,
+							nbAttack, false));
 		}
 	}
 

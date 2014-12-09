@@ -1,5 +1,7 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
+import ch.epfl.sweng.androfoot.box2dphysics.ImmutablePlayer;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
@@ -61,5 +63,5 @@ public interface DefaultPlayer extends DefaultWorldObject {
 	 * Clone the actual state
 	 * @return
 	 */
-	DefaultPlayer clone();
+	ImmutablePlayer getStates();
 }

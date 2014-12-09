@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 public class BallTest extends TestCase {
 	
 	private PhysicsWorld world = PhysicsWorld.getPhysicsWorld();
-	private Ball ball = PhysicsWorld.createBall(1.0f, 1.0f, Constants.BALL_RADIUS);
+	private Ball ball = PhysicsWorld.getPhysicsWorld().createBall(1.0f, 1.0f, Constants.BALL_RADIUS);
 	private static final float ERROR_MARGIN = 0.001f;
 	
 	@Test
@@ -25,7 +25,7 @@ public class BallTest extends TestCase {
 	
 	@Test
 	public void testBallSetPosition() {
-		Ball ball = PhysicsWorld.createBall(1.0f, 1.0f, Constants.BALL_RADIUS);
+		Ball ball = PhysicsWorld.getPhysicsWorld().createBall(1.0f, 1.0f, Constants.BALL_RADIUS);
 		ball.setBallPosition(1.2f, 1.2f);
 		multipleStep(50);
 		assertEquals(1.2f, ball.getPositionX(), ERROR_MARGIN);

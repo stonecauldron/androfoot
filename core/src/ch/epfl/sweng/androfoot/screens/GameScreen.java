@@ -8,6 +8,7 @@ import ch.epfl.sweng.androfoot.players.PlayerType;
 import ch.epfl.sweng.androfoot.players.ai.AIEngine;
 import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
 import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
+import ch.epfl.sweng.androfoot.gamelogic.powerups.PowerUpManager;
 import ch.epfl.sweng.androfoot.gui.GuiManager;
 import ch.epfl.sweng.androfoot.gui.GuiCommand;
 
@@ -38,6 +39,7 @@ public class GameScreen implements Screen {
 			Board.getInstance().resetBoard();
 		}
 		AIEngine.getInstance().update(delta);
+		PowerUpManager.getInstance().update(delta);
 		PhysicsWorld.getPhysicsWorld().phyStep(delta);
 		GraphicEngine.getEngine().render(delta);
 	}

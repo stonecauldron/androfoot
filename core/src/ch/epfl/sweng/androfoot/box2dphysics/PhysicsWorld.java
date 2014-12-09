@@ -1,16 +1,10 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 
 import ch.epfl.sweng.androfoot.accelerometer.AccelerometerTracker;
 import ch.epfl.sweng.androfoot.box2dphysics.Border.BorderType;
@@ -20,9 +14,16 @@ import ch.epfl.sweng.androfoot.interfaces.DefaultWorldObject;
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 import ch.epfl.sweng.androfoot.interfaces.HostObserver;
-import ch.epfl.sweng.androfoot.kryonetnetworking.InputData;
+import ch.epfl.sweng.androfoot.interfaces.PlayerShapeListener;
 import ch.epfl.sweng.androfoot.kryonetnetworking.HostData;
+import ch.epfl.sweng.androfoot.kryonetnetworking.InputData;
 import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerHost;
+
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * The class that defines the Physics World which will contain all the physical objects and 
@@ -30,14 +31,14 @@ import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerHost;
  * @author Matvey
  *
  */
-public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostObserver {
+public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostObserver, PlayerShapeListener {
 	
 	private static final PhysicsWorld PHYSICS_WORLD_INSTANCE = new PhysicsWorld();
 	
 	private World physicsWorld = new World(new Vector2(0, 0), false);
 	private float accumulator = 0f;
-	private static boolean isRunning = true;
-	private static TreeSet<Drawable> drawableObjectsSet = new TreeSet<Drawable>(Drawable.DRAWABLE_COMPARATOR);
+	private boolean isRunning = true;
+	private List<Drawable> drawableObjectsSet = new ArrayList<Drawable>();
 	
 	private float accelerometerTime = 0;
 
@@ -76,14 +77,14 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	/**
 	 * Run the physic world
 	 */
-	public static void startWorld() {
+	public void startWorld() {
 	    isRunning = true;
 	}
 	
 	/**
 	 * Set the world in pause mode
 	 */
-	public static void pauseWorld() {
+	public void pauseWorld() {
 	    isRunning = false;
 	}
 	
@@ -94,7 +95,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	 * @param radius of the ball
 	 * @return
 	 */
-	public static Ball createBall(float x, float y, float radius) {
+	public Ball createBall(float x, float y, float radius) {
 	    if (ball != null) {
 	        PHYSICS_WORLD_INSTANCE.getBox2DWorld().destroyBody(ball.getBody());
 	        drawableObjectsSet.remove(ball);
@@ -102,7 +103,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	    }
 	    ball = new Ball(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, radius, Constants.BALL_DENSITY, 
 	                        Constants.BALL_FRICTION, Constants.BALL_RESTITUTION);
-	    drawableObjectsSet.add(ball);
+	    addToDrawableSet(ball);
 	    
 	    return ball;
 	}
@@ -123,11 +124,11 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	 * @param facingRight true if the paddle is right oriented
 	 * @return
 	 */
-	public static GroupPaddle createPaddle(float x, float width, int number, boolean facingRight) {
+	public GroupPaddle createPaddle(float x, float width, int number, boolean facingRight) {
 	    GroupPaddle groupPaddle = new GroupPaddle(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x - width/2, width, 
 	                                                number, facingRight);
 	    for (Paddle paddle : groupPaddle.getPaddles()) {
-	        drawableObjectsSet.add(paddle.getPlayer());
+	        addToDrawableSet(paddle.getPlayer());
 	        paddles.add(paddle);
 	    }
 	    
@@ -143,9 +144,9 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	 * @param teamOne true if the border is colored with teamOne parameter
 	 * @return
 	 */
-	public static Border createBorder(float x, float y, float width, float height, BorderType type) {
+	public Border createBorder(float x, float y, float width, float height, BorderType type) {
 	    Border border = new Border(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, width, height, type);
-	    drawableObjectsSet.add(border);
+	    addToDrawableSet(border);
 	    
 	    return border;
 	}
@@ -161,6 +162,11 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	    return goal;
 	}
 	
+	private void addToDrawableSet(Drawable d) {
+		drawableObjectsSet.add(d);
+		java.util.Collections.sort(drawableObjectsSet, Drawable.DRAWABLE_COMPARATOR);
+	}
+	
 	/**
 	 * Creates a power up object.
 	 * @param x X coordinate of the object.
@@ -168,11 +174,11 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	 * @param hBoxRadius Radius of the power up hitbox.
 	 * @return Power Up object.
 	 */
-	public static PowerUp createPowerUp(float x, float y, float hBoxRadius) {
+	public PowerUpBody createPowerUp(float x, float y, float hBoxRadius) {
 		pauseWorld();
-		PowerUp powerUp = new PowerUp(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, hBoxRadius);
+		PowerUpBody powerUp = new PowerUpBody(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, hBoxRadius);
 		startWorld();
-		
+		drawableObjectsSet.add(powerUp);
 		return powerUp;
 	}
 	
@@ -180,17 +186,17 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	 * Creates a power up object in the centre of the field with a random y coordinate.
 	 * @return Power Up object.
 	 */
-	public static PowerUp createRandomPowerUp() {
+	public PowerUpBody createRandomPowerUp() {
 		pauseWorld();
 		float posY = (float) (Math.random() * Constants.WORLD_SIZE_Y);
-		PowerUp powerUp = new PowerUp(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), Constants.WORLD_SIZE_X/2,
+		PowerUpBody powerUp = new PowerUpBody(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), Constants.WORLD_SIZE_X/2,
 				posY, Constants.POWERUP_RADIUS);
 		startWorld();
 		
 		return powerUp;
 	}
 	
-	public static void destroy(DefaultWorldObject object) {
+	public void destroy(DefaultWorldObject object) {
 	    if (object.getBody().getFixtureList().first().getFilterData().categoryBits == Constants.CATEGORY_BALL) {
 	        ball = null;
 	    }
@@ -200,19 +206,19 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	    GlobalContactListener.getInstance().removeBody(object.getBody());
 	}
 	
-	public static void destroy(GroupPaddle group) {
+	public void destroy(GroupPaddle group) {
 	    Iterator<Paddle> iterator = group.getPaddles().iterator();
 	    while (iterator.hasNext()) {
 	        destroy(iterator.next());
 	    }
 	}
 	
-	public static void destroy(Paddle paddle) {
+	public void destroy(Paddle paddle) {
 	    paddles.remove(paddle);
 	    destroy(paddle.getPlayer());
 	}
 	
-	public static void clear() {
+	public void clear() {
 	    drawableObjectsSet.clear();
 	    
 	    Array<Body> bodies = new Array<Body>();
@@ -237,9 +243,10 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	}
 	
 	@Override
-	public SortedSet<Drawable> toDraw() {
+	public List<Drawable> toDraw() {
 		return drawableObjectsSet;
 	}
+	
 	/**
 	 * Performs a step of the physics simulation. Uses an accumulator to calculate correctly the number
 	 * of physics steps in relation to the delta time of the renderer. The time step stays constant. 
@@ -349,6 +356,13 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	@Override
 	public void updateHostTouchData(InputData data) {
 		//Do nothing
+	}
+
+	@Override
+	public void shapeHasChanged() {
+		for (Paddle paddle : paddles) {
+			paddle.changePlayerFixture();
+		}
 	}
 
 }

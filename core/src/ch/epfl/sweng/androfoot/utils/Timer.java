@@ -49,4 +49,8 @@ public class Timer {
 			return false;
 		}
 	}
+
+	public void resetTimer() {
+		currentTimeCount = RESET_TIME;
+	}
 }

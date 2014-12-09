@@ -3,15 +3,17 @@ package ch.epfl.sweng.androfoot.rendering;
 import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
-import ch.epfl.sweng.androfoot.gamelogic.PowerUpCharacteristicsManger;
+import ch.epfl.sweng.androfoot.gamelogic.powerups.PowerUpCharacteristicsManger;
 import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBorder;
+import ch.epfl.sweng.androfoot.interfaces.DefaultPowerUp;
 import ch.epfl.sweng.androfoot.interfaces.DrawableRectangle;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultPlayer;
+import ch.epfl.sweng.androfoot.interfaces.PlayerShapeListener;
 import ch.epfl.sweng.androfoot.interfaces.ScoreDisplayer;
 import ch.epfl.sweng.androfoot.interfaces.Visitable;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
@@ -29,7 +31,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, GoalObserver, BorderObserver {
+public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, GoalObserver, BorderObserver, PlayerShapeListener {
 
 	private static final int MAX_SHOCKWAVES = 10;
 	private static final int DEFAULT_SCREEN_WIDTH = 300;
@@ -48,8 +50,8 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 	private final ScoreRenderer scoreRenderer = new ScoreRenderer(SCORE_COLOR);
 	private final BoardRenderer boardRenderer = new BoardRenderer();
 	private final RectangleRenderer rectangleRenderer = new RectangleRenderer();
-	private final PlayerRenderer playerT1Renderer;
-	private final PlayerRenderer playerT2Renderer;
+	private PlayerRenderer playerT1Renderer;
+	private PlayerRenderer playerT2Renderer;
 	private final PowerUpRender powerUpRender;
 
 	private DrawableWorld world = null;
@@ -68,10 +70,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 	 * Init the singleton engine
 	 */
 	private GraphicEngine() {
-		playerT1Renderer = new PlayerRenderer(PlayerCharacteristicsManager.getInstanceTeam1());
-		playerT1Renderer.setColor(PlayerCharacteristicsManager.getColorTeam1());
-		playerT2Renderer = new PlayerRenderer(PlayerCharacteristicsManager.getInstanceTeam1());
-		playerT2Renderer.setColor(PlayerCharacteristicsManager.getColorTeam2());
+		shapeHasChanged();
 		powerUpRender = new PowerUpRender(PowerUpCharacteristicsManger.getPowerUpShape());
 		powerUpRender.setColor(PowerUpCharacteristicsManger.getPowerUpColor());
 		batch.enableBlending();
@@ -133,10 +132,8 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 
 		scoreRenderer.render(batch, renderer);
 		boardRenderer.render(batch, renderer);
-		shockwaveManager.render(batch, renderer);
+		//shockwaveManager.render(batch, renderer);
 		shockwaveManager.age(delta);
-		powerUpRender.setPosition(1f, 1f);
-		powerUpRender.render(batch, renderer);
 		for (Visitable v : world.toDraw()) {
 			v.accept(this);
 		}
@@ -229,5 +226,20 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 	@Override
 	public void reset() {
 		shockwaveManager.reset();
+	}
+
+	@Override
+	public void shapeHasChanged() {
+		playerT1Renderer = new PlayerRenderer(PlayerCharacteristicsManager.getInstanceTeam1());
+		playerT1Renderer.setColor(PlayerCharacteristicsManager.getColorTeam1());
+		playerT2Renderer = new PlayerRenderer(PlayerCharacteristicsManager.getInstanceTeam2());
+		playerT2Renderer.setColor(PlayerCharacteristicsManager.getColorTeam2());
+	}
+
+	@Override
+	public void visit(DefaultPowerUp powerup) {
+		powerUpRender.setPosition(powerup.getPositionX(), powerup.getPositionY());
+		powerUpRender.setScale(powerup.getHitBoxRadius());
+		powerUpRender.render(batch, renderer);
 	}
 }
