@@ -3,10 +3,11 @@ package ch.epfl.sweng.androfoot.gamelogic.powerups;
 import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpEffect;
 
-public class BulletPowerUp implements PowerUpEffect {
+public class SmallPowerUp implements PowerUpEffect {
+
 	private static final float DURATION = 15f;
 	private static final float WIDTH = 0.3f;
-	private static final float HEIGHT_SHOOT = 0.7f;
+	private static final float HEIGHT_SHOOT = 0.07f;
 	private static final float HEIGHT_CONTROL = 0.2f;
 
 	private boolean isTeam1 = true;
@@ -36,9 +37,9 @@ public class BulletPowerUp implements PowerUpEffect {
 			PlayerCharacteristicsManager.setShapeParamsDefaultPlayer2();
 		}
 	}
-
 	@Override
 	public PowerUpEffect copy() {
-		return new BulletPowerUp();
+		return new SmallPowerUp();
 	}
+
 }
