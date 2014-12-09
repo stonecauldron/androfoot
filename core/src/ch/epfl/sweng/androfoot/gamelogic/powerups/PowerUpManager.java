@@ -32,7 +32,7 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 	private final static float POWERUP_SIZE = 0.30f;
 	private final static int MAX_NB_POWERUP = 1;
 	private final static PowerUpManager instance = new PowerUpManager();
-	private static Random randomizer = new Random(-1);
+	private static Random randomizer = new Random(7);
 	private final Map<DefaultPowerUp, PowerUpEffect> bodyToEffectMap = new HashMap<DefaultPowerUp, PowerUpEffect>();
 	private boolean playerOneTouched;
 	private final Map<DefaultPowerUp, Timer> timers = new HashMap<DefaultPowerUp, Timer>();
@@ -43,6 +43,7 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 		addPowerUpEffect(new BulletPowerUp());
 		setSpawnRate(5f);
 		EventManager.getEventManager().addPowerUpContactObserver(this);
+		EventManager.getEventManager().addPaddleContactObserver(this);
 	}
 
 	public static PowerUpManager getInstance() {
@@ -58,8 +59,12 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 	 */
 	@Override
 	public void applyPowerUp(DefaultPowerUp powerUp) {
-		timers.put(powerUp, new Timer(bodyToEffectMap.get(powerUp).getEffectDuration()));
+		System.out.println("Affect applied");
+		System.out.println(System.identityHashCode(powerUp));
+		System.out.println(powerUp.getPositionX());
 		if (bodyToEffectMap.containsKey(powerUp)) {
+			timers.put(powerUp, new Timer(bodyToEffectMap.get(powerUp)
+					.getEffectDuration()));		
 			PowerUpEffect effect = bodyToEffectMap.get(powerUp);
 			effect.begin(playerOneTouched);
 		}
@@ -110,8 +115,8 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 						+ Constants.WORLD_ORIGIN_X;
 				float Ypos = randomizer.nextFloat() * Constants.WORLD_SIZE_Y
 						+ Constants.WORLD_ORIGIN_Y;
-				DefaultPowerUp powerUpBody = PhysicsWorld.getPhysicsWorld().createPowerUp(Xpos,
-						Ypos, POWERUP_SIZE);
+				DefaultPowerUp powerUpBody = PhysicsWorld.getPhysicsWorld()
+						.createPowerUp(Xpos, Ypos, POWERUP_SIZE);
 				setEffectForBody(powerUpBody, effect.copy());
 				timer.resetTimer();
 			}
@@ -120,14 +125,16 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 		/*
 		 * PowerupEffectApplier
 		 */
-		
+
 		Iterator<DefaultPowerUp> iter = timers.keySet().iterator();
-		while(iter.hasNext()) {
+		while (iter.hasNext()) {
 			DefaultPowerUp pw = iter.next();
 			Timer pwTimer = timers.get(pw);
 			pwTimer.updateTimer(delta);
-			if(pwTimer.checkTimer()) {
-				if(bodyToEffectMap.containsKey(pw)) {
+			if (pwTimer.checkTimer()) {
+					//System.out.println("powerupEnded");
+					//System.out.println(System.identityHashCode(pw));
+				if (bodyToEffectMap.containsKey(pw)) {
 					PowerUpEffect effect = bodyToEffectMap.get(pw);
 					effect.end();
 					bodyToEffectMap.remove(pw);
@@ -139,6 +146,7 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 
 	@Override
 	public void paddleContact(DefaultPlayer player, DefaultBall ball) {
+		System.out.println(player.getTeam());
 		playerOneTouched = false;
 		if (player.getTeam()) {
 			playerOneTouched = true;
