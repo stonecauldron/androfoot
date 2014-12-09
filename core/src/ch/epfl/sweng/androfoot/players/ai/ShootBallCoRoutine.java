@@ -5,6 +5,12 @@ import java.util.List;
 
 import ch.epfl.sweng.androfoot.utils.CoRoutine;
 
+/**
+ * CoRoutine for the shooting behaviour.
+ * 
+ * @author Pedro Caldeira <pedrocaldeira>
+ *
+ */
 public class ShootBallCoRoutine implements CoRoutine {
 
 	private static final int MAX_SHOOTING_SPEED = 10;

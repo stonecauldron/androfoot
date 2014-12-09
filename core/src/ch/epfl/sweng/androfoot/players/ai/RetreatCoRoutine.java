@@ -5,6 +5,13 @@ import java.util.List;
 
 import ch.epfl.sweng.androfoot.utils.CoRoutine;
 
+/**
+ * Represents the behaviour when the player goes to the position furthest away
+ * from the goal.
+ * 
+ * @author Pedro Caldeira <pedrocaldeira>
+ *
+ */
 public class RetreatCoRoutine implements CoRoutine {
 
 	private static final int RETREAT_SPEED = 10;
@@ -12,7 +19,7 @@ public class RetreatCoRoutine implements CoRoutine {
 	private AbstractAIPlayer mPaddles;
 
 	private List<AIState> authorizedStates = Arrays.asList(AIState.RETREAT);
-	
+
 	public RetreatCoRoutine(AbstractAIPlayer paddles) {
 		mPaddles = paddles;
 	}
