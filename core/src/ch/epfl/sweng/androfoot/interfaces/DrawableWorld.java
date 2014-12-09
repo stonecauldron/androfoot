@@ -1,8 +1,6 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
 import java.util.List;
-import java.util.SortedSet;
-
 import com.badlogic.gdx.math.Rectangle;
 
 /**

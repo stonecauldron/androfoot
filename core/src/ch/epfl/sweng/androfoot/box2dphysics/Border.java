@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -33,9 +34,13 @@ public class Border implements DrawableRectangle, DefaultBorder {
     private BorderType borderType;
     private final Body borderBody;
     private final BodyDef borderBodyDef;
-    private final PolygonShape shape;
-    private final Rectangle rectangle;
-    private final FixtureDef fixture;
+    private PolygonShape shape;
+    private Rectangle rectangle;
+    private Fixture fixture;
+    private float borderWidth;
+    private float borderHeight;
+    private float posX;
+    private float posY;
 	
 	/**
 	 * Represent a border of the board
@@ -45,10 +50,14 @@ public class Border implements DrawableRectangle, DefaultBorder {
 	 * @param height
 	 * @param teta
 	 */
-	public Border(World world, float x, float y, float width, float height, BorderType type) {
+	protected Border(World world, float x, float y, float width, float height, BorderType type) {
 		
 	    zIndex = zIndexIncrement;
         zIndexIncrement++;
+        borderWidth = width;
+        borderHeight = height;
+        posX = x;
+        posY = y;
         borderType = type;
         
         borderBodyDef = new BodyDef();
@@ -58,20 +67,42 @@ public class Border implements DrawableRectangle, DefaultBorder {
         
         borderBody = world.createBody(borderBodyDef);
         
-        fixture = new FixtureDef();
-        fixture.density = Constants.BORDER_DENSITY;
-        fixture.restitution = Constants.BORDER_RESTITUTION;
-        
-        shape = new PolygonShape();
-        shape.setAsBox(width / 2, height / 2);
-        fixture.shape = shape;
-        borderBody.createFixture(fixture);
-        shape.dispose();
-        
-        // For the graphic engine
-        rectangle = new Rectangle(x, y, width, height);
+        createFixture();
         
         BorderContactListener.addBorder(this);
+	}
+	
+	@Override
+	public void setWidth(float value) {
+	    borderWidth = value;
+	    
+	    createFixture();
+	}
+	
+	@Override
+	public void setHeight(float value) {
+	    borderHeight = value;
+	    
+	    createFixture();
+	}
+	
+	@Override
+	public void setPosition(Vector2 position) {
+	    posX = position.x;
+	    posY = position.y;
+	    
+	    borderBody.setTransform(position, 0);
+	    rectangle = new Rectangle(posX, posY, borderWidth, borderHeight);
+	}
+	
+	@Override
+	public float getWidth() {
+	    return borderWidth;
+	}
+	
+	@Override
+	public float getHeight() {
+	    return borderHeight;
 	}
 	
 	public Body getBody() {
@@ -120,5 +151,25 @@ public class Border implements DrawableRectangle, DefaultBorder {
     @Override
     public ImmutableBorder getStates() {
         return new ImmutableBorder(this);
+    }
+    
+    private void createFixture() {
+        shape = new PolygonShape();
+        shape.setAsBox(borderWidth / 2, borderHeight);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.density = Constants.BORDER_DENSITY;
+        fixtureDef.restitution = Constants.BORDER_RESTITUTION;
+        fixtureDef.shape = shape;
+        
+        if (fixture != null) {
+            borderBody.destroyFixture(fixture);
+        }
+        fixture = borderBody.createFixture(fixtureDef);
+        
+        shape.dispose();
+        
+        // For the graphic engine
+        rectangle = new Rectangle(posX, posY, borderWidth, borderHeight);
     }
 }

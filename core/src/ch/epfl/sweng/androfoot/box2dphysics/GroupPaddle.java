@@ -25,7 +25,7 @@ public class GroupPaddle implements DefaultGroupPaddle {
      * @param number of paddles
      * @param worldHeight height of the world
      */
-    public GroupPaddle(World world, float x, float width, int number, boolean facingRight) {
+    protected GroupPaddle(World world, float x, float width, int number, boolean facingRight) {
         paddles = new ArrayList<Paddle>();
         
         for (int i = 0; i < number; i++) {

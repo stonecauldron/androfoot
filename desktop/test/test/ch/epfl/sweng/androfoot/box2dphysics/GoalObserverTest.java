@@ -5,25 +5,26 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
-
 import ch.epfl.sweng.androfoot.box2dphysics.Ball;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
-import ch.epfl.sweng.androfoot.box2dphysics.Goal;
-import ch.epfl.sweng.androfoot.box2dphysics.GoalContactListener;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
+import ch.epfl.sweng.androfoot.box2dphysics.GoalContactListener;
+import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
 
+import com.badlogic.gdx.physics.box2d.World;
+
 public class GoalObserverTest implements GoalObserver {
 
     private boolean eventOccured = false;
-    private World world = new World(new Vector2(0, 0), false);
+    private World world;
     
     @Before
     public void init() {
+        PhysicsWorld.getPhysicsWorld().clear();
+        world = PhysicsWorld.getPhysicsWorld().getBox2DWorld();
         world.setContactListener(GoalContactListener.getInstance());
         GoalContactListener.setEventManager(EventManagerTester.getEventManager());
     }
@@ -32,8 +33,8 @@ public class GoalObserverTest implements GoalObserver {
     public void testIfEventOccured() {
         EventManagerTester.getEventManager().addGoalObserver(this);
         
-        GoalContactListener.addGoal(new Goal(world, 10, 0, 0.5f, 6, GoalTeam.TWO));
-        Ball ball = new Ball(world, 8.0f, 4.0f, Constants.BALL_RADIUS, 0.000001f, 0.0f, 1.0f);
+        GoalContactListener.addGoal(PhysicsWorld.getPhysicsWorld().createGoal(10, 0, 0.5f, 6, GoalTeam.TWO));
+        Ball ball = PhysicsWorld.getPhysicsWorld().createBall(8.0f, 4.0f, Constants.BALL_RADIUS);
         GoalContactListener.addBall(ball);
         
         ball.setLinearVelocity(Constants.BALL_MAX_VELOCITY, 0);

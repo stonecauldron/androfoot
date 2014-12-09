@@ -20,7 +20,7 @@ public class ImmutablePowerUp implements DefaultPowerUp {
     private float hitBoxRadius;
     private Color color;
     
-    public ImmutablePowerUp(DefaultPowerUp powerup) {
+    protected ImmutablePowerUp(DefaultPowerUp powerup) {
         body = powerup.getBody();
         zIndex = powerup.getZIndex();
         position = new Vector2(powerup.getPositionX(), powerup.getPositionY());

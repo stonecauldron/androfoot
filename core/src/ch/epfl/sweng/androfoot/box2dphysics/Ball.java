@@ -32,7 +32,7 @@ public class Ball implements DefaultBall {
 	 * @param friction Friction of the ball.
 	 * @param restitution Restitution coefficient of the ball.
 	 */
-	public Ball(World world, float initPosX, float initPosY, float radius,
+	protected Ball(World world, float initPosX, float initPosY, float radius,
 					float density, float friction, float restitution) {
 		
 		bodyDef.type = BodyType.DynamicBody;

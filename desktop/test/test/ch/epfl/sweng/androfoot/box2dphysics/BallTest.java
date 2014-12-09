@@ -1,31 +1,42 @@
 package test.ch.epfl.sweng.androfoot.box2dphysics;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sweng.androfoot.box2dphysics.Ball;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
-import junit.framework.TestCase;
 
-public class BallTest extends TestCase {
+import com.badlogic.gdx.physics.box2d.World;
+
+public class BallTest {
 	
-	private PhysicsWorld world = PhysicsWorld.getPhysicsWorld();
-	private Ball ball = PhysicsWorld.getPhysicsWorld().createBall(1.0f, 1.0f, Constants.BALL_RADIUS);
+	private World world;
+	private Ball ball;
 	private static final float ERROR_MARGIN = 0.001f;
 	
+	@Before
+	public void init() {
+	    PhysicsWorld.getPhysicsWorld().clear();
+	    world = PhysicsWorld.getPhysicsWorld().getBox2DWorld();
+	    ball = PhysicsWorld.getPhysicsWorld().createBall(1.0f, 1.0f, Constants.BALL_RADIUS);
+	}
+	
 	@Test
-	public final void testBallInit() {
+	public void testBallInit() {
 		//Test if the ball was created at the right coordinates in the world.
 		assertEquals("The x coordinate is false", 1.0f, ball.getPositionX(), ERROR_MARGIN);
 		assertEquals("The y coordinate is false", 1.0f, ball.getPositionY(), ERROR_MARGIN);
 		assertEquals(Constants.BALL_RADIUS, ball.getRadius(), 0f);
-		assertTrue(world.toDraw().contains(ball));
+		assertTrue(PhysicsWorld.getPhysicsWorld().toDraw().contains(ball));
 	}
 	
 	@Test
 	public void testBallSetPosition() {
-		Ball ball = PhysicsWorld.getPhysicsWorld().createBall(1.0f, 1.0f, Constants.BALL_RADIUS);
 		ball.setBallPosition(1.2f, 1.2f);
 		multipleStep(50);
 		assertEquals(1.2f, ball.getPositionX(), ERROR_MARGIN);
@@ -38,7 +49,7 @@ public class BallTest extends TestCase {
 	
 	private void multipleStep(int nbSteps) {
 		for (int i = 0; i < nbSteps; i++) {
-			world.getBox2DWorld().step(1, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
+			world.step(1, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
 
 			EventManager.getEventManager().throwEvents();
 		}

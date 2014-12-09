@@ -6,24 +6,26 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
-
 import ch.epfl.sweng.androfoot.box2dphysics.Ball;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
+import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.box2dphysics.PowerUpBody;
 import ch.epfl.sweng.androfoot.box2dphysics.PowerUpContactListener;
 import ch.epfl.sweng.androfoot.interfaces.DefaultPowerUp;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpObserver;
 
+import com.badlogic.gdx.physics.box2d.World;
+
 public class PowerUpContactObserverTest implements PowerUpObserver {
 
 	private boolean eventOcurred = false;
-	private World world = new World(new Vector2(0, 0), false);
+	private World world;
 	private Ball ball;
 
 	@Before
 	public void initialise() {
+	    PhysicsWorld.getPhysicsWorld().clear();
+	    world = PhysicsWorld.getPhysicsWorld().getBox2DWorld();
 		world.setContactListener(PowerUpContactListener.getInstance());
 		PowerUpContactListener.setEventManager(EventManagerTester
 				.getEventManager());
@@ -34,9 +36,7 @@ public class PowerUpContactObserverTest implements PowerUpObserver {
 		EventManagerTester.getEventManager().addPowerUpContactObserver(this);
 
 		PowerUpContactListener.addPowerUp(new PowerUpBody(world, 1.0f, 1.0f, 1.0f));
-		ball = new Ball(world, 4.0f, 1.0f, Constants.BALL_RADIUS,
-				Constants.BALL_DENSITY, Constants.BALL_FRICTION,
-				Constants.BALL_RESTITUTION);
+		ball = PhysicsWorld.getPhysicsWorld().createBall(4.0f, 1.0f, Constants.BALL_RADIUS);
 		
 		ball.setLinearVelocity(1.0f, 0);
 		PaddleTest.multiplePhyStep(world, null);

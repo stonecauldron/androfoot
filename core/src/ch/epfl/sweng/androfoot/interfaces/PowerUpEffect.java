@@ -1,7 +1,5 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
-import com.badlogic.gdx.graphics.Color;
-
 /**
  * Represent a powerup
  * 

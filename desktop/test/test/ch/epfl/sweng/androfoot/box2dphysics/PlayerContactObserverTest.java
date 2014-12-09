@@ -1,44 +1,44 @@
 package test.ch.epfl.sweng.androfoot.box2dphysics;
 
+import static org.junit.Assert.assertFalse;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 
 import ch.epfl.sweng.androfoot.box2dphysics.Ball;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
+import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.box2dphysics.Player;
 import ch.epfl.sweng.androfoot.box2dphysics.PlayerContactListener;
 import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
-import junit.framework.TestCase;
 
-public class PlayerContactObserverTest extends TestCase implements
-		PlayerObserver {
+import com.badlogic.gdx.physics.box2d.World;
 
-	private World world = new World(new Vector2(0, 0), false);
+public class PlayerContactObserverTest implements PlayerObserver {
 
+	private World world;
 	private boolean eventOcurred = false;
-
-	private Ball ball = new Ball(world, Constants.BALL_INIT_POS_X,
-			Constants.BALL_INIT_POS_Y, Constants.BALL_RADIUS,
-			Constants.BALL_DENSITY, Constants.BALL_FRICTION,
-			Constants.BALL_RESTITUTION);
+	private Ball ball;
 
 	@Before
 	public void initilalize() {
+	    PhysicsWorld.getPhysicsWorld().clear();
+	    world = PhysicsWorld.getPhysicsWorld().getBox2DWorld();
 		world.setContactListener(PlayerContactListener.getInstance());
 		PlayerContactListener.setEventManager(EventManagerTester
 				.getEventManager());
+		
+		ball = PhysicsWorld.getPhysicsWorld().createBall(Constants.BALL_INIT_POS_X,
+                Constants.BALL_INIT_POS_Y, Constants.BALL_RADIUS);
 	}
 
 	@Test
 	public void testIfPlayerEventOcurredOnFront() {
 		EventManagerTester.getEventManager().addPlayerObserver(this);
 		
-		GroupPaddle paddleFacingRight = new GroupPaddle(world, 1.0f,
-				Constants.PADDLE_WIDTH, 1, true);
+		GroupPaddle paddleFacingRight = PhysicsWorld.getPhysicsWorld()
+		        .createPaddle(1.0f, Constants.PADDLE_WIDTH, 1, true);
 
 		ball.setLinearVelocity(-Constants.BALL_MAX_VELOCITY, 0f);
 		

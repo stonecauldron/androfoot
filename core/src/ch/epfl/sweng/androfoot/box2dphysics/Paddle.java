@@ -26,7 +26,7 @@ public class Paddle implements DefaultPaddle {
      * @param width of the limited area
      * @param height of the limited area
      */
-    Paddle(World world, float x, float y, float paddleWidth, float paddleHeight, boolean facingRight) {
+    protected Paddle(World world, float x, float y, float paddleWidth, float paddleHeight, boolean facingRight) {
     	
         posX = x;
         posY = y;
@@ -81,6 +81,16 @@ public class Paddle implements DefaultPaddle {
 	@Override
 	public void setPlayerYVelocity(float y) {
 		player.setPlayerVelocity(player.getPlayerVelocity().x, y);
+	}
+	
+	@Override
+	public float getWidth() {
+	    return width;
+	}
+	
+	@Override
+	public float getHeight() {
+	    return height;
 	}
 
 	@Override

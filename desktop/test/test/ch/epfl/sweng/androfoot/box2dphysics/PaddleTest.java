@@ -1,20 +1,31 @@
 package test.ch.epfl.sweng.androfoot.box2dphysics;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
 import org.junit.Test;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import ch.epfl.sweng.androfoot.box2dphysics.Ball;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
 import ch.epfl.sweng.androfoot.box2dphysics.Paddle;
-import junit.framework.TestCase;
+import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 
-public class PaddleTest extends TestCase {
+import com.badlogic.gdx.physics.box2d.World;
+
+public class PaddleTest {
     
-    private World world = new World(new Vector2(0, 0), false);
-    private GroupPaddle groupPaddle = new GroupPaddle(world, 1, 2, 3, true);
-    private Paddle paddle = groupPaddle.getPaddles().get(1);
+    private World world;
+    private GroupPaddle groupPaddle;
+    private Paddle paddle;
+    
+    @Before
+    public void init() {
+        PhysicsWorld.getPhysicsWorld().clear();
+        world = PhysicsWorld.getPhysicsWorld().getBox2DWorld();
+        groupPaddle = PhysicsWorld.getPhysicsWorld().createPaddle(2, 2, 3, true);
+        paddle = groupPaddle.getPaddles().get(1);
+    }
     
     @Test
     public void testPlayerBottomLimit() {
@@ -64,8 +75,8 @@ public class PaddleTest extends TestCase {
     public void testInteractionWithBallandPlayer() {
         groupPaddle.setVelocity(0, 0);
         
-        Ball ball = new Ball(world, paddle.getPlayer().getPositionX() + Constants.CIRCLERADIUS + 1.0f, 
-                paddle.getPlayer().getPositionY(), Constants.BALL_RADIUS, 0.000001f, 0.0f, 1.0f);
+        Ball ball = PhysicsWorld.getPhysicsWorld().createBall(paddle.getPlayer().getPositionX() + 
+                Constants.CIRCLERADIUS + 1.0f, paddle.getPlayer().getPositionY(), Constants.BALL_RADIUS);
         
         ball.setLinearVelocity(-4.0f, 0);
         

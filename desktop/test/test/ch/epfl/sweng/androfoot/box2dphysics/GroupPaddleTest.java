@@ -1,24 +1,33 @@
 package test.ch.epfl.sweng.androfoot.box2dphysics;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sweng.androfoot.box2dphysics.GroupPaddle;
 import ch.epfl.sweng.androfoot.box2dphysics.Paddle;
+import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
-import junit.framework.TestCase;
-
-public class GroupPaddleTest extends TestCase {
+public class GroupPaddleTest {
     
-    private World world = new World(new Vector2(0, 0), false);
-    private GroupPaddle group = new GroupPaddle(world, 1, 0, 3, true);
+    private World world;
+    private GroupPaddle group;
+    
+    @Before
+    public void init() {
+        PhysicsWorld.getPhysicsWorld().clear();
+        world = PhysicsWorld.getPhysicsWorld().getBox2DWorld();
+        group = PhysicsWorld.getPhysicsWorld().createPaddle(1, 0, 3, true);
+    }
 
     @Test
     public void testGroupPaddleCreation() {
+        
         int playerNumber = 0;
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);

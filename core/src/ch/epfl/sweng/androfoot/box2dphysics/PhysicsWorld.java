@@ -112,7 +112,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	 * Get the ball
 	 * @return
 	 */
-	public static Ball getBall() {
+	public Ball getBall() {
 	    return ball;
 	}
 	
@@ -156,7 +156,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	 * @param teamOne true for team one
 	 * @return
 	 */
-	public static Goal createGoal(float x, float y, float width, float height, GoalTeam team) {
+	public Goal createGoal(float x, float y, float width, float height, GoalTeam team) {
 	    Goal goal = new Goal(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, width, height, team);
 	    
 	    return goal;
@@ -263,7 +263,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
     		for (int i = 0; i < discreteNbPhysicsStepInFrame; i++) {
     			physicsWorld.step(Constants.TIME_STEP, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
     			if (ball != null) {
-    				checkVelocity(ball);
+    				checkIntegrity(ball);
     			}
     			
     			for (Paddle paddle : paddles) {
@@ -307,10 +307,20 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 	 * than the maximum allowed.
 	 * @param testedBall Ball to be checked.
 	 */
-	public void checkVelocity(Ball testedBall) {
+	public void checkIntegrity(Ball testedBall) {
+	    // Check the velocity
 		Vector2 ballVelocity = testedBall.getLinearVelocity();
 		ballVelocity = ballVelocity.clamp(Constants.BALL_MIN_VELOCITY, Constants.BALL_MAX_VELOCITY);
 		testedBall.setLinearVelocity(ballVelocity.x, ballVelocity.y);
+		
+		// Check the position
+		float posX = testedBall.getPositionX();
+		float posY = testedBall.getPositionY();
+		if (posX > Constants.WORLD_SIZE_X || posX < Constants.WORLD_ORIGIN_X ||
+		        posY > Constants.WORLD_SIZE_Y || posY < Constants.WORLD_ORIGIN_Y) {
+		    
+		    testedBall.setBallPosition(Constants.WORLD_SIZE_X / 2, Constants.WORLD_SIZE_Y / 2);
+		}
 	}
 	
 	/**

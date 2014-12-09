@@ -21,7 +21,7 @@ public class ImmutablePlayer implements DefaultPlayer {
     private boolean ableToControl;
     private Vector2 velocity;
     
-    public ImmutablePlayer(DefaultPlayer player) {
+    protected ImmutablePlayer(DefaultPlayer player) {
         zIndex = player.getZIndex();
         body = player.getBody();
         position = new Vector2(player.getPositionX(), player.getPositionY());

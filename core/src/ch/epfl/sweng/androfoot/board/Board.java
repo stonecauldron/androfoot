@@ -104,7 +104,7 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver  {
 	@Override
 	public void setBall(Player player, boolean teamFlag) {
 		if (player.isAbleToControlBall()) {
-			Ball ball = PhysicsWorld.getBall();
+			Ball ball = PhysicsWorld.getPhysicsWorld().getBall();
 			if (teamFlag) {
 				ball.setBallPosition(player.getPositionX()
 						+ Constants.BALL_CONTROL_OFFSET - Constants.BALL_RADIUS
@@ -173,11 +173,12 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver  {
 	}
 
 	private void setUpUpperAndLowerWalls() {
-		PhysicsWorld.getPhysicsWorld().createBorder(0, 0, Constants.BORDER_WIDTH,
-				Constants.GOAL_HEIGHT, BorderType.TEAM_ONE);
-		PhysicsWorld.getPhysicsWorld().createBorder(0, Constants.WORLD_SIZE_Y
-				- Constants.GOAL_HEIGHT, Constants.BORDER_WIDTH,
-				Constants.GOAL_HEIGHT, BorderType.TEAM_ONE);
+	    PhysicsWorld.getPhysicsWorld().createBorder(0, -Constants.BORDER_WIDTH,
+                Constants.WORLD_SIZE_X, Constants.BORDER_WIDTH,
+                BorderType.NO_TEAM);
+        PhysicsWorld.getPhysicsWorld().createBorder(0, Constants.WORLD_SIZE_Y,
+                Constants.WORLD_SIZE_X, Constants.BORDER_WIDTH,
+                BorderType.NO_TEAM);
 	}
 
 	private void setUpLeftAndRightWalls() {
@@ -188,24 +189,23 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver  {
 				- Constants.BORDER_WIDTH, Constants.WORLD_SIZE_Y
 				- Constants.GOAL_HEIGHT, Constants.BORDER_WIDTH,
 				Constants.GOAL_HEIGHT, BorderType.TEAM_TWO);
-
-		PhysicsWorld.getPhysicsWorld().createBorder(0, -Constants.BORDER_WIDTH,
-				Constants.WORLD_SIZE_X, Constants.BORDER_WIDTH,
-				BorderType.NO_TEAM);
-		PhysicsWorld.getPhysicsWorld().createBorder(0, Constants.WORLD_SIZE_Y,
-				Constants.WORLD_SIZE_X, Constants.BORDER_WIDTH,
-				BorderType.NO_TEAM);
+		
+		PhysicsWorld.getPhysicsWorld().createBorder(0, 0, Constants.BORDER_WIDTH,
+                Constants.GOAL_HEIGHT, BorderType.TEAM_ONE);
+        PhysicsWorld.getPhysicsWorld().createBorder(0, Constants.WORLD_SIZE_Y
+                - Constants.GOAL_HEIGHT, Constants.BORDER_WIDTH,
+                Constants.GOAL_HEIGHT, BorderType.TEAM_ONE);
 	}
 
 	private void setUpGoals() {
 		float xTeamOne = Constants.WORLD_ORIGIN_X - Constants.GOAL_WIDTH
 				- Constants.GOAL_OFFSET;
 		float yTeamOne = Constants.WORLD_ORIGIN_Y;
-		PhysicsWorld.createGoal(xTeamOne, yTeamOne, Constants.GOAL_WIDTH,
+		PhysicsWorld.getPhysicsWorld().createGoal(xTeamOne, yTeamOne, Constants.GOAL_WIDTH,
 				Constants.WORLD_SIZE_Y, GoalTeam.ONE);
 
 		float xTeamTwo = Constants.WORLD_SIZE_X + Constants.GOAL_OFFSET;
-		PhysicsWorld.createGoal(xTeamTwo, yTeamOne, Constants.GOAL_WIDTH,
+		PhysicsWorld.getPhysicsWorld().createGoal(xTeamTwo, yTeamOne, Constants.GOAL_WIDTH,
 				Constants.WORLD_SIZE_Y, GoalTeam.TWO);
 	}
 
