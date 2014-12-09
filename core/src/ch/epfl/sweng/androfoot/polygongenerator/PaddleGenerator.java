@@ -40,8 +40,6 @@ public class PaddleGenerator extends PolygonPack {
 	 */
 	protected PaddleGenerator(float width, float heightCircle, float heightRectangle, int nbCircleSegments) {
 		float displacementY = (heightCircle + heightRectangle) / 2 - heightCircle;
-		// System.out.println(displacementY);
-		// displacementY = 1;
 		PolygonGenerator circleGenerator = new PolygonTranslater(new PolygonScaler(new CircleGenerator(
 						nbCircleSegments, 0f, (float) Math.PI, AngleType.RADIAN), width / 2, heightCircle)
 						, 0f, displacementY);

@@ -29,7 +29,7 @@ import ch.epfl.sweng.androfoot.utils.Timer;
 public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 		PaddleContactObserver {
 
-	private final static float POWERUP_SIZE = 0.20f;
+	private final static float POWERUP_SIZE = 0.30f;
 	private final static int MAX_NB_POWERUP = 1;
 	private final static PowerUpManager instance = new PowerUpManager();
 	private static Random randomizer = new Random(-1);
@@ -58,7 +58,6 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 	 */
 	@Override
 	public void applyPowerUp(DefaultPowerUp powerUp) {
-		System.out.println("applying effect");
 		timers.put(powerUp, new Timer(bodyToEffectMap.get(powerUp).getEffectDuration()));
 		if (bodyToEffectMap.containsKey(powerUp)) {
 			PowerUpEffect effect = bodyToEffectMap.get(powerUp);
@@ -103,7 +102,6 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 		if (timer != null) {
 			timer.updateTimer(delta);
 			if (bodyToEffectMap.size() < MAX_NB_POWERUP && timer.checkTimer()) {
-				System.out.println("new powerup");
 				int nbPowerUps = possibleEffects.size();
 				int effectIndex = randomizer.nextInt(nbPowerUps);
 				PowerUpEffect effect = (PowerUpEffect) possibleEffects
@@ -112,8 +110,6 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 						+ Constants.WORLD_ORIGIN_X;
 				float Ypos = randomizer.nextFloat() * Constants.WORLD_SIZE_Y
 						+ Constants.WORLD_ORIGIN_Y;
-				System.out.println(Xpos);
-				System.out.println(Ypos);
 				DefaultPowerUp powerUpBody = PhysicsWorld.getPhysicsWorld().createPowerUp(Xpos,
 						Ypos, POWERUP_SIZE);
 				setEffectForBody(powerUpBody, effect.copy());
@@ -131,7 +127,6 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 			Timer pwTimer = timers.get(pw);
 			pwTimer.updateTimer(delta);
 			if(pwTimer.checkTimer()) {
-				System.out.println("powerup effect ended");
 				if(bodyToEffectMap.containsKey(pw)) {
 					PowerUpEffect effect = bodyToEffectMap.get(pw);
 					effect.end();
