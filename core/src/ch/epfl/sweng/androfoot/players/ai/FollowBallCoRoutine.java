@@ -45,7 +45,7 @@ public class FollowBallCoRoutine implements CoRoutine {
 	}
 
 	private void followBall() {
-		float playerY = mPaddles.GetYPositionOfPlayerThatCanReachTheBall();
+		float playerY = mPaddles.getYPositionOfPlayerThatCanReachTheBall();
 		float ballY = PhysicsWorld.getPhysicsWorld().getBall().getPositionY();
 
 		float yDistanceFromPlayerToBall = Math.abs(ballY - playerY);

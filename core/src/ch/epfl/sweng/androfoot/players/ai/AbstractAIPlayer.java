@@ -103,7 +103,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		AIEngine.getInstance().removeAIObserver(this);
 	}
 
-	float GetYPositionOfPlayerThatCanReachTheBall() {
+	float getYPositionOfPlayerThatCanReachTheBall() {
 		int playerIndex;
 		float y;
 		if (ballIsAheadOfAttack()) {
@@ -118,7 +118,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		return y;
 	}
 
-	float GetXPositionOfPlayerThatCanReachTheBall() {
+	float getXPositionOfPlayerThatCanReachTheBall() {
 		int playerIndex;
 		float x;
 		if (ballIsAheadOfAttack()) {
@@ -160,7 +160,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 			// ball is being controlled
 			float ballX = PhysicsWorld.getPhysicsWorld().getBall()
 					.getPositionX();
-			float playerX = GetXPositionOfPlayerThatCanReachTheBall();
+			float playerX = getXPositionOfPlayerThatCanReachTheBall();
 			// check whether player can reach ball;
 			return Math.abs(ballX - playerX) <= Constants.PADDLE_WIDTH;
 		}
