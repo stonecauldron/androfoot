@@ -126,10 +126,6 @@ public class PlayerClient implements ClientObservable {
 		}
 	}
 
-	@Override
-	public void updateClientObserver(GameInfo data) {
-	}
-
 	public void loseClient() {
 		if (gameStarted) {
 			client.stop();
