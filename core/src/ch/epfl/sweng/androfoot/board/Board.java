@@ -7,6 +7,7 @@ import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.box2dphysics.Player;
+import ch.epfl.sweng.androfoot.gamelogic.powerups.PowerUpManager;
 import ch.epfl.sweng.androfoot.gui.GuiCommand;
 import ch.epfl.sweng.androfoot.gui.GuiManager;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
@@ -132,10 +133,13 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver  {
 		mPlayerOne.destroy();
 		mPlayerTwo.destroy();
 		
-		// destroy physics objects
+		// Destroy all the physics objects
 		PhysicsWorld.getPhysicsWorld().clear();
 		
-		// reset Graphic Engine
+		// Reset the PowerUpManager
+		PowerUpManager.getInstance().reset();
+		
+		// Reset Graphic Engine
 		GraphicEngine.getEngine().reset();
 		
 	}
