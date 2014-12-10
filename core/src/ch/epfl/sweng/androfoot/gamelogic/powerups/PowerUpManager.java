@@ -174,10 +174,8 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 
 	public void setUp() {
 		if (Configuration.getInstance().getPowerups()) {
-			System.out.println("option say powerups");
 			setSpawnRate(5f);
 		} else {
-			System.out.println("option say no powerups");
 			timer = null;
 		}
 	}
