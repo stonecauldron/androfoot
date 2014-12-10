@@ -13,6 +13,7 @@ import java.util.Set;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
+import ch.epfl.sweng.androfoot.configuration.Configuration;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DefaultPlayer;
 import ch.epfl.sweng.androfoot.interfaces.DefaultPowerUp;
@@ -20,6 +21,7 @@ import ch.epfl.sweng.androfoot.interfaces.PaddleContactObserver;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpEffect;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpEffectApplier;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpSpawner;
+import ch.epfl.sweng.androfoot.interfaces.Resettable;
 import ch.epfl.sweng.androfoot.utils.Timer;
 
 /**
@@ -27,7 +29,7 @@ import ch.epfl.sweng.androfoot.utils.Timer;
  *
  */
 public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
-		PaddleContactObserver {
+		PaddleContactObserver, Resettable {
 
 	private final static float POWERUP_SIZE = 0.30f;
 	private final static int MAX_NB_POWERUP = 3;
@@ -43,7 +45,9 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 		addPowerUpEffect(new BulletPowerUp());
 		addPowerUpEffect(new SmallPowerUp());
 		addPowerUpEffect(new BallSizePowerUp());
-		setSpawnRate(5f);
+		if (Configuration.getInstance().getPowerups()) {
+			setSpawnRate(5f);
+		}
 		EventManager.getEventManager().addPowerUpContactObserver(this);
 		EventManager.getEventManager().addPaddleContactObserver(this);
 	}
@@ -63,7 +67,7 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 	public void applyPowerUp(DefaultPowerUp powerUp) {
 		if (bodyToEffectMap.containsKey(powerUp)) {
 			timers.put(powerUp, new Timer(bodyToEffectMap.get(powerUp)
-					.getEffectDuration()));		
+					.getEffectDuration()));
 			PowerUpEffect effect = bodyToEffectMap.get(powerUp);
 			effect.begin(playerOneTouched);
 		}
@@ -105,8 +109,9 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 		 */
 		if (timer != null) {
 			timer.updateTimer(delta);
-			if (bodyToEffectMap.size() < MAX_NB_POWERUP && timer.checkTimer()) {
-				int nbPowerUps = possibleEffects.size();
+			int nbPowerUps = possibleEffects.size();
+			if (bodyToEffectMap.size() < MAX_NB_POWERUP && timer.checkTimer()
+					&& nbPowerUps > 0) {
 				int effectIndex = randomizer.nextInt(nbPowerUps);
 				PowerUpEffect effect = (PowerUpEffect) possibleEffects
 						.toArray()[effectIndex];
@@ -165,5 +170,17 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 	@Override
 	public void setSeed(long l) {
 		randomizer = new Random(l);
+	}
+
+	@Override
+	public void reset() {
+		for (PowerUpEffect effect : bodyToEffectMap.values()) {
+			effect.end();
+		}
+		bodyToEffectMap.clear();
+		timers.clear();
+		if (Configuration.getInstance().getPowerups()) {
+			setSpawnRate(5f);
+		}
 	}
 }

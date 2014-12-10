@@ -21,6 +21,7 @@ public class Ball implements DefaultBall {
 	private Body ballBody;
 	private final BodyDef bodyDef = new BodyDef();
 	private float ballRadius;
+	private int zIndex = Constants.BALL_Z_INDEX;
 	
 	/**
 	 * Constructor of the Ball class.
@@ -118,7 +119,7 @@ public class Ball implements DefaultBall {
 
 	@Override
 	public int getZIndex() {
-		return 0;
+		return zIndex;
 	}
 	
 	@Override

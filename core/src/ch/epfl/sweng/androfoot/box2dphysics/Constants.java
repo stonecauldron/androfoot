@@ -55,6 +55,7 @@ public class Constants {
     public static final float BALL_MAX_VELOCITY = 6.0f; 
     public static final float BALL_MIN_VELOCITY = 0.0f;
     public static final float BALL_CONTROL_OFFSET = 0.65f;
+    public static final int BALL_Z_INDEX = 0;
         
     /* Player */
     public static final short CATEGORY_PLAYER = 0x0001;
@@ -63,7 +64,7 @@ public class Constants {
     /* PowerUp */
     public static final float POWERUP_RADIUS = 0.3f;
     public static final short CATEGORY_POWERUP = 0x0003;
-    public static final int POWERUP_Z_INDEX = 600;
+    public static final int POWERUP_Z_INDEX = -2;
     
     /* Others */
     public static final short CATEGORY_OTHERS = 0x0002;

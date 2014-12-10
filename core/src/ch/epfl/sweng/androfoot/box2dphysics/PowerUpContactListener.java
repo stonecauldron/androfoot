@@ -100,4 +100,10 @@ public final class PowerUpContactListener implements DefaultContactListener {
 					&& (contact.getFixtureB().getBody() == powerUp.getBody());
 	}
 
+	void destroyAllPowerUps() {
+		Iterator<PowerUpBody> iter = powerUps.iterator();
+	    while (iter.hasNext()) {
+	        PhysicsWorld.getPhysicsWorld().destroy(iter.next());
+	    }
+	}
 }
