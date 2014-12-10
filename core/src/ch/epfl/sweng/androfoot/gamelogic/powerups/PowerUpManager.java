@@ -181,6 +181,8 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 		timers.clear();
 		if (Configuration.getInstance().getPowerups()) {
 			setSpawnRate(5f);
+		} else {
+			timer = null;
 		}
 	}
 }
