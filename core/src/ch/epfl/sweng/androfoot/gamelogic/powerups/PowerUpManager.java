@@ -173,6 +173,9 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 
 	@Override
 	public void reset() {
+		for (PowerUpEffect effect : bodyToEffectMap.values()) {
+			effect.end();
+		}
 		bodyToEffectMap.clear();
 		timers.clear();
 		possibleEffects.clear();
