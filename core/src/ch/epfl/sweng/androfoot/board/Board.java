@@ -129,15 +129,15 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver  {
 	 */
 	public void resetBoard() {
 		
+		// Reset the PowerUpManager
+		PowerUpManager.getInstance().reset();
+		
 		// destroy players
 		mPlayerOne.destroy();
 		mPlayerTwo.destroy();
 		
 		// Destroy all the physics objects
 		PhysicsWorld.getPhysicsWorld().clear();
-		
-		// Reset the PowerUpManager
-		PowerUpManager.getInstance().reset();
 		
 		// Reset Graphic Engine
 		GraphicEngine.getEngine().reset();
