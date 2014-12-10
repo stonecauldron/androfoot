@@ -8,6 +8,7 @@ import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBorder;
 import ch.epfl.sweng.androfoot.interfaces.DefaultPowerUp;
+import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableRectangle;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
@@ -132,11 +133,15 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 
 		scoreRenderer.render(batch, renderer);
 		boardRenderer.render(batch, renderer);
-		//shockwaveManager.render(batch, renderer);
+		shockwaveManager.render(batch, renderer);
 		shockwaveManager.age(delta);
+		for (Drawable d : world.toDraw()) {
+			System.out.println(d.getZIndex());
+		}
 		for (Visitable v : world.toDraw()) {
 			v.accept(this);
 		}
+		System.out.println("---------------");
 	}
 
 	@Override
