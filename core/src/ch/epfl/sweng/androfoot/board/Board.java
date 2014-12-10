@@ -132,8 +132,8 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver  {
 		mPlayerOne.destroy();
 		mPlayerTwo.destroy();
 		
-		// destroy ball
-		PhysicsWorld.getPhysicsWorld().destroy(mBall);
+		// destroy physics objects
+		PhysicsWorld.getPhysicsWorld().clear();
 		
 		// reset Graphic Engine
 		GraphicEngine.getEngine().reset();
@@ -144,6 +144,10 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver  {
 		setUpScore(winScore);
 		
 		setUpPlayers(p1, p2);
+		
+		setUpUpperAndLowerWalls();
+		setUpLeftAndRightWalls();
+		setUpGoals();
 		
 		setUpBall();
 	}
