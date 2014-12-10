@@ -172,6 +172,16 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 		randomizer = new Random(l);
 	}
 
+	public void setUp() {
+		if (Configuration.getInstance().getPowerups()) {
+			System.out.println("option say powerups");
+			setSpawnRate(5f);
+		} else {
+			System.out.println("option say no powerups");
+			timer = null;
+		}
+	}
+
 	@Override
 	public void reset() {
 		for (PowerUpEffect effect : bodyToEffectMap.values()) {
@@ -179,10 +189,5 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 		}
 		bodyToEffectMap.clear();
 		timers.clear();
-		if (Configuration.getInstance().getPowerups()) {
-			setSpawnRate(5f);
-		} else {
-			timer = null;
-		}
 	}
 }
