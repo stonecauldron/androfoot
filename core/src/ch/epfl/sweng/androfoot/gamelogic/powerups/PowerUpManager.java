@@ -21,6 +21,7 @@ import ch.epfl.sweng.androfoot.interfaces.PaddleContactObserver;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpEffect;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpEffectApplier;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpSpawner;
+import ch.epfl.sweng.androfoot.interfaces.Resettable;
 import ch.epfl.sweng.androfoot.utils.Timer;
 
 /**
@@ -28,7 +29,7 @@ import ch.epfl.sweng.androfoot.utils.Timer;
  *
  */
 public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
-		PaddleContactObserver {
+		PaddleContactObserver, Resettable {
 
 	private final static float POWERUP_SIZE = 0.30f;
 	private final static int MAX_NB_POWERUP = 3;
@@ -168,5 +169,15 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 	@Override
 	public void setSeed(long l) {
 		randomizer = new Random(l);
+	}
+
+	@Override
+	public void reset() {
+		bodyToEffectMap.clear();
+		timers.clear();
+		possibleEffects.clear();
+		if (Configuration.getInstance().getPowerups()) {
+			setSpawnRate(5f);
+		}
 	}
 }
