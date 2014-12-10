@@ -160,7 +160,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 	protected boolean playerCanShootBall() {
 		Vector2 ballSpeed = PhysicsWorld.getPhysicsWorld().getBall()
 				.getLinearVelocity();
-		if (ballSpeed.x < TOLERANCE && ballSpeed.y < TOLERANCE) {
+		if (ballSpeed.y < TOLERANCE) {
 			// ball is being controlled
 			float ballX = PhysicsWorld.getPhysicsWorld().getBall()
 					.getPositionX();
