@@ -178,7 +178,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver, HostOb
 		pauseWorld();
 		PowerUpBody powerUp = new PowerUpBody(PhysicsWorld.getPhysicsWorld().getBox2DWorld(), x, y, hBoxRadius);
 		startWorld();
-		drawableObjectsSet.add(powerUp);
+		addToDrawableSet(powerUp);
 		return powerUp;
 	}
 	
