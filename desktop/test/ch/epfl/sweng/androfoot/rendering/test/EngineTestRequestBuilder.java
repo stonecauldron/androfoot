@@ -1,7 +1,9 @@
 package ch.epfl.sweng.androfoot.rendering.test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
 import ch.epfl.sweng.androfoot.interfaces.Drawable;
 import ch.epfl.sweng.androfoot.interfaces.DrawableWorld;
 import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
@@ -22,6 +24,7 @@ public class EngineTestRequestBuilder {
 	
 	public void addDrawable(Drawable draw) {
 		toRender.add(draw);
+		Collections.sort(toRender, Drawable.DRAWABLE_COMPARATOR);
 	}
 	
 	public GraphicTester.TestRequest build() {
