@@ -154,6 +154,7 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver  {
 		setUpGoals();
 		
 		setUpBall();
+		PowerUpManager.getInstance().setUp();
 	}
 	
 	private void setUpPlayers(PlayerType p1, PlayerType p2) {
