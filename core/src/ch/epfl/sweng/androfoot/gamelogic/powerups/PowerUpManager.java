@@ -109,8 +109,9 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 		 */
 		if (timer != null) {
 			timer.updateTimer(delta);
-			if (bodyToEffectMap.size() < MAX_NB_POWERUP && timer.checkTimer()) {
-				int nbPowerUps = possibleEffects.size();
+			int nbPowerUps = possibleEffects.size();
+			if (bodyToEffectMap.size() < MAX_NB_POWERUP && timer.checkTimer()
+					&& nbPowerUps > 0) {
 				int effectIndex = randomizer.nextInt(nbPowerUps);
 				PowerUpEffect effect = (PowerUpEffect) possibleEffects
 						.toArray()[effectIndex];
@@ -178,7 +179,6 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 		}
 		bodyToEffectMap.clear();
 		timers.clear();
-		possibleEffects.clear();
 		if (Configuration.getInstance().getPowerups()) {
 			setSpawnRate(5f);
 		}
