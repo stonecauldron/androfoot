@@ -22,6 +22,9 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		Controllable, AIObserver {
 
+	// tolerance for the floating point comparisons
+	private static float TOLERANCE = 0.0000000000000000000000000000000000000001f;
+
 	// HashMap linking Timers with CoRoutines
 	private HashMap<Timer, CoRoutine> coRoutinesMap;
 
@@ -149,6 +152,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		if (getPlayerNumber() == PlayerNumber.TWO) {
 			return -speed;
 		} else {
+			
 			return speed;
 		}
 	}
@@ -156,12 +160,13 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 	protected boolean playerCanShootBall() {
 		Vector2 ballSpeed = PhysicsWorld.getPhysicsWorld().getBall()
 				.getLinearVelocity();
-		if (ballSpeed.equals(Vector2.Zero)) {
+		if (ballSpeed.x < TOLERANCE && ballSpeed.y < TOLERANCE) {
 			// ball is being controlled
 			float ballX = PhysicsWorld.getPhysicsWorld().getBall()
 					.getPositionX();
 			float playerX = getXPositionOfPlayerThatCanReachTheBall();
-			float paddleWidth = getPaddles().get(0).getPaddles().get(0).getWidth();
+			float paddleWidth = getPaddles().get(0).getPaddles().get(0)
+					.getWidth();
 			// check whether player can reach ball;
 			return Math.abs(ballX - playerX) <= paddleWidth;
 		}
