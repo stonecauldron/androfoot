@@ -13,6 +13,8 @@ public class GuiLabel extends GuiWidget {
 	private static final float DEFAULT_Y_SCREEN_SIZE = 480f;
 	private boolean mNewLine;
 	private float[] mPadding;
+	private int mAlign;
+	private float mSize;
 	private Label mLabel;
 	private int mColSpan;
 	
@@ -20,16 +22,20 @@ public class GuiLabel extends GuiWidget {
 					String style,
 					boolean lineBreak,
 					float[] padding,
+					int align,
+					float size,
 					int colSpan,
 					String text) {
 		mNewLine = lineBreak;
 		mPadding = padding;
+		mAlign = align;
+		mSize = size;
 		mLabel = new Label(text, skin, style);
 		mColSpan = colSpan;
 	}
 
 	public void show(Table table, int width, int height) {
-		mLabel.setFontScale(Math.min(
+		mLabel.setFontScale(mSize*Math.min(
 						(float) (Math.min(DEFAULT_X_SCREEN_SIZE, width) / DEFAULT_X_SCREEN_SIZE),
 						(float) (Math.min(DEFAULT_Y_SCREEN_SIZE, height) / DEFAULT_Y_SCREEN_SIZE)));
 
@@ -39,7 +45,8 @@ public class GuiLabel extends GuiWidget {
 			.padRight(mPadding[i++] * width)
 			.padTop(mPadding[i++] * height)
 			.padLeft(mPadding[i++] * width)
-			.padBottom(mPadding[i++] * height);
+			.padBottom(mPadding[i++] * height)
+			.align(mAlign);
 		
 		if (mNewLine) {
 			table.row();

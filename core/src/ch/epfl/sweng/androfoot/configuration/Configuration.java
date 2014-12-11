@@ -276,7 +276,7 @@ public final class Configuration {
 	public void setDefaultConfig() {
 		mPlayerOneNbAttackers = 2;
 		mPlayerTwoNbAttackers = 2;
-		mScoreLimit = 11;
+		mScoreLimit = DEFAULT_SCORE_LIMIT * 2;
 		if (!mTiltingOn) {
 			toggleTilting();
 		}
