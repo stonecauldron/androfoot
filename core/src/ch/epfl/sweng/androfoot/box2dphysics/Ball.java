@@ -47,7 +47,7 @@ public class Ball implements DefaultBall {
 		GoalContactListener.addBall(this);
 	}
 	
-	public void createNewBallFixture(float radius, float density, float friction, float restitution) {
+	private void createNewBallFixture(float radius, float density, float friction, float restitution) {
 		
 		final CircleShape circle = new CircleShape();
 		final FixtureDef fixture = new FixtureDef();
