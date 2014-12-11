@@ -173,7 +173,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 			}
 
 			// check whether player can reach ball;
-			return Math.abs(ballX - playerX) <= paddleWidth;
+			return Math.abs((ballX + ballRadius) - playerX) <= paddleWidth;
 		}
 		return false;
 	}
