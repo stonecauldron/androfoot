@@ -163,8 +163,8 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 	protected boolean playerCanShootBall() {
 		Vector2 ballSpeed = PhysicsWorld.getPhysicsWorld().getBall()
 				.getLinearVelocity();
-		if (ballSpeed.y < TOLERANCE) {
-			// ball is being controlled
+		if (ballSpeed.y < TOLERANCE || ballSpeed.x < TOLERANCE) {
+			// see if ball can be reached in x
 			float ballX = PhysicsWorld.getPhysicsWorld().getBall()
 					.getPositionX();
 			float playerX = getXPositionOfPlayerThatCanReachTheBall();
@@ -176,9 +176,18 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 			if (getPlayerNumber() == PlayerNumber.ONE) {
 				ballRadius = -ballRadius;
 			}
+			
+			// see if ball can be reached in y
+			float ballY = PhysicsWorld.getPhysicsWorld().getBall()
+					.getPositionY();
+			float playerY = getYPositionOfPlayerThatCanReachTheBall();
+
+			boolean canReachInYAxis = Math.abs((playerY + getPlayerHeight())
+					- ballY) > TOLERANCE;
+			boolean canReachInXAxis = Math.abs((ballX + ballRadius) - playerX) <= paddleWidth;
 
 			// check whether player can reach ball;
-			return Math.abs((ballX + ballRadius) - playerX) <= paddleWidth;
+			return canReachInXAxis && canReachInYAxis;
 		}
 		return false;
 	}
