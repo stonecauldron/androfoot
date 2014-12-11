@@ -55,19 +55,11 @@ public class PlayerRenderer implements MeshRenderer{
 		canControl = canControlArg;
 		setControlColor();
 	}
-	ConcreteDrawToTexture texturer = new ConcreteDrawToTexture(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapes) {
 		controlPartRenderer.render(batch, shapes);
 		shootPartRenderer.render(batch, shapes);
-		/*texturer.beginCapture();
-		GraphicEngine.getEngine().getViewPort().apply();
-		texturer.endCapture();
-		TextureRegion texture = texturer.getOutput();
-		//texture = transformer.transform(texture);
-		batch.draw(texture.getTexture(), 0, 0, Constants.WORLD_SIZE_X, Constants.WORLD_SIZE_Y, 0, 0, texture.getRegionWidth(), texture.getRegionHeight(), false, true);
-		GraphicEngine.getEngine().getViewPort().apply();*/
 	}
 
 	@Override
