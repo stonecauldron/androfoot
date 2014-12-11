@@ -55,15 +55,8 @@ public class Board implements GoalObserver, PlayerObserver, PowerUpObserver  {
 	 *            reference to the second player.
 	 */
 	Board(PlayerType playerOne, PlayerType playerTwo, int winScore) {
-		setUpPlayers(playerOne, playerTwo);
-
-		setUpScore(winScore);
-
-		setUpBall();
 		
-		setUpUpperAndLowerWalls();
-		setUpLeftAndRightWalls();
-		setUpGoals();
+		instantiateNewGame(playerOne, playerTwo, winScore);
 		
 		// Start observing events.
 		EventManager.getEventManager().addGoalObserver(this);
