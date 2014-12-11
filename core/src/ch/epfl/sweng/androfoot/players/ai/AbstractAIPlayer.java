@@ -134,6 +134,11 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		return x;
 	}
 
+	float getPlayerHeight() {
+		return getPaddles().get(0).getPaddles().get(0).getPlayer()
+				.getSemiHeight();
+	}
+
 	protected void addToCoRoutines(Timer timer, CoRoutine coRoutine) {
 		coRoutinesMap.put(timer, coRoutine);
 	}
