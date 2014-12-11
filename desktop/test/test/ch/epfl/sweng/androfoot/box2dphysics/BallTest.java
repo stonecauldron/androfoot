@@ -47,11 +47,30 @@ public class BallTest {
 		assertEquals(2.5f, ball.getPositionY(), ERROR_MARGIN);
 	}
 	
+	@Test
+	public void testBallIntegrity() {
+		ball.setLinearVelocity(0f, 0f);
+		ball.setBallPosition(Constants.WORLD_SIZE_X + 3.0f, 0f);
+		multipleStep(50);
+		assertEquals("The ball is outside the world on the x axis", Constants.WORLD_SIZE_X/2, ball.getPositionX(), ERROR_MARGIN);
+		
+		ball.setBallPosition(0f, Constants.WORLD_SIZE_Y + 5.0f);
+		multipleStep(50);
+		assertEquals("The ball is outside the world on the y axis", Constants.WORLD_SIZE_Y/2, ball.getPositionY(), ERROR_MARGIN);
+		
+		ball.setBallPosition(Constants.WORLD_SIZE_X + 0.18f, Constants.WORLD_SIZE_Y + 0.18f);
+		multipleStep(50);
+		assertEquals("The ball is outside the world on the x axis", Constants.WORLD_SIZE_X/2, ball.getPositionX(), ERROR_MARGIN);
+		assertEquals("The ball is outside the world on the y axis", Constants.WORLD_SIZE_Y/2, ball.getPositionY(), ERROR_MARGIN);
+	}
+	
 	private void multipleStep(int nbSteps) {
 		for (int i = 0; i < nbSteps; i++) {
-			world.step(1, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
+			world.step(1/60f, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
 
 			EventManager.getEventManager().throwEvents();
+			
+			PhysicsWorld.getPhysicsWorld().checkIntegrity(ball);
 		}
 	}
 
