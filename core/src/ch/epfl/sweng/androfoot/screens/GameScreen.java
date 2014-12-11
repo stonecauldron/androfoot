@@ -60,6 +60,7 @@ public class GameScreen implements Screen {
 	public void show() {
 		Gdx.input.setCatchBackKey(true);
 		GraphicEngine.getEngine().bindToWorld(PhysicsWorld.getPhysicsWorld());
+		PhysicsWorld.getPhysicsWorld().startWorld();
 	}
 
 	@Override
