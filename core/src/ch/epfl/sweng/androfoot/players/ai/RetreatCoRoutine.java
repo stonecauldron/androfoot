@@ -18,7 +18,7 @@ public class RetreatCoRoutine implements CoRoutine {
 
 	private AbstractAIPlayer mPaddles;
 
-	private List<AIState> authorizedStates = Arrays.asList(AIState.RETREAT);
+	private List<AIState> authorizedStates = Arrays.asList(AIState.DEFENSE);
 
 	public RetreatCoRoutine(AbstractAIPlayer paddles) {
 		mPaddles = paddles;
