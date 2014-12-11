@@ -4,7 +4,7 @@ package ch.epfl.sweng.androfoot.kryonetnetworking;
  * @author Ahaeflig
  * 
  *         Class to abstract game information needed to display the game on a
- *         slave client
+ *         slave client about physics world status
  */
 public class HostData {
 	/*
@@ -49,6 +49,9 @@ public class HostData {
 		return mBallSpeedY;
 	}
 
+	/**
+	 * Used by the kyro serial only, Do not use this useless constructor
+	 */
 	public HostData() {
 
 	}

@@ -26,14 +26,20 @@ public class GameScreen implements Screen {
 
 	public GameScreen(PlayerType firstPlayer, PlayerType secondPlayer) {
 
+		if (Configuration.getInstance().ismNetworkMode()) {
+			Configuration.getInstance().setNetworkMode(false);
+			PhysicsWorld.getPhysicsWorld().setHostMode(false);
+			PhysicsWorld.getPhysicsWorld().setSlaveMode(false);
+			Gdx.input.setInputProcessor(PlayerTouchTracker.getInstance());
+		}
+		
 		BoardFactory.setupBoard(firstPlayer, secondPlayer, Configuration
 				.getInstance().getScoreLimit());
-
 	}
 
 	@Override
 	public void render(float delta) {
-		if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+		if (Gdx.input.isKeyPressed(Input.Keys.BACK) || Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
 			GuiManager.getInstance().executeCommand(GuiCommand.goToMainMenu);
 			// reset board
 			Board.getInstance().resetBoard();

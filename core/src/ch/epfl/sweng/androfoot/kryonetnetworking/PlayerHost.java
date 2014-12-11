@@ -3,9 +3,9 @@ package ch.epfl.sweng.androfoot.kryonetnetworking;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.interfaces.HostObservable;
 import ch.epfl.sweng.androfoot.interfaces.HostObserver;
-import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -14,27 +14,23 @@ import com.esotericsoftware.kryonet.Server;
 public class PlayerHost implements HostObservable {
 
 	public static Server server;
-	private boolean gameStarted;
+	public boolean gameStarted;
 	private static Connection mConnection;
-	
+
 	private ArrayList<HostObserver> mHostObserver = new ArrayList<HostObserver>();
-
-	public PlayerHost() {
-	}
-
-	static public void sendHostData(HostData data) {
-		server.sendToTCP(mConnection.getID(), data);
-	}
+	private boolean serverStarted;
+	private Server broadcastServer;
 
 	public void listenToClient() throws IOException {
 
-		DiscoverServerTest();
-		
-		server = new Server();
-		server.start();
-		server.bind(NetworkUtils.TCP_PORT);
+		if (!serverStarted) {
+			serverStarted = true;
+			DiscoverServerTest();
 
-		addHostObserver(PlayerTouchTracker.getInstance());
+			server = new Server();
+			server.start();
+			server.bind(NetworkUtils.TCP_PORT);
+		}
 
 		// For consistency, the classes to be sent over the network are
 		// registered by the same method for both the client and server.
@@ -48,35 +44,72 @@ public class PlayerHost implements HostObservable {
 					mConnection = connection;
 					gameStarted = true;
 					updateGameStart();
-					server.sendToTCP(mConnection.getID(),0);
+					server.sendToTCP(mConnection.getID(), 0);
+				} else if (object instanceof ShakeData) {
+					updateGameState((ShakeData) object);
 				}
 			}
-	
-		public void disconnected(Connection c) {
-			//TODO Handle client disconnection here
-		}
-			
-		public void connected(Connection c) {
-			System.out.println("Host: Server established");
-		}
-		
+
+			public void disconnected(Connection c) {
+				System.out
+						.println("Connection lost, server waiting for reconnection");
+				// This let another client reconnect
+				mConnection.close();
+				gameStarted = false;
+				updateGameStart();
+				PhysicsWorld.getPhysicsWorld().setHostMode(false);
+			}
+
+			public void connected(Connection c) {
+				System.out.println("Host: Server established");
+			}
 		});
 	}
-	
-	public void DiscoverServerTest()
-	{
-		final Server broadcastServer = new Server();
-		try
-		{
+
+	public void closeServers() {
+		serverStarted = false;
+		broadcastServer.stop();
+		broadcastServer.close();
+		server.stop();
+		server.close();
+		mHostObserver.clear();
+		gameStarted = false;
+		serverStarted = false;
+	}
+
+	/**
+	 * @param data
+	 *            the speed of the ball and position to send to the client
+	 */
+	static public void sendHostData(HostData data) {
+		if (mConnection.isConnected()) {
+			server.sendToTCP(mConnection.getID(), data);
+		}
+	}
+
+	/**
+	 * @param inputData
+	 *            the speed of paddle to send to the other player
+	 */
+	public static void sendHostData(InputData inputData) {
+		if (mConnection.isConnected()) {
+			server.sendToTCP(mConnection.getID(), inputData);
+		}
+	}
+
+	public void DiscoverServerTest() {
+		broadcastServer = new Server();
+		try {
 			broadcastServer.bind(0, NetworkUtils.UDP_PORT);
 			broadcastServer.start();
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	private void updateGameState(ShakeData shakeData) {
+		updateHostObserver(shakeData);
+	}
 
 	protected void updateGameState(InputData data) {
 		updateHostObserver(data);
@@ -107,7 +140,21 @@ public class PlayerHost implements HostObservable {
 		}
 	}
 
-	public static void sendHostData(InputData inputData) {
-		server.sendToTCP(mConnection.getID(), inputData);
+	@Override
+	public void updateHostObserver(ShakeData data) {
+		if (gameStarted) {
+			for (HostObserver obs : mHostObserver) {
+				obs.updateClientShakeData(data);
+			}
+		}
+	}
+
+	@Override
+	public void updateHostObserver(GameInfo data) {
+		if (gameStarted) {
+			for (HostObserver obs : mHostObserver) {
+				obs.updateClientGameInfoData(data);
+			}
+		}
 	}
 }

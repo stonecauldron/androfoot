@@ -70,10 +70,11 @@ public class Constants {
     public static final short CATEGORY_OTHERS = 0x0002;
     
     /* Accelerometer */
-	public static final float SHAKE_TIMER = 1.0f;
+	public static final float SHAKE_TIMER = 3.0f;
 	public static final float SHAKE_BOOST_RATIO = 2;
 	
 	/* Touch Tracker */
 	public static final float TOUCH_EVENT_TIMER = 0.02f;
+	public static final float SHAKE_PUNITION_TIME = 3;
 	
 }
