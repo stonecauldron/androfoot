@@ -70,8 +70,6 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		updateTimers(deltaTime);
 		if (playerCanShootBall()) {
 			setState(AIState.SHOOT);
-		} else if (!ballIsGoingTowardsDefense()) {
-			setState(AIState.RETREAT);
 		} else {
 			setState(AIState.DEFENSE);
 		}
@@ -152,7 +150,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		if (getPlayerNumber() == PlayerNumber.TWO) {
 			return -speed;
 		} else {
-			
+
 			return speed;
 		}
 	}
@@ -167,8 +165,15 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 			float playerX = getXPositionOfPlayerThatCanReachTheBall();
 			float paddleWidth = getPaddles().get(0).getPaddles().get(0)
 					.getWidth();
+			float ballRadius = PhysicsWorld.getPhysicsWorld().getBall()
+					.getRadius();
+			// compute correct ball radius
+			if (getPlayerNumber() == PlayerNumber.ONE) {
+				ballRadius = -ballRadius;
+			}
+
 			// check whether player can reach ball;
-			return Math.abs(ballX - playerX) <= paddleWidth;
+			return Math.abs((ballX + ballRadius) - playerX) <= paddleWidth;
 		}
 		return false;
 	}
