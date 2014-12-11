@@ -16,7 +16,7 @@ import ch.epfl.sweng.androfoot.rendering.shaders.ConcreteDrawToTexture;
  */
 public class PlayerRenderer implements MeshRenderer{
 	
-	private static final Color CANT_CONTROL_COLOR = Color.RED;
+	private static final float CANT_CONTROL_FACTOR = 0.6f;
 	
 	private final PolygonRenderer shootPartRenderer;
 	private final PolygonRenderer controlPartRenderer;
@@ -42,8 +42,12 @@ public class PlayerRenderer implements MeshRenderer{
 	private void setControlColor() {
 		if(canControl) {
 			controlPartRenderer.setColor(currentColor);
+			shootPartRenderer.setColor(currentColor);
 		} else {
-			controlPartRenderer.setColor(CANT_CONTROL_COLOR);
+			Color transformedColor = new Color(currentColor);
+			transformedColor.mul(CANT_CONTROL_FACTOR);
+			controlPartRenderer.setColor(transformedColor);
+			shootPartRenderer.setColor(transformedColor);
 		}
 	}
 	
