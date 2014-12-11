@@ -3,8 +3,11 @@ package ch.epfl.sweng.androfoot.players.ai;
 import java.util.Arrays;
 import java.util.List;
 
+import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
 import ch.epfl.sweng.androfoot.utils.CoRoutine;
+
+import com.badlogic.gdx.math.MathUtils;
 
 /**
  * Class to represent the follow ball behaviour.
@@ -20,9 +23,11 @@ public class FollowBallCoRoutine implements CoRoutine {
 
 	private float mDistanceFactor;
 
+	private static float goalYPosition = Constants.WORLD_SIZE_Y / 2;
+
 	private AbstractAIPlayer mPaddles;
 
-	private List<AIState> authorizedStates = Arrays.asList(AIState.DEFENSE, AIState.SHOOT);
+	private List<AIState> authorizedStates = Arrays.asList(AIState.DEFENSE);
 
 	FollowBallCoRoutine(AbstractAIPlayer paddles) {
 		mPaddles = paddles;
@@ -48,7 +53,18 @@ public class FollowBallCoRoutine implements CoRoutine {
 		float playerY = mPaddles.getYPositionOfPlayerThatCanReachTheBall();
 		float ballY = PhysicsWorld.getPhysicsWorld().getBall().getPositionY();
 
-		float yDistanceFromPlayerToBall = Math.abs(ballY - playerY);
+		float playerHeight = mPaddles.getPlayerHeight();
+
+		// offset should not be higher than height of player
+		float offset = MathUtils.random(playerHeight);
+
+		// offset center of player to allow targeted shooting at goal
+		if (playerY > goalYPosition) {
+			offset = -offset;
+		} else if (Math.abs(playerY - goalYPosition) < TOLERANCE) {
+			offset = 0;
+		}
+		float yDistanceFromPlayerToBall = Math.abs(ballY - (playerY + offset));
 
 		// player is in front of ball
 		if (yDistanceFromPlayerToBall < TOLERANCE) {
@@ -57,10 +73,10 @@ public class FollowBallCoRoutine implements CoRoutine {
 		} else {
 			// compute speed factor
 			float speedFactor = yDistanceFromPlayerToBall / mDistanceFactor;
-			if (playerY > ballY) {
+			if ((playerY + offset) > ballY) {
 				// go down
 				mPaddles.moveVertically(-MAX_DELTA_Y * speedFactor);
-			} else if (playerY < ballY) {
+			} else if ((playerY + offset) < ballY) {
 				// go up
 				mPaddles.moveVertically(MAX_DELTA_Y * speedFactor);
 			}
