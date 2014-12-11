@@ -176,14 +176,13 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 			if (getPlayerNumber() == PlayerNumber.ONE) {
 				ballRadius = -ballRadius;
 			}
-			
+
 			// see if ball can be reached in y
 			float ballY = PhysicsWorld.getPhysicsWorld().getBall()
 					.getPositionY();
 			float playerY = getYPositionOfPlayerThatCanReachTheBall();
 
-			boolean canReachInYAxis = Math.abs((playerY + getPlayerHeight())
-					- ballY) > TOLERANCE;
+			boolean canReachInYAxis = Math.abs(playerY - ballY) <= getPlayerHeight() * 2;
 			boolean canReachInXAxis = Math.abs((ballX + ballRadius) - playerX) <= paddleWidth;
 
 			// check whether player can reach ball;
