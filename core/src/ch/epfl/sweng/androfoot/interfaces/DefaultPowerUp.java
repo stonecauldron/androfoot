@@ -3,6 +3,11 @@ package ch.epfl.sweng.androfoot.interfaces;
 import ch.epfl.sweng.androfoot.box2dphysics.ImmutablePowerUp;
 import com.badlogic.gdx.graphics.Color;
 
+/**
+ * Interface that defines the default Power Up Object.
+ * @author Matvey
+ *
+ */
 public interface DefaultPowerUp extends DefaultWorldObject {
 
 	/**

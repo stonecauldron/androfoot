@@ -447,12 +447,12 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver,
 	public void updateClientData(InputData data) {
 	}
 
-	public void setSlaveMode(boolean slaveMode) {
-		this.slaveMode = slaveMode;
+	public void setSlaveMode(boolean newSlaveMode) {
+		this.slaveMode = newSlaveMode;
 	}
 
-	public void setHostMode(boolean hostMode) {
-		this.hostMode = hostMode;
+	public void setHostMode(boolean newHostMode) {
+		this.hostMode = newHostMode;
 	}
 
 	@Override

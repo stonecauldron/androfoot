@@ -77,7 +77,7 @@ public class Player implements DefaultPlayer {
 	void createPaddleShape(boolean teamOne) {
 		
 		if (playerBody.getFixtureList().size != 0) {
-			while ( playerBody.getFixtureList().size > 0){
+			while (playerBody.getFixtureList().size > 0) {
 				playerBody.destroyFixture(playerBody.getFixtureList().first());
 			}
 		}

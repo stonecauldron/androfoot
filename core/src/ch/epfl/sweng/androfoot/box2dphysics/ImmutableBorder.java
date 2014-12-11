@@ -81,7 +81,7 @@ public class ImmutableBorder implements DefaultBorder {
     }
 
     @Override
-    public void setPosition(Vector2 position) {
+    public void setPosition(Vector2 newPosition) {
         throw new UnsupportedOperationException();
     }
 
