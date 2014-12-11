@@ -46,8 +46,6 @@ public class ShakeRenderer implements DrawableRenderer {
 			opacity = 0;
 		}
 		
-		System.out.println(opacity);
-		
 		Color realColor = new Color(olverlayColor);
 		realColor.a *= opacity;
 		GraphicEngine.getEngine().enableBlending();
