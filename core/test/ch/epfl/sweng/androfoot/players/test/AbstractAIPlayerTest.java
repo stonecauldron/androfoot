@@ -43,7 +43,7 @@ public class AbstractAIPlayerTest {
 			removeFromCoRoutines(timer3);
 			
 			// put mockAI in default static
-			super.setState(AIState.DEFAULT);
+			super.setState(AIState.RANDOM);
 		}
 		
 		@Override
@@ -73,7 +73,7 @@ public class AbstractAIPlayerTest {
 		@Override
 		public List<AIState> getStatesWhereCoRoutineIsExecutable() {
 			List<AIState> list = new ArrayList<AIState>();
-			list.add(AIState.DEFAULT);
+			list.add(AIState.RANDOM);
 			return list;
 		}
 	};

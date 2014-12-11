@@ -7,5 +7,5 @@ package ch.epfl.sweng.androfoot.players.ai;
  *
  */
 public enum AIState {
-	DEFAULT, DEFENSE, SHOOT, RETREAT
+	RANDOM, DEFENSE, SHOOT, RETREAT
 }
