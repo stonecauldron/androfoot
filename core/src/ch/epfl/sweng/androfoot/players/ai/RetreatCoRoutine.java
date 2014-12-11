@@ -34,7 +34,7 @@ public class RetreatCoRoutine implements CoRoutine {
 		return authorizedStates;
 	}
 
-	public void retreat() {
+	private void retreat() {
 		int speed = mPaddles
 				.takeIntoAccountPlayerNumberInRelationToXSpeed(RETREAT_SPEED);
 		mPaddles.moveHorizontally(-speed);

@@ -33,7 +33,7 @@ public class ShootBallCoRoutine implements CoRoutine {
 		return authorizedStates;
 	}
 
-	public void shoot() {
+	private void shoot() {
 		int speed = mPaddles
 				.takeIntoAccountPlayerNumberInRelationToXSpeed(MAX_SHOOTING_SPEED);
 		mPaddles.moveHorizontally(speed);
