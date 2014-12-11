@@ -68,11 +68,6 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 	@Override
 	public void update(float deltaTime) {
 		updateTimers(deltaTime);
-		if (playerCanShootBall()) {
-			setState(AIState.SHOOT);
-		} else {
-			setState(AIState.DEFENSE);
-		}
 	}
 
 	/**
@@ -139,6 +134,37 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 				.getSemiHeight();
 	}
 
+	boolean playerCanShootBall() {
+		Vector2 ballSpeed = PhysicsWorld.getPhysicsWorld().getBall()
+				.getLinearVelocity();
+		if (ballSpeed.y < TOLERANCE || ballSpeed.x < TOLERANCE) {
+			// see if ball can be reached in x
+			float ballX = PhysicsWorld.getPhysicsWorld().getBall()
+					.getPositionX();
+			float playerX = getXPositionOfPlayerThatCanReachTheBall();
+			float paddleWidth = getPaddles().get(0).getPaddles().get(0)
+					.getWidth();
+			float ballRadius = PhysicsWorld.getPhysicsWorld().getBall()
+					.getRadius();
+			// compute correct ball radius
+			if (getPlayerNumber() == PlayerNumber.ONE) {
+				ballRadius = -ballRadius;
+			}
+	
+			// see if ball can be reached in y
+			float ballY = PhysicsWorld.getPhysicsWorld().getBall()
+					.getPositionY();
+			float playerY = getYPositionOfPlayerThatCanReachTheBall();
+	
+			boolean canReachInYAxis = Math.abs(playerY - ballY) <= getPlayerHeight() * 2;
+			boolean canReachInXAxis = Math.abs((ballX + ballRadius) - playerX) <= paddleWidth;
+	
+			// check whether player can reach ball;
+			return canReachInXAxis && canReachInYAxis;
+		}
+		return false;
+	}
+
 	protected void addToCoRoutines(Timer timer, CoRoutine coRoutine) {
 		coRoutinesMap.put(timer, coRoutine);
 	}
@@ -158,37 +184,6 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 
 			return speed;
 		}
-	}
-
-	protected boolean playerCanShootBall() {
-		Vector2 ballSpeed = PhysicsWorld.getPhysicsWorld().getBall()
-				.getLinearVelocity();
-		if (ballSpeed.y < TOLERANCE || ballSpeed.x < TOLERANCE) {
-			// see if ball can be reached in x
-			float ballX = PhysicsWorld.getPhysicsWorld().getBall()
-					.getPositionX();
-			float playerX = getXPositionOfPlayerThatCanReachTheBall();
-			float paddleWidth = getPaddles().get(0).getPaddles().get(0)
-					.getWidth();
-			float ballRadius = PhysicsWorld.getPhysicsWorld().getBall()
-					.getRadius();
-			// compute correct ball radius
-			if (getPlayerNumber() == PlayerNumber.ONE) {
-				ballRadius = -ballRadius;
-			}
-
-			// see if ball can be reached in y
-			float ballY = PhysicsWorld.getPhysicsWorld().getBall()
-					.getPositionY();
-			float playerY = getYPositionOfPlayerThatCanReachTheBall();
-
-			boolean canReachInYAxis = Math.abs(playerY - ballY) <= getPlayerHeight() * 2;
-			boolean canReachInXAxis = Math.abs((ballX + ballRadius) - playerX) <= paddleWidth;
-
-			// check whether player can reach ball;
-			return canReachInXAxis && canReachInYAxis;
-		}
-		return false;
 	}
 
 	protected boolean ballIsAheadOfAttack() {
