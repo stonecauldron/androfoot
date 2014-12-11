@@ -87,6 +87,7 @@ public class NetworkClientScreen implements Screen, ClientObserver {
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (NoHostFoundException e) {
+				Board.getInstance().resetBoard();
 				GuiManager.getInstance()
 						.executeCommand(GuiCommand.goToMainMenu);
 			}
