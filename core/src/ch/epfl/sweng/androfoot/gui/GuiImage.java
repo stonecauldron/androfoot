@@ -44,4 +44,8 @@ public class GuiImage extends GuiWidget {
 			table.row();
 		}
 	}
+	
+	public void changeImage(Skin skin, String name) {
+		mImage.setDrawable(skin, name);
+	}
 }
