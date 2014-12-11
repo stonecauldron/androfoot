@@ -34,7 +34,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, GoalObserver, BorderObserver, PlayerShapeListener {
 
-	private static final int MAX_SHOCKWAVES = 10;
+	private static final int MAX_SHOCKWAVES = 3;
 	private static final int DEFAULT_SCREEN_WIDTH = 300;
 	private static final int DEFAULT_SCREEN_HEIGHT = 200;
 
