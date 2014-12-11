@@ -1,6 +1,9 @@
 package ch.epfl.sweng.androfoot.players;
 
+import ch.epfl.sweng.androfoot.players.ai.EasyAI;
+import ch.epfl.sweng.androfoot.players.ai.HardAI;
 import ch.epfl.sweng.androfoot.players.ai.MediumAI;
+import ch.epfl.sweng.androfoot.players.ai.RandomAI;
 
 /**
  * The factory for the players.
@@ -20,7 +23,19 @@ public class PlayerFactory {
 		switch(playerType) {
 		
 			case RANDOM_AI_PLAYER:
+				player = new RandomAI(playerNumber);
+				break;
+				
+			case EASY_AI_PLAYER:
+				player = new EasyAI(playerNumber);
+				break;
+				
+			case MEDIUM_AI_PLAYER:
 				player = new MediumAI(playerNumber);
+				break;
+				
+			case HARD_AI_PLAYER:
+				player = new HardAI(playerNumber);
 				break;
 			
 			case LOCAL_PLAYER:

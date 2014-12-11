@@ -17,15 +17,21 @@ public final class Configuration {
 	private static final int DEFAULT_SCORE_LIMIT = 5;
 	private static final int DEFAULT_SENSITIVITY = 60;
 	private static final int DEFAULT_NB_OF_ATTACKERS = 2;
-	private static final PlayerType DEFAULT_PLAYER_ONE_TYPE = PlayerType.LOCAL_PLAYER;
-	private static final PlayerType DEFAULT_PLAYER_TWO_TYPE = PlayerType.LOCAL_PLAYER;
+	private static final int DEFAULT_PLAYER_ONE_TEAM = 0;
+	private static final int DEFAULT_PLAYER_TWO_TEAM = 1;
+	private static final int DEFAULT_PLAYER_ONE_TYPE = 0;
+	private static final int DEFAULT_PLAYER_TWO_TYPE = 0;
+	private static final int NUMBER_OF_PLAYER_TYPES = 5;
 	private static final int NUMBER_OF_PLAYERS_PER_TEAM = 5;
+	private static final int NUMBER_OF_TEAMS = 8;
 	private int mScoreLimit;
 	private int mSensitivity;
-	private PlayerType mPlayerOneType;
-	private PlayerType mPlayerTwoType;
+	private int mPlayerOneTypeIndex;
+	private int mPlayerTwoTypeIndex;
 	private int mPlayerOneNbAttackers;
 	private int mPlayerTwoNbAttackers;
+	private int mPlayerOneTeam;
+	private int mPlayerTwoTeam;
 	private boolean mSoundOn;
 	private boolean mTiltingOn;
 	private boolean mPowerupsOn;
@@ -40,32 +46,16 @@ public final class Configuration {
 			mScoreLimit = mPrefs.getInteger("SCORE_LIMIT", DEFAULT_SCORE_LIMIT);
 			mSensitivity = mPrefs
 					.getInteger("SENSITIVITY", DEFAULT_SENSITIVITY);
-			switch (mPrefs.getInteger("PLAYER_ONE_TYPE")) {
-			case 0:
-				mPlayerOneType = PlayerType.LOCAL_PLAYER;
-				break;
-			case 1:
-				mPlayerOneType = PlayerType.RANDOM_AI_PLAYER;
-				break;
-			default:
-				mPlayerOneType = DEFAULT_PLAYER_ONE_TYPE;
-				break;
-			}
-			switch (mPrefs.getInteger("PLAYER_TWO_TYPE")) {
-			case 0:
-				mPlayerTwoType = PlayerType.LOCAL_PLAYER;
-				break;
-			case 1:
-				mPlayerTwoType = PlayerType.RANDOM_AI_PLAYER;
-				break;
-			default:
-				mPlayerTwoType = DEFAULT_PLAYER_TWO_TYPE;
-				break;
-			}
+			mPlayerOneTypeIndex = mPrefs.getInteger("PLAYER_ONE_TYPE", DEFAULT_PLAYER_ONE_TYPE);
+			mPlayerTwoTypeIndex = mPrefs.getInteger("PLAYER_TWO_TYPE", DEFAULT_PLAYER_TWO_TYPE);
 			mPlayerOneNbAttackers = mPrefs.getInteger(
 					"PLAYER_ONE_NB_ATTACKERS", DEFAULT_NB_OF_ATTACKERS);
 			mPlayerTwoNbAttackers = mPrefs.getInteger(
 					"PLAYER_TWO_NB_ATTACKERS", DEFAULT_NB_OF_ATTACKERS);
+			mPlayerOneTeam = mPrefs.getInteger(
+					"PLAYER_ONE_TEAM", DEFAULT_PLAYER_ONE_TEAM);
+			mPlayerTwoTeam = mPrefs.getInteger(
+					"PLAYER_TWO_TEAM", DEFAULT_PLAYER_TWO_TEAM);
 			mSoundOn = mPrefs.getBoolean("SOUND", true);
 			mTiltingOn = mPrefs.getBoolean("TILTING", true);
 			mPowerupsOn = mPrefs.getBoolean("POWERUPS", true);
@@ -79,32 +69,12 @@ public final class Configuration {
 	public void savePreferences() {
 		mPrefs.putInteger("SCORE_LIMIT", mScoreLimit);
 		mPrefs.putInteger("SENSITIVITY", mSensitivity);
-		switch (mPlayerOneType) {
-		case LOCAL_PLAYER:
-			mPrefs.putInteger("PLAYER_ONE_TYPE", 0);
-			break;
-		case RANDOM_AI_PLAYER:
-			mPrefs.putInteger("PLAYER_ONE_TYPE", 1);
-			break;
-		default:
-			mPrefs.putInteger("PLAYER_ONE_TYPE", 0);
-			break;
-		}
-		;
-		switch (mPlayerTwoType) {
-		case LOCAL_PLAYER:
-			mPrefs.putInteger("PLAYER_TWO_TYPE", 0);
-			break;
-		case RANDOM_AI_PLAYER:
-			mPrefs.putInteger("PLAYER_TWO_TYPE", 1);
-			break;
-		default:
-			mPrefs.putInteger("PLAYER_TWO_TYPE", 0);
-			break;
-		}
-		;
+		mPrefs.putInteger("PLAYER_ONE_TYPE", mPlayerOneTypeIndex % NUMBER_OF_PLAYER_TYPES);
+		mPrefs.putInteger("PLAYER_TWO_TYPE", mPlayerTwoTypeIndex % NUMBER_OF_PLAYER_TYPES);
 		mPrefs.putInteger("PLAYER_ONE_NB_ATTACKERS", mPlayerOneNbAttackers);
 		mPrefs.putInteger("PLAYER_TWO_NB_ATTACKERS", mPlayerTwoNbAttackers);
+		mPrefs.putInteger("PLAYER_ONE_TEAM", mPlayerOneTeam);
+		mPrefs.putInteger("PLAYER_TWO_TEAM", mPlayerTwoTeam);
 		mPrefs.putBoolean("SOUND", mSoundOn);
 		mPrefs.putBoolean("TILTING", mTiltingOn);
 		mPrefs.putBoolean("POWERUPS", mPowerupsOn);
@@ -134,20 +104,114 @@ public final class Configuration {
 		return mSensitivity;
 	}
 
+	public void addPlayerOneType() {
+		mPlayerOneTypeIndex = (mPlayerOneTypeIndex + 1)
+				% NUMBER_OF_PLAYER_TYPES;
+	}
+	
+	public void subPlayerOneType() {
+		mPlayerOneTypeIndex = (mPlayerOneTypeIndex + (NUMBER_OF_PLAYER_TYPES - 1))
+				% NUMBER_OF_PLAYER_TYPES;
+	}
+	
+	public void addPlayerTwoType() {
+		mPlayerTwoTypeIndex = (mPlayerTwoTypeIndex + 1)
+				% NUMBER_OF_PLAYER_TYPES;
+	}
+	
+	public void subPlayerTwoType() {
+		mPlayerTwoTypeIndex = (mPlayerTwoTypeIndex + (NUMBER_OF_PLAYER_TYPES - 1))
+				% NUMBER_OF_PLAYER_TYPES;
+	}
+
 	public void setPlayerOneType(PlayerType type) {
-		mPlayerOneType = type;
+		switch (type) {
+			case LOCAL_PLAYER:
+				mPlayerOneTypeIndex = 0;
+				break;
+			case RANDOM_AI_PLAYER:
+				mPlayerOneTypeIndex = 1;
+				break;
+			case EASY_AI_PLAYER:
+				mPlayerOneTypeIndex = 2;
+				break;
+			case MEDIUM_AI_PLAYER:
+				mPlayerOneTypeIndex = 3;
+				break;
+			case HARD_AI_PLAYER:
+				mPlayerOneTypeIndex = 4;
+				break;
+			case REMOTE_PLAYER:
+				mPlayerOneTypeIndex = 5;
+				break;
+			default:
+				break;
+		}
 	}
 
 	public void setPlayerTwoType(PlayerType type) {
-		mPlayerTwoType = type;
+		switch (type) {
+			case LOCAL_PLAYER:
+				mPlayerTwoTypeIndex = 0;
+				break;
+			case RANDOM_AI_PLAYER:
+				mPlayerTwoTypeIndex = 1;
+				break;
+			case EASY_AI_PLAYER:
+				mPlayerTwoTypeIndex = 2;
+				break;
+			case MEDIUM_AI_PLAYER:
+				mPlayerTwoTypeIndex = 3;
+				break;
+			case HARD_AI_PLAYER:
+				mPlayerTwoTypeIndex = 4;
+				break;
+			case REMOTE_PLAYER:
+				mPlayerTwoTypeIndex = 5;
+				break;
+			default:
+				break;
+		}
 	}
 
 	public PlayerType getPlayerOneType() {
-		return mPlayerOneType;
+		switch (mPlayerOneTypeIndex) {
+			case 0:
+				return PlayerType.LOCAL_PLAYER;
+			case 1:
+				return PlayerType.RANDOM_AI_PLAYER;
+			case 2:
+				return PlayerType.EASY_AI_PLAYER;
+			case 3:
+				return PlayerType.MEDIUM_AI_PLAYER;
+			case 4:
+				return PlayerType.HARD_AI_PLAYER;
+			case 5:
+				return PlayerType.REMOTE_PLAYER;
+			default:
+				break;
+		}
+		return PlayerType.LOCAL_PLAYER;
 	}
 
 	public PlayerType getPlayerTwoType() {
-		return mPlayerTwoType;
+		switch (mPlayerTwoTypeIndex) {
+			case 0:
+				return PlayerType.LOCAL_PLAYER;
+			case 1:
+				return PlayerType.RANDOM_AI_PLAYER;
+			case 2:
+				return PlayerType.EASY_AI_PLAYER;
+			case 3:
+				return PlayerType.MEDIUM_AI_PLAYER;
+			case 4:
+				return PlayerType.HARD_AI_PLAYER;
+			case 5:
+				return PlayerType.REMOTE_PLAYER;
+			default:
+				break;
+		}
+		return PlayerType.LOCAL_PLAYER;
 	}
 
 	public void addPlayerOneFormation() {
@@ -160,8 +224,8 @@ public final class Configuration {
 	}
 
 	public int[] getPlayerOneFormation() {
-		return new int[] { mPlayerOneNbAttackers,
-				NUMBER_OF_PLAYERS_PER_TEAM - mPlayerOneNbAttackers };
+		return new int[] {mPlayerOneNbAttackers,
+			NUMBER_OF_PLAYERS_PER_TEAM - mPlayerOneNbAttackers };
 	}
 
 	public void addPlayerTwoFormation() {
@@ -171,6 +235,42 @@ public final class Configuration {
 	public void subPlayerTwoFormation() {
 		mPlayerTwoNbAttackers = ((mPlayerTwoNbAttackers - 1) + (NUMBER_OF_PLAYERS_PER_TEAM - 2))
 				% (NUMBER_OF_PLAYERS_PER_TEAM - 1) + 1;
+	}
+	
+	public void addPlayerOneTeam() {
+		mPlayerOneTeam = (mPlayerOneTeam + 1) % NUMBER_OF_TEAMS;
+		if (mPlayerOneTeam == mPlayerTwoTeam) {
+			addPlayerOneTeam();
+		}
+	}
+
+	public void subPlayerOneTeam() {
+		mPlayerOneTeam = (mPlayerOneTeam + (NUMBER_OF_TEAMS - 1)) % NUMBER_OF_TEAMS;
+		if (mPlayerOneTeam == mPlayerTwoTeam) {
+			subPlayerOneTeam();
+		}
+	}
+	
+	public int getPlayerOneTeam() {
+		return mPlayerOneTeam;
+	}
+	
+	public void addPlayerTwoTeam() {
+		mPlayerTwoTeam = (mPlayerTwoTeam + 1) % NUMBER_OF_TEAMS;
+		if (mPlayerTwoTeam == mPlayerOneTeam) {
+			addPlayerTwoTeam();
+		}
+	}
+
+	public void subPlayerTwoTeam() {
+		mPlayerTwoTeam = (mPlayerTwoTeam + (NUMBER_OF_TEAMS - 1)) % NUMBER_OF_TEAMS;
+		if (mPlayerTwoTeam == mPlayerOneTeam) {
+			subPlayerTwoTeam();
+		}
+	}
+	
+	public int getPlayerTwoTeam() {
+		return mPlayerTwoTeam;
 	}
 
 	public void setDefaultConfig() {
@@ -184,8 +284,8 @@ public final class Configuration {
 	}
 
 	public int[] getPlayerTwoFormation() {
-		return new int[] { mPlayerTwoNbAttackers,
-				NUMBER_OF_PLAYERS_PER_TEAM - mPlayerTwoNbAttackers };
+		return new int[] {mPlayerTwoNbAttackers,
+			NUMBER_OF_PLAYERS_PER_TEAM - mPlayerTwoNbAttackers };
 	}
 
 	public void toggleSound() {
@@ -212,8 +312,8 @@ public final class Configuration {
 		return mNetworkMode;
 	}
 
-	public void setNetworkMode(boolean mNetworkMode) {
-		this.mNetworkMode = mNetworkMode;
+	public void setNetworkMode(boolean networkMode) {
+		this.mNetworkMode = networkMode;
 	}
 
 	public boolean getTilting() {

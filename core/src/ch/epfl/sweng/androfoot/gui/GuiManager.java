@@ -37,6 +37,9 @@ public final class GuiManager {
 	private static final float TOUCHPAD_MAX_SENSITIVITY = 120f;
 	private final float[] mTitlePadding = new float[] {0f, 0f, 0f, 0.05f };
 	private final float[] mDefaultPadding = new float[] {0.01f, 0.01f, 0.01f, 0.01f };
+	private final String[] mTeamImage = new String[] {"teamRed", "teamBlue",
+		"teamGreen", "teamPurple", "teamTeal", "teamOrange", "teamYellow",
+		"teamWhite" };
 	private TextureAtlas mAtlas;
 	private Skin mDefaultSkin;
 	private ArrayList<GuiWidget> mMainMenuWidgets = new ArrayList<GuiWidget>();
@@ -51,6 +54,8 @@ public final class GuiManager {
 	private GuiLabel mPlayerTwoFormationLabel;
 	private GuiLabel mPlayerOneTypeLabel;
 	private GuiLabel mPlayerTwoTypeLabel;
+	private GuiImage mPlayerOneTeam;
+	private GuiImage mPlayerTwoTeam;
 	private GuiSlider mSensitivityCounter;
 
 	private GuiManager() {
@@ -78,6 +83,22 @@ public final class GuiManager {
 
 	public void executeCommand(GuiCommand command) {
 		switch (command) {
+			case addPlayerOneTeam:
+				Configuration.getInstance().addPlayerOneTeam();
+				executeCommand(GuiCommand.refreshDisplay);
+				break;
+			case subPlayerOneTeam:
+				Configuration.getInstance().subPlayerOneTeam();
+				executeCommand(GuiCommand.refreshDisplay);
+				break;
+			case addPlayerTwoTeam:
+				Configuration.getInstance().addPlayerTwoTeam();
+				executeCommand(GuiCommand.refreshDisplay);
+				break;
+			case subPlayerTwoTeam:
+				Configuration.getInstance().subPlayerTwoTeam();
+				executeCommand(GuiCommand.refreshDisplay);
+				break;
 			case addPlayerOneFormation:
 				Configuration.getInstance().addPlayerOneFormation();
 				executeCommand(GuiCommand.refreshDisplay);
@@ -124,27 +145,21 @@ public final class GuiManager {
 				((Game) Gdx.app.getApplicationListener()).setScreen(new GuiScreen(
 									mSettingsWidgets));
 				break;
-			case togglePlayerOneType:
-				if (Configuration.getInstance().getPlayerOneType() == PlayerType.LOCAL_PLAYER) {
-					Configuration.getInstance().setPlayerOneType(
-									PlayerType.RANDOM_AI_PLAYER);
-					executeCommand(GuiCommand.refreshDisplay);
-				} else {
-					Configuration.getInstance().setPlayerOneType(
-									PlayerType.LOCAL_PLAYER);
-					executeCommand(GuiCommand.refreshDisplay);
-				}
+			case addPlayerOneType:
+				Configuration.getInstance().addPlayerOneType();
+				executeCommand(GuiCommand.refreshDisplay);
 				break;
-			case togglePlayerTwoType:
-				if (Configuration.getInstance().getPlayerTwoType() == PlayerType.LOCAL_PLAYER) {
-					Configuration.getInstance().setPlayerTwoType(
-									PlayerType.RANDOM_AI_PLAYER);
-					executeCommand(GuiCommand.refreshDisplay);
-				} else {
-					Configuration.getInstance().setPlayerTwoType(
-									PlayerType.LOCAL_PLAYER);
-					executeCommand(GuiCommand.refreshDisplay);
-				}
+			case subPlayerOneType:
+				Configuration.getInstance().subPlayerOneType();
+				executeCommand(GuiCommand.refreshDisplay);
+				break;
+			case addPlayerTwoType:
+				Configuration.getInstance().addPlayerTwoType();
+				executeCommand(GuiCommand.refreshDisplay);
+				break;
+			case subPlayerTwoType:
+				Configuration.getInstance().subPlayerTwoType();
+				executeCommand(GuiCommand.refreshDisplay);
 				break;
 			case refreshDisplay:
 				mPlayerOneFormationLabel.setText(Integer.toString(
@@ -157,16 +172,54 @@ public final class GuiManager {
 								+ Configuration.getInstance().getPlayerTwoFormation()[1]);
 				mScoreLimitCounter.setText(Integer.toString(Configuration
 								.getInstance().getScoreLimit()));
-				if (Configuration.getInstance().getPlayerOneType() == PlayerType.LOCAL_PLAYER) {
-					mPlayerOneTypeLabel.setText("Human");
-				} else {
-					mPlayerOneTypeLabel.setText("CPU");
+				switch (Configuration.getInstance().getPlayerOneType()) {
+					case LOCAL_PLAYER:
+						mPlayerOneTypeLabel.setText("Human");
+						break;
+					case RANDOM_AI_PLAYER:
+						mPlayerOneTypeLabel.setText("CPU rdm");
+						break;
+					case EASY_AI_PLAYER:
+						mPlayerOneTypeLabel.setText("CPU lvl1");
+						break;
+					case MEDIUM_AI_PLAYER:
+						mPlayerOneTypeLabel.setText("CPU lvl2");
+						break;
+					case HARD_AI_PLAYER:
+						mPlayerOneTypeLabel.setText("CPU lvl3");
+						break;
+					case REMOTE_PLAYER:
+						mPlayerOneTypeLabel.setText("Human");
+						break;
+					default:
+						break;
 				}
-				if (Configuration.getInstance().getPlayerTwoType() == PlayerType.LOCAL_PLAYER) {
-					mPlayerTwoTypeLabel.setText("Human");
-				} else {
-					mPlayerTwoTypeLabel.setText("CPU");
+				switch (Configuration.getInstance().getPlayerTwoType()) {
+					case LOCAL_PLAYER:
+						mPlayerTwoTypeLabel.setText("Human");
+						break;
+					case RANDOM_AI_PLAYER:
+						mPlayerTwoTypeLabel.setText("CPU rdm");
+						break;
+					case EASY_AI_PLAYER:
+						mPlayerTwoTypeLabel.setText("CPU lvl1");
+						break;
+					case MEDIUM_AI_PLAYER:
+						mPlayerTwoTypeLabel.setText("CPU lvl2");
+						break;
+					case HARD_AI_PLAYER:
+						mPlayerTwoTypeLabel.setText("CPU lvl3");
+						break;
+					case REMOTE_PLAYER:
+						mPlayerTwoTypeLabel.setText("Human");
+						break;
+					default:
+						break;
 				}
+				mPlayerOneTeam.changeImage(mDefaultSkin,
+											mTeamImage[Configuration.getInstance().getPlayerOneTeam()]);
+				mPlayerTwoTeam.changeImage(mDefaultSkin,
+								mTeamImage[Configuration.getInstance().getPlayerTwoTeam()]);
 				break;
 			case subPlayerOneFormation:
 				Configuration.getInstance().subPlayerOneFormation();
@@ -251,50 +304,52 @@ public final class GuiManager {
 		// Player one type
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "leftarrow", false,
 						mDefaultPadding, Align.right, "", TINY_BUTTON_X_SIZE,
-						BUTTON_Y_SIZE, 1, GuiCommand.togglePlayerOneType));
+						BUTTON_Y_SIZE, 1, GuiCommand.subPlayerOneType));
 		mPlayerOneTypeLabel = new GuiLabel(mDefaultSkin, "default", false,
 				mDefaultPadding, 1, "Human");
 		mLocalPlayWidgets.add(mPlayerOneTypeLabel);
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "rightarrow", false,
 						mDefaultPadding, Align.left, "", TINY_BUTTON_X_SIZE,
-						BUTTON_Y_SIZE, 1, GuiCommand.togglePlayerOneType));
+						BUTTON_Y_SIZE, 1, GuiCommand.addPlayerOneType));
 		mLocalPlayWidgets.add(new GuiLabel(mDefaultSkin, "default", false,
 						mDefaultPadding, 1, ""));
 
 		// Player two type
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "leftarrow", false,
 						mDefaultPadding, Align.right, "", TINY_BUTTON_X_SIZE,
-						BUTTON_Y_SIZE, 1, GuiCommand.togglePlayerTwoType));
+						BUTTON_Y_SIZE, 1, GuiCommand.subPlayerTwoType));
 		mPlayerTwoTypeLabel = new GuiLabel(mDefaultSkin, "default", false,
 				mDefaultPadding, 1, "Human");
 		mLocalPlayWidgets.add(mPlayerTwoTypeLabel);
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "rightarrow", true,
 						mDefaultPadding, Align.left, "", TINY_BUTTON_X_SIZE,
-						BUTTON_Y_SIZE, 1, GuiCommand.togglePlayerTwoType));
+						BUTTON_Y_SIZE, 1, GuiCommand.addPlayerTwoType));
 
-		// Player one team color
+		// Player one team
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "leftarrow", false,
 						mDefaultPadding, Align.right, "", TINY_BUTTON_X_SIZE,
-						TEAM_LOGO_Y_SIZE, 1, GuiCommand.nothing));
-		mLocalPlayWidgets.add(new GuiImage(mDefaultSkin, "teamGreen",
-						TEAM_LOGO_X_SIZE, TEAM_LOGO_Y_SIZE, false, mDefaultPadding, 1));
+						TEAM_LOGO_Y_SIZE, 1, GuiCommand.subPlayerOneTeam));
+		mPlayerOneTeam = new GuiImage(mDefaultSkin, "teamRed",
+				TEAM_LOGO_X_SIZE, TEAM_LOGO_Y_SIZE, false, mDefaultPadding, 1);
+		mLocalPlayWidgets.add(mPlayerOneTeam);
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "rightarrow", false,
 						mDefaultPadding, Align.left, "", TINY_BUTTON_X_SIZE,
-						TEAM_LOGO_Y_SIZE, 1, GuiCommand.nothing));
+						TEAM_LOGO_Y_SIZE, 1, GuiCommand.addPlayerOneTeam));
 		
 		// VS
 		mLocalPlayWidgets.add(new GuiLabel(mDefaultSkin, "default", false,
 						mDefaultPadding, 1, "VS"));
 		
-		// Player two team color
+		// Player two team
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "leftarrow", false,
 						mDefaultPadding, Align.right, "", TINY_BUTTON_X_SIZE,
-						TEAM_LOGO_Y_SIZE, 1, GuiCommand.nothing));
-		mLocalPlayWidgets.add(new GuiImage(mDefaultSkin, "teamPurple",
-						TEAM_LOGO_X_SIZE, TEAM_LOGO_Y_SIZE, false, mDefaultPadding, 1));
+						TEAM_LOGO_Y_SIZE, 1, GuiCommand.subPlayerTwoTeam));
+		mPlayerTwoTeam = new GuiImage(mDefaultSkin, "teamBlue",
+				TEAM_LOGO_X_SIZE, TEAM_LOGO_Y_SIZE, false, mDefaultPadding, 1);
+		mLocalPlayWidgets.add(mPlayerTwoTeam);
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "rightarrow", true,
 						mDefaultPadding, Align.left, "", TINY_BUTTON_X_SIZE,
-						TEAM_LOGO_Y_SIZE, 1, GuiCommand.nothing));
+						TEAM_LOGO_Y_SIZE, 1, GuiCommand.addPlayerTwoTeam));
 
 		// Player one formation
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "leftarrow", false,

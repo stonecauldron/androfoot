@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.sweng.androfoot.gui;
 
 /**
@@ -13,6 +10,10 @@ public enum GuiCommand {
 	subPlayerOneFormation,
 	addPlayerTwoFormation,
 	subPlayerTwoFormation,
+	addPlayerOneTeam,
+	subPlayerOneTeam,
+	addPlayerTwoTeam,
+	subPlayerTwoTeam,
 	goToMainMenu,
 	goToLocalPlay,
 	goToSettings,
@@ -26,8 +27,10 @@ public enum GuiCommand {
 	addScoreLimit,
 	refreshDisplay,
 	subScoreLimit,
-	togglePlayerOneType,
-	togglePlayerTwoType,
+	addPlayerOneType,
+	subPlayerOneType,
+	addPlayerTwoType,
+	subPlayerTwoType,
 	toggleSound,
 	toggleTilting,
 	togglePowerups,

@@ -3,6 +3,7 @@ package ch.epfl.sweng.androfoot.gamelogic;
 import com.badlogic.gdx.graphics.Color;
 
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
+import ch.epfl.sweng.androfoot.configuration.Configuration;
 import ch.epfl.sweng.androfoot.polygongenerator.PaddleGenerator;
 import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
 
@@ -22,19 +23,21 @@ public class PlayerCharacteristicsManager {
 	private static PaddleGenerator paddleGeneratorInstanceTeam1 = null;
 	private static PaddleGenerator paddleGeneratorInstanceTeam2 = null;
 
-	public static final int DEFAULT_COLOR_TEAM1_HEX = 0x2ECC71FF;
-	public static final int DEFAULT_COLOR_TEAM2_HEX = 0xBF55ECFF;
-	public static final Color DEFAULT_COLOR_TEAM1 = new Color(
-			DEFAULT_COLOR_TEAM1_HEX);
-	public static final Color DEFAULT_COLOR_TEAM2 = new Color(
-			DEFAULT_COLOR_TEAM2_HEX);
+	public static final Color[] TEAM_COLORS_HEX = new Color[]{	new Color(0xFF2020FF),
+																new Color(0x4040FFFF),
+																new Color(0x40E080FF),
+																new Color(0xC040FFFF),
+																new Color(0x00FFFFFF),
+																new Color(0xFF8040FF),
+																new Color(0xE0E040FF),
+																new Color(0xFFFFFFFF)};
 
 	public static Color getColorTeam1() {
-		return DEFAULT_COLOR_TEAM1;
+		return TEAM_COLORS_HEX[Configuration.getInstance().getPlayerOneTeam()];
 	}
 
 	public static Color getColorTeam2() {
-		return DEFAULT_COLOR_TEAM2;
+		return TEAM_COLORS_HEX[Configuration.getInstance().getPlayerTwoTeam()];
 	}
 
 	/**

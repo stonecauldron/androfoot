@@ -1,5 +1,6 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
+import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBorder;
 import ch.epfl.sweng.androfoot.interfaces.DrawableRectangle;
 import ch.epfl.sweng.androfoot.interfaces.Visitor;
@@ -133,9 +134,9 @@ public class Border implements DrawableRectangle, DefaultBorder {
     public Color getColor() {
         switch (borderType) {
             case TEAM_ONE:
-                return Constants.GOAL_COLOR_TEAM1;
+                return PlayerCharacteristicsManager.getColorTeam1();
             case TEAM_TWO:
-                return Constants.GOAL_COLOR_TEAM2;
+                return PlayerCharacteristicsManager.getColorTeam2();
             case NO_TEAM:
                 return new Color(0, 0, 0, 1);
             default:
