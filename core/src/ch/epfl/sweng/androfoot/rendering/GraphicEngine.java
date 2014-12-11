@@ -49,8 +49,8 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor,
 	private static final int FIELD_COLOR_HEX = 0x303030FF;
 	private static final Color FIELD_COLOR = new Color(FIELD_COLOR_HEX);
 
-	private static final float SHAKE_TIME = 0.75f;
-	private static final float SHAKE_ANIMATION_TIME = 0.3f;
+	private static final float SHAKE_TIME = 0.5f;
+	private static final float SHAKE_ANIMATION_TIME = 0.2f;
 
 	private static GraphicEngine instance = new GraphicEngine();
 
