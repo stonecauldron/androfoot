@@ -1,9 +1,11 @@
 package ch.epfl.sweng.androfoot.rendering;
 
+import ch.epfl.sweng.androfoot.accelerometer.AccelerometerTracker;
 import ch.epfl.sweng.androfoot.box2dphysics.EventManager;
 import ch.epfl.sweng.androfoot.box2dphysics.Goal.GoalTeam;
 import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
 import ch.epfl.sweng.androfoot.gamelogic.powerups.PowerUpCharacteristicsManger;
+import ch.epfl.sweng.androfoot.interfaces.AccelerometerObserver;
 import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBorder;
@@ -32,16 +34,23 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, GoalObserver, BorderObserver, PlayerShapeListener {
+public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor,
+		GoalObserver, BorderObserver, PlayerShapeListener,
+		AccelerometerObserver {
 
-	private static final int MAX_SHOCKWAVES = 10;
+	private static final int MAX_SHOCKWAVES = 3;
 	private static final int DEFAULT_SCREEN_WIDTH = 300;
 	private static final int DEFAULT_SCREEN_HEIGHT = 200;
+	private static final int TILT_COLOR_HEX = 0xFF000060;
+	private static final Color TILT_COLOR = new Color(TILT_COLOR_HEX);
 
 	private static final int SCORE_COLOR_HEX = 0x2B2B2BFF;
 	private static final Color SCORE_COLOR = new Color(SCORE_COLOR_HEX);
 	private static final int FIELD_COLOR_HEX = 0x303030FF;
 	private static final Color FIELD_COLOR = new Color(FIELD_COLOR_HEX);
+
+	private static final float SHAKE_TIME = 0.75f;
+	private static final float SHAKE_ANIMATION_TIME = 0.3f;
 
 	private static GraphicEngine instance = new GraphicEngine();
 
@@ -51,6 +60,8 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 	private final ScoreRenderer scoreRenderer = new ScoreRenderer(SCORE_COLOR);
 	private final BoardRenderer boardRenderer = new BoardRenderer();
 	private final RectangleRenderer rectangleRenderer = new RectangleRenderer();
+	private final ShakeRenderer shakeRenderer = new ShakeRenderer(TILT_COLOR,
+			SHAKE_TIME, SHAKE_ANIMATION_TIME);
 	private PlayerRenderer playerT1Renderer;
 	private PlayerRenderer playerT2Renderer;
 	private final PowerUpRender powerUpRender;
@@ -65,23 +76,26 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 	private int screenWidth = DEFAULT_SCREEN_WIDTH;
 	private int screenHeight = DEFAULT_SCREEN_HEIGHT;
 
-	private final ShockwaveManager shockwaveManager = new ShockwaveManager(MAX_SHOCKWAVES);
+	private final ShockwaveManager shockwaveManager = new ShockwaveManager(
+			MAX_SHOCKWAVES);
 
 	/**
 	 * Init the singleton engine
 	 */
 	private GraphicEngine() {
 		shapeHasChanged();
-		powerUpRender = new PowerUpRender(PowerUpCharacteristicsManger.getPowerUpShape());
+		powerUpRender = new PowerUpRender(
+				PowerUpCharacteristicsManger.getPowerUpShape());
 		powerUpRender.setColor(PowerUpCharacteristicsManger.getPowerUpColor());
 		batch.enableBlending();
 		EventManager.getEventManager().addGoalObserver(this);
 		EventManager.getEventManager().addBorderContactObserver(this);
+		AccelerometerTracker.getInstance().addObserverShaker(this);
 	}
 
 	/**
-	 * Get the engine
-	 * Singleton pattern
+	 * Get the engine Singleton pattern
+	 * 
 	 * @return the engine
 	 */
 	public static GraphicEngine getEngine() {
@@ -90,6 +104,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 
 	/**
 	 * get the currentViewport
+	 * 
 	 * @return the viewport
 	 */
 	Viewport getViewPort() {
@@ -138,6 +153,8 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 		for (Visitable v : world.toDraw()) {
 			v.accept(this);
 		}
+		shakeRenderer.age(delta);
+		shakeRenderer.render(batch, renderer);
 	}
 
 	@Override
@@ -147,7 +164,9 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 
 	@Override
 	public void visit(Visitable visitable) {
-		String message = this.getClass().getName() + " cannot render ojects of type " + visitable.getClass().getName();
+		String message = this.getClass().getName()
+				+ " cannot render ojects of type "
+				+ visitable.getClass().getName();
 		throw new Visitor.NotCompatibleVisitableException(message);
 	}
 
@@ -178,8 +197,8 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 		viewport = new FitViewport(worldRegion.width, worldRegion.height);
 		camera = new OrthographicCamera(worldRegion.width, worldRegion.height);
 		viewport.setCamera(camera);
-		camera.position.set(worldRegion.width / 2 + worldRegion.x, worldRegion.height / 2 + worldRegion.y,
-				camera.position.z);
+		camera.position.set(worldRegion.width / 2 + worldRegion.x,
+				worldRegion.height / 2 + worldRegion.y, camera.position.z);
 		camera.update();
 	}
 
@@ -204,15 +223,16 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 		float posX = ball.getPositionX();
 		float posY = ball.getPositionY();
 		Color c;
-		if(goal.getTeam() == GoalTeam.ONE){
+		if (goal.getTeam() == GoalTeam.ONE) {
 			c = PlayerCharacteristicsManager.getColorTeam1();
 		} else {
 			c = PlayerCharacteristicsManager.getColorTeam2();
 		}
-		
+
 		c.a = 0.4f;
-		
-		shockwaveManager.addShockWave(new ShockWave(new Vector2(posX, posY), c, 12, 9));
+
+		shockwaveManager.addShockWave(new ShockWave(new Vector2(posX, posY), c,
+				12, 9));
 	}
 
 	@Override
@@ -220,10 +240,11 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 		float posX = ball.getPositionX();
 		float posY = ball.getPositionY();
 		Color c = BallRenderer.BALL_COLOR;
-		
-		shockwaveManager.addShockWave(new BoomShockwave(new Vector2(posX, posY), c, 2, 8));
+
+		shockwaveManager.addShockWave(new BoomShockwave(
+				new Vector2(posX, posY), c, 2, 8));
 	}
-	
+
 	@Override
 	public void reset() {
 		shockwaveManager.reset();
@@ -231,16 +252,24 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor, Go
 
 	@Override
 	public void shapeHasChanged() {
-		playerT1Renderer = new PlayerRenderer(PlayerCharacteristicsManager.getInstanceTeam1());
+		playerT1Renderer = new PlayerRenderer(
+				PlayerCharacteristicsManager.getInstanceTeam1());
 		playerT1Renderer.setColor(PlayerCharacteristicsManager.getColorTeam1());
-		playerT2Renderer = new PlayerRenderer(PlayerCharacteristicsManager.getInstanceTeam2());
+		playerT2Renderer = new PlayerRenderer(
+				PlayerCharacteristicsManager.getInstanceTeam2());
 		playerT2Renderer.setColor(PlayerCharacteristicsManager.getColorTeam2());
 	}
 
 	@Override
 	public void visit(DefaultPowerUp powerup) {
-		powerUpRender.setPosition(powerup.getPositionX(), powerup.getPositionY());
+		powerUpRender.setPosition(powerup.getPositionX(),
+				powerup.getPositionY());
 		powerUpRender.setScale(powerup.getHitBoxRadius());
 		powerUpRender.render(batch, renderer);
+	}
+
+	@Override
+	public void isShaking() {
+		shakeRenderer.start();
 	}
 }
