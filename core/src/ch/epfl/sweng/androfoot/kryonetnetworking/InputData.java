@@ -3,39 +3,26 @@ package ch.epfl.sweng.androfoot.kryonetnetworking;
 /**
  * @author Ahaeflig
  * 
- *         Classed used to abstract data sent by a client (slave) to the server
- *         therefore it contains only the touch info
+ *         Classed used to abstract input data sent between players
  */
 public class InputData {
 
 	private float touchX;
 	private float touchY;
-	private boolean touched;
 
-	private boolean isShaking;
 
-	public InputData(float touchX, float touchY, boolean touched, boolean shake) {
+	public InputData(float touchX, float touchY) {
 		this.touchX = touchX;
 		this.touchY = touchY;
-		this.touched = touched;
-		this.isShaking = shake;
-	}
-	
-	public InputData() {
-		
-	}
-
-	public boolean isTouched() {
-		return touched;
 	}
 
 	/**
-	 * @return X coordinate
+	 * Used by the kyro serial only, Do not use this useless constructor
 	 */
-	public boolean getIsShaking() {
-		return isShaking;
+	public InputData() {
+
 	}
-	
+
 	/**
 	 * @return X coordinate
 	 */
@@ -49,6 +36,5 @@ public class InputData {
 	public float getTouchY() {
 		return touchY;
 	}
-	
-	
+
 }
