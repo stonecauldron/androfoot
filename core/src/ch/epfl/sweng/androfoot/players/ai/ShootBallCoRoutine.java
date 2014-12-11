@@ -13,8 +13,8 @@ import ch.epfl.sweng.androfoot.utils.CoRoutine;
  */
 public class ShootBallCoRoutine implements CoRoutine {
 
-	private static final int MAX_SHOOTING_SPEED = 10;
-
+	private static final int MAX_SHOOTING_SPEED = 4;
+	
 	private AbstractAIPlayer mPaddles;
 
 	private List<AIState> authorizedStates = Arrays.asList(AIState.SHOOT);
