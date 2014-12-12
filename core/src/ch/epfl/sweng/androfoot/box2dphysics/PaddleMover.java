@@ -1,11 +1,17 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import ch.epfl.sweng.androfoot.configuration.Configuration;
+import ch.epfl.sweng.androfoot.interfaces.IsTransformableObserver;
+import ch.epfl.sweng.androfoot.kryonetnetworking.InputData;
+import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerClient;
+import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerHost;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * @author Ahaeflig
@@ -13,7 +19,7 @@ import com.badlogic.gdx.Gdx;
  *         This class is used to abstract the movement of the paddle from the
  *         player and to have proper metrics for moving paddles
  */
-public class PaddleMover {
+public class PaddleMover implements IsTransformableObserver {
 
 	private float xSpeedRatio = (float) Constants.X_SPEED_RATIO;
 	private float ySpeedRatio = (float) Constants.Y_SPEED_RATIO;
@@ -22,7 +28,7 @@ public class PaddleMover {
 	private final static float NEXUS_X = 15.253849f;
 	private final static float NEXUS_Y = 8.776713f;
 
-	// TODO MAKE THIS AN PARAMETER IN THE GAME SETTINGS
+	// MAKE THIS AN PARAMETER IN THE GAME SETTINGS ?
 	private final static float CM_TRESHOLD = 0.040f;
 
 	private float mPixelXScreenSize = Gdx.graphics.getWidth();
@@ -40,10 +46,28 @@ public class PaddleMover {
 	private float mMoveTresholdX;
 	private float mMoveTresholdY;
 
+	private boolean isTransformPositionSafe = false;
+	public boolean newPosition = false;
+
+	ArrayList<Vector2> paddlePosition = new ArrayList<Vector2>();
+	private ArrayList<Vector2> receivedPaddlePosition = new ArrayList<Vector2>();
+
 	public PaddleMover(List<GroupPaddle> listPaddle) {
 		xSpeedRatio = Configuration.getInstance().getSensitivity();
 		ySpeedRatio = Configuration.getInstance().getSensitivity();
 		mPaddleGroup = listPaddle;
+
+		paddlePosition = new ArrayList<Vector2>();
+		// populate list with useless starting position
+		for (int i = 0; i < 5; i++) {
+			paddlePosition.add(new Vector2(0, 0));
+		}
+
+		for (int i = 0; i < 5; i++) {
+			receivedPaddlePosition.add(new Vector2(0, 0));
+		}
+
+		EventManager.getEventManager().addIsTransformableObserver(this);
 	}
 
 	/**
@@ -56,9 +80,35 @@ public class PaddleMover {
 	 */
 	public void movePaddle(float deltaX, float deltaY) {
 		Iterator<GroupPaddle> iterator = mPaddleGroup.iterator();
+		int paddlePosCounter = 0;
+
 		while (iterator.hasNext()) {
-			GroupPaddle paddle = (GroupPaddle) iterator.next();
-			paddle.setVelocity(deltaX * xSpeedRatio, deltaY * ySpeedRatio);
+			GroupPaddle GroupPaddle = (GroupPaddle) iterator.next();
+			// Used to get each paddle's position
+			List<Paddle> paddles = GroupPaddle.getPaddles();
+			for (Paddle paddle : paddles) {
+				paddlePosition.set(paddlePosCounter++, paddle.getPosition());
+			}
+
+			GroupPaddle.setVelocity(deltaX * xSpeedRatio, deltaY * ySpeedRatio);
+		}
+	}
+
+	public void moveNetworkPaddle(float deltaX, float deltaY,
+			List<Vector2> paddlePosition) {
+		Iterator<GroupPaddle> iterator = mPaddleGroup.iterator();
+		int paddlePosCounter = 0;
+
+		while (iterator.hasNext()) {
+			GroupPaddle GroupPaddle = (GroupPaddle) iterator.next();
+			GroupPaddle.setVelocity(deltaX * xSpeedRatio, deltaY * ySpeedRatio);
+			if (isTransformPositionSafe) {
+				List<Paddle> paddles = GroupPaddle.getPaddles();
+				for (Paddle paddle : paddles) {
+					receivedPaddlePosition.set(paddlePosCounter,
+							paddlePosition.get(paddlePosCounter++));
+				}
+			}
 		}
 	}
 
@@ -72,7 +122,8 @@ public class PaddleMover {
 				* (Constants.WORLD_SIZE_X / mCentimeterXScreenSize)
 				* (mCentimeterXScreenSize / NEXUS_X);
 		mMoveTresholdY = CM_TRESHOLD
-				* (Constants.WORLD_SIZE_Y / mCentimeterYScreenSize) * (mCentimeterYScreenSize / NEXUS_Y);
+				* (Constants.WORLD_SIZE_Y / mCentimeterYScreenSize)
+				* (mCentimeterYScreenSize / NEXUS_Y);
 	}
 
 	/**
@@ -102,12 +153,40 @@ public class PaddleMover {
 	}
 
 	/**
-	 * 
 	 * @param pixelDistance
 	 *            the value in pixel in the y axis to translate to game units
 	 * @return the value in game units
 	 */
 	public float pixelYToGameUnit(float pixelDistance) {
 		return pixelDistance * (Constants.WORLD_SIZE_Y / mPixelYScreenSize);
+	}
+
+	public void moveNetworkPaddleHost(float deltaX, float deltaY) {
+		PlayerHost.sendHostData(new InputData(deltaX, deltaY, paddlePosition));
+	}
+
+	public void moveNetworkPaddleClient(float deltaX, float deltaY) {
+		PlayerClient.sendClientData(new InputData(deltaX, deltaY,
+				paddlePosition));
+	}
+
+	@Override
+	public void isTransformable() {
+		isTransformPositionSafe = true;
+
+		if (newPosition) {
+			newPosition = false;
+			Iterator<GroupPaddle> iterator = mPaddleGroup.iterator();
+			int paddlePosCounter = 0;
+
+			while (iterator.hasNext()) {
+				GroupPaddle GroupPaddle = (GroupPaddle) iterator.next();
+				List<Paddle> paddles = GroupPaddle.getPaddles();
+				for (Paddle paddle : paddles) {
+					paddle.setPosition(receivedPaddlePosition.get(paddlePosCounter++));
+				}
+			}
+
+		}
 	}
 }

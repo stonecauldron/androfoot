@@ -9,8 +9,6 @@ import ch.epfl.sweng.androfoot.interfaces.TouchTrackerObserver;
 import ch.epfl.sweng.androfoot.kryonetnetworking.GameInfo;
 import ch.epfl.sweng.androfoot.kryonetnetworking.HostData;
 import ch.epfl.sweng.androfoot.kryonetnetworking.InputData;
-import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerClient;
-import ch.epfl.sweng.androfoot.kryonetnetworking.PlayerHost;
 import ch.epfl.sweng.androfoot.kryonetnetworking.ShakeData;
 import ch.epfl.sweng.androfoot.screens.NetworkClientScreen;
 import ch.epfl.sweng.androfoot.screens.NetworkHostScreen;
@@ -71,13 +69,15 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 	public void move(float deltaX, float deltaY) {
 		mPaddleMover.movePaddle(deltaX, deltaY);
 
+		//sends move data
 		if (mHostMode) {
-			PlayerHost.sendHostData(new InputData(deltaX, deltaY));
+			mPaddleMover.moveNetworkPaddleHost(deltaX, deltaY);
 		}
 
 		if (mClientMode) {
-			PlayerClient.sendClientData(new InputData(deltaX, deltaY));
+			mPaddleMover.moveNetworkPaddleClient(deltaX, deltaY);
 		}
+
 	}
 
 	@Override

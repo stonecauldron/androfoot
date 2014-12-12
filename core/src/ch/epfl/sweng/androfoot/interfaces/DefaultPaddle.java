@@ -1,5 +1,7 @@
 package ch.epfl.sweng.androfoot.interfaces;
 
+import com.badlogic.gdx.math.Vector2;
+
 /**
  * Represents an paddle alone.
  * @see DefaultGroupPaddle for multiple paddles group
@@ -48,4 +50,8 @@ public interface DefaultPaddle {
 	 * @return
 	 */
 	boolean isAbleToControlBall();
+
+	void setPosition(Vector2 position);
+
+	Vector2 getPosition();
 }

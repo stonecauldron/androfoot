@@ -1,5 +1,6 @@
 package ch.epfl.sweng.androfoot.box2dphysics;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
 import ch.epfl.sweng.androfoot.interfaces.DefaultPaddle;
@@ -81,6 +82,16 @@ public class Paddle implements DefaultPaddle {
 	@Override
 	public void setPlayerYVelocity(float y) {
 		player.setPlayerVelocity(player.getPlayerVelocity().x, y);
+	}
+	
+	@Override
+	public void setPosition(Vector2 position) {
+	    player.getBody().setTransform(position, player.getPlayerAngle());
+	}
+	
+	@Override
+	public Vector2 getPosition() {
+	    return player.getBody().getPosition();
 	}
 	
 	@Override
