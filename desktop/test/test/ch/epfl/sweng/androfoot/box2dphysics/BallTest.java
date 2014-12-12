@@ -47,11 +47,39 @@ public class BallTest {
 		assertEquals(2.5f, ball.getPositionY(), ERROR_MARGIN);
 	}
 	
+	@Test
+	public void testBallIntegrity() {
+		ball.setLinearVelocity(0f, 0f);
+		ball.setBallPosition(Constants.WORLD_SIZE_X + 3.0f, 0f);
+		multipleStep(50);
+		assertEquals("The ball is outside the world on the x axis", Constants.WORLD_SIZE_X/2, ball.getPositionX(), ERROR_MARGIN);
+		
+		ball.setBallPosition(0f, Constants.WORLD_SIZE_Y + 5.0f);
+		multipleStep(50);
+		assertEquals("The ball is outside the world on the y axis", Constants.WORLD_SIZE_Y/2, ball.getPositionY(), ERROR_MARGIN);
+		
+		ball.setBallPosition(Constants.WORLD_SIZE_X + 0.18f, Constants.WORLD_SIZE_Y + 0.3f);
+		multipleStep(50);
+		assertEquals("The ball is outside the world on the x axis", Constants.WORLD_SIZE_X/2, ball.getPositionX(), ERROR_MARGIN);
+		assertEquals("The ball is outside the world on the y axis", Constants.WORLD_SIZE_Y/2, ball.getPositionY(), ERROR_MARGIN);
+	}
+	
+	@Test
+	public void testChangeFixture() {
+		ball.changeFixture(0.66f, 100f, 0.88f, 0.89f);
+		assertEquals("The radius is incorrect", 0.66f, ball.getRadius(), ERROR_MARGIN);
+		assertEquals("The density is incorrect", 100f, ball.getBody().getFixtureList().get(0).getDensity(), ERROR_MARGIN);
+		assertEquals("The friction is incorrect", 0.88f, ball.getBody().getFixtureList().get(0).getFriction(), ERROR_MARGIN);
+		assertEquals("The restitution is incorrect", 0.89f, ball.getBody().getFixtureList().get(0).getRestitution(), ERROR_MARGIN);
+	}
+	
 	private void multipleStep(int nbSteps) {
 		for (int i = 0; i < nbSteps; i++) {
-			world.step(1, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
+			world.step(1/60f, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
 
 			EventManager.getEventManager().throwEvents();
+			
+			PhysicsWorld.getPhysicsWorld().checkIntegrity(ball);
 		}
 	}
 

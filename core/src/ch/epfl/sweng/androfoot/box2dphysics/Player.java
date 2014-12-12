@@ -77,7 +77,7 @@ public class Player implements DefaultPlayer {
 	void createPaddleShape(boolean teamOne) {
 		
 		if (playerBody.getFixtureList().size != 0) {
-			while ( playerBody.getFixtureList().size > 0){
+			while (playerBody.getFixtureList().size > 0) {
 				playerBody.destroyFixture(playerBody.getFixtureList().first());
 			}
 		}
@@ -158,7 +158,7 @@ public class Player implements DefaultPlayer {
 		playerBody.setLinearVelocity(x, y);
 	}
 	
-	public void setPosition(float x, float y) {
+	protected void setPosition(float x, float y) {
 	    playerBody.setTransform(x, y, playerBody.getAngle());
 	}
 

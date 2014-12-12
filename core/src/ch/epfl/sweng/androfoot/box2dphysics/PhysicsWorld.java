@@ -404,8 +404,8 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver,
 		float posY = testedBall.getPositionY();
 		if (posX > Constants.WORLD_SIZE_X + Constants.GOAL_OFFSET
 				|| posX < Constants.WORLD_ORIGIN_X - Constants.GOAL_OFFSET
-				|| posY > Constants.WORLD_SIZE_Y
-				|| posY < Constants.WORLD_ORIGIN_Y) {
+				|| posY > Constants.WORLD_SIZE_Y + Constants.GOAL_OFFSET
+				|| posY < Constants.WORLD_ORIGIN_Y - Constants.GOAL_OFFSET) {
 
 			testedBall.setBallPosition(Constants.WORLD_SIZE_X / 2,
 					Constants.WORLD_SIZE_Y / 2);
@@ -447,12 +447,12 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver,
 	public void updateClientData(InputData data) {
 	}
 
-	public void setSlaveMode(boolean slaveMode) {
-		this.slaveMode = slaveMode;
+	public void setSlaveMode(boolean newSlaveMode) {
+		this.slaveMode = newSlaveMode;
 	}
 
-	public void setHostMode(boolean hostMode) {
-		this.hostMode = hostMode;
+	public void setHostMode(boolean newHostMode) {
+		this.hostMode = newHostMode;
 	}
 
 	@Override
