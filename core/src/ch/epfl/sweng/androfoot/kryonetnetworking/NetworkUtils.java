@@ -1,5 +1,8 @@
 package ch.epfl.sweng.androfoot.kryonetnetworking;
 
+import java.util.ArrayList;
+
+import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
 
@@ -13,6 +16,8 @@ public class NetworkUtils {
             kryo.register(HostData.class);
             kryo.register(InputData.class);
             kryo.register(ShakeData.class);
+            kryo.register(ArrayList.class);
+            kryo.register(Vector2.class);
     }
     
 }
