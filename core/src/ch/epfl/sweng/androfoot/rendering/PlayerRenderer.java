@@ -40,7 +40,7 @@ public class PlayerRenderer implements MeshRenderer{
 	 * Set the color according to the control state
 	 */
 	private void setControlColor() {
-		if(canControl) {
+		if(!canControl) {
 			controlPartRenderer.setColor(currentColor);
 		} else {
 			Color transformedColor = new Color(currentColor);
