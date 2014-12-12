@@ -31,8 +31,8 @@ public class Border implements DrawableRectangle, DefaultBorder {
     public enum BorderType { TEAM_ONE, TEAM_TWO, NO_TEAM };
 
     private static int zIndexIncrement = Constants.BORDER_Z_INDEX;
-    private int zIndex;
-    private BorderType borderType;
+    private final int zIndex;
+    private final BorderType borderType;
     private final Body borderBody;
     private final BodyDef borderBodyDef;
     private PolygonShape shape;

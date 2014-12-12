@@ -18,10 +18,9 @@ import ch.epfl.sweng.androfoot.interfaces.Visitor;
  */
 public class Ball implements DefaultBall {
 	
-	private Body ballBody;
-	private final BodyDef bodyDef = new BodyDef();
+	private final Body ballBody;
 	private float ballRadius;
-	private int zIndex = Constants.BALL_Z_INDEX;
+	private final int zIndex = Constants.BALL_Z_INDEX;
 	
 	/**
 	 * Constructor of the Ball class.
@@ -35,6 +34,8 @@ public class Ball implements DefaultBall {
 	 */
 	protected Ball(World world, float initPosX, float initPosY, float radius,
 					float density, float friction, float restitution) {
+		
+		final BodyDef bodyDef = new BodyDef();
 		
 		bodyDef.type = BodyType.DynamicBody;
 		bodyDef.position.set(initPosX, initPosY);
