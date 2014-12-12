@@ -25,4 +25,9 @@ public interface WorldRenderer extends Resettable{
 	 * @param height the screen height
 	 */
 	void setScreenSize(int width, int height);
+	
+	/**
+	 * Init the engine (just before the game start)
+	 */
+	void init();
 }
