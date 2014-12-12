@@ -58,7 +58,7 @@ public class BallTest {
 		multipleStep(50);
 		assertEquals("The ball is outside the world on the y axis", Constants.WORLD_SIZE_Y/2, ball.getPositionY(), ERROR_MARGIN);
 		
-		ball.setBallPosition(Constants.WORLD_SIZE_X + 0.18f, Constants.WORLD_SIZE_Y + 0.18f);
+		ball.setBallPosition(Constants.WORLD_SIZE_X + 0.18f, Constants.WORLD_SIZE_Y + 0.3f);
 		multipleStep(50);
 		assertEquals("The ball is outside the world on the x axis", Constants.WORLD_SIZE_X/2, ball.getPositionX(), ERROR_MARGIN);
 		assertEquals("The ball is outside the world on the y axis", Constants.WORLD_SIZE_Y/2, ball.getPositionY(), ERROR_MARGIN);
