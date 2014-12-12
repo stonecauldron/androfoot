@@ -8,8 +8,16 @@ public class BallSizePowerUp implements PowerUpEffect {
 	
 	private final static float DURATION = 30f;
 	private final static float RADIUS_FACTOR_REDUCTION = 0.5f;
-	private final static float NEW_RADIUS = Constants.BALL_RADIUS*RADIUS_FACTOR_REDUCTION;
-
+	private final static float RADIUS_FACTOR_AUGMENTATION = 2f;
+	private final static float NEW_SMALL_RADIUS = Constants.BALL_RADIUS*RADIUS_FACTOR_REDUCTION;
+	private final static float NEW_BIG_RADIUS = Constants.BALL_RADIUS* RADIUS_FACTOR_AUGMENTATION;
+	
+	private final boolean isBig;
+	
+	BallSizePowerUp(boolean bigArg) {
+		isBig = bigArg;
+	}
+	
 	@Override
 	public float getEffectDuration() {
 		return DURATION;
@@ -17,7 +25,11 @@ public class BallSizePowerUp implements PowerUpEffect {
 
 	@Override
 	public void begin(boolean isTeam1) {
-		PhysicsWorld.getPhysicsWorld().getBall().changeFixture(NEW_RADIUS);
+		if(isBig) {
+			PhysicsWorld.getPhysicsWorld().getBall().changeFixture(NEW_BIG_RADIUS);
+		} else {
+			PhysicsWorld.getPhysicsWorld().getBall().changeFixture(NEW_SMALL_RADIUS);
+		}
 	}
 
 	@Override
@@ -27,7 +39,7 @@ public class BallSizePowerUp implements PowerUpEffect {
 
 	@Override
 	public PowerUpEffect copy() {
-		return new BallSizePowerUp();
+		return new BallSizePowerUp(isBig);
 	}
 
 }
