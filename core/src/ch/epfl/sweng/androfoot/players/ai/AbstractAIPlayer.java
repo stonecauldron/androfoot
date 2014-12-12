@@ -234,13 +234,6 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		return new Vector2(ballX, ballY);
 	}
 
-	private boolean ballIsGoingTowardsDefense() {
-		float ballXSpeed = PhysicsWorld.getPhysicsWorld().getBall()
-				.getLinearVelocity().x;
-
-		return takeIntoAccountPlayerNumber(ballXSpeed < 0);
-	}
-
 	private boolean takeIntoAccountPlayerNumber(boolean bool) {
 		if (getPlayerNumber() == PlayerNumber.TWO) {
 			bool = !bool;
