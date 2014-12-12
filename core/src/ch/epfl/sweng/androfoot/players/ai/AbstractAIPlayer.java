@@ -24,12 +24,20 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 
 	// tolerance for the floating point comparisons
 	private static float TOLERANCE = 0.0000000000000000000000000000000000000001f;
+	
+	// deadlock checks
+	private static final float DEADLOCK_TOLERANCE = 0.1f;
+	private static final int MAX_NB_DEADLOCKS = 10;
 
+	private Vector2 previousBallPosition;
+	private int deadlockCounter;
+	
 	// HashMap linking Timers with CoRoutines
 	private HashMap<Timer, CoRoutine> coRoutinesMap;
 
 	// current state of the AI
 	private AIState mState;
+
 
 	public AbstractAIPlayer(PlayerNumber number) {
 		super(number);
@@ -42,6 +50,8 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 
 		// set AI to default state
 		mState = AIState.DEFENSE;
+		
+		previousBallPosition = new Vector2();
 	}
 
 	@Override
@@ -150,19 +160,39 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 			if (getPlayerNumber() == PlayerNumber.ONE) {
 				ballRadius = -ballRadius;
 			}
-	
+
 			// see if ball can be reached in y
 			float ballY = PhysicsWorld.getPhysicsWorld().getBall()
 					.getPositionY();
 			float playerY = getYPositionOfPlayerThatCanReachTheBall();
-	
+
 			boolean canReachInYAxis = Math.abs(playerY - ballY) <= getPlayerHeight() * 2;
 			boolean canReachInXAxis = Math.abs((ballX + ballRadius) - playerX) <= paddleWidth;
-	
+
 			// check whether player can reach ball;
 			return canReachInXAxis && canReachInYAxis;
 		}
 		return false;
+	}
+
+	boolean isDeadLocked() {
+		Vector2 currentBallPosition = getBallPosition();
+
+		boolean hasSameXCoordinate = Math.abs(currentBallPosition.x
+				- previousBallPosition.x) < DEADLOCK_TOLERANCE;
+		boolean hasSameYCoordinate = Math.abs(currentBallPosition.y
+				- previousBallPosition.y) < DEADLOCK_TOLERANCE;
+
+		if (hasSameXCoordinate || hasSameYCoordinate) {
+			deadlockCounter++;
+		} else {
+			deadlockCounter = 0;
+		}
+
+		// store currentPosition
+		previousBallPosition = currentBallPosition;
+
+		return deadlockCounter > MAX_NB_DEADLOCKS;
 	}
 
 	protected void addToCoRoutines(Timer timer, CoRoutine coRoutine) {
@@ -195,6 +225,13 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 
 		return takeIntoAccountPlayerNumber(ballXPosition > defenseXPosition);
 
+	}
+
+	private Vector2 getBallPosition() {
+		float ballX = PhysicsWorld.getPhysicsWorld().getBall().getPositionX();
+		float ballY = PhysicsWorld.getPhysicsWorld().getBall().getPositionY();
+	
+		return new Vector2(ballX, ballY);
 	}
 
 	private boolean ballIsGoingTowardsDefense() {
