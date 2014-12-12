@@ -42,12 +42,10 @@ public class PlayerRenderer implements MeshRenderer{
 	private void setControlColor() {
 		if(canControl) {
 			controlPartRenderer.setColor(currentColor);
-			shootPartRenderer.setColor(currentColor);
 		} else {
 			Color transformedColor = new Color(currentColor);
 			transformedColor.mul(CANT_CONTROL_FACTOR);
 			controlPartRenderer.setColor(transformedColor);
-			shootPartRenderer.setColor(transformedColor);
 		}
 	}
 	
