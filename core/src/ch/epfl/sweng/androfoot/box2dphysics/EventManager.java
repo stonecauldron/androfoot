@@ -6,15 +6,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBall;
 import ch.epfl.sweng.androfoot.interfaces.DefaultBorder;
-import ch.epfl.sweng.androfoot.interfaces.BorderObserver;
 import ch.epfl.sweng.androfoot.interfaces.DefaultEventManager;
 import ch.epfl.sweng.androfoot.interfaces.DefaultGoal;
+import ch.epfl.sweng.androfoot.interfaces.DefaultPlayer;
 import ch.epfl.sweng.androfoot.interfaces.DefaultPowerUp;
 import ch.epfl.sweng.androfoot.interfaces.GoalObserver;
+import ch.epfl.sweng.androfoot.interfaces.IsTransformableObserver;
 import ch.epfl.sweng.androfoot.interfaces.PaddleContactObserver;
-import ch.epfl.sweng.androfoot.interfaces.DefaultPlayer;
 import ch.epfl.sweng.androfoot.interfaces.PlayerObserver;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpObserver;
 
@@ -41,9 +42,12 @@ public final class EventManager implements DefaultEventManager {
 
 	private Set<BorderObserver> borderObservers;
 	private List<BorderContactEvent> borderEvents;
-	
+
 	private Set<PowerUpObserver> powerUpObservers;
 	private List<PowerUpContactEvent> powerUpEvents;
+
+	//For networking update conflicts during world.step
+	private Set<IsTransformableObserver> transformableObservers;
 
 	private EventManager() {
 		goalObservers = new HashSet<GoalObserver>();
@@ -57,16 +61,18 @@ public final class EventManager implements DefaultEventManager {
 
 		borderObservers = new HashSet<BorderObserver>();
 		borderEvents = new ArrayList<BorderContactEvent>();
-		
+
 		powerUpObservers = new HashSet<PowerUpObserver>();
 		powerUpEvents = new ArrayList<PowerUpContactEvent>();
+
+		transformableObservers = new HashSet<IsTransformableObserver>();
 
 		PaddleContactListener.setEventManager(this);
 		GoalContactListener.setEventManager(this);
 		BorderContactListener.setEventManager(this);
 		PlayerContactListener.setEventManager(this);
 		PowerUpContactListener.setEventManager(this);
-		
+
 		GlobalContactListener.addListener(GoalContactListener.getInstance());
 		GlobalContactListener.addListener(PaddleContactListener.getInstance());
 		GlobalContactListener.addListener(PlayerContactListener.getInstance());
@@ -79,46 +85,60 @@ public final class EventManager implements DefaultEventManager {
 	}
 
 	public void throwEvents() {
-        for (GoalEvent event : goalEvents) {
-            Iterator<GoalObserver> it = goalObservers.iterator();
-            while (it.hasNext()) {
-                it.next().goal(event.getGoal(), event.getBall());
-            }
-        }
-        goalEvents.clear();
-        
-        for (PaddleContactEvent event : paddleEvents) {
-            Iterator<PaddleContactObserver> it = paddleObservers.iterator();
-            while (it.hasNext()) {
-                it.next().paddleContact(event.getPlayer(), event.getBall());
-            }
-        }
-        paddleEvents.clear();
-        
-        for (PlayerEvent event : playerEvents) {
-            Iterator<PlayerObserver> it = playerObservers.iterator();
-        	while (it.hasNext()) {
-        		it.next().setBall(event.getPlayer(), event.getTeam());
-        	}
-        }
-        playerEvents.clear();
-        
-        for (BorderContactEvent event : borderEvents) {
-            Iterator<BorderObserver> it = borderObservers.iterator();
-            while (it.hasNext()) {
-                it.next().borderContact(event.getBorder(), event.getBall());
-            }
-        }
-        borderEvents.clear();
-        
-        for (PowerUpContactEvent event : powerUpEvents) {
-            Iterator<PowerUpObserver> it = powerUpObservers.iterator();
-        	while (it.hasNext()) {
-        		it.next().applyPowerUp(event.getPowerUp());
-        	}
-        }
-        powerUpEvents.clear();
-    }
+		
+		//Telling the paddleMover that it is now safe to move the paddle
+		for (IsTransformableObserver obs:transformableObservers){
+			obs.isTransformable();
+		}
+		
+		for (GoalEvent event : goalEvents) {
+			Iterator<GoalObserver> it = goalObservers.iterator();
+			while (it.hasNext()) {
+				it.next().goal(event.getGoal(), event.getBall());
+			}
+		}
+		goalEvents.clear();
+
+		for (PaddleContactEvent event : paddleEvents) {
+			Iterator<PaddleContactObserver> it = paddleObservers.iterator();
+			while (it.hasNext()) {
+				it.next().paddleContact(event.getPlayer(), event.getBall());
+			}
+		}
+		paddleEvents.clear();
+
+		for (PlayerEvent event : playerEvents) {
+			Iterator<PlayerObserver> it = playerObservers.iterator();
+			while (it.hasNext()) {
+				it.next().setBall(event.getPlayer(), event.getTeam());
+			}
+		}
+		playerEvents.clear();
+
+		for (BorderContactEvent event : borderEvents) {
+			Iterator<BorderObserver> it = borderObservers.iterator();
+			while (it.hasNext()) {
+				it.next().borderContact(event.getBorder(), event.getBall());
+			}
+		}
+		borderEvents.clear();
+
+		for (PowerUpContactEvent event : powerUpEvents) {
+			Iterator<PowerUpObserver> it = powerUpObservers.iterator();
+			while (it.hasNext()) {
+				it.next().applyPowerUp(event.getPowerUp());
+			}
+		}
+		powerUpEvents.clear();
+	}
+
+	/**
+	 * Add an observer to the transformable observer list
+	 * @param obs
+	 */
+	public void addIsTransformableObserver(IsTransformableObserver obs) {
+		transformableObservers.add(obs);
+	}
 
 	/**
 	 * Add an observer to the goal event
@@ -156,19 +176,21 @@ public final class EventManager implements DefaultEventManager {
 	public void addBorderContactObserver(BorderObserver observer) {
 		borderObservers.add(observer);
 	}
-	
+
 	/**
 	 * Adds a power up observer to the observer list.
-	 * @param observer Observer to add.
+	 * 
+	 * @param observer
+	 *            Observer to add.
 	 */
 	public void addPowerUpContactObserver(PowerUpObserver observer) {
 		powerUpObservers.add(observer);
 	}
 
 	public void addEventGoal(DefaultGoal goal, DefaultBall ball) {
-	    goal = goal.getStates();
-	    ball = ball.getStates();
-	    
+		goal = goal.getStates();
+		ball = ball.getStates();
+
 		goalEvents.add(new GoalEvent(ball, goal));
 	}
 
@@ -177,19 +199,19 @@ public final class EventManager implements DefaultEventManager {
 	}
 
 	public void addEventPaddle(DefaultPlayer player, DefaultBall ball) {
-	    player = player.getStates();
-	    ball = ball.getStates();
-	    
+		player = player.getStates();
+		ball = ball.getStates();
+
 		paddleEvents.add(new PaddleContactEvent(player, ball));
 	}
 
 	public void addEventBorder(DefaultBorder border, DefaultBall ball) {
-	    border = border.getStates();
-	    ball = ball.getStates();
-	    
+		border = border.getStates();
+		ball = ball.getStates();
+
 		borderEvents.add(new BorderContactEvent(border, ball));
 	}
-	
+
 	public void addEventPowerUp(DefaultPowerUp powerUp) {
 		powerUpEvents.add(new PowerUpContactEvent(powerUp));
 	}
@@ -212,9 +234,9 @@ public final class EventManager implements DefaultEventManager {
 		public DefaultGoal getGoal() {
 			return goal;
 		}
-		
+
 		public DefaultBall getBall() {
-		    return ball;
+			return ball;
 		}
 	}
 
@@ -268,21 +290,21 @@ public final class EventManager implements DefaultEventManager {
 	 *
 	 */
 	class PaddleContactEvent {
-	    private DefaultPlayer player;
-	    private DefaultBall ball;
-	    
-	    public PaddleContactEvent(DefaultPlayer p, DefaultBall b) {
-	        player = p;
-	        ball = b;
-	    }
-	    
-	    public DefaultPlayer getPlayer() {
-	        return player;
-	    }
-	    
-	    public DefaultBall getBall() {
-	        return ball;
-	    }
+		private DefaultPlayer player;
+		private DefaultBall ball;
+
+		public PaddleContactEvent(DefaultPlayer p, DefaultBall b) {
+			player = p;
+			ball = b;
+		}
+
+		public DefaultPlayer getPlayer() {
+			return player;
+		}
+
+		public DefaultBall getBall() {
+			return ball;
+		}
 	}
 
 	/**
@@ -301,32 +323,36 @@ public final class EventManager implements DefaultEventManager {
 		}
 
 		public DefaultBorder getBorder() {
-		    return border;
+			return border;
 		}
-		
+
 		public DefaultBall getBall() {
-		    return ball;
+			return ball;
 		}
 	}
-	
+
 	/**
 	 * Class that defines the power up contact event.
+	 * 
 	 * @author Matvey
 	 *
 	 */
 	class PowerUpContactEvent {
 		private DefaultPowerUp powerUp;
-		
+
 		/**
 		 * Constructor of the power up event class.
-		 * @param powerUpOfTheEvent Power Up object of the event.
+		 * 
+		 * @param powerUpOfTheEvent
+		 *            Power Up object of the event.
 		 */
 		public PowerUpContactEvent(DefaultPowerUp powerUpOfTheEvent) {
 			powerUp = powerUpOfTheEvent;
 		}
-		
+
 		/**
 		 * Returns the power up object of the event.
+		 * 
 		 * @return
 		 */
 		public DefaultPowerUp getPowerUp() {

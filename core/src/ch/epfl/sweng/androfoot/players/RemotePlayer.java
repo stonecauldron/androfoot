@@ -1,5 +1,9 @@
 package ch.epfl.sweng.androfoot.players;
 
+import java.util.List;
+
+import com.badlogic.gdx.math.Vector2;
+
 import ch.epfl.sweng.androfoot.box2dphysics.PaddleMover;
 import ch.epfl.sweng.androfoot.interfaces.ClientObserver;
 import ch.epfl.sweng.androfoot.interfaces.Controllable;
@@ -22,6 +26,7 @@ public class RemotePlayer extends AbstractPlayer implements Controllable,
 
 
 	private PaddleMover mPaddleMover;
+	private List<Vector2> mPaddlePositions;
 
 	RemotePlayer(PlayerNumber number) {
 		super(number);
@@ -52,16 +57,19 @@ public class RemotePlayer extends AbstractPlayer implements Controllable,
 
 	@Override
 	public void move(float deltaX, float deltaY) {
-		mPaddleMover.movePaddle(deltaX, deltaY);
+		mPaddleMover.moveNetworkPaddle(deltaX, deltaY, mPaddlePositions);
+		mPaddleMover.newPosition = true;
 	}
 
 	@Override
 	public void updateClientData(InputData data) {
+		mPaddlePositions = data.getPaddlePosition();
 		move(data.getTouchX(), data.getTouchY());
 	}
 
 	@Override
 	public void updateHostTouchData(InputData data) {
+		mPaddlePositions = data.getPaddlePosition();
 		move(data.getTouchX(), data.getTouchY());
 	}
 
