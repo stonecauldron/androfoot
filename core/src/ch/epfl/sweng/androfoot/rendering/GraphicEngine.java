@@ -272,4 +272,10 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor,
 	public void isShaking() {
 		shakeRenderer.start();
 	}
+
+	@Override
+	public void init() {
+		shapeHasChanged();
+		shockwaveManager.reset();
+	}
 }
