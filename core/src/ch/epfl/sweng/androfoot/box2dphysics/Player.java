@@ -158,7 +158,7 @@ public class Player implements DefaultPlayer {
 		playerBody.setLinearVelocity(x, y);
 	}
 	
-	public void setPosition(float x, float y) {
+	protected void setPosition(float x, float y) {
 	    playerBody.setTransform(x, y, playerBody.getAngle());
 	}
 
