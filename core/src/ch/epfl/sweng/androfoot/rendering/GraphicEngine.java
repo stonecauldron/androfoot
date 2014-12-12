@@ -149,6 +149,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor,
 		boardRenderer.render(batch, renderer);
 		shockwaveManager.render(batch, renderer);
 		shockwaveManager.age(delta);
+		powerUpRender.rotate(delta);
 		for (Visitable v : world.toDraw()) {
 			v.accept(this);
 		}
