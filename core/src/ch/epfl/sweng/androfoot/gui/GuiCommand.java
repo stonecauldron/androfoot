@@ -25,7 +25,6 @@ public enum GuiCommand {
 	goToHostNetwork,
 	exit,
 	addScoreLimit,
-	refreshDisplay,
 	subScoreLimit,
 	addPlayerOneType,
 	subPlayerOneType,

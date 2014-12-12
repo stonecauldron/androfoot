@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import java.util.ArrayList;
 
 import ch.epfl.sweng.androfoot.configuration.Configuration;
-import ch.epfl.sweng.androfoot.players.PlayerType;
 import ch.epfl.sweng.androfoot.screens.GameScreen;
 import ch.epfl.sweng.androfoot.screens.NetworkClientScreen;
 import ch.epfl.sweng.androfoot.screens.NetworkHostScreen;
@@ -35,6 +34,9 @@ public final class GuiManager {
 	private static final float BUTTON_Y_SIZE = 0.1f;
 	private static final float TOUCHPAD_MIN_SENSITIVITY = 30f;
 	private static final float TOUCHPAD_MAX_SENSITIVITY = 120f;
+	private static final float TINY_FONT_SIZE = 0.4f;
+	private static final float SMALL_FONT_SIZE = 0.55f;
+	private static final float MEDIUM_FONT_SIZE = 0.8f;
 	private final float[] mTitlePadding = new float[] {0f, 0f, 0f, 0.05f };
 	private final float[] mDefaultPadding = new float[] {0.01f, 0.01f, 0.01f, 0.01f };
 	private final String[] mTeamImage = new String[] {"teamRed", "teamBlue",
@@ -70,7 +72,7 @@ public final class GuiManager {
 		createSettings();
 		createCredits();
 		createGameOver();
-		executeCommand(GuiCommand.refreshDisplay);
+		refreshDisplay();
 	}
 
 	public static GuiManager getInstance() {
@@ -85,31 +87,31 @@ public final class GuiManager {
 		switch (command) {
 			case addPlayerOneTeam:
 				Configuration.getInstance().addPlayerOneTeam();
-				executeCommand(GuiCommand.refreshDisplay);
+				refreshDisplay();
 				break;
 			case subPlayerOneTeam:
 				Configuration.getInstance().subPlayerOneTeam();
-				executeCommand(GuiCommand.refreshDisplay);
+				refreshDisplay();
 				break;
 			case addPlayerTwoTeam:
 				Configuration.getInstance().addPlayerTwoTeam();
-				executeCommand(GuiCommand.refreshDisplay);
+				refreshDisplay();
 				break;
 			case subPlayerTwoTeam:
 				Configuration.getInstance().subPlayerTwoTeam();
-				executeCommand(GuiCommand.refreshDisplay);
+				refreshDisplay();
 				break;
 			case addPlayerOneFormation:
 				Configuration.getInstance().addPlayerOneFormation();
-				executeCommand(GuiCommand.refreshDisplay);
+				refreshDisplay();
 				break;
 			case addPlayerTwoFormation:
 				Configuration.getInstance().addPlayerTwoFormation();
-				executeCommand(GuiCommand.refreshDisplay);
+				refreshDisplay();
 				break;
 			case addScoreLimit:
 				Configuration.getInstance().addScoreLimit(1);
-				executeCommand(GuiCommand.refreshDisplay);
+				refreshDisplay();
 				break;
 			case exit:
 				Gdx.app.exit();
@@ -147,91 +149,31 @@ public final class GuiManager {
 				break;
 			case addPlayerOneType:
 				Configuration.getInstance().addPlayerOneType();
-				executeCommand(GuiCommand.refreshDisplay);
+				refreshDisplay();
 				break;
 			case subPlayerOneType:
 				Configuration.getInstance().subPlayerOneType();
-				executeCommand(GuiCommand.refreshDisplay);
+				refreshDisplay();
 				break;
 			case addPlayerTwoType:
 				Configuration.getInstance().addPlayerTwoType();
-				executeCommand(GuiCommand.refreshDisplay);
+				refreshDisplay();
 				break;
 			case subPlayerTwoType:
 				Configuration.getInstance().subPlayerTwoType();
-				executeCommand(GuiCommand.refreshDisplay);
-				break;
-			case refreshDisplay:
-				mPlayerOneFormationLabel.setText(Integer.toString(
-								Configuration.getInstance().getPlayerOneFormation()[0])
-								+ "-"
-								+ Configuration.getInstance().getPlayerOneFormation()[1]);
-				mPlayerTwoFormationLabel.setText(Integer.toString(
-								Configuration.getInstance().getPlayerTwoFormation()[0])
-								+ "-"
-								+ Configuration.getInstance().getPlayerTwoFormation()[1]);
-				mScoreLimitCounter.setText(Integer.toString(Configuration
-								.getInstance().getScoreLimit()));
-				switch (Configuration.getInstance().getPlayerOneType()) {
-					case LOCAL_PLAYER:
-						mPlayerOneTypeLabel.setText("Human");
-						break;
-					case RANDOM_AI_PLAYER:
-						mPlayerOneTypeLabel.setText("CPU rdm");
-						break;
-					case EASY_AI_PLAYER:
-						mPlayerOneTypeLabel.setText("CPU lvl1");
-						break;
-					case MEDIUM_AI_PLAYER:
-						mPlayerOneTypeLabel.setText("CPU lvl2");
-						break;
-					case HARD_AI_PLAYER:
-						mPlayerOneTypeLabel.setText("CPU lvl3");
-						break;
-					case REMOTE_PLAYER:
-						mPlayerOneTypeLabel.setText("Human");
-						break;
-					default:
-						break;
-				}
-				switch (Configuration.getInstance().getPlayerTwoType()) {
-					case LOCAL_PLAYER:
-						mPlayerTwoTypeLabel.setText("Human");
-						break;
-					case RANDOM_AI_PLAYER:
-						mPlayerTwoTypeLabel.setText("CPU rdm");
-						break;
-					case EASY_AI_PLAYER:
-						mPlayerTwoTypeLabel.setText("CPU lvl1");
-						break;
-					case MEDIUM_AI_PLAYER:
-						mPlayerTwoTypeLabel.setText("CPU lvl2");
-						break;
-					case HARD_AI_PLAYER:
-						mPlayerTwoTypeLabel.setText("CPU lvl3");
-						break;
-					case REMOTE_PLAYER:
-						mPlayerTwoTypeLabel.setText("Human");
-						break;
-					default:
-						break;
-				}
-				mPlayerOneTeam.changeImage(mDefaultSkin,
-											mTeamImage[Configuration.getInstance().getPlayerOneTeam()]);
-				mPlayerTwoTeam.changeImage(mDefaultSkin,
-								mTeamImage[Configuration.getInstance().getPlayerTwoTeam()]);
+				refreshDisplay();
 				break;
 			case subPlayerOneFormation:
 				Configuration.getInstance().subPlayerOneFormation();
-				executeCommand(GuiCommand.refreshDisplay);
+				refreshDisplay();
 				break;
 			case subPlayerTwoFormation:
 				Configuration.getInstance().subPlayerTwoFormation();
-				executeCommand(GuiCommand.refreshDisplay);
+				refreshDisplay();
 				break;
 			case subScoreLimit:
 				Configuration.getInstance().subScoreLimit(1);
-				executeCommand(GuiCommand.refreshDisplay);
+				refreshDisplay();
 				break;
 			case toggleSound:
 				Configuration.getInstance().toggleSound();
@@ -280,21 +222,85 @@ public final class GuiManager {
 		mMainMenuWidgets.add(new GuiButton(mDefaultSkin, "default", true,
 						mDefaultPadding, Align.center, "Quit", LARGE_BUTTON_X_SIZE,
 						BUTTON_Y_SIZE, 1, GuiCommand.exit));
+		mMainMenuWidgets.add(new GuiLabel(mDefaultSkin, "aux", true,
+						mTitlePadding, Align.bottomLeft, TINY_FONT_SIZE, 1,
+						"Copyright (c)2014 AndroFoot team"));
+	}
+	
+	private void refreshDisplay() {
+		mPlayerOneFormationLabel.setText(Integer.toString(
+						Configuration.getInstance().getPlayerOneFormation()[0])
+						+ "-"
+						+ Configuration.getInstance().getPlayerOneFormation()[1]);
+		mPlayerTwoFormationLabel.setText(Integer.toString(
+						Configuration.getInstance().getPlayerTwoFormation()[0])
+						+ "-"
+						+ Configuration.getInstance().getPlayerTwoFormation()[1]);
+		mScoreLimitCounter.setText(Integer.toString(Configuration
+						.getInstance().getScoreLimit()));
+		switch (Configuration.getInstance().getPlayerOneType()) {
+			case LOCAL_PLAYER:
+				mPlayerOneTypeLabel.setText("Human");
+				break;
+			case RANDOM_AI_PLAYER:
+				mPlayerOneTypeLabel.setText("CPU rdm");
+				break;
+			case EASY_AI_PLAYER:
+				mPlayerOneTypeLabel.setText("CPU lvl1");
+				break;
+			case MEDIUM_AI_PLAYER:
+				mPlayerOneTypeLabel.setText("CPU lvl2");
+				break;
+			case HARD_AI_PLAYER:
+				mPlayerOneTypeLabel.setText("CPU lvl3");
+				break;
+			case REMOTE_PLAYER:
+				mPlayerOneTypeLabel.setText("Human");
+				break;
+			default:
+				break;
+		}
+		switch (Configuration.getInstance().getPlayerTwoType()) {
+			case LOCAL_PLAYER:
+				mPlayerTwoTypeLabel.setText("Human");
+				break;
+			case RANDOM_AI_PLAYER:
+				mPlayerTwoTypeLabel.setText("CPU rdm");
+				break;
+			case EASY_AI_PLAYER:
+				mPlayerTwoTypeLabel.setText("CPU lvl1");
+				break;
+			case MEDIUM_AI_PLAYER:
+				mPlayerTwoTypeLabel.setText("CPU lvl2");
+				break;
+			case HARD_AI_PLAYER:
+				mPlayerTwoTypeLabel.setText("CPU lvl3");
+				break;
+			case REMOTE_PLAYER:
+				mPlayerTwoTypeLabel.setText("Human");
+				break;
+			default:
+				break;
+		}
+		mPlayerOneTeam.changeImage(mDefaultSkin,
+						mTeamImage[Configuration.getInstance().getPlayerOneTeam()]);
+		mPlayerTwoTeam.changeImage(mDefaultSkin,
+						mTeamImage[Configuration.getInstance().getPlayerTwoTeam()]);
 	}
 	
 	private void createLocalPlay() {
 		final int nbColumns = 7;
 		
 		// Score limit
-		mLocalPlayWidgets.add(new GuiLabel(mDefaultSkin, "default", true,
-						mDefaultPadding, nbColumns, "Score limit: "));
+		mLocalPlayWidgets.add(new GuiLabel(mDefaultSkin, "aux", true,
+						mDefaultPadding, Align.center, 1f, nbColumns, "Score limit: "));
 		mLocalPlayWidgets.add(new GuiLabel(mDefaultSkin, "default", false,
-						mDefaultPadding, 1, ""));
+						mDefaultPadding, Align.center, 1f, 1, ""));
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "leftarrow", false,
 						mDefaultPadding, Align.right, " - ", MEDIUM_BUTTON_X_SIZE,
 						BUTTON_Y_SIZE, 2, GuiCommand.subScoreLimit));
 		mScoreLimitCounter = new GuiLabel(mDefaultSkin, "default", false,
-				mDefaultPadding, 1, Integer.toString(Configuration
+				mDefaultPadding, Align.center, 1f, 1, Integer.toString(Configuration
 						.getInstance().getScoreLimit()));
 		mLocalPlayWidgets.add(mScoreLimitCounter);
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "rightarrow", true,
@@ -306,20 +312,20 @@ public final class GuiManager {
 						mDefaultPadding, Align.right, "", TINY_BUTTON_X_SIZE,
 						BUTTON_Y_SIZE, 1, GuiCommand.subPlayerOneType));
 		mPlayerOneTypeLabel = new GuiLabel(mDefaultSkin, "default", false,
-				mDefaultPadding, 1, "Human");
+				mDefaultPadding, Align.center, 1f, 1, "Human");
 		mLocalPlayWidgets.add(mPlayerOneTypeLabel);
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "rightarrow", false,
 						mDefaultPadding, Align.left, "", TINY_BUTTON_X_SIZE,
 						BUTTON_Y_SIZE, 1, GuiCommand.addPlayerOneType));
 		mLocalPlayWidgets.add(new GuiLabel(mDefaultSkin, "default", false,
-						mDefaultPadding, 1, ""));
+						mDefaultPadding, Align.center, 1f, 1, ""));
 
 		// Player two type
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "leftarrow", false,
 						mDefaultPadding, Align.right, "", TINY_BUTTON_X_SIZE,
 						BUTTON_Y_SIZE, 1, GuiCommand.subPlayerTwoType));
 		mPlayerTwoTypeLabel = new GuiLabel(mDefaultSkin, "default", false,
-				mDefaultPadding, 1, "Human");
+				mDefaultPadding, Align.center, 1f, 1, "Human");
 		mLocalPlayWidgets.add(mPlayerTwoTypeLabel);
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "rightarrow", true,
 						mDefaultPadding, Align.left, "", TINY_BUTTON_X_SIZE,
@@ -337,8 +343,8 @@ public final class GuiManager {
 						TEAM_LOGO_Y_SIZE, 1, GuiCommand.addPlayerOneTeam));
 		
 		// VS
-		mLocalPlayWidgets.add(new GuiLabel(mDefaultSkin, "default", false,
-						mDefaultPadding, 1, "VS"));
+		mLocalPlayWidgets.add(new GuiLabel(mDefaultSkin, "aux", false,
+						mDefaultPadding, Align.center, 1f, 1, "VS"));
 		
 		// Player two team
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "leftarrow", false,
@@ -356,20 +362,20 @@ public final class GuiManager {
 						mDefaultPadding, Align.right, "", TINY_BUTTON_X_SIZE,
 						BUTTON_Y_SIZE, 1, GuiCommand.subPlayerOneFormation));
 		mPlayerOneFormationLabel = new GuiLabel(mDefaultSkin, "default", false,
-				mDefaultPadding, 1, "2-3");
+				mDefaultPadding, Align.center, 1f, 1, "2-3");
 		mLocalPlayWidgets.add(mPlayerOneFormationLabel);
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "rightarrow", false,
 						mDefaultPadding, Align.left, "", TINY_BUTTON_X_SIZE,
 						BUTTON_Y_SIZE, 1, GuiCommand.addPlayerOneFormation));
 		mLocalPlayWidgets.add(new GuiLabel(mDefaultSkin, "default", false,
-						mDefaultPadding, 1, ""));
+						mDefaultPadding, Align.center, 1f, 1, ""));
 
 		// Player two formation
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "leftarrow", false,
 						mDefaultPadding, Align.right, "", TINY_BUTTON_X_SIZE,
 						BUTTON_Y_SIZE, 1, GuiCommand.subPlayerTwoFormation));
 		mPlayerTwoFormationLabel = new GuiLabel(mDefaultSkin, "default", false,
-				mDefaultPadding, 1, "2-3");
+				mDefaultPadding, Align.center, 1f, 1, "2-3");
 		mLocalPlayWidgets.add(mPlayerTwoFormationLabel);
 		mLocalPlayWidgets.add(new GuiButton(mDefaultSkin, "rightarrow", true,
 						mDefaultPadding, Align.left, "", TINY_BUTTON_X_SIZE,
@@ -386,7 +392,7 @@ public final class GuiManager {
 	
 	private void createNetworkPlay() {
 		mNetworkPlayWidgets.add(new GuiLabel(mDefaultSkin, "default", true,
-						mTitlePadding, 1, "Network Play"));
+						mTitlePadding, Align.center, 1f, 1, "Network Play"));
 		mNetworkPlayWidgets.add(new GuiButton(mDefaultSkin, "default", true,
 						mDefaultPadding, Align.center, "Host Game",
 						LARGE_BUTTON_X_SIZE, BUTTON_Y_SIZE, 2,
@@ -402,21 +408,20 @@ public final class GuiManager {
 	
 	private void createSettings() {
 		mSettingsWidgets.add(new GuiLabel(mDefaultSkin, "default", true,
-						mTitlePadding, 2, "Settings"));
-		mSettingsWidgets.add(new GuiLabel(mDefaultSkin, "default", false,
-						mDefaultPadding, 1, "Sound: "));
+						mTitlePadding, Align.center, 1f, 2, "Settings"));
+		mSettingsWidgets.add(new GuiLabel(mDefaultSkin, "aux", false,
+						mDefaultPadding, Align.right, MEDIUM_FONT_SIZE, 1, "Sound: "));
 		mSettingsWidgets.add(new GuiCheckBox(mDefaultSkin, true,
 						mDefaultPadding, Configuration.getInstance().getSound(),
 						CHECKBOX_X_SIZE, CHECKBOX_Y_SIZE, 1, GuiCommand.toggleSound));
-		mSettingsWidgets.add(new GuiLabel(mDefaultSkin, "default", false,
-						mDefaultPadding, 1, "Allow tilting: "));
+		mSettingsWidgets.add(new GuiLabel(mDefaultSkin, "aux", false,
+						mDefaultPadding, Align.right, MEDIUM_FONT_SIZE, 1, "Allow tilting: "));
 		mSettingsWidgets.add(new GuiCheckBox(mDefaultSkin, true,
 						mDefaultPadding, Configuration.getInstance().getTilting(),
 						CHECKBOX_X_SIZE, CHECKBOX_Y_SIZE, 1, GuiCommand.toggleTilting));
-		mSettingsWidgets.add(new GuiLabel(mDefaultSkin, "default", false,
-						mDefaultPadding, 1, "Powerups: "));
-		mSettingsWidgets
-						.add(new GuiCheckBox(mDefaultSkin, true, mDefaultPadding,
+		mSettingsWidgets.add(new GuiLabel(mDefaultSkin, "aux", false,
+						mDefaultPadding, Align.right, MEDIUM_FONT_SIZE, 1, "Powerups: "));
+		mSettingsWidgets.add(new GuiCheckBox(mDefaultSkin, true, mDefaultPadding,
 						Configuration.getInstance().getPowerups(),
 						CHECKBOX_X_SIZE, CHECKBOX_Y_SIZE, 1,
 						GuiCommand.togglePowerups));
@@ -425,8 +430,8 @@ public final class GuiManager {
 				TOUCHPAD_MIN_SENSITIVITY, TOUCHPAD_MAX_SENSITIVITY,
 				(float) Configuration.getInstance().getSensitivity(), 1,
 				GuiCommand.updateSensitivity);
-		mSettingsWidgets.add(new GuiLabel(mDefaultSkin, "default", false,
-						mDefaultPadding, 1, "Touchpad sensitivity: "));
+		mSettingsWidgets.add(new GuiLabel(mDefaultSkin, "aux", false,
+						mDefaultPadding, Align.right, MEDIUM_FONT_SIZE, 1, "Touchpad\nsensitivity: "));
 		mSettingsWidgets.add(mSensitivityCounter);
 		mSettingsWidgets.add(new GuiButton(mDefaultSkin, "default", true,
 						mDefaultPadding, Align.center, "Back", LARGE_BUTTON_X_SIZE,
@@ -435,11 +440,23 @@ public final class GuiManager {
 	
 	private void createCredits() {
 		mCreditsWidgets.add(new GuiLabel(mDefaultSkin, "default", true,
-						mTitlePadding, 1, "Credits"));
+						mTitlePadding, Align.center, 1f, 1, "Credits"));
+		mCreditsWidgets.add(new GuiLabel(mDefaultSkin, "default", true,
+						mDefaultPadding, Align.left, SMALL_FONT_SIZE, 1, "Development team"));
 		mCreditsWidgets.add(new GuiLabel(mDefaultSkin, "aux", true,
-						mTitlePadding, 1,
+						mDefaultPadding, Align.center, SMALL_FONT_SIZE, 1,
 						"Guillaume Leclerc\nMathvey Khokhlov\nPedro Caldeira\nSidney Barthe\n"
 						+ "Gaylor Bosson\nAdam Haefliger"));
+		mCreditsWidgets.add(new GuiLabel(mDefaultSkin, "default", true,
+						mDefaultPadding, Align.left, SMALL_FONT_SIZE, 1, "Programming language"));
+		mCreditsWidgets.add(new GuiLabel(mDefaultSkin, "aux", true,
+						mDefaultPadding, Align.center, SMALL_FONT_SIZE, 1,
+						"Java (using Libgdx)"));
+		mCreditsWidgets.add(new GuiLabel(mDefaultSkin, "default", true,
+						mDefaultPadding, Align.left, SMALL_FONT_SIZE, 1, "Special thanks"));
+		mCreditsWidgets.add(new GuiLabel(mDefaultSkin, "aux", true,
+						mDefaultPadding, Align.center, SMALL_FONT_SIZE, 1,
+						"Calin Iorgulescu\nSander Kromwijk"));
 		mCreditsWidgets.add(new GuiButton(mDefaultSkin, "default", true,
 						mDefaultPadding, Align.center, "Back", LARGE_BUTTON_X_SIZE,
 						BUTTON_Y_SIZE, 1, GuiCommand.goToMainMenu));
@@ -447,9 +464,9 @@ public final class GuiManager {
 	
 	private void createGameOver() {
 		mGameOverWidgets.add(new GuiLabel(mDefaultSkin, "default", true,
-						mTitlePadding, 1, "Game Over"));
+						mTitlePadding, Align.center, 1f, 1, "Game Over"));
 		mFinalScore = new GuiLabel(mDefaultSkin, "default", true,
-				mDefaultPadding, 1, "0 - 0");
+				mDefaultPadding, Align.center, 1f, 1, "0 - 0");
 		mGameOverWidgets.add(mFinalScore);
 		mGameOverWidgets.add(new GuiButton(mDefaultSkin, "default", true,
 						mDefaultPadding, Align.center, "Play again",
