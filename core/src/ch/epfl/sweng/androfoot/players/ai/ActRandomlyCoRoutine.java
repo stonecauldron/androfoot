@@ -3,7 +3,6 @@ package ch.epfl.sweng.androfoot.players.ai;
 import java.util.Arrays;
 import java.util.List;
 
-import ch.epfl.sweng.androfoot.interfaces.Controllable;
 import ch.epfl.sweng.androfoot.utils.CoRoutine;
 
 import com.badlogic.gdx.math.MathUtils;
@@ -20,11 +19,11 @@ public class ActRandomlyCoRoutine implements CoRoutine {
 	private static final int MAX_DELTA_Y = 10;
 	private static final float MAX_SPEED_FACTOR = 0.9f;
 
-	private Controllable mPaddles;
+	private AbstractAIPlayer mPaddles;
 
 	private List<AIState> authorizedStates = Arrays.asList(AIState.DEFENSE);
 
-	ActRandomlyCoRoutine(Controllable paddles) {
+	ActRandomlyCoRoutine(AbstractAIPlayer paddles) {
 		mPaddles = paddles;
 	}
 
@@ -37,7 +36,11 @@ public class ActRandomlyCoRoutine implements CoRoutine {
 	public List<AIState> getStatesWhereCoRoutineIsExecutable() {
 		return authorizedStates;
 	}
-
+	
+	protected AbstractAIPlayer getPaddles() {
+		return mPaddles;
+	}
+	
 	private void actRandomly() {
 		float deltaX = MathUtils.random(MAX_DELTA_X) * MathUtils.randomSign()
 				* MAX_SPEED_FACTOR;

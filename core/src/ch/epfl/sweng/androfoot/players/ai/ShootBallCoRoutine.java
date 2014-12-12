@@ -13,8 +13,8 @@ import ch.epfl.sweng.androfoot.utils.CoRoutine;
  */
 public class ShootBallCoRoutine implements CoRoutine {
 
-	private static final int MAX_SHOOTING_SPEED = 10;
-
+	private static final int MAX_SHOOTING_SPEED = 4;
+	
 	private AbstractAIPlayer mPaddles;
 
 	private List<AIState> authorizedStates = Arrays.asList(AIState.SHOOT);
@@ -26,6 +26,11 @@ public class ShootBallCoRoutine implements CoRoutine {
 	@Override
 	public void execute() {
 		shoot();
+		if (mPaddles.isDeadLocked()) {
+			mPaddles.setState(AIState.RANDOM);
+		} else {
+			mPaddles.setState(AIState.DEFENSE);
+		}
 	}
 
 	@Override
@@ -33,7 +38,7 @@ public class ShootBallCoRoutine implements CoRoutine {
 		return authorizedStates;
 	}
 
-	public void shoot() {
+	private void shoot() {
 		int speed = mPaddles
 				.takeIntoAccountPlayerNumberInRelationToXSpeed(MAX_SHOOTING_SPEED);
 		mPaddles.moveHorizontally(speed);

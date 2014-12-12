@@ -15,6 +15,7 @@ public class MediumAI extends AbstractAIPlayer {
 	private static final float DISTANCE_FACTOR = 2f;
 	private static final float SHOOT_TIMER = 0.25f;
 	private static final float RETREAT_TIMER = 0.1f;
+	private static final float RANDOM_TIMER = 0.5f;
 
 	public MediumAI(PlayerNumber number) {
 		super(number);
@@ -23,5 +24,7 @@ public class MediumAI extends AbstractAIPlayer {
 				this, DISTANCE_FACTOR));
 		addToCoRoutines(new Timer(SHOOT_TIMER), new ShootBallCoRoutine(this));
 		addToCoRoutines(new Timer(RETREAT_TIMER), new RetreatCoRoutine(this));
+		addToCoRoutines(new Timer(RANDOM_TIMER), new ActRandomlyWhenDeadLocked(
+				this));
 	}
 }
