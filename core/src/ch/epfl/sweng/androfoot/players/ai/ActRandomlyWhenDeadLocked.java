@@ -1,14 +1,20 @@
 package ch.epfl.sweng.androfoot.players.ai;
 
-import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
+import java.util.Arrays;
+import java.util.List;
 
-import com.badlogic.gdx.math.Vector2;
-import com.sun.medialib.mlib.mediaLibException;
 
 public class ActRandomlyWhenDeadLocked extends ActRandomlyCoRoutine {
+	
+	private List<AIState> authorizedStates = Arrays.asList(AIState.RANDOM);
 
 	ActRandomlyWhenDeadLocked(AbstractAIPlayer paddles) {
 		super(paddles);
+	}
+	
+	@Override
+	public List<AIState> getStatesWhereCoRoutineIsExecutable() {
+		return authorizedStates;
 	}
 
 	public void execute() {

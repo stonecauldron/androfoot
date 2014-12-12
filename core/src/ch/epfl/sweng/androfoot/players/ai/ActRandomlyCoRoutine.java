@@ -21,7 +21,7 @@ public class ActRandomlyCoRoutine implements CoRoutine {
 
 	private AbstractAIPlayer mPaddles;
 
-	private List<AIState> authorizedStates = Arrays.asList(AIState.RANDOM);
+	private List<AIState> authorizedStates = Arrays.asList(AIState.DEFENSE);
 
 	ActRandomlyCoRoutine(AbstractAIPlayer paddles) {
 		mPaddles = paddles;
