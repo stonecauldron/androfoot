@@ -20,10 +20,9 @@ public class FollowBallCoRoutine implements CoRoutine {
 	private static final int MAX_DELTA_Y = 10;
 	private static final float TOLERANCE = 0.1f;
 	private static final float DISTANCE_FACTOR = 1.75f;
+	private static final float GOAL_Y_POSITION = Constants.WORLD_SIZE_Y / 2;
 
 	private float mDistanceFactor;
-
-	private static float goalYPosition = Constants.WORLD_SIZE_Y / 2;
 
 	private AbstractAIPlayer mPaddles;
 
@@ -42,6 +41,10 @@ public class FollowBallCoRoutine implements CoRoutine {
 	@Override
 	public void execute() {
 		followBall();
+		
+		if (mPaddles.playerCanShootBall()) {
+			mPaddles.setState(AIState.SHOOT);
+		}
 	}
 
 	@Override
@@ -59,9 +62,9 @@ public class FollowBallCoRoutine implements CoRoutine {
 		float offset = MathUtils.random(playerHeight);
 
 		// offset center of player to allow targeted shooting at goal
-		if (playerY > goalYPosition) {
+		if (playerY > GOAL_Y_POSITION) {
 			offset = -offset;
-		} else if (Math.abs(playerY - goalYPosition) < TOLERANCE) {
+		} else if (Math.abs(playerY - GOAL_Y_POSITION) < TOLERANCE) {
 			offset = 0;
 		}
 		float yDistanceFromPlayerToBall = Math.abs(ballY - (playerY + offset));
@@ -82,5 +85,4 @@ public class FollowBallCoRoutine implements CoRoutine {
 			}
 		}
 	}
-
 }

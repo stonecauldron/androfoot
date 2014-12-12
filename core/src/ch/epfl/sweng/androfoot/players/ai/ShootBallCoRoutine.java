@@ -26,6 +26,11 @@ public class ShootBallCoRoutine implements CoRoutine {
 	@Override
 	public void execute() {
 		shoot();
+		if (mPaddles.isDeadLocked()) {
+			mPaddles.setState(AIState.RANDOM);
+		} else {
+			mPaddles.setState(AIState.DEFENSE);
+		}
 	}
 
 	@Override
