@@ -116,10 +116,10 @@ public class PowerUpManager implements PowerUpEffectApplier, PowerUpSpawner,
 				int effectIndex = randomizer.nextInt(nbPowerUps);
 				PowerUpEffect effect = (PowerUpEffect) possibleEffects
 						.toArray()[effectIndex];
-				float Xpos = randomizer.nextFloat() * Constants.WORLD_SIZE_X
-						+ Constants.WORLD_ORIGIN_X;
-				float Ypos = randomizer.nextFloat() * Constants.WORLD_SIZE_Y
-						+ Constants.WORLD_ORIGIN_Y;
+				float Xpos = randomizer.nextFloat() * (Constants.WORLD_SIZE_X - POWERUP_SIZE * 2)
+						+ Constants.WORLD_ORIGIN_X  + POWERUP_SIZE;
+				float Ypos = randomizer.nextFloat() * (Constants.WORLD_SIZE_Y - POWERUP_SIZE * 2)
+						+ Constants.WORLD_ORIGIN_Y + POWERUP_SIZE;
 				DefaultPowerUp powerUpBody = PhysicsWorld.getPhysicsWorld()
 						.createPowerUp(Xpos, Ypos, POWERUP_SIZE);
 				setEffectForBody(powerUpBody, effect.copy());
