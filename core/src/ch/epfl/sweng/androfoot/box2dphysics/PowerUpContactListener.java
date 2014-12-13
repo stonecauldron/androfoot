@@ -19,12 +19,12 @@ import ch.epfl.sweng.androfoot.interfaces.DefaultEventManager;
  */
 public final class PowerUpContactListener implements DefaultContactListener {
 
-	private static PowerUpContactListener instance = new PowerUpContactListener();
+	private static final PowerUpContactListener INSTANCE = new PowerUpContactListener();
 	private static DefaultEventManager manager;
 	private static Set<PowerUpBody> powerUps;
 	
 	/**
-	 * Constrcutor of the {@link PowerUpContactListener} class.
+	 * Constructor of the {@link PowerUpContactListener} class.
 	 */
 	private PowerUpContactListener() {
 		powerUps = new HashSet<PowerUpBody>();
@@ -35,7 +35,7 @@ public final class PowerUpContactListener implements DefaultContactListener {
 	 * @return
 	 */
 	public static PowerUpContactListener getInstance() {
-		return instance;
+		return INSTANCE;
 	}
 	
 	/**
@@ -92,18 +92,17 @@ public final class PowerUpContactListener implements DefaultContactListener {
         }
 	}
 	
+	/**
+	 * Auxikiary method that checks if the ball hits the power up or not.
+	 * @param contact
+	 * @param powerUp
+	 * @return
+	 */
 	private boolean checkBallHitsPowerUp(Contact contact, PowerUpBody powerUp) {
 		
 		return (contact.getFixtureA().getBody() == powerUp.getBody())
 					&& (contact.getFixtureB().getFilterData().categoryBits == Constants.CATEGORY_BALL)
 					|| (contact.getFixtureA().getFilterData().categoryBits == Constants.CATEGORY_BALL)
 					&& (contact.getFixtureB().getBody() == powerUp.getBody());
-	}
-
-	void destroyAllPowerUps() {
-		Iterator<PowerUpBody> iter = powerUps.iterator();
-	    while (iter.hasNext()) {
-	        PhysicsWorld.getPhysicsWorld().destroy(iter.next());
-	    }
 	}
 }
