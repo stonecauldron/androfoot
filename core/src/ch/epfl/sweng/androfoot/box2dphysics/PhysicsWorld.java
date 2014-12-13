@@ -40,7 +40,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver,
 		HostObserver, PlayerShapeListener {
 	private static final PhysicsWorld PHYSICS_WORLD_INSTANCE = new PhysicsWorld();
 
-	private World physicsWorld = new World(new Vector2(0, 0), false);
+	private final World physicsWorld = new World(new Vector2(0, 0), false);
 	private float accumulator = 0f;
 	private boolean isRunning = true;
 	private List<Drawable> drawableObjectsSet = new ArrayList<Drawable>();
@@ -244,6 +244,10 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver,
 		return powerUp;
 	}
 
+	/**
+	 * Destroys the desired physicyl object and removes it from the drawable list.
+	 * @param object Object to be destroyed.
+	 */
 	public void destroy(DefaultWorldObject object) {
 		if (object.getBody().getFixtureList().first().getFilterData().categoryBits == Constants.CATEGORY_BALL) {
 			ball = null;
@@ -254,6 +258,10 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver,
 		GlobalContactListener.getInstance().removeBody(object.getBody());
 	}
 
+	/**
+	 * Destroys all members of the group paddle.
+	 * @param group Group to be destroyed.
+	 */
 	public void destroy(GroupPaddle group) {
 		Iterator<Paddle> iterator = group.getPaddles().iterator();
 		while (iterator.hasNext()) {
@@ -261,11 +269,18 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver,
 		}
 	}
 
-	public void destroy(Paddle paddle) {
+	/**
+	 * Auxiliary method that destroys an individual paddle.
+	 * @param paddle
+	 */
+	private void destroy(Paddle paddle) {
 		paddles.remove(paddle);
 		destroy(paddle.getPlayer());
 	}
 
+	/**
+	 * Clears the Physics World of all objects.
+	 */
 	public void clear() {
 		drawableObjectsSet.clear();
 
@@ -392,7 +407,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver,
 	 * @param testedBall
 	 *            Ball to be checked.
 	 */
-	public void checkIntegrity(Ball testedBall) {
+	protected void checkIntegrity(Ball testedBall) {
 		// Check the velocity
 		Vector2 ballVelocity = testedBall.getLinearVelocity();
 		ballVelocity = ballVelocity.clamp(Constants.BALL_MIN_VELOCITY,
