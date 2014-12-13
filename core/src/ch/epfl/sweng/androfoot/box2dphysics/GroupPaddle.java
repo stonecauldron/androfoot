@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class GroupPaddle implements DefaultGroupPaddle {
     
-    private List<Paddle> paddles;
+    private final List<Paddle> paddles;
     
     /**
      * Constructor
@@ -40,7 +40,8 @@ public class GroupPaddle implements DefaultGroupPaddle {
         return paddles;
     }
     
-    public void changePlayerFixtures() {
+    @SuppressWarnings("unused")
+	private void changePlayerFixtures() {
     	for (Paddle paddle : paddles) {
     		paddle.changePlayerFixture();
     	}

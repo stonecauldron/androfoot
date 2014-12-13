@@ -9,7 +9,6 @@ import org.junit.Test;
 import ch.epfl.sweng.androfoot.box2dphysics.Ball;
 import ch.epfl.sweng.androfoot.box2dphysics.Constants;
 import ch.epfl.sweng.androfoot.box2dphysics.PhysicsWorld;
-import ch.epfl.sweng.androfoot.box2dphysics.PowerUpBody;
 import ch.epfl.sweng.androfoot.box2dphysics.PowerUpContactListener;
 import ch.epfl.sweng.androfoot.interfaces.DefaultPowerUp;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpObserver;
@@ -35,7 +34,7 @@ public class PowerUpContactObserverTest implements PowerUpObserver {
 	public void testIfEventOcurred() {
 		EventManagerTester.getEventManager().addPowerUpContactObserver(this);
 
-		PowerUpContactListener.addPowerUp(new PowerUpBody(world, 1.0f, 1.0f, 1.0f));
+		PowerUpContactListener.addPowerUp(PhysicsWorld.getPhysicsWorld().createPowerUp(1.0f, 1.0f, 1.0f));
 		ball = PhysicsWorld.getPhysicsWorld().createBall(4.0f, 1.0f, Constants.BALL_RADIUS);
 		
 		ball.setLinearVelocity(1.0f, 0);
