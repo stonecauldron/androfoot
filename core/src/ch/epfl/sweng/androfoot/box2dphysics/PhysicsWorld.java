@@ -407,7 +407,7 @@ public final class PhysicsWorld implements DrawableWorld, ClientObserver,
 	 * @param testedBall
 	 *            Ball to be checked.
 	 */
-	protected void checkIntegrity(Ball testedBall) {
+	public void checkIntegrity(Ball testedBall) {
 		// Check the velocity
 		Vector2 ballVelocity = testedBall.getLinearVelocity();
 		ballVelocity = ballVelocity.clamp(Constants.BALL_MIN_VELOCITY,
