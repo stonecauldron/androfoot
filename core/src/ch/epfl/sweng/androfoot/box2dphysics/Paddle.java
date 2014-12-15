@@ -12,11 +12,11 @@ import ch.epfl.sweng.androfoot.interfaces.DefaultPaddle;
  */
 public class Paddle implements DefaultPaddle {
     
-    private float posX;
-    private float posY;
-    private float width;
-    private float height;
-    private boolean teamFlag;
+    private final float posX;
+    private final float posY;
+    private final float width;
+    private final float height;
+    private final boolean teamFlag;
     
     private Player player;
     

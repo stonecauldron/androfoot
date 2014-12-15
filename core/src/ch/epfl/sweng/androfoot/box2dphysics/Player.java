@@ -26,7 +26,7 @@ public class Player implements DefaultPlayer {
 	
 	private static final int MAX_PLAYER_VERTEX = 11;
 	private static int zIndexCounter = 1;
-	private Body playerBody;
+	private final Body playerBody;
 	private final BodyDef playerBodyDef = new BodyDef(); 
 	
 	private boolean teamFlag;

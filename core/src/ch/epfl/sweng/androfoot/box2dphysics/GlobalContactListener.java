@@ -19,7 +19,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  */
 public final class GlobalContactListener implements DefaultContactListener {
     
-    private static GlobalContactListener instance = new GlobalContactListener();
+    private static final GlobalContactListener INSTANCE = new GlobalContactListener();
     private static Set<DefaultContactListener> listeners;
     
     private GlobalContactListener() {
@@ -27,7 +27,7 @@ public final class GlobalContactListener implements DefaultContactListener {
     }
     
     public static GlobalContactListener getInstance() {
-        return instance;
+        return INSTANCE;
     }
     
     public static void addListener(DefaultContactListener listener) {

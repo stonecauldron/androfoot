@@ -19,7 +19,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  */
 public final class GoalContactListener implements DefaultContactListener {
     
-    private static GoalContactListener instance = new GoalContactListener();
+    private static final GoalContactListener INSTANCE = new GoalContactListener();
     private static DefaultEventManager manager;
     private static Set<Goal> goals;
     private static Set<Ball> balls;
@@ -30,7 +30,7 @@ public final class GoalContactListener implements DefaultContactListener {
     }
     
     public static GoalContactListener getInstance() {
-        return instance;
+        return INSTANCE;
     }
     
     public static void addGoal(Goal goal) {

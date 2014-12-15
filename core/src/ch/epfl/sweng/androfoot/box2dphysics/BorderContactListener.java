@@ -19,7 +19,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  */
 public final class BorderContactListener implements DefaultContactListener {
     
-    private static BorderContactListener instance = new BorderContactListener();
+    private static final BorderContactListener INSTANCE = new BorderContactListener();
     private static DefaultEventManager manager;
     private static Set<Ball> balls;
     private static Set<Border> borders;
@@ -30,7 +30,7 @@ public final class BorderContactListener implements DefaultContactListener {
     }
     
     public static BorderContactListener getInstance() {
-        return instance;
+        return INSTANCE;
     }
     
     public static void addBall(Ball ball) {
@@ -66,17 +66,17 @@ public final class BorderContactListener implements DefaultContactListener {
 
     @Override
     public void endContact(Contact contact) {
-        
+    	// Do nothing
     }
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
-        
+    	// Do nothing
     }
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-        
+    	// Do nothing
     }
 
     @Override

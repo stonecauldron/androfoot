@@ -19,7 +19,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  */
 public final class PlayerContactListener implements DefaultContactListener {
 	
-    private static PlayerContactListener instance = new PlayerContactListener();
+    private static final PlayerContactListener INSTANCE = new PlayerContactListener();
     private static DefaultEventManager manager;
 	private static Set<Player> players;
 	
@@ -35,7 +35,7 @@ public final class PlayerContactListener implements DefaultContactListener {
 	 * @return
 	 */
 	public static PlayerContactListener getInstance() {
-        return instance;
+        return INSTANCE;
     }
 	
 	/**
