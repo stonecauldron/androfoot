@@ -16,21 +16,18 @@ import ch.epfl.sweng.androfoot.rendering.GraphicEngine;
  */
 public class PlayerCharacteristicsManager {
 
-	private static float DEFAULT_PADDLE_HEIGHT_CIRCLE = 0.2f;
-	private static float DEFAULT_PADDLE_HEIGHT_RECTANGLE = 0.08f;
-	private static float DEFAULT_PADDLE_WIDTH = 0.8f;
+	private static final float DEFAULT_PADDLE_HEIGHT_CIRCLE = 0.2f;
+	private static final float DEFAULT_PADDLE_HEIGHT_RECTANGLE = 0.08f;
+	private static final float DEFAULT_PADDLE_WIDTH = 0.8f;
 
 	private static PaddleGenerator paddleGeneratorInstanceTeam1 = null;
 	private static PaddleGenerator paddleGeneratorInstanceTeam2 = null;
 
-	public static final Color[] TEAM_COLORS_HEX = new Color[]{	new Color(0xFF2020FF),
-																new Color(0x4040FFFF),
-																new Color(0x40E080FF),
-																new Color(0xC040FFFF),
-																new Color(0x00FFFFFF),
-																new Color(0xFF8040FF),
-																new Color(0xE0E040FF),
-																new Color(0xFFFFFFFF)};
+	public static final Color[] TEAM_COLORS_HEX = new Color[] {
+			new Color(0xFF2020FF), new Color(0x4040FFFF),
+			new Color(0x40E080FF), new Color(0xC040FFFF),
+			new Color(0x00FFFFFF), new Color(0xFF8040FF),
+			new Color(0xE0E040FF), new Color(0xFFFFFFFF) };
 
 	public static Color getColorTeam1() {
 		return TEAM_COLORS_HEX[Configuration.getInstance().getPlayerOneTeam()];
@@ -48,8 +45,8 @@ public class PlayerCharacteristicsManager {
 	public static PaddleGenerator getInstanceTeam1() {
 		if (paddleGeneratorInstanceTeam1 == null) {
 			paddleGeneratorInstanceTeam1 = new PaddleGenerator(
-					DEFAULT_PADDLE_WIDTH, DEFAULT_PADDLE_HEIGHT_CIRCLE,
-					DEFAULT_PADDLE_HEIGHT_RECTANGLE);
+							DEFAULT_PADDLE_WIDTH, DEFAULT_PADDLE_HEIGHT_CIRCLE,
+							DEFAULT_PADDLE_HEIGHT_RECTANGLE);
 		}
 		return paddleGeneratorInstanceTeam1;
 	}
@@ -62,16 +59,16 @@ public class PlayerCharacteristicsManager {
 	public static PaddleGenerator getInstanceTeam2() {
 		if (paddleGeneratorInstanceTeam2 == null) {
 			paddleGeneratorInstanceTeam2 = new PaddleGenerator(
-					DEFAULT_PADDLE_WIDTH, DEFAULT_PADDLE_HEIGHT_CIRCLE,
-					DEFAULT_PADDLE_HEIGHT_RECTANGLE);
+							DEFAULT_PADDLE_WIDTH, DEFAULT_PADDLE_HEIGHT_CIRCLE,
+							DEFAULT_PADDLE_HEIGHT_RECTANGLE);
 		}
 		return paddleGeneratorInstanceTeam2;
 	}
 
 	public static void setShapeParamsPlayer1(float heightShootZone,
-			float heightControlZone, float width) {
+					float heightControlZone, float width) {
 		paddleGeneratorInstanceTeam1 = new PaddleGenerator(width,
-				heightShootZone, heightControlZone);
+						heightShootZone, heightControlZone);
 		warnShapeHasChanged();
 	}
 
@@ -81,9 +78,9 @@ public class PlayerCharacteristicsManager {
 	}
 
 	public static void setShapeParamsPlayer2(float heightShootZone,
-			float heightControlZone, float width) {
+					float heightControlZone, float width) {
 		paddleGeneratorInstanceTeam2 = new PaddleGenerator(width,
-				heightShootZone, heightControlZone);
+						heightShootZone, heightControlZone);
 		warnShapeHasChanged();
 	}
 
