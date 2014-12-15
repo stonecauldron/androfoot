@@ -17,7 +17,6 @@ import ch.epfl.sweng.androfoot.polygongenerator.PolygonReflector.Axis2D;
 import ch.epfl.sweng.androfoot.polygongenerator.RawPolygonGenerator;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -30,25 +29,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  */
 public class ScoreRenderer implements DrawableRenderer {
 
-	private static int NB_SEGMENT_SCORE = 15;
+	private static final float SCORE_OPACITY = 0.1f;
+
+	private static final int NB_SEGMENT_SCORE = 15;
 
 	private PolygonRenderer scoreADisplayer;
 	private PolygonRenderer scoreBDisplayer;
-
-	private final BitmapFont font;
-
-	/**
-	 * Init the {@link ScoreRenderer} with a color
-	 * 
-	 * @param textColor
-	 *            the color to draw the score with
-	 */
-	public ScoreRenderer(Color textColor) {
-		font = new BitmapFont();
-		font.setColor(textColor);
-		// font.setFixedWidthGlyphs("1234567890");
-		font.setScale(0.1f, 0.2f);
-	}
 
 	/**
 	 * Set the score
@@ -63,13 +49,15 @@ public class ScoreRenderer implements DrawableRenderer {
 		scoreBDisplayer = generateRendererForScore(player2, false);
 	}
 
-	private static PolygonRenderer generateRendererForScore(int score, boolean team1) {
+	private static PolygonRenderer generateRendererForScore(int score,
+					boolean team1) {
 		int maxScore = Configuration.getInstance().getScoreLimit();
-		float progression = score / (float) (maxScore);
+		float progression = score / (float) maxScore;
 		PolygonGenerator generator;
 		if (score != 0) {
-			generator = new CircleGenerator(NB_SEGMENT_SCORE, 0, PolygonUtils.MAX_ANGLE_RADIAN / 2 * progression,
-					AngleType.RADIAN);
+			generator = new CircleGenerator(NB_SEGMENT_SCORE, 0,
+							PolygonUtils.MAX_ANGLE_RADIAN / 2 * progression,
+							AngleType.RADIAN);
 		} else {
 			generator = new RawPolygonGenerator(new float[0]);
 		}
@@ -80,14 +68,18 @@ public class ScoreRenderer implements DrawableRenderer {
 		} else {
 			c = new Color(PlayerCharacteristicsManager.getColorTeam2());
 		}
-		generator = new PolygonRotator(generator, -PolygonUtils.MAX_ANGLE_RADIAN / 4);
+		generator = new PolygonRotator(generator,
+						-PolygonUtils.MAX_ANGLE_RADIAN / 2 / 2);
 		generator = new NonCyclicPolygon(generator);
-		generator = new PrependPointPolygonGenerator(generator, new ImmutablePoint<Float>(0f, 0f));
-		generator = new AppendPointPolygonGenerator(generator, new ImmutablePoint<Float>(0f, 0f));
+		generator = new PrependPointPolygonGenerator(generator,
+						new ImmutablePoint<Float>(0f, 0f));
+		generator = new AppendPointPolygonGenerator(generator,
+						new ImmutablePoint<Float>(0f, 0f));
 		PolygonRenderer renderer = new PolygonRenderer(generator);
-		renderer.setPosition(Constants.WORLD_ORIGIN_X + Constants.WORLD_SIZE_X / 2, Constants.WORLD_ORIGIN_Y
-				+ Constants.WORLD_SIZE_Y / 2);
-		c.a = 0.1f;
+		renderer.setPosition(Constants.WORLD_ORIGIN_X + Constants.WORLD_SIZE_X
+						/ 2, Constants.WORLD_ORIGIN_Y + Constants.WORLD_SIZE_Y
+						/ 2);
+		c.a = SCORE_OPACITY;
 		renderer.setColor(c);
 		return renderer;
 	}

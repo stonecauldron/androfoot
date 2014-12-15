@@ -33,18 +33,27 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor,
-		GoalObserver, BorderObserver, PlayerShapeListener,
-		AccelerometerObserver {
+/**
+ * The graphic engine of the game
+ * 
+ * @author Guillaume
+ *
+ */
+final public class GraphicEngine implements WorldRenderer, ScoreDisplayer,
+				Visitor, GoalObserver, BorderObserver, PlayerShapeListener,
+				AccelerometerObserver {
 
+	private static final int BORDER_COLLISION_SHOCKWAVE_SPEED = 8;
+	private static final int BORDER_COLLISION_SHOCKWAVE_LIFETIME = 2;
+	private static final int GOAL_SHOCKWAVE_SPEED = 9;
+	private static final int GOAL_SHOCKWAVE_LIFETIME = 12;
+	private static final float GOAL_SHOCKWAVE_OPACITY = 0.4f;
 	private static final int MAX_SHOCKWAVES = 3;
 	private static final int DEFAULT_SCREEN_WIDTH = 300;
 	private static final int DEFAULT_SCREEN_HEIGHT = 200;
 	private static final int TILT_COLOR_HEX = 0xFF000060;
 	private static final Color TILT_COLOR = new Color(TILT_COLOR_HEX);
 
-	private static final int SCORE_COLOR_HEX = 0x2B2B2BFF;
-	private static final Color SCORE_COLOR = new Color(SCORE_COLOR_HEX);
 	private static final int FIELD_COLOR_HEX = 0x303030FF;
 	private static final Color FIELD_COLOR = new Color(FIELD_COLOR_HEX);
 
@@ -56,11 +65,11 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor,
 	private final ShapeRenderer renderer = new ShapeRenderer();
 	private final SpriteBatch batch = new SpriteBatch();
 	private final BallRenderer ballRenderer = new BallRenderer();
-	private final ScoreRenderer scoreRenderer = new ScoreRenderer(SCORE_COLOR);
+	private final ScoreRenderer scoreRenderer = new ScoreRenderer();
 	private final BoardRenderer boardRenderer = new BoardRenderer();
 	private final RectangleRenderer rectangleRenderer = new RectangleRenderer();
 	private final ShakeRenderer shakeRenderer = new ShakeRenderer(TILT_COLOR,
-			SHAKE_TIME, SHAKE_ANIMATION_TIME);
+					SHAKE_TIME, SHAKE_ANIMATION_TIME);
 	private PlayerRenderer playerT1Renderer;
 	private PlayerRenderer playerT2Renderer;
 	private final PowerUpRender powerUpRender;
@@ -76,7 +85,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor,
 	private int screenHeight = DEFAULT_SCREEN_HEIGHT;
 
 	private final ShockwaveManager shockwaveManager = new ShockwaveManager(
-			MAX_SHOCKWAVES);
+					MAX_SHOCKWAVES);
 
 	/**
 	 * Init the singleton engine
@@ -84,7 +93,7 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor,
 	private GraphicEngine() {
 		shapeHasChanged();
 		powerUpRender = new PowerUpRender(
-				PowerUpCharacteristicsManger.getPowerUpShape());
+						PowerUpCharacteristicsManger.getPowerUpShape());
 		powerUpRender.setColor(PowerUpCharacteristicsManger.getPowerUpColor());
 		batch.enableBlending();
 		EventManager.getEventManager().addGoalObserver(this);
@@ -165,8 +174,8 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor,
 	@Override
 	public void visit(Visitable visitable) {
 		String message = this.getClass().getName()
-				+ " cannot render ojects of type "
-				+ visitable.getClass().getName();
+						+ " cannot render ojects of type "
+						+ visitable.getClass().getName();
 		throw new Visitor.NotCompatibleVisitableException(message);
 	}
 
@@ -198,7 +207,8 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor,
 		camera = new OrthographicCamera(worldRegion.width, worldRegion.height);
 		viewport.setCamera(camera);
 		camera.position.set(worldRegion.width / 2 + worldRegion.x,
-				worldRegion.height / 2 + worldRegion.y, camera.position.z);
+						worldRegion.height / 2 + worldRegion.y,
+						camera.position.z);
 		camera.update();
 	}
 
@@ -229,10 +239,10 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor,
 			c = PlayerCharacteristicsManager.getColorTeam2();
 		}
 
-		c.a = 0.4f;
+		c.a = GOAL_SHOCKWAVE_OPACITY;
 
 		shockwaveManager.addShockWave(new ShockWave(new Vector2(posX, posY), c,
-				12, 9));
+						GOAL_SHOCKWAVE_LIFETIME, GOAL_SHOCKWAVE_SPEED));
 	}
 
 	@Override
@@ -242,7 +252,9 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor,
 		Color c = BallRenderer.BALL_COLOR;
 
 		shockwaveManager.addShockWave(new BoomShockwave(
-				new Vector2(posX, posY), c, 2, 8));
+						new Vector2(posX, posY), c,
+						BORDER_COLLISION_SHOCKWAVE_LIFETIME,
+						BORDER_COLLISION_SHOCKWAVE_SPEED));
 	}
 
 	@Override
@@ -253,17 +265,17 @@ public class GraphicEngine implements WorldRenderer, ScoreDisplayer, Visitor,
 	@Override
 	public void shapeHasChanged() {
 		playerT1Renderer = new PlayerRenderer(
-				PlayerCharacteristicsManager.getInstanceTeam1());
+						PlayerCharacteristicsManager.getInstanceTeam1());
 		playerT1Renderer.setColor(PlayerCharacteristicsManager.getColorTeam1());
 		playerT2Renderer = new PlayerRenderer(
-				PlayerCharacteristicsManager.getInstanceTeam2());
+						PlayerCharacteristicsManager.getInstanceTeam2());
 		playerT2Renderer.setColor(PlayerCharacteristicsManager.getColorTeam2());
 	}
 
 	@Override
 	public void visit(DefaultPowerUp powerup) {
 		powerUpRender.setPosition(powerup.getPositionX(),
-				powerup.getPositionY());
+						powerup.getPositionY());
 		powerUpRender.setScale(powerup.getHitBoxRadius());
 		powerUpRender.render(batch, renderer);
 	}

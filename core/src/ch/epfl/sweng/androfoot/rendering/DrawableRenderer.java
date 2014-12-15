@@ -5,15 +5,19 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
  * Can be rendered by the graphic engine
+ * 
  * @author Guillame Leclerc
  *
  */
 public interface DrawableRenderer {
-	
+
 	/**
 	 * Render this object
-	 * @param batch the sprite batch
-	 * @param shapes the shape renderer
+	 * 
+	 * @param batch
+	 *            the sprite batch
+	 * @param shapes
+	 *            the shape renderer
 	 */
-	public void render(SpriteBatch batch, ShapeRenderer shapes) ;
+	void render(SpriteBatch batch, ShapeRenderer shapes);
 }

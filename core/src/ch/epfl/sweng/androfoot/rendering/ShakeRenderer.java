@@ -7,6 +7,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
+/**
+ * Render the shake action on the screen
+ * 
+ * @author Guillaume
+ *
+ */
 public class ShakeRenderer implements DrawableRenderer {
 
 	private final Color olverlayColor;
@@ -19,7 +25,7 @@ public class ShakeRenderer implements DrawableRenderer {
 	public ShakeRenderer(Color color, float durationArg, float animDurationArg) {
 		if (2 * animDurationArg > durationArg) {
 			throw new IllegalArgumentException(
-					"The animation duration must be smaller than the half of the duration of the notifier");
+							"The animation duration must be smaller than the half of the duration of the notifier");
 		}
 		olverlayColor = new Color(color);
 		timeToMax = animDurationArg;
@@ -27,8 +33,8 @@ public class ShakeRenderer implements DrawableRenderer {
 		endAnimTime = durationArg;
 		renderer = new RectangleRenderer();
 		renderer.setRectangle(new Rectangle(Constants.WORLD_ORIGIN_X,
-				Constants.WORLD_ORIGIN_Y, Constants.WORLD_SIZE_X,
-				Constants.WORLD_SIZE_Y));
+						Constants.WORLD_ORIGIN_Y, Constants.WORLD_SIZE_X,
+						Constants.WORLD_SIZE_Y));
 	}
 
 	@Override
@@ -45,7 +51,7 @@ public class ShakeRenderer implements DrawableRenderer {
 		} else {
 			opacity = 0;
 		}
-		
+
 		Color realColor = new Color(olverlayColor);
 		realColor.a *= opacity;
 		GraphicEngine.getEngine().enableBlending();
