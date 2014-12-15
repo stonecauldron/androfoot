@@ -3,7 +3,12 @@ package ch.epfl.sweng.androfoot.players.ai;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * Coroutine executed when AIs get deadlocked.
+ * 
+ * @author Pedro Caldeira <pedrocaldeira>
+ *
+ */
 public class ActRandomlyWhenDeadLocked extends ActRandomlyCoRoutine {
 	
 	private List<AIState> authorizedStates = Arrays.asList(AIState.RANDOM);

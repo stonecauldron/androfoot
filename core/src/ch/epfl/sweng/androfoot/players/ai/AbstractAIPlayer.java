@@ -23,7 +23,7 @@ public abstract class AbstractAIPlayer extends AbstractPlayer implements
 		Controllable, AIObserver {
 
 	// tolerance for the floating point comparisons
-	private static float TOLERANCE = 0.0000000000000000000000000000000000000001f;
+	private static final float TOLERANCE = 0.0000000000000000000000000000000000000001f;
 	
 	// deadlock checks
 	private static final float DEADLOCK_TOLERANCE = 0.1f;
