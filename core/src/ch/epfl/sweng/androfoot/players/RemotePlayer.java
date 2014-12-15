@@ -58,7 +58,7 @@ public class RemotePlayer extends AbstractPlayer implements Controllable,
 	@Override
 	public void move(float deltaX, float deltaY) {
 		mPaddleMover.moveNetworkPaddle(deltaX, deltaY, mPaddlePositions);
-		mPaddleMover.newPosition = true;
+		mPaddleMover.setNewPosition(true);
 	}
 
 	@Override

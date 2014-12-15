@@ -20,7 +20,7 @@ public enum AccelerometerTracker implements ObservableAccelerometer {
 	INSTANCE;
 
 	private static final double SHAKE_TRIGGER = 1.7;
-	private static float GRAVITY_EARTH = (float) 9.81;
+	private static final float GRAVITY_EARTH = (float) 9.81;
 	private float mXGrav = 1;
 	private float mYGrav = 1;
 	private float mZGrav = 1;
