@@ -25,13 +25,15 @@ public enum SoundEffectManager implements GoalObserver, PaddleContactObserver,
 		BorderObserver {
 	INSTANCE;
 
+	private final static int MAX_PITCH = 150;
+	
 	private Sound mBallOnWall;
 	private Sound mBallOnPaddle;
 	private Sound mGoalPlayerOne;
 
-	private String mBallOnWallPath = "sounds/ballwall.wav";
-	private String mBallGoalPlayerOne = "sounds/goalplayerone.wav";
-	private String mBallOnPaddlePath = "sounds/ballpaddle.wav";
+	private final String mBallOnWallPath = "sounds/ballwall.wav";
+	private final String mBallGoalPlayerOne = "sounds/goalplayerone.wav";
+	private final String mBallOnPaddlePath = "sounds/ballpaddle.wav";
 
 	/**
 	 * Used to listen to the various game events
@@ -67,7 +69,7 @@ public enum SoundEffectManager implements GoalObserver, PaddleContactObserver,
 
 	private float pitchRandomizer(int offSet) {
 		Random rand = new Random();
-		int randomNum = rand.nextInt((250 - offSet) + 1) + offSet;
+		int randomNum = rand.nextInt((MAX_PITCH - offSet) + 1) + offSet;
 
 		return (float) (randomNum / 100);
 	}
