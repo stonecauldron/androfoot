@@ -37,20 +37,20 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 		super(playerNumber);
 		mPlayerNumber = playerNumber;
 		switch (playerNumber) {
-		case ONE:
-			PlayerTouchTracker.getInstance().addObserverPlayerOne(this);
-			if (Configuration.getInstance().ismNetworkMode()) {
-				NetworkHostScreen.getPlayerHost().addHostObserver(this);
-			}
-			break;
-		case TWO:
-			PlayerTouchTracker.getInstance().addObserverPlayerTwo(this);
-			if (Configuration.getInstance().ismNetworkMode()) {
-				NetworkClientScreen.getPlayerClient().addClientObserver(this);
-			}
-			break;
-		default:
-			throw new IllegalArgumentException(
+			case ONE:
+				PlayerTouchTracker.getInstance().addObserverPlayerOne(this);
+				if (Configuration.getInstance().ismNetworkMode()) {
+					NetworkHostScreen.getPlayerHost().addHostObserver(this);
+				}
+				break;
+			case TWO:
+				PlayerTouchTracker.getInstance().addObserverPlayerTwo(this);
+				if (Configuration.getInstance().ismNetworkMode()) {
+					NetworkClientScreen.getPlayerClient().addClientObserver(this);
+				}
+				break;
+			default:
+				throw new IllegalArgumentException(
 					"Wrong instantiation of a player see enum playerType");
 		}
 		this.mPaddleMover = new PaddleMover(super.getPaddles());
@@ -97,21 +97,21 @@ public class LocalPlayer extends AbstractPlayer implements Controllable,
 	public void destroy() {
 		super.destroy();
 		switch (mPlayerNumber) {
-		case ONE:
-			PlayerTouchTracker.getInstance().removeObserverPlayerOne(this);
-			if (Configuration.getInstance().ismNetworkMode()) {
-				NetworkHostScreen.getPlayerHost().removeHostObserver(this);
-			}
-			break;
-		case TWO:
-			PlayerTouchTracker.getInstance().removeObserverPlayerTwo(this);
-			if (Configuration.getInstance().ismNetworkMode()) {
-				NetworkClientScreen.getPlayerClient()
+			case ONE:
+				PlayerTouchTracker.getInstance().removeObserverPlayerOne(this);
+				if (Configuration.getInstance().ismNetworkMode()) {
+					NetworkHostScreen.getPlayerHost().removeHostObserver(this);
+				}
+				break;
+			case TWO:
+				PlayerTouchTracker.getInstance().removeObserverPlayerTwo(this);
+				if (Configuration.getInstance().ismNetworkMode()) {
+					NetworkClientScreen.getPlayerClient()
 						.removeClientObserver(this);
-			}
-			break;
-		default:
-			throw new IllegalArgumentException();
+				}
+				break;
+			default:
+				throw new IllegalArgumentException();
 		}
 	}
 

@@ -32,14 +32,14 @@ public class RemotePlayer extends AbstractPlayer implements Controllable,
 		super(number);
 		
 		switch (number) {
-		case ONE:
-			NetworkClientScreen.getPlayerClient().addClientObserver(this);
-			break;
-		case TWO:
-			NetworkHostScreen.getPlayerHost().addHostObserver(this);
-			break;
-		default:
-			throw new IllegalArgumentException(
+			case ONE:
+				NetworkClientScreen.getPlayerClient().addClientObserver(this);
+				break;
+			case TWO:
+				NetworkHostScreen.getPlayerHost().addHostObserver(this);
+				break;
+			default:
+				throw new IllegalArgumentException(
 					"Wrong instantiation of a player see enum playerType");
 		}
 

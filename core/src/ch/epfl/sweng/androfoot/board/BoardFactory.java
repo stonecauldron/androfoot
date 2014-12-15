@@ -1,10 +1,10 @@
 package ch.epfl.sweng.androfoot.board;
 
-import com.badlogic.gdx.Gdx;
-
 import ch.epfl.sweng.androfoot.configuration.Configuration;
 import ch.epfl.sweng.androfoot.players.PlayerType;
 import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
+
+import com.badlogic.gdx.Gdx;
 
 /**
  * Factory class to instantiate the Board object.
@@ -13,6 +13,7 @@ import ch.epfl.sweng.androfoot.touchtracker.PlayerTouchTracker;
  *
  */
 public class BoardFactory {
+	private static final int DEFAULT_SCORE = 11;
 
 	/**
 	 * Creates a board containing all the game elements
@@ -40,11 +41,10 @@ public class BoardFactory {
 
 	public static void setupNetworkBoard(PlayerType playerOne,
 			PlayerType playerTwo, int winningScore) {
-		
+
 		Configuration.getInstance().setDefaultConfig();
-		setupBoard(playerOne, playerTwo, 11);
-		
-		
+		setupBoard(playerOne, playerTwo, DEFAULT_SCORE);
+
 	}
 
 }
