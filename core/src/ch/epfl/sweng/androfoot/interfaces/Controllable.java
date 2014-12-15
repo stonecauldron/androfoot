@@ -12,13 +12,13 @@ public interface Controllable {
 	 * Move horizontally in function of deltaX
 	 * @param deltaX variation of position on the x axis
 	 */
-	public void moveHorizontally(float deltaX);
+	void moveHorizontally(float deltaX);
 	
 	/**
 	 * Move vertically in function of deltaY
 	 * @param deltaY variation of position on the y axis
 	 */
-	public void moveVertically(float deltaY);
+	void moveVertically(float deltaY);
 	
 
 	/**
@@ -26,5 +26,5 @@ public interface Controllable {
 	 * @param deltaX variation of position on the x axis
 	 * @param deltaY variation of position on the y axis
 	 */
-	public void move(float deltaX, float deltaY);
+	void move(float deltaX, float deltaY);
 }
