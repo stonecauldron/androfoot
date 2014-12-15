@@ -1,13 +1,12 @@
 package ch.epfl.sweng.androfoot.rendering;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 import ch.epfl.sweng.androfoot.interfaces.PolygonMap;
 import ch.epfl.sweng.androfoot.polygongenerator.PaddleGenerator;
-import ch.epfl.sweng.androfoot.rendering.shaders.ConcreteDrawToTexture;
+
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
  * Class to render MeshRenderer
