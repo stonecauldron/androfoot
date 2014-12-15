@@ -9,33 +9,38 @@ import ch.epfl.sweng.androfoot.interfaces.Resettable;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class ShockwaveManager implements DrawableRenderer, Resettable{
-	
-	private Set<ShockWave> shockwaves = new HashSet<ShockWave>(); 
+/**
+ * Manage shockwave (size and lifetime)
+ * 
+ * @author Guillaume
+ *
+ */
+public class ShockwaveManager implements DrawableRenderer, Resettable {
+
+	private Set<ShockWave> shockwaves = new HashSet<ShockWave>();
 	private final int maxNbShockwaves;
-	
+
 	ShockwaveManager(int maxWaves) {
 		maxNbShockwaves = maxWaves;
 	}
-	
+
 	public void addShockWave(ShockWave wave) {
-		if(shockwaves.size() < maxNbShockwaves) {
+		if (shockwaves.size() < maxNbShockwaves) {
 			shockwaves.add(wave);
 		}
 	}
-	
+
 	public void age(float delta) {
 		Iterator<ShockWave> iterator = shockwaves.iterator();
-		while(iterator.hasNext())
-		{
+		while (iterator.hasNext()) {
 			ShockWave w = iterator.next();
 			w.age(delta);
-			if(w.isEnded()) {
+			if (w.isEnded()) {
 				iterator.remove();
 			}
 		}
 	}
-	
+
 	@Override
 	public void reset() {
 		shockwaves.clear();
@@ -44,7 +49,7 @@ public class ShockwaveManager implements DrawableRenderer, Resettable{
 
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapes) {
-		for(ShockWave wave : shockwaves) {
+		for (ShockWave wave : shockwaves) {
 			wave.render(batch, shapes);
 		}
 	}

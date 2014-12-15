@@ -1,45 +1,49 @@
 package ch.epfl.sweng.androfoot.rendering;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import ch.epfl.sweng.androfoot.interfaces.PolygonGenerator;
 import ch.epfl.sweng.androfoot.interfaces.PolygonMap;
 import ch.epfl.sweng.androfoot.polygongenerator.PaddleGenerator;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 /**
  * Class to render MeshRenderer
+ * 
  * @author Guillame Leclerc
  *
  */
-public class PlayerRenderer implements MeshRenderer{
-	
+public class PlayerRenderer implements MeshRenderer {
+
 	private static final float CANT_CONTROL_FACTOR = 0.6f;
-	
+
 	private final PolygonRenderer shootPartRenderer;
 	private final PolygonRenderer controlPartRenderer;
-	
+
 	private Color currentColor = new Color();
 	private boolean canControl = true;
-	
+
 	/**
 	 * Init the renderer from a paddle ({@link PolygonMap})
-	 * @param generator the paddle generator
+	 * 
+	 * @param generator
+	 *            the paddle generator
 	 */
 	public PlayerRenderer(PolygonMap generator) {
-		PolygonGenerator shootGenerator = generator.get(PaddleGenerator.SHOOT_BLOCK_KEY);
-		PolygonGenerator controlGenerator = generator.get(PaddleGenerator.CONTROL_BLOCK_KEY);
-		
+		PolygonGenerator shootGenerator = generator
+						.get(PaddleGenerator.SHOOT_BLOCK_KEY);
+		PolygonGenerator controlGenerator = generator
+						.get(PaddleGenerator.CONTROL_BLOCK_KEY);
+
 		shootPartRenderer = new PolygonRenderer(shootGenerator);
 		controlPartRenderer = new PolygonRenderer(controlGenerator);
 	}
-	
+
 	/**
 	 * Set the color according to the control state
 	 */
 	private void setControlColor() {
-		if(!canControl) {
+		if (!canControl) {
 			controlPartRenderer.setColor(currentColor);
 		} else {
 			Color transformedColor = new Color(currentColor);
@@ -47,12 +51,13 @@ public class PlayerRenderer implements MeshRenderer{
 			controlPartRenderer.setColor(transformedColor);
 		}
 	}
-	
+
 	/**
 	 * Set the CanControl state
+	 * 
 	 * @param canControlArg
 	 */
-	public void setCanControl(boolean canControlArg){
+	public void setCanControl(boolean canControlArg) {
 		canControl = canControlArg;
 		setControlColor();
 	}

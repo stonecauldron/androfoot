@@ -3,6 +3,12 @@ package ch.epfl.sweng.androfoot.gamelogic.powerups;
 import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpEffect;
 
+/**
+ * Represent a powerup which change the shape of the player to a bullet shape
+ * 
+ * @author Guillaume
+ *
+ */
 public class BulletPowerUp implements PowerUpEffect {
 	private static final float DURATION = 15f;
 	private static final float WIDTH = 0.3f;
@@ -21,10 +27,10 @@ public class BulletPowerUp implements PowerUpEffect {
 		isTeam1 = isTeam1Arg;
 		if (isTeam1) {
 			PlayerCharacteristicsManager.setShapeParamsPlayer1(HEIGHT_SHOOT,
-					HEIGHT_CONTROL, WIDTH);
+							HEIGHT_CONTROL, WIDTH);
 		} else {
 			PlayerCharacteristicsManager.setShapeParamsPlayer2(HEIGHT_SHOOT,
-					HEIGHT_CONTROL, WIDTH);
+							HEIGHT_CONTROL, WIDTH);
 		}
 	}
 

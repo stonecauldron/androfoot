@@ -3,6 +3,12 @@ package ch.epfl.sweng.androfoot.gamelogic.powerups;
 import ch.epfl.sweng.androfoot.gamelogic.PlayerCharacteristicsManager;
 import ch.epfl.sweng.androfoot.interfaces.PowerUpEffect;
 
+/**
+ * Represent a powerup that set the shape of the player to a very small paddle
+ * 
+ * @author Guillaume
+ *
+ */
 public class SmallPowerUp implements PowerUpEffect {
 
 	private static final float DURATION = 15f;
@@ -22,10 +28,10 @@ public class SmallPowerUp implements PowerUpEffect {
 		isTeam1 = isTeam1Arg;
 		if (isTeam1) {
 			PlayerCharacteristicsManager.setShapeParamsPlayer1(HEIGHT_SHOOT,
-					HEIGHT_CONTROL, WIDTH);
+							HEIGHT_CONTROL, WIDTH);
 		} else {
 			PlayerCharacteristicsManager.setShapeParamsPlayer2(HEIGHT_SHOOT,
-					HEIGHT_CONTROL, WIDTH);
+							HEIGHT_CONTROL, WIDTH);
 		}
 	}
 
@@ -37,6 +43,7 @@ public class SmallPowerUp implements PowerUpEffect {
 			PlayerCharacteristicsManager.setShapeParamsDefaultPlayer2();
 		}
 	}
+
 	@Override
 	public PowerUpEffect copy() {
 		return new SmallPowerUp();
