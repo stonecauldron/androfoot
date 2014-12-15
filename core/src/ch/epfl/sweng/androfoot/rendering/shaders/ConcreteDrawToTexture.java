@@ -8,29 +8,32 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 
 /**
  * Basic implementation of {@link DrawToTexture}
+ * 
  * @author Guillame Leclerc
  *
  */
 public class ConcreteDrawToTexture implements DrawToTexture {
-	
+
 	private static final Format FRAME_BUFFER_FORMAT = Format.RGBA8888;
 	private final FrameBuffer frameBuffer;
 	private final TextureRegion result;
 	private final int width;
 	private final int height;
-	
-	
+
 	/**
 	 * Init the capturer
-	 * @param widthArg width to caputre
-	 * @param heightArg height to caputre
+	 * 
+	 * @param widthArg
+	 *            width to caputre
+	 * @param heightArg
+	 *            height to caputre
 	 */
 	public ConcreteDrawToTexture(int widthArg, int heightArg) {
 		width = widthArg;
 		height = heightArg;
 		frameBuffer = new FrameBuffer(FRAME_BUFFER_FORMAT, width, height, true);
 		result = new TextureRegion(frameBuffer.getColorBufferTexture());
-		result.flip(false,true);
+		result.flip(false, true);
 	}
 
 	@Override
@@ -53,7 +56,7 @@ public class ConcreteDrawToTexture implements DrawToTexture {
 		FrameBuffer.clearAllFrameBuffers(Gdx.app);
 		frameBuffer.begin();
 		Gdx.gl.glClearColor(0, 0, 0, 0f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		frameBuffer.end();
 	}
 
