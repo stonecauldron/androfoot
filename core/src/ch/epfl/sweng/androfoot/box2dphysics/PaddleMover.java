@@ -24,6 +24,8 @@ public class PaddleMover implements IsTransformableObserver {
 	private float xSpeedRatio = (float) Constants.X_SPEED_RATIO;
 	private float ySpeedRatio = (float) Constants.Y_SPEED_RATIO;
 
+	private static final int PADDLE_COUNT = 5;
+
 	// nexus 7 tablet screen size in cm
 	private final static float NEXUS_X = 15.253849f;
 	private final static float NEXUS_Y = 8.776713f;
@@ -47,10 +49,14 @@ public class PaddleMover implements IsTransformableObserver {
 	private float mMoveTresholdY;
 
 	private boolean isTransformPositionSafe = false;
-	public boolean newPosition = false;
+	private boolean newPosition = false;
 
-	ArrayList<Vector2> paddlePosition = new ArrayList<Vector2>();
+	private ArrayList<Vector2> paddlePosition = new ArrayList<Vector2>();
 	private ArrayList<Vector2> receivedPaddlePosition = new ArrayList<Vector2>();
+
+	public void setNewPosition(boolean position) {
+		this.newPosition = position;
+	}
 
 	public PaddleMover(List<GroupPaddle> listPaddle) {
 		xSpeedRatio = Configuration.getInstance().getSensitivity();
@@ -59,11 +65,11 @@ public class PaddleMover implements IsTransformableObserver {
 
 		paddlePosition = new ArrayList<Vector2>();
 		// populate list with useless starting position
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < PADDLE_COUNT; i++) {
 			paddlePosition.add(new Vector2(0, 0));
 		}
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < PADDLE_COUNT; i++) {
 			receivedPaddlePosition.add(new Vector2(0, 0));
 		}
 
@@ -89,13 +95,12 @@ public class PaddleMover implements IsTransformableObserver {
 			for (Paddle paddle : paddles) {
 				paddlePosition.set(paddlePosCounter++, paddle.getPosition());
 			}
-
 			GroupPaddle.setVelocity(deltaX * xSpeedRatio, deltaY * ySpeedRatio);
 		}
 	}
 
 	public void moveNetworkPaddle(float deltaX, float deltaY,
-			List<Vector2> paddlePosition) {
+			List<Vector2> networkPaddlePosition) {
 		Iterator<GroupPaddle> iterator = mPaddleGroup.iterator();
 		int paddlePosCounter = 0;
 
@@ -106,7 +111,7 @@ public class PaddleMover implements IsTransformableObserver {
 				List<Paddle> paddles = GroupPaddle.getPaddles();
 				for (Paddle paddle : paddles) {
 					receivedPaddlePosition.set(paddlePosCounter,
-							paddlePosition.get(paddlePosCounter++));
+							networkPaddlePosition.get(paddlePosCounter++));
 				}
 			}
 		}
@@ -183,7 +188,8 @@ public class PaddleMover implements IsTransformableObserver {
 				GroupPaddle GroupPaddle = (GroupPaddle) iterator.next();
 				List<Paddle> paddles = GroupPaddle.getPaddles();
 				for (Paddle paddle : paddles) {
-					paddle.setPosition(receivedPaddlePosition.get(paddlePosCounter++));
+					paddle.setPosition(receivedPaddlePosition
+							.get(paddlePosCounter++));
 				}
 			}
 
