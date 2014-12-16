@@ -5,12 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
 /**
- * @author Sidney Barthe This singleton class contains all configuration
- *         variables of the game (the score limit, whether sounds are activated
- *         or not...). They will be set in the settings and before starting a
- *         game. They can be accessed from anywhere using getters. All these
- *         values are loaded as preferences when the first instance is created
- *         and can be saved using the savePreferences method.
+ * This singleton class contains all variables of the game that persist through
+ * screens. All these values can be loaded and saved as preferences.
+ * 
+ * @author Sidney Barthe
+ * 
  */
 public final class Configuration {
 	private static final Configuration ONEINSTANCE = new Configuration();
@@ -66,6 +65,10 @@ public final class Configuration {
 		return ONEINSTANCE;
 	}
 
+	/**
+	 * Saves all the variables in a file.
+	 *
+	 */
 	public void savePreferences() {
 		mPrefs.putInteger("SCORE_LIMIT", mScoreLimit);
 		mPrefs.putInteger("SENSITIVITY", mSensitivity);
@@ -84,7 +87,7 @@ public final class Configuration {
 	public int getScoreLimit() {
 		return mScoreLimit;
 	}
-
+	
 	public void addScoreLimit(int x) {
 		mScoreLimit = mScoreLimit + x;
 	}
@@ -273,10 +276,14 @@ public final class Configuration {
 		return mPlayerTwoTeam;
 	}
 
+	/**
+	 * Returns a default configuration used for network play.
+	 * 
+	 */
 	public void setDefaultConfig() {
-		mPlayerOneNbAttackers = 2;
-		mPlayerTwoNbAttackers = 2;
-		mScoreLimit = DEFAULT_SCORE_LIMIT * 2;
+		mPlayerOneNbAttackers = DEFAULT_NB_OF_ATTACKERS;
+		mPlayerTwoNbAttackers = DEFAULT_NB_OF_ATTACKERS;
+		mScoreLimit = DEFAULT_SCORE_LIMIT;
 		mPowerupsOn = false;
 		if (!mTiltingOn) {
 			toggleTilting();

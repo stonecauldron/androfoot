@@ -5,12 +5,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 /**
- * @author Sidney Barthe This class represents a label, which is a string that
- *         can be displayed directly on a screen.
+ * This class represents a label with a range of parameters to be able to display
+ * it efficiently in different manners. A label is an element of text that is
+ * displayed.
+ * 
+ * @author Sidney Barthe
+ * 
  */
 public class GuiLabel extends GuiWidget {
-	private static final float DEFAULT_X_SCREEN_SIZE = 640f;
-	private static final float DEFAULT_Y_SCREEN_SIZE = 480f;
+	private static final float FONTS_X_REFERENCE_SIZE = 640f;
+	private static final float FONTS_Y_REFERENCE_SIZE = 480f;
 	private boolean mNewLine;
 	private float[] mPadding;
 	private int mAlign;
@@ -18,6 +22,23 @@ public class GuiLabel extends GuiWidget {
 	private Label mLabel;
 	private int mColSpan;
 	
+	/**
+	 * Builds the widget.
+	 * 
+	 * @param skin  the skin in which the widget will be searched
+	 * @param style  name of the label style
+	 * @param lineBreak
+	 * 			set to true if the next widget has to be added on a new line
+	 * @param padding
+	 * 			an array containing the size of the empty spaces around the widget
+	 * @param align
+	 * 			specifies if the widget has to be aligned somewhere (center, left, right...)
+	 * @param size  relative size of the font
+	 * @param colSpan
+	 * 			specifies how many horizontal grid cells this widget will occupy
+	 * @param text  the displayed text
+	 * 
+	 */
 	public GuiLabel(Skin skin,
 					String style,
 					boolean lineBreak,
@@ -34,10 +55,18 @@ public class GuiLabel extends GuiWidget {
 		mColSpan = colSpan;
 	}
 
+	/**
+	 * Displays the widget.
+	 * 
+	 * @param table  the table in which the widget will be displayed
+	 * @param width  width of the screen
+	 * @param height height of the screen
+	 * 
+	 */
 	public void show(Table table, int width, int height) {
 		mLabel.setFontScale(mSize*Math.min(
-						(float) (Math.min(DEFAULT_X_SCREEN_SIZE, width) / DEFAULT_X_SCREEN_SIZE),
-						(float) (Math.min(DEFAULT_Y_SCREEN_SIZE, height) / DEFAULT_Y_SCREEN_SIZE)));
+						(float) (Math.min(FONTS_X_REFERENCE_SIZE, width) / FONTS_X_REFERENCE_SIZE),
+						(float) (Math.min(FONTS_Y_REFERENCE_SIZE, height) / FONTS_Y_REFERENCE_SIZE)));
 
 		int i = 0;
 		table.add(mLabel)
@@ -53,6 +82,12 @@ public class GuiLabel extends GuiWidget {
 		}
 	}
 	
+	/**
+	 * Changes the current displayed text.
+	 * 
+	 * @param text  the new text to be displayed
+	 * 
+	 */
 	public void setText(String text) {
 		mLabel.setText(text);
 	}

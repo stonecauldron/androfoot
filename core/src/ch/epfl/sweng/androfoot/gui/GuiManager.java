@@ -14,9 +14,10 @@ import ch.epfl.sweng.androfoot.screens.NetworkClientScreen;
 import ch.epfl.sweng.androfoot.screens.NetworkHostScreen;
 
 /**
- * @author Sidney Barthe This singleton class creates all the gui screens and
- *         handles interactions with the user using a GuiCommand enum type
- *         passed as argument of the executeCommand method.
+ * This singleton class creates all the gui screens and
+ * handles interactions with the user.
+ * @author Sidney Barthe 
+ * 
  */
 public final class GuiManager {
 	private static final GuiManager INSTANCE = new GuiManager();
@@ -58,6 +59,8 @@ public final class GuiManager {
 	private GuiLabel mPlayerTwoTypeLabel;
 	private GuiImage mPlayerOneTeam;
 	private GuiImage mPlayerTwoTeam;
+	private GuiImage mPlayerOneTeamFinal;
+	private GuiImage mPlayerTwoTeamFinal;
 	private GuiSlider mSensitivityCounter;
 
 	private GuiManager() {
@@ -83,6 +86,11 @@ public final class GuiManager {
 		mFinalScore.setText(Integer.toString(scorePlayerOne)+" - "+Integer.toString(scorePlayerTwo));
 	}
 
+	/**
+	 * Executes a GUI command.
+	 * 
+	 * @param command  the command to execute
+	 */
 	public void executeCommand(GuiCommand command) {
 		switch (command) {
 			case addPlayerOneTeam:
@@ -136,6 +144,7 @@ public final class GuiManager {
 									Configuration.getInstance().getPlayerTwoType()));
 				break;
 			case goToGameOver:
+				refreshDisplay();
 				((Game) Gdx.app.getApplicationListener()).setScreen(new GuiScreen(
 									mGameOverWidgets));
 				break;
@@ -201,7 +210,7 @@ public final class GuiManager {
 				break;
 		}
 	}
-	
+
 	private void createMainMenu() {
 		mMainMenuWidgets.add(new GuiImage(mDefaultSkin, "title", TITLE_X_SIZE,
 						TITLE_Y_SIZE, true, mDefaultPadding, 1));
@@ -227,6 +236,11 @@ public final class GuiManager {
 						"Copyright (c)2014 AndroFoot team"));
 	}
 	
+	/**
+	 * Refreshes all the widgets to display the current values
+	 * (score limit, teams, formations...).
+	 * 
+	 */
 	private void refreshDisplay() {
 		mPlayerOneFormationLabel.setText(Integer.toString(
 						Configuration.getInstance().getPlayerOneFormation()[0])
@@ -285,6 +299,10 @@ public final class GuiManager {
 		mPlayerOneTeam.changeImage(mDefaultSkin,
 						mTeamImage[Configuration.getInstance().getPlayerOneTeam()]);
 		mPlayerTwoTeam.changeImage(mDefaultSkin,
+						mTeamImage[Configuration.getInstance().getPlayerTwoTeam()]);
+		mPlayerOneTeamFinal.changeImage(mDefaultSkin,
+						mTeamImage[Configuration.getInstance().getPlayerOneTeam()]);
+		mPlayerTwoTeamFinal.changeImage(mDefaultSkin,
 						mTeamImage[Configuration.getInstance().getPlayerTwoTeam()]);
 	}
 	
@@ -463,18 +481,24 @@ public final class GuiManager {
 	}
 	
 	private void createGameOver() {
+		final int nbColumns = 3;
 		mGameOverWidgets.add(new GuiLabel(mDefaultSkin, "default", true,
-						mTitlePadding, Align.center, 1f, 1, "Game Over"));
-		mFinalScore = new GuiLabel(mDefaultSkin, "default", true,
+						mTitlePadding, Align.center, 1f, nbColumns, "Game Over"));
+		mPlayerOneTeamFinal = new GuiImage(mDefaultSkin, "teamRed",
+						TEAM_LOGO_X_SIZE, TEAM_LOGO_Y_SIZE, false, mDefaultPadding, 1);
+		mGameOverWidgets.add(mPlayerOneTeamFinal);
+		mFinalScore = new GuiLabel(mDefaultSkin, "default", false,
 				mDefaultPadding, Align.center, 1f, 1, "0 - 0");
 		mGameOverWidgets.add(mFinalScore);
+		mPlayerTwoTeamFinal = new GuiImage(mDefaultSkin, "teamBlue",
+				TEAM_LOGO_X_SIZE, TEAM_LOGO_Y_SIZE, true, mDefaultPadding, 1);
+		mGameOverWidgets.add(mPlayerTwoTeamFinal);
 		mGameOverWidgets.add(new GuiButton(mDefaultSkin, "default", true,
 						mDefaultPadding, Align.center, "Play again",
-						LARGE_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1, GuiCommand.goToGame));
-		mGameOverWidgets
-						.add(new GuiButton(mDefaultSkin, "default", true,
+						LARGE_BUTTON_X_SIZE, BUTTON_Y_SIZE, nbColumns, GuiCommand.goToGame));
+		mGameOverWidgets.add(new GuiButton(mDefaultSkin, "default", true,
 						mDefaultPadding, Align.center, "Back to main menu",
-						LARGE_BUTTON_X_SIZE, BUTTON_Y_SIZE, 1,
+						LARGE_BUTTON_X_SIZE, BUTTON_Y_SIZE, nbColumns,
 						GuiCommand.goToMainMenu));
 	}
 }
