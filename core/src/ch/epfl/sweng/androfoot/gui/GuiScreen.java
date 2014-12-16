@@ -12,10 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import java.util.ArrayList;
 
 /**
- * @author Sidney Barthe This class builds into a Screen (which is the libgdx
- *         equivalent of an Activity) used for the gui. You have to pass it an
- *         array of GuiWidgets as parameter (with the widgets in the order you
- *         want them to be displayed from top to bottom, left to right).
+ * This class builds into a Screen (which is the libgdx equivalent of an Activity)
+ * used for the gui. You have to pass it an array of GuiWidgets as parameter
+ * (with the widgets in the order you want them to be displayed from top to bottom,
+ * left to right).
+ * 
+ * @author Sidney Barthe
  */
 public class GuiScreen implements Screen {
 	private Stage mStage = new Stage();

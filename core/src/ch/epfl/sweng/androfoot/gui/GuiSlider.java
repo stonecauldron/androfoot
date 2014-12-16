@@ -7,7 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 /**
+ * This class represents a slider with a range of parameters to be able to display
+ * it efficiently in different manners. A slider is a bar equipped with a knob
+ * that can be moved on it to tweak a value.
+ * 
  * @author Sidney Barthe
+ * 
  */
 public class GuiSlider extends GuiWidget {
 	private Slider mSlider;
@@ -18,6 +23,25 @@ public class GuiSlider extends GuiWidget {
 	private int mColSpan;
 	private GuiCommand mCommand;
 	
+	/**
+	 * Builds the widget.
+	 * 
+	 * @param skin  the skin in which the widget will be searched
+	 * @param lineBreak
+	 * 			set to true if the next widget has to be added on a new line
+	 * @param padding
+	 * 			an array containing the size of the empty spaces around the widget
+	 * @param xSize  relative x size (compared to x screen size) of the slider
+	 * @param ySize  relative y size (compared to y screen size) of the slider
+	 * @param minValue  minimum value that the slider can hold (leftmost value)
+	 * @param maxValue  maximum value that the slider can hold (rightmost value)
+	 * @param currentValue  the current value and resulting knob position
+	 * @param colSpan
+	 * 			specifies how many horizontal grid cells this widget will occupy
+	 * @param command
+	 * 			the gui command that will be executed when moving the knob
+	 * 
+	 */
 	public GuiSlider(Skin skin,
 					 boolean lineBreak,
 					 float[] padding,
@@ -50,6 +74,14 @@ public class GuiSlider extends GuiWidget {
 		});
 	}
 
+	/**
+	 * Displays the widget.
+	 * 
+	 * @param table  the table in which the widget will be displayed
+	 * @param width  width of the screen
+	 * @param height height of the screen
+	 * 
+	 */
 	public void show(Table table, int width, int height) {
 		mSlider.getStyle().knob.setMinHeight(mYSize * height);
 		mSlider.getStyle().knob.setMinWidth(mYSize * height);
@@ -69,6 +101,10 @@ public class GuiSlider extends GuiWidget {
 		}
 	}
 	
+	/**
+	 * Returns the value tweaked by the slider.
+	 * 
+	 */
 	public int getValue() {
 		return (int) mSlider.getValue();
 	}
